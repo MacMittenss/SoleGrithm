@@ -20,31 +20,31 @@ export default function Hero() {
           Premium Sneaker Community
         </Badge>
         
-        <h1 className="text-hero hero-text mb-8 animate-fade-in">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in">
           SoleGrid
         </h1>
         
-        <p className="text-xl sm:text-2xl lg:text-3xl font-light mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-up">
+        <p className="text-lg sm:text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up">
           Discover, collect, and trade the world's most coveted sneakers with our AI-powered platform
         </p>
 
-        {/* Minimalistic stats - no buttons as requested */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+        {/* Mobile-optimized stats */}
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 md:gap-8 mt-12">
           <div className="text-center animate-fade-in">
-            <div className="text-2xl md:text-3xl font-bold mb-2">50K+</div>
-            <div className="text-sm text-white/80">Sneakers</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">50K+</div>
+            <div className="text-xs sm:text-sm text-white/80">Sneakers</div>
           </div>
           <div className="text-center animate-fade-in">
-            <div className="text-2xl md:text-3xl font-bold mb-2">15K+</div>
-            <div className="text-sm text-white/80">Collectors</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">15K+</div>
+            <div className="text-xs sm:text-sm text-white/80">Collectors</div>
           </div>
           <div className="text-center animate-fade-in">
-            <div className="text-2xl md:text-3xl font-bold mb-2">25K+</div>
-            <div className="text-sm text-white/80">Reviews</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">25K+</div>
+            <div className="text-xs sm:text-sm text-white/80">Reviews</div>
           </div>
           <div className="text-center animate-fade-in">
-            <div className="text-2xl md:text-3xl font-bold mb-2">500+</div>
-            <div className="text-sm text-white/80">Brands</div>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">500+</div>
+            <div className="text-xs sm:text-sm text-white/80">Brands</div>
           </div>
         </div>
       </div>

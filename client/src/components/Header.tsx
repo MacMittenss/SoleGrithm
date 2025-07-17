@@ -41,13 +41,13 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
   return (
     <header className="absolute top-0 left-0 right-0 z-50 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <img 
               src={soleGridLogo} 
               alt="SoleGrid" 
-              className="h-10 w-auto"
+              className="h-8 w-auto"
             />
           </Link>
 
@@ -67,14 +67,14 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             ))}
           </nav>
 
-          {/* Search Bar */}
-          <div className="hidden lg:flex items-center space-x-4 flex-1 max-w-md mx-8">
+          {/* Search Bar - Hidden on mobile for cleaner mobile experience */}
+          <div className="hidden md:flex items-center space-x-4 flex-1 max-w-md mx-8">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/70 w-4 h-4" />
               <Input
                 type="text"
-                placeholder="Search sneakers, brands, or collections..."
-                className="pl-10 w-full bg-white/10 border-white/20 text-white placeholder:text-white/70 backdrop-blur-sm"
+                placeholder="Search sneakers..."
+                className="pl-10 w-full bg-white/10 border-white/20 text-white placeholder:text-white/70 backdrop-blur-sm text-sm"
               />
             </div>
           </div>
@@ -94,28 +94,28 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
               </Badge>
             </Button>
 
-            {/* User actions */}
+            {/* User actions - Mobile optimized */}
             {user ? (
-              <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
+              <div className="flex items-center space-x-1">
+                <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 hidden sm:flex">
                   <Heart className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
+                <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 hidden sm:flex">
                   <ShoppingBag className="w-4 h-4" />
                 </Button>
                 <Link href="/profile">
-                  <Avatar className="w-8 h-8 cursor-pointer">
+                  <Avatar className="w-7 h-7 cursor-pointer">
                     <AvatarImage src={user.photoURL || undefined} />
-                    <AvatarFallback className="text-xs">
+                    <AvatarFallback className="bg-white/20 text-white text-xs">
                       {user.displayName?.[0] || user.email?.[0] || 'U'}
                     </AvatarFallback>
                   </Avatar>
                 </Link>
               </div>
             ) : (
-              <Link href="/auth">
-                <Button size="sm" className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm">
-                  <User className="w-4 h-4 mr-2" />
+              <Link href="/auth" className="hidden sm:block">
+                <Button size="sm" className="bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm text-sm">
+                  <User className="w-4 h-4 mr-1" />
                   Sign In
                 </Button>
               </Link>
