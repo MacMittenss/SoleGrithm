@@ -18,6 +18,7 @@ import {
   Compass
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import soleGridLogo from '@assets/S (3)_1752791066756.png';
 
 interface HeaderProps {
   onAIChatToggle: () => void;
@@ -42,11 +43,12 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SG</span>
-            </div>
-            <span className="text-xl font-bold text-white">SoleGrid</span>
+          <Link href="/" className="flex items-center">
+            <img 
+              src={soleGridLogo} 
+              alt="SoleGrid" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
