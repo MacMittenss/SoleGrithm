@@ -3,15 +3,15 @@ import { Badge } from '@/components/ui/badge';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#dedede' }}>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://nb.scene7.com/is/image/NB/u9060v1_nb_02_i?$pdp-m-640$"
-          alt="New Balance 9060 Sneaker"
-          className="w-full h-full object-contain"
+          src="https://cms-cdn.flightclub.com/3000/8b0f7895ebbf-b709-0f11-6485-004b0029.jpg?w=3840"
+          alt="Levi's x Air Max 95 OG 'Black Anthracite'"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       {/* Content */}
