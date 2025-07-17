@@ -1,147 +1,112 @@
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Star } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Star } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ReviewFormProps {
   sneakerId: number;
 }
 
 export default function ReviewForm({ sneakerId }: ReviewFormProps) {
-  const { user } = useAuth();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [rating, setRating] = useState(0);
-  const [hoveredRating, setHoveredRating] = useState(0);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [review, setReview] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-  const createReviewMutation = useMutation({
-    mutationFn: async (reviewData: { rating: number; title: string; content: string; sneakerId: number }) => {
-      const response = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await user?.getIdToken()}`
-        },
-        body: JSON.stringify(reviewData)
-      });
-      if (!response.ok) throw new Error('Failed to create review');
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Review submitted successfully!"
-      });
-      setRating(0);
-      setTitle("");
-      setContent("");
-      queryClient.invalidateQueries({ queryKey: [`/api/sneakers/${sneakerId}/reviews`] });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to submit review",
-        variant: "destructive"
-      });
-    }
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!rating || !content.trim()) {
+    if (rating === 0) {
       toast({
-        title: "Error",
-        description: "Please provide a rating and review content",
-        variant: "destructive"
+        title: 'Error',
+        description: 'Please select a rating',
+        variant: 'destructive',
       });
       return;
     }
 
-    createReviewMutation.mutate({
-      rating,
-      title: title.trim(),
-      content: content.trim(),
-      sneakerId
-    });
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`/api/sneakers/${sneakerId}/reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          rating,
+          content: review,
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Success',
+          description: 'Review submitted successfully!',
+        });
+        setRating(0);
+        setReview('');
+      } else {
+        throw new Error('Failed to submit review');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to submit review. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  if (!user) {
-    return (
-      <Card>
-        <CardContent className="p-6 text-center">
-          <p className="text-muted-foreground">Please sign in to write a review</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Rating */}
-      <div className="space-y-2">
-        <Label>Rating</Label>
-        <div className="flex items-center space-x-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              className="p-1"
-              onMouseEnter={() => setHoveredRating(i + 1)}
-              onMouseLeave={() => setHoveredRating(0)}
-              onClick={() => setRating(i + 1)}
-            >
-              <Star
-                className={`h-6 w-6 ${
-                  i < (hoveredRating || rating)
-                    ? 'fill-yellow-400 text-yellow-400'
-                    : 'text-muted-foreground'
-                }`}
-              />
-            </button>
-          ))}
-        </div>
-      </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Write a Review</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label>Rating</Label>
+            <div className="flex gap-1 mt-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  className="p-1 hover:scale-110 transition-transform"
+                >
+                  <Star
+                    className={`w-6 h-6 ${
+                      star <= rating
+                        ? 'text-yellow-500 fill-current'
+                        : 'text-gray-300'
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
 
-      {/* Title */}
-      <div className="space-y-2">
-        <Label htmlFor="title">Title (optional)</Label>
-        <Input
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Summarize your review"
-          maxLength={100}
-        />
-      </div>
+          <div>
+            <Label htmlFor="review">Your Review</Label>
+            <Textarea
+              id="review"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              placeholder="Share your experience with this sneaker..."
+              className="mt-1"
+              rows={4}
+            />
+          </div>
 
-      {/* Content */}
-      <div className="space-y-2">
-        <Label htmlFor="content">Review</Label>
-        <Textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Share your thoughts about this sneaker..."
-          rows={4}
-          required
-        />
-      </div>
-
-      <Button 
-        type="submit" 
-        disabled={createReviewMutation.isPending || !rating || !content.trim()}
-        className="w-full"
-      >
-        {createReviewMutation.isPending ? 'Submitting...' : 'Submit Review'}
-      </Button>
-    </form>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Review'}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

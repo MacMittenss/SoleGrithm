@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import SneakerCard from "@/components/SneakerCard";

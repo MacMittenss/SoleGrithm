@@ -86,16 +86,17 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+    background-color: hsl(var(--muted-foreground) / 0.5);
   }
 
   /* Text selection */
   ::selection {
-    @apply bg-primary/20;
+    background-color: hsl(var(--primary) / 0.2);
   }
 
   /* Focus outline */

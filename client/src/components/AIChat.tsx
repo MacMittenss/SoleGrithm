@@ -1,83 +1,96 @@
-import { useState, useRef, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, User, Send, X } from "lucide-react";
-
-interface Message {
-  id: string;
-  content: string;
-  isBot: boolean;
-  timestamp: Date;
-}
+import React, { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
+import { X, Send, Bot, User, Loader2 } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 
 interface AIChatProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface Message {
+  id: string;
+  content: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
+}
+
 export default function AIChat({ isOpen, onClose }: AIChatProps) {
-  const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hi! I'm SoleBot, your AI sneaker assistant. Ask me about any sneaker, get recommendations, or check market prices!",
-      isBot: true,
+      content: "Hey! I'm SoleBot, your AI sneaker expert. I can help you find the perfect sneakers, track prices, get style advice, and answer any questions about sneaker culture. What can I help you with today?",
+      sender: 'bot',
       timestamp: new Date()
     }
   ]);
-  const [inputValue, setInputValue] = useState("");
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
+  const { toast } = useToast();
 
-  const chatMutation = useMutation({
-    mutationFn: async (message: string) => {
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim() || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: inputMessage,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputMessage('');
+    setIsLoading(true);
+
+    try {
       const response = await fetch('/api/ai/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${await user?.getIdToken()}`
         },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({
+          message: inputMessage,
+          context: messages.slice(-5) // Send last 5 messages for context
+        })
       });
-      if (!response.ok) throw new Error('Failed to send message');
-      return response.json();
-    },
-    onSuccess: (data) => {
+
+      if (!response.ok) throw new Error('Failed to get AI response');
+
+      const { response: aiResponse } = await response.json();
+
       const botMessage: Message = {
-        id: Date.now().toString() + '_bot',
-        content: data.response,
-        isBot: true,
+        id: (Date.now() + 1).toString(),
+        content: aiResponse,
+        sender: 'bot',
         timestamp: new Date()
       };
+
       setMessages(prev => [...prev, botMessage]);
-    },
-    onError: () => {
-      const errorMessage: Message = {
-        id: Date.now().toString() + '_error',
-        content: "Sorry, I'm having trouble processing your request right now. Please try again later.",
-        isBot: true,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to get AI response. Please try again.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
     }
-  });
-
-  const handleSendMessage = () => {
-    if (!inputValue.trim() || !user) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: inputValue.trim(),
-      isBot: false,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue("");
-    chatMutation.mutate(inputValue.trim());
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -87,101 +100,95 @@ export default function AIChat({ isOpen, onClose }: AIChatProps) {
     }
   };
 
-  useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-    }
-  }, [messages]);
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 w-80 h-96 z-50">
-      <Card className="h-full flex flex-col shadow-2xl border">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="flex items-center space-x-2">
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <Card className="w-full max-w-2xl h-[600px] flex flex-col">
+        <CardHeader className="flex-row items-center justify-between p-4 border-b">
+          <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <Bot className="h-4 w-4 text-primary-foreground" />
+              <Bot className="w-4 h-4 text-white" />
             </div>
-            <div>
-              <div className="text-sm font-semibold">SoleBot</div>
-              <div className="text-xs text-green-500">● Online</div>
-            </div>
-          </CardTitle>
-          <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="h-4 w-4" />
+            <CardTitle className="text-lg">SoleBot</CardTitle>
+            <Badge variant="secondary" className="text-xs">AI Assistant</Badge>
+          </div>
+          <Button variant="ghost" size="sm" onClick={onClose}>
+            <X className="w-4 h-4" />
           </Button>
         </CardHeader>
 
-        <CardContent className="flex-1 flex flex-col p-0">
-          <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+        <CardContent className="flex-1 p-0 flex flex-col">
+          <ScrollArea className="flex-1 p-4">
             <div className="space-y-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex items-start space-x-2 ${
-                    message.isBot ? '' : 'flex-row-reverse space-x-reverse'
+                  className={`flex gap-3 ${
+                    message.sender === 'user' ? 'justify-end' : 'justify-start'
                   }`}
                 >
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    message.isBot ? 'bg-primary' : 'bg-secondary'
-                  }`}>
-                    {message.isBot ? (
-                      <Bot className="h-3 w-3 text-primary-foreground" />
-                    ) : (
-                      <User className="h-3 w-3 text-secondary-foreground" />
-                    )}
+                  {message.sender === 'bot' && (
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Bot className="w-4 h-4 text-white" />
+                    </div>
+                  )}
+                  
+                  <div
+                    className={`chat-message ${
+                      message.sender === 'user' ? 'user' : 'bot'
+                    }`}
+                  >
+                    <div className="text-sm">{message.content}</div>
+                    <div className="text-xs opacity-60 mt-1">
+                      {message.timestamp.toLocaleTimeString()}
+                    </div>
                   </div>
-                  <div className={`rounded-lg p-3 max-w-xs ${
-                    message.isBot 
-                      ? 'bg-muted text-muted-foreground' 
-                      : 'bg-primary text-primary-foreground'
-                  }`}>
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                  </div>
+
+                  {message.sender === 'user' && (
+                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                      <User className="w-4 h-4" />
+                    </div>
+                  )}
                 </div>
               ))}
-              {chatMutation.isPending && (
-                <div className="flex items-start space-x-2">
-                  <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                    <Bot className="h-3 w-3 text-primary-foreground" />
+              
+              {isLoading && (
+                <div className="flex gap-3 justify-start">
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                    <Bot className="w-4 h-4 text-white" />
                   </div>
-                  <div className="bg-muted rounded-lg p-3">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                  <div className="chat-message bot">
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-sm">SoleBot is thinking...</span>
                     </div>
                   </div>
                 </div>
               )}
+              
+              <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
 
-          <div className="p-4 border-t">
-            {user ? (
-              <div className="flex space-x-2">
-                <Input
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask about any sneaker..."
-                  className="flex-1"
-                  disabled={chatMutation.isPending}
-                />
-                <Button 
-                  onClick={handleSendMessage}
-                  disabled={!inputValue.trim() || chatMutation.isPending}
-                  size="icon"
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              <p className="text-center text-sm text-muted-foreground">
-                Please sign in to chat with SoleBot
-              </p>
-            )}
+          <div className="border-t p-4">
+            <div className="flex gap-2">
+              <Input
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask me about sneakers, prices, or style advice..."
+                className="flex-1"
+                disabled={isLoading}
+              />
+              <Button
+                onClick={handleSendMessage}
+                disabled={!inputMessage.trim() || isLoading}
+                size="sm"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
