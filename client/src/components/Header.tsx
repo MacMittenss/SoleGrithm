@@ -58,7 +58,11 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                 <Button
                   variant={isActive(item.href) ? "secondary" : "ghost"}
                   size="sm"
-                  className="nav-link text-white hover:bg-white/10"
+                  className={`nav-link hover:bg-white/10 ${
+                    isActive(item.href) 
+                      ? "bg-white text-black hover:bg-white/90" 
+                      : "text-white"
+                  }`}
                 >
                   <item.icon className="w-4 h-4 mr-2" />
                   {item.label}
@@ -142,7 +146,11 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                   <Button
                     variant={isActive(item.href) ? "secondary" : "ghost"}
                     size="sm"
-                    className="justify-start w-full text-white hover:bg-white/10"
+                    className={`justify-start w-full hover:bg-white/10 ${
+                      isActive(item.href) 
+                        ? "bg-white text-black hover:bg-white/90" 
+                        : "text-white"
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <item.icon className="w-4 h-4 mr-2" />
