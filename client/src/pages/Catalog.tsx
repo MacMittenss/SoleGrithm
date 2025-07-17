@@ -1,31 +1,30 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import SneakerCard from "@/components/SneakerCard";
-import SearchFilter from "@/components/SearchFilter";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Search, Filter, SlidersHorizontal } from "lucide-react";
 
 export default function Catalog() {
-  const [filters, setFilters] = useState({
-    search: "",
-    brandId: undefined as number | undefined,
-    categories: [] as string[],
-    page: 1,
-    limit: 24
-  });
+  const [location] = useLocation();
+  const urlParams = new URLSearchParams(location.split('?')[1] || '');
+  const [searchQuery, setSearchQuery] = useState(urlParams.get('search') || '');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [sortBy, setSortBy] = useState('newest');
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['/api/sneakers', filters],
+  const { data: sneakers, isLoading: sneakersLoading } = useQuery({
+    queryKey: ['/api/sneakers/search', searchQuery, selectedBrand],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (filters.search) params.append('search', filters.search);
-      if (filters.brandId) params.append('brandId', filters.brandId.toString());
-      if (filters.categories.length > 0) params.append('categories', filters.categories.join(','));
-      params.append('page', filters.page.toString());
-      params.append('limit', filters.limit.toString());
-
-      const response = await fetch(`/api/sneakers?${params}`);
-      if (!response.ok) throw new Error('Failed to fetch sneakers');
+      if (searchQuery) params.append('q', searchQuery);
+      if (selectedBrand) params.append('brand', selectedBrand);
+      
+      const response = await fetch(`/api/sneakers/search?${params}`);
+      if (!response.ok) throw new Error('Failed to search sneakers');
       return response.json();
     }
   });
@@ -39,136 +38,167 @@ export default function Catalog() {
     }
   });
 
-  const handleFilterChange = (newFilters: Partial<typeof filters>) => {
-    setFilters(prev => ({ ...prev, ...newFilters, page: 1 }));
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Trigger refetch by updating query key
   };
 
-  const handlePageChange = (page: number) => {
-    setFilters(prev => ({ ...prev, page }));
-  };
-
-  const totalPages = data ? Math.ceil(data.total / filters.limit) : 0;
+  const filteredAndSortedSneakers = sneakers ? [...sneakers].sort((a, b) => {
+    switch (sortBy) {
+      case 'price-low':
+        return parseFloat(a.retailPrice || '0') - parseFloat(b.retailPrice || '0');
+      case 'price-high':
+        return parseFloat(b.retailPrice || '0') - parseFloat(a.retailPrice || '0');
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'newest':
+      default:
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }
+  }) : [];
 
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
-            Sneaker Catalog
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight mb-4">Sneaker Catalog</h1>
           <p className="text-xl text-muted-foreground">
-            Explore our comprehensive collection of sneakers from top brands
+            Discover and explore our comprehensive collection of sneakers
           </p>
         </div>
 
         {/* Search and Filters */}
         <div className="mb-8">
-          <SearchFilter
-            filters={filters}
-            brands={brands || []}
-            onFilterChange={handleFilterChange}
-          />
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex flex-col lg:flex-row gap-4">
+                {/* Search */}
+                <form onSubmit={handleSearch} className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="search"
+                      placeholder="Search sneakers..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </form>
+
+                {/* Brand Filter */}
+                <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+                  <SelectTrigger className="w-full lg:w-48">
+                    <SelectValue placeholder="All Brands" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">All Brands</SelectItem>
+                    {brands?.map((brand: any) => (
+                      <SelectItem key={brand.id} value={brand.id.toString()}>
+                        {brand.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Sort */}
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-full lg:w-48">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="name">Name A-Z</SelectItem>
+                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Results */}
-        <div className="mb-8">
-          {data && (
-            <p className="text-muted-foreground">
-              Showing {data.sneakers.length} of {data.total} sneakers
-              {filters.search && ` for "${filters.search}"`}
-            </p>
-          )}
+        <div className="mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <p className="text-muted-foreground">
+                {filteredAndSortedSneakers.length} sneakers found
+              </p>
+              {searchQuery && (
+                <Badge variant="secondary">
+                  Searching: {searchQuery}
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="ml-2 hover:text-destructive"
+                  >
+                    ×
+                  </button>
+                </Badge>
+              )}
+              {selectedBrand && (
+                <Badge variant="secondary">
+                  Brand: {brands?.find((b: any) => b.id.toString() === selectedBrand)?.name}
+                  <button 
+                    onClick={() => setSelectedBrand('')}
+                    className="ml-2 hover:text-destructive"
+                  >
+                    ×
+                  </button>
+                </Badge>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Error State */}
-        {error && (
-          <div className="text-center py-12">
-            <p className="text-destructive">Failed to load sneakers. Please try again.</p>
-            <Button 
-              onClick={() => window.location.reload()} 
-              variant="outline" 
-              className="mt-4"
-            >
-              Retry
-            </Button>
-          </div>
-        )}
-
-        {/* Loading State */}
-        {isLoading && (
+        {/* Sneaker Grid */}
+        {sneakersLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="space-y-4">
-                <Skeleton className="h-64 w-full rounded-2xl" />
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-6 w-full" />
-                <Skeleton className="h-4 w-1/2" />
+              <div key={i} className="animate-pulse">
+                <div className="bg-muted rounded-2xl h-64 mb-4" />
+                <div className="space-y-2">
+                  <div className="h-4 bg-muted rounded w-1/3" />
+                  <div className="h-5 bg-muted rounded w-2/3" />
+                  <div className="h-6 bg-muted rounded w-1/2" />
+                </div>
               </div>
             ))}
           </div>
-        )}
-
-        {/* Sneaker Grid */}
-        {data?.sneakers && data.sneakers.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
-            {data.sneakers.map((sneaker: any) => (
+        ) : filteredAndSortedSneakers.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {filteredAndSortedSneakers.map((sneaker: any) => (
               <SneakerCard key={sneaker.id} sneaker={sneaker} />
             ))}
           </div>
-        )}
-
-        {/* Empty State */}
-        {data?.sneakers && data.sneakers.length === 0 && !isLoading && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">
-              No sneakers found matching your criteria
-            </p>
-            <Button 
-              onClick={() => setFilters({
-                search: "",
-                brandId: undefined,
-                categories: [],
-                page: 1,
-                limit: 24
-              })}
-              variant="outline"
-            >
-              Clear Filters
-            </Button>
-          </div>
-        )}
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center space-x-2">
-            <Button
-              variant="outline"
-              disabled={filters.page === 1}
-              onClick={() => handlePageChange(filters.page - 1)}
-            >
-              Previous
-            </Button>
-            
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = i + 1;
-              return (
-                <Button
-                  key={page}
-                  variant={filters.page === page ? "default" : "outline"}
-                  onClick={() => handlePageChange(page)}
-                >
-                  {page}
+        ) : (
+          <Card>
+            <CardContent className="p-12 text-center">
+              <div className="max-w-md mx-auto">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="h-8 w-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">No sneakers found</h3>
+                <p className="text-muted-foreground mb-4">
+                  Try adjusting your search criteria or browse our featured collection
+                </p>
+                <Button onClick={() => {
+                  setSearchQuery('');
+                  setSelectedBrand('');
+                }}>
+                  Clear Filters
                 </Button>
-              );
-            })}
-            
-            <Button
-              variant="outline"
-              disabled={filters.page === totalPages}
-              onClick={() => handlePageChange(filters.page + 1)}
-            >
-              Next
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Load More */}
+        {filteredAndSortedSneakers.length > 0 && (
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg">
+              Load More Sneakers
             </Button>
           </div>
         )}

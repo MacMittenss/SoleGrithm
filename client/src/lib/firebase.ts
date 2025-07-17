@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from "firebase/auth";
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,31 +13,25 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 const googleProvider = new GoogleAuthProvider();
-googleProvider.addScope('email');
-googleProvider.addScope('profile');
 
 export const signInWithGoogle = () => {
   return signInWithRedirect(auth, googleProvider);
 };
 
-export const handleRedirectResult = async () => {
-  try {
-    const result = await getRedirectResult(auth);
-    if (result) {
-      const user = result.user;
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      return { user, token };
-    }
-  } catch (error: any) {
-    console.error('Redirect result error:', error);
-    throw new Error(error.message || 'Authentication failed');
-  }
-  return null;
+export const signInWithEmail = (email: string, password: string) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signUpWithEmail = (email: string, password: string) => {
+  return createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const signOutUser = () => {
   return signOut(auth);
 };
 
-export { GoogleAuthProvider };
+export const handleRedirectResult = () => {
+  return getRedirectResult(auth);
+};
+
+export { onAuthStateChanged };

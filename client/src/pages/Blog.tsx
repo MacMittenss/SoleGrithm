@@ -1,222 +1,163 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import BlogCard from "@/components/BlogCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Link } from "wouter";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search } from "lucide-react";
-
-const categories = [
-  "All",
-  "Release News",
-  "Reviews", 
-  "Culture",
-  "History",
-  "Style Guide",
-  "Market Analysis"
-];
+import { Button } from "@/components/ui/button";
+import { Calendar, User, Clock } from "lucide-react";
+import { format } from "date-fns";
 
 export default function Blog() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [page, setPage] = useState(1);
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['/api/blog', { page, category: selectedCategory, search: searchTerm }],
+  const { data: blogPosts, isLoading } = useQuery({
+    queryKey: ['/api/blog'],
     queryFn: async () => {
-      const params = new URLSearchParams();
-      params.append('page', page.toString());
-      params.append('limit', '12');
-      
-      if (selectedCategory !== "All") {
-        params.append('categories', selectedCategory);
-      }
-      
-      if (searchTerm) {
-        params.append('search', searchTerm);
-      }
-
-      const response = await fetch(`/api/blog?${params}`);
+      const response = await fetch('/api/blog');
       if (!response.ok) throw new Error('Failed to fetch blog posts');
       return response.json();
     }
   });
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    setPage(1);
-  };
-
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    setPage(1);
-  };
-
-  const totalPages = data ? Math.ceil(data.total / 12) : 0;
-
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-            Sneaker Stories
+            SoleGrid Stories
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover the latest news, reviews, and deep dives into sneaker culture
+            Dive deep into sneaker culture with expert insights, community stories, and the latest trends
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-6">
-          {/* Search */}
-          <form onSubmit={handleSearch} className="max-w-md mx-auto">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </form>
-
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                size="sm"
-                onClick={() => handleCategoryChange(category)}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        {/* Results Count */}
-        {data && (
-          <div className="mb-6">
-            <p className="text-muted-foreground">
-              {data.total} article{data.total !== 1 ? 's' : ''} found
-              {selectedCategory !== "All" && ` in ${selectedCategory}`}
-              {searchTerm && ` for "${searchTerm}"`}
-            </p>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && (
-          <div className="text-center py-12">
-            <p className="text-destructive mb-4">Failed to load blog posts. Please try again.</p>
-            <Button onClick={() => window.location.reload()} variant="outline">
-              Retry
-            </Button>
+        {/* Featured Post */}
+        {!isLoading && blogPosts?.[0] && (
+          <div className="mb-16">
+            <Link href={`/blog/${blogPosts[0].slug}`}>
+              <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl">
+                <div className="lg:flex">
+                  <div className="lg:w-1/2">
+                    <div className="relative overflow-hidden h-64 lg:h-full">
+                      <img
+                        src={blogPosts[0].featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=600"}
+                        alt={blogPosts[0].title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
+                    </div>
+                  </div>
+                  <div className="lg:w-1/2 p-8 lg:p-12">
+                    <Badge className="mb-4">Featured</Badge>
+                    <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
+                      {blogPosts[0].title}
+                    </h2>
+                    <p className="text-muted-foreground text-lg mb-6 line-clamp-3">
+                      {blogPosts[0].excerpt || "Exploring the latest trends and stories in sneaker culture..."}
+                    </p>
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{format(new Date(blogPosts[0].publishedAt), 'MMM dd, yyyy')}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <User className="h-4 w-4" />
+                        <span>{blogPosts[0].author?.displayName || 'SoleGrid Team'}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="h-4 w-4" />
+                        <span>5 min read</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </Link>
           </div>
         )}
 
-        {/* Loading State */}
-        {isLoading && (
+        {/* Blog Grid */}
+        {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <div key={i} className="animate-pulse space-y-4">
-                <div className="bg-muted rounded-2xl h-48"></div>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="animate-pulse">
+                <div className="bg-muted rounded-2xl h-48 mb-4" />
                 <div className="space-y-2">
-                  <div className="h-4 bg-muted rounded w-1/4"></div>
-                  <div className="h-6 bg-muted rounded w-full"></div>
-                  <div className="h-16 bg-muted rounded w-full"></div>
-                  <div className="h-4 bg-muted rounded w-1/3"></div>
+                  <div className="h-4 bg-muted rounded w-1/4" />
+                  <div className="h-6 bg-muted rounded w-3/4" />
+                  <div className="h-4 bg-muted rounded w-full" />
+                  <div className="h-4 bg-muted rounded w-2/3" />
                 </div>
               </div>
             ))}
           </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blogPosts?.slice(1).map((post: any) => (
+              <Link key={post.id} href={`/blog/${post.slug}`}>
+                <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400"}
+                      alt={post.title}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <CardContent className="p-6">
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {post.tags?.slice(0, 2).map((tag: string) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                      {post.excerpt || "Exploring the latest trends and stories in sneaker culture..."}
+                    </p>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="h-3 w-3" />
+                        <span>{format(new Date(post.publishedAt), 'MMM dd')}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="h-3 w-3" />
+                        <span>5 min read</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
         )}
 
-        {/* Blog Posts Grid */}
-        {data?.posts && data.posts.length > 0 && (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {data.posts.map((post: any) => (
-                <BlogCard key={post.id} post={post} />
-              ))}
-            </div>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center space-x-2">
-                <Button
-                  variant="outline"
-                  disabled={page === 1}
-                  onClick={() => setPage(page - 1)}
-                >
-                  Previous
-                </Button>
-                
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  const pageNum = i + 1;
-                  return (
-                    <Button
-                      key={pageNum}
-                      variant={page === pageNum ? "default" : "outline"}
-                      onClick={() => setPage(pageNum)}
-                    >
-                      {pageNum}
-                    </Button>
-                  );
-                })}
-                
-                <Button
-                  variant="outline"
-                  disabled={page === totalPages}
-                  onClick={() => setPage(page + 1)}
-                >
-                  Next
-                </Button>
-              </div>
-            )}
-          </>
+        {/* Load More */}
+        {!isLoading && blogPosts?.length > 0 && (
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg">
+              Load More Stories
+            </Button>
+          </div>
         )}
 
         {/* Empty State */}
-        {data?.posts && data.posts.length === 0 && !isLoading && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">
-              No articles found matching your criteria
-            </p>
-            <Button 
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCategory("All");
-                setPage(1);
-              }}
-              variant="outline"
-            >
-              Clear Filters
-            </Button>
-          </div>
-        )}
-
-        {/* Featured Categories */}
-        <div className="mt-16 pt-16 border-t">
-          <h2 className="text-2xl font-bold mb-8 text-center">Browse by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.filter(cat => cat !== "All").map((category) => (
-              <button
-                key={category}
-                onClick={() => handleCategoryChange(category)}
-                className="p-4 rounded-lg border-2 border-muted hover:border-primary transition-colors text-center group"
-              >
-                <div className="font-semibold group-hover:text-primary transition-colors">
-                  {category}
+        {!isLoading && (!blogPosts || blogPosts.length === 0) && (
+          <Card>
+            <CardContent className="p-12 text-center">
+              <div className="max-w-md mx-auto">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                  <User className="h-8 w-8 text-muted-foreground" />
                 </div>
-              </button>
-            ))}
-          </div>
-        </div>
+                <h3 className="text-lg font-semibold mb-2">No stories yet</h3>
+                <p className="text-muted-foreground mb-4">
+                  Check back soon for the latest sneaker culture stories and insights
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

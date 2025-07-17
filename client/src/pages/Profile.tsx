@@ -245,7 +245,7 @@ export default function Profile() {
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="collection" className="flex items-center space-x-2">
               <Ungroup className="h-4 w-4" />
-              <span>Ungroup ({ownedSneakers.length})</span>
+              <span>Collection ({ownedSneakers.length})</span>
             </TabsTrigger>
             <TabsTrigger value="wishlist" className="flex items-center space-x-2">
               <Heart className="h-4 w-4" />

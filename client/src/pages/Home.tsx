@@ -1,32 +1,18 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Hero from "@/components/Hero";
 import SneakerCard from "@/components/SneakerCard";
-import BlogCard from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-interface Stats {
-  totalSneakers: string;
-  activeUsers: string;
-  reviews: string;
-  brands: string;
-}
-
-const stats: Stats = {
-  totalSneakers: "50K+",
-  activeUsers: "15K+", 
-  reviews: "25K+",
-  brands: "500+"
-};
+import { Link } from "wouter";
+import { TrendingUp, Users, MessageSquare, Star } from "lucide-react";
 
 export default function Home() {
-  const [activeFilter, setActiveFilter] = useState("All");
-  
   const { data: featuredSneakers, isLoading: sneakersLoading } = useQuery({
-    queryKey: ['/api/sneakers'],
+    queryKey: ['/api/sneakers/featured'],
     queryFn: async () => {
-      const response = await fetch('/api/sneakers?limit=8');
-      if (!response.ok) throw new Error('Failed to fetch sneakers');
+      const response = await fetch('/api/sneakers/featured');
+      if (!response.ok) throw new Error('Failed to fetch featured sneakers');
       return response.json();
     }
   });
@@ -34,56 +20,35 @@ export default function Home() {
   const { data: blogPosts, isLoading: blogLoading } = useQuery({
     queryKey: ['/api/blog'],
     queryFn: async () => {
-      const response = await fetch('/api/blog?limit=6');
+      const response = await fetch('/api/blog');
       if (!response.ok) throw new Error('Failed to fetch blog posts');
       return response.json();
     }
   });
 
-  const filterOptions = ["All", "Nike", "Jordan", "Adidas", "New Balance"];
-
   return (
     <div className="min-h-screen">
-      {/* Hero Section - Ultra Minimalistic */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2112&h=1080" 
-            alt="Premium sneakers on minimal background" 
-            className="w-full h-full object-cover object-center" 
-          />
-          <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
-        </div>
-        
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-8 leading-tight">
-            Where Sole<br />
-            <span className="text-primary">Meets Soul</span>
-          </h1>
-          <p className="text-xl sm:text-2xl text-white/90 font-light max-w-2xl mx-auto leading-relaxed">
-            The ultimate platform for sneaker discovery, collection, and community
-          </p>
-        </div>
-      </section>
+      {/* Hero Section - Ultra-minimalistic, buttonless */}
+      <Hero />
 
       {/* Quick Stats */}
       <section className="py-24 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stats.totalSneakers}</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">50K+</div>
               <div className="text-sm text-muted-foreground font-medium">Sneakers Cataloged</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stats.activeUsers}</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">15K+</div>
               <div className="text-sm text-muted-foreground font-medium">Active Collectors</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stats.reviews}</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">25K+</div>
               <div className="text-sm text-muted-foreground font-medium">Community Reviews</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stats.brands}</div>
+              <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">500+</div>
               <div className="text-sm text-muted-foreground font-medium">Brands Tracked</div>
             </div>
           </div>
@@ -105,17 +70,11 @@ export default function Home() {
           {/* Filter Tabs */}
           <div className="flex justify-center mb-12">
             <div className="flex space-x-1 bg-muted p-1 rounded-lg">
-              {filterOptions.map((filter) => (
-                <Button
-                  key={filter}
-                  variant={activeFilter === filter ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setActiveFilter(filter)}
-                  className="px-6"
-                >
-                  {filter}
-                </Button>
-              ))}
+              <Button variant="secondary" size="sm" className="bg-background shadow-sm">All</Button>
+              <Button variant="ghost" size="sm">Nike</Button>
+              <Button variant="ghost" size="sm">Jordan</Button>
+              <Button variant="ghost" size="sm">Adidas</Button>
+              <Button variant="ghost" size="sm">New Balance</Button>
             </div>
           </div>
 
@@ -124,30 +83,26 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-muted rounded-2xl h-64 mb-4"></div>
+                  <div className="bg-muted rounded-2xl h-64 mb-4" />
                   <div className="space-y-2">
-                    <div className="h-4 bg-muted rounded w-3/4"></div>
-                    <div className="h-6 bg-muted rounded w-full"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                    <div className="h-4 bg-muted rounded w-1/3" />
+                    <div className="h-5 bg-muted rounded w-2/3" />
+                    <div className="h-6 bg-muted rounded w-1/2" />
                   </div>
                 </div>
               ))}
             </div>
-          ) : featuredSneakers?.sneakers?.length > 0 ? (
+          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {featuredSneakers.sneakers.map((sneaker: any) => (
+              {featuredSneakers?.slice(0, 8).map((sneaker: any) => (
                 <SneakerCard key={sneaker.id} sneaker={sneaker} />
               ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No sneakers available at the moment.</p>
             </div>
           )}
 
           <div className="text-center mt-12">
-            <Button size="lg" className="px-8">
-              View All Sneakers
+            <Button asChild size="lg">
+              <Link href="/catalog">View All Sneakers</Link>
             </Button>
           </div>
         </div>
@@ -169,26 +124,106 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-muted rounded-2xl h-64 mb-4"></div>
+                  <div className="bg-muted rounded-2xl h-64 mb-6" />
                   <div className="space-y-2">
-                    <div className="h-4 bg-muted rounded w-1/4"></div>
-                    <div className="h-6 bg-muted rounded w-full"></div>
-                    <div className="h-16 bg-muted rounded w-full"></div>
+                    <div className="h-4 bg-muted rounded w-1/4" />
+                    <div className="h-6 bg-muted rounded w-3/4" />
+                    <div className="h-4 bg-muted rounded w-full" />
                   </div>
                 </div>
               ))}
             </div>
-          ) : blogPosts?.posts?.length > 0 ? (
+          ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {blogPosts.posts.slice(0, 3).map((post: any) => (
-                <BlogCard key={post.id} post={post} />
+              {blogPosts?.slice(0, 3).map((post: any) => (
+                <Link key={post.id} href={`/blog/${post.slug}`}>
+                  <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400"}
+                        alt={post.title}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <Badge variant="secondary" className="mb-2">Featured</Badge>
+                        <h3 className="text-white font-semibold text-lg group-hover:text-primary transition-colors">
+                          {post.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <CardContent className="p-6">
+                      <p className="text-muted-foreground line-clamp-3">
+                        {post.excerpt || "Exploring the latest trends and stories in sneaker culture..."}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No blog posts available at the moment.</p>
-            </div>
           )}
+
+          <div className="text-center mt-12">
+            <Button asChild variant="outline" size="lg">
+              <Link href="/blog">View All Stories</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
+              Why SoleGrid?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              The most comprehensive platform for sneaker enthusiasts
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Real-Time Pricing</h3>
+              <p className="text-muted-foreground text-sm">
+                Track market prices across all major platforms in real-time
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Community Driven</h3>
+              <p className="text-muted-foreground text-sm">
+                Connect with collectors and enthusiasts worldwide
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">AI Assistant</h3>
+              <p className="text-muted-foreground text-sm">
+                Get personalized recommendations from our AI sneaker expert
+              </p>
+            </Card>
+
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Star className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Authentic Reviews</h3>
+              <p className="text-muted-foreground text-sm">
+                Read verified reviews from real sneaker owners
+              </p>
+            </Card>
+          </div>
         </div>
       </section>
     </div>

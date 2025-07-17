@@ -1,50 +1,70 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { Router, Route, Switch } from "wouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "next-themes";
+import { useState } from "react";
+import { AuthProvider } from "@/hooks/useAuth";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { AuthProvider } from "./contexts/AuthContext";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Catalog from "./pages/Catalog";
-import SneakerDetail from "./pages/SneakerDetail";
-import Blog from "./pages/Blog";
-import PostDetail from "./pages/PostDetail";
-import Profile from "./pages/Profile";
-import Collection from "./pages/Collection";
-import Discover from "./pages/Discover";
+import Header from "@/components/Header";
+import AIChat from "@/components/AIChat";
+
+// Pages
+import Home from "@/pages/Home";
+import Catalog from "@/pages/Catalog";
+import Blog from "@/pages/Blog";
+import Profile from "@/pages/Profile";
+import SneakerDetail from "@/pages/SneakerDetail";
 import NotFound from "@/pages/not-found";
 
-function Router() {
-  return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/catalog" component={Catalog} />
-      <Route path="/sneakers/:slug" component={SneakerDetail} />
-      <Route path="/blog" component={Blog} />
-      <Route path="/blog/:slug" component={PostDetail} />
-      <Route path="/profile" component={Profile} />
-      <Route path="/collection" component={Collection} />
-      <Route path="/discover" component={Discover} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
 function App() {
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <ThemeProvider>
-          <AuthProvider>
-            <Layout>
-              <Router />
-            </Layout>
-            <Toaster />
-          </AuthProvider>
-        </ThemeProvider>
-      </TooltipProvider>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <AuthProvider>
+          <Router>
+            <div className="min-h-screen bg-background text-foreground">
+              <Header onAIChatToggle={() => setIsAIChatOpen(!isAIChatOpen)} />
+              
+              <main>
+                <Switch>
+                  <Route path="/" component={Home} />
+                  <Route path="/catalog" component={Catalog} />
+                  <Route path="/blog" component={Blog} />
+                  <Route path="/profile" component={Profile} />
+                  <Route path="/collection" component={Profile} />
+                  <Route path="/sneakers/:slug" component={SneakerDetail} />
+                  <Route path="/discover">
+                    <div className="min-h-screen flex items-center justify-center">
+                      <div className="text-center">
+                        <h1 className="text-4xl font-bold mb-4">Discover</h1>
+                        <p className="text-muted-foreground">Coming soon - AI-powered sneaker discovery</p>
+                      </div>
+                    </div>
+                  </Route>
+                  <Route component={NotFound} />
+                </Switch>
+              </main>
+
+              <AIChat 
+                isOpen={isAIChatOpen} 
+                onClose={() => setIsAIChatOpen(false)} 
+              />
+              
+              <Toaster />
+            </div>
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
