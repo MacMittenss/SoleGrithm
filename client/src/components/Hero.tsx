@@ -3,15 +3,15 @@ import { Badge } from '@/components/ui/badge';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ backgroundColor: '#dedede' }}>
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&h=1600&q=80"
-          alt="SoleGrid Hero"
-          className="w-full h-full object-cover"
+          src="https://nb.scene7.com/is/image/NB/u9060v1_nb_02_i?$pdp-m-640$"
+          alt="New Balance 9060 Sneaker"
+          className="w-full h-full object-contain"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       {/* Content */}
