@@ -47,7 +47,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             <img 
               src={soleGridLogo} 
               alt="SoleGrid" 
-              className="h-[24px] w-auto"
+              className="h-[50px] w-auto"
             />
           </Link>
 
