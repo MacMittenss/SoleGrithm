@@ -18,7 +18,7 @@ import {
   Compass
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import soleGridLogo from '@assets/S_1752796617273.png';
+import soleGridLogo from '@assets/S (1)_1752796869451.png';
 
 interface HeaderProps {
   onAIChatToggle: () => void;
