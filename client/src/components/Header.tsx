@@ -64,7 +64,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
           <Link href="/" className="flex items-center">
             <div className="flex items-center h-16 px-4 py-2">
               <span className={`font-thin text-lg transition-colors ${
-                isScrolled ? "text-slate-400" : "text-white"
+                isScrolled ? "text-gray-700" : "text-white"
               }`} style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5em'}}>SOLE</span>
               <span className="text-orange-500 font-thin text-lg ml-2" style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5em'}}>GRID</span>
             </div>
