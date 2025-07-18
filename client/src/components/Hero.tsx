@@ -15,7 +15,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4">
+      <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4 pt-14">
         <Badge variant="secondary" className="mb-8 bg-white/10 text-white border-white/20">
           Premium Sneaker Community
         </Badge>
