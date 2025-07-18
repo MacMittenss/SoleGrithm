@@ -62,11 +62,10 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <img 
-              src={soleGridLogo} 
-              alt="SoleGrid" 
-              className="h-[64px] w-auto"
-            />
+            <div className="flex items-center h-16 px-4 py-2 bg-black rounded-sm">
+              <span className="text-white font-bold text-lg tracking-wider">SOLE</span>
+              <span className="text-orange-500 font-bold text-lg tracking-wider ml-1">GRID</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
