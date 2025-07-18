@@ -63,8 +63,8 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <div className="flex items-center h-16 px-4 py-2">
-              <span className="text-white font-thin text-lg tracking-widest" style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'}}>SOLE</span>
-              <span className="text-orange-500 font-thin text-lg tracking-widest ml-1" style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'}}>GRID</span>
+              <span className="text-white font-thin text-lg" style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.3em'}}>SOLE</span>
+              <span className="text-orange-500 font-thin text-lg ml-2" style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.3em'}}>GRID</span>
             </div>
           </Link>
 
