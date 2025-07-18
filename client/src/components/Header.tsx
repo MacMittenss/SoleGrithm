@@ -29,6 +29,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
   const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +37,9 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
       const heroHeight = window.innerHeight;
       const navbarHeight = 56; // h-14 = 56px
       const scrollY = window.scrollY;
+      
+      // Track if we've scrolled at all
+      setHasScrolled(scrollY > 0);
       
       // Change background when bottom of navbar touches end of hero
       setIsScrolled(scrollY >= (heroHeight - navbarHeight));
@@ -58,7 +62,9 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
         ? 'bg-white shadow-lg border-b border-gray-200' 
-        : 'bg-white/10 backdrop-blur-md'
+        : hasScrolled 
+          ? 'bg-white/10 backdrop-blur-md'
+          : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
