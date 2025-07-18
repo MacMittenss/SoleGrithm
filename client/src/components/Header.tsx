@@ -32,11 +32,13 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Get hero section height (assuming it's min-h-screen)
+      // Get hero section height and navbar height
       const heroHeight = window.innerHeight;
+      const navbarHeight = 56; // h-14 = 56px
       const scrollY = window.scrollY;
       
-      setIsScrolled(scrollY > heroHeight);
+      // Change background when bottom of navbar touches end of hero
+      setIsScrolled(scrollY >= (heroHeight - navbarHeight));
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -56,7 +58,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
         ? 'bg-white shadow-lg border-b border-gray-200' 
-        : 'bg-transparent'
+        : 'bg-white/10 backdrop-blur-md'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
