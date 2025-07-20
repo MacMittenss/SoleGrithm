@@ -21,7 +21,7 @@ export default function Hero() {
         </Badge>
         
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in">
-          SoleGrid
+          SoleGrithm
         </h1>
         
         <p className="text-lg sm:text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up">

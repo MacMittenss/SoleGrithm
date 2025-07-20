@@ -1,8 +1,8 @@
-# SoleGrid - Sneaker Community Platform
+# SoleGrithm - Sneaker Community Platform
 
 ## Overview
 
-SoleGrid is a comprehensive sneaker community platform that combines e-commerce, social networking, and AI-powered features. The application serves as a hub for sneaker enthusiasts to discover, collect, review, and trade sneakers while leveraging artificial intelligence for personalized recommendations and market insights.
+SoleGrithm is a comprehensive sneaker community platform that combines e-commerce, social networking, and AI-powered features. The application serves as a hub for sneaker enthusiasts to discover, collect, review, and trade sneakers while leveraging artificial intelligence for personalized recommendations and market insights.
 
 ## User Preferences
 

@@ -47,7 +47,7 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <Link href="/">
               <h1 className="text-2xl font-bold tracking-tight cursor-pointer hover:text-primary transition-colors">
-                SoleGrid
+                SoleGrithm
               </h1>
             </Link>
           </div>

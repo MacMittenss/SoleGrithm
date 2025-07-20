@@ -78,7 +78,7 @@ export default function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {/* Brand Column */}
             <div className="col-span-2 md:col-span-1">
-              <h3 className="text-2xl font-bold mb-4">SoleGrid</h3>
+              <h3 className="text-2xl font-bold mb-4">SoleGrithm</h3>
               <p className="text-muted-foreground mb-6 text-sm">
                 The ultimate platform for sneaker enthusiasts. Discover, collect, and connect with the global sneaker community.
               </p>

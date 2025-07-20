@@ -68,7 +68,7 @@ export default function Navigation({ onThemeToggle, isDark, onChatToggle, onAuth
           <div className="flex-shrink-0">
             <Link href="/">
               <h1 className="text-2xl font-bold tracking-tight cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                SoleGrid
+                SoleGrithm
               </h1>
             </Link>
           </div>
