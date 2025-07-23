@@ -21,12 +21,12 @@ export default function Hero() {
             AI-Powered Sneaker Intelligence
           </Badge>
           
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
             SoleGrithm
           </h1>
           
-          <div className="max-w-lg">
-            <p className="text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 text-white/90">
+          <div className="max-w-md">
+            <p className="text-xs sm:text-sm md:text-base font-light leading-relaxed mb-6 text-white/90">
               Step into a world where style meets sole, and algorithms decode the culture. 
               Our AI doesn't just predict trends—it discovers the stories behind every drop, 
               every collab, and every grail. Whether you're hunting the latest heat or 
