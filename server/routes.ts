@@ -1,5 +1,9 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
+
+interface AuthenticatedRequest extends Request {
+  user?: any;
+}
 import { storage } from "./storage";
 import { verifyFirebaseToken } from "./services/firebase-admin";
 import { 
@@ -15,7 +19,7 @@ import { insertUserSchema, insertSneakerSchema, insertReviewSchema, insertCollec
 import { z } from "zod";
 
 // Middleware to verify Firebase token
-async function authenticateUser(req: any, res: any, next: any) {
+async function authenticateUser(req: AuthenticatedRequest, res: any, next: any) {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -144,7 +148,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/ai', authenticateUser);
 
   // User profile
-  app.get('/api/user/profile', async (req, res) => {
+  app.get('/api/user/profile', async (req: AuthenticatedRequest, res) => {
     try {
       res.json(req.user);
     } catch (error) {
@@ -152,7 +156,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/user/profile', async (req, res) => {
+  app.put('/api/user/profile', async (req: AuthenticatedRequest, res) => {
     try {
       const updateData = insertUserSchema.partial().parse(req.body);
       const user = await storage.updateUser(req.user.id, updateData);
@@ -163,7 +167,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User collections
-  app.get('/api/user/collections', async (req, res) => {
+  app.get('/api/user/collections', async (req: AuthenticatedRequest, res) => {
     try {
       const { wishlist } = req.query;
       const collections = wishlist === 'true' 
@@ -175,7 +179,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/user/collections', async (req, res) => {
+  app.post('/api/user/collections', async (req: AuthenticatedRequest, res) => {
     try {
       const collectionData = insertCollectionSchema.parse({
         ...req.body,
@@ -188,7 +192,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/user/collections/:id', async (req, res) => {
+  app.delete('/api/user/collections/:id', async (req: AuthenticatedRequest, res) => {
     try {
       await storage.removeFromCollection(parseInt(req.params.id));
       res.json({ success: true });
@@ -198,7 +202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User reviews
-  app.get('/api/user/reviews', async (req, res) => {
+  app.get('/api/user/reviews', async (req: AuthenticatedRequest, res) => {
     try {
       const reviews = await storage.getUserReviews(req.user.id);
       res.json(reviews);
@@ -208,7 +212,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create review
-  app.post('/api/reviews', async (req, res) => {
+  app.post('/api/reviews', async (req: AuthenticatedRequest, res) => {
     try {
       const reviewData = insertReviewSchema.parse({
         ...req.body,
@@ -242,7 +246,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Chat
-  app.post('/api/ai/chat', async (req, res) => {
+  app.post('/api/ai/chat', async (req: AuthenticatedRequest, res) => {
     try {
       const { message } = req.body;
       if (!message) {
@@ -275,7 +279,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // AI Recommendations
-  app.post('/api/ai/recommendations', async (req, res) => {
+  app.post('/api/ai/recommendations', async (req: AuthenticatedRequest, res) => {
     try {
       const preferences = req.body;
       const recommendations = await getSneakerRecommendations(preferences);

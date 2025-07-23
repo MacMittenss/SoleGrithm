@@ -89,8 +89,9 @@ export const blogPosts = pgTable("blog_posts", {
   content: text("content").notNull(),
   authorId: integer("author_id").references(() => users.id),
   featuredImage: text("featured_image"),
+  category: text("category"),
   tags: text("tags").array(),
-  published: boolean("published").default(false),
+  published: boolean("is_published").default(false),
   publishedAt: timestamp("published_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow()

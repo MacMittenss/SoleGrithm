@@ -121,15 +121,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async searchSneakers(query: string, filters?: any): Promise<Sneaker[]> {
-    let queryBuilder = db
-      .select()
-      .from(sneakers)
-      .where(
-        ilike(sneakers.name, `%${query}%`)
-      );
+    let queryBuilder = db.select().from(sneakers);
+
+    if (query) {
+      queryBuilder = queryBuilder.where(ilike(sneakers.name, `%${query}%`));
+    }
 
     if (filters?.brandId) {
-      queryBuilder = queryBuilder.where(eq(sneakers.brandId, filters.brandId));
+      queryBuilder = queryBuilder.where(eq(sneakers.brandId, parseInt(filters.brandId)));
     }
 
     return await queryBuilder.orderBy(sneakers.name);
@@ -216,16 +215,16 @@ export class DatabaseStorage implements IStorage {
 
   // Price History
   async getSneakerPrices(sneakerId: number, size?: string): Promise<PriceHistory[]> {
-    let query = db
+    let queryBuilder = db
       .select()
       .from(priceHistory)
       .where(eq(priceHistory.sneakerId, sneakerId));
 
     if (size) {
-      query = query.where(eq(priceHistory.size, size));
+      queryBuilder = queryBuilder.where(eq(priceHistory.size, size));
     }
 
-    return await query.orderBy(desc(priceHistory.timestamp));
+    return await queryBuilder.orderBy(desc(priceHistory.timestamp));
   }
 
   async addPriceRecord(insertPriceRecord: InsertPriceHistory): Promise<PriceHistory> {
@@ -235,13 +234,13 @@ export class DatabaseStorage implements IStorage {
 
   // Blog Posts
   async getBlogPosts(published = true): Promise<BlogPost[]> {
-    let query = db.select().from(blogPosts);
+    let queryBuilder = db.select().from(blogPosts);
     
     if (published) {
-      query = query.where(eq(blogPosts.published, true));
+      queryBuilder = queryBuilder.where(eq(blogPosts.published, true));
     }
 
-    return await query.orderBy(desc(blogPosts.publishedAt));
+    return await queryBuilder.orderBy(desc(blogPosts.createdAt));
   }
 
   async getBlogPost(id: number): Promise<BlogPost | undefined> {
