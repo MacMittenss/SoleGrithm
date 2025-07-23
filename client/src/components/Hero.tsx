@@ -22,7 +22,7 @@ export default function Hero() {
           </Badge>
           
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{fontFamily: 'Staatliches, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '1px'}}>
-            SoleGrithm
+            WELCOME TO SOLEGRITHM
           </h1>
           
           <div className="max-w-md">
