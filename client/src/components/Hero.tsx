@@ -15,36 +15,24 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4 pt-14">
-        <Badge variant="secondary" className="mb-8 bg-white/10 text-white border-white/20">
-          Premium Sneaker Community
-        </Badge>
-        
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in">
-          SoleGrithm
-        </h1>
-        
-        <p className="text-lg sm:text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up">
-          Discover, collect, and trade the world's most coveted sneakers with our AI-powered platform
-        </p>
-
-        {/* Mobile-optimized stats */}
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 md:gap-8 mt-12">
-          <div className="text-center animate-fade-in">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">50K+</div>
-            <div className="text-xs sm:text-sm text-white/80">Sneakers</div>
-          </div>
-          <div className="text-center animate-fade-in">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">15K+</div>
-            <div className="text-xs sm:text-sm text-white/80">Collectors</div>
-          </div>
-          <div className="text-center animate-fade-in">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">25K+</div>
-            <div className="text-xs sm:text-sm text-white/80">Reviews</div>
-          </div>
-          <div className="text-center animate-fade-in">
-            <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">500+</div>
-            <div className="text-xs sm:text-sm text-white/80">Brands</div>
+      <div className="relative z-10 text-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+        <div className="max-w-4xl">
+          <Badge variant="secondary" className="mb-6 bg-white/10 text-white border-white/20 text-sm">
+            AI-Powered Sneaker Intelligence
+          </Badge>
+          
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+            SoleGrithm
+          </h1>
+          
+          <div className="max-w-2xl">
+            <p className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed mb-8 text-white/90">
+              Step into a world where style meets sole, and algorithms decode the culture. 
+              Our AI doesn't just predict trends—it discovers the stories behind every drop, 
+              every collab, and every grail. Whether you're hunting the latest heat or 
+              building your collection, let intelligent curation guide your sneaker journey. 
+              <span className="font-medium text-white">Feed the sole, fuel the algorithm.</span>
+            </p>
           </div>
         </div>
       </div>
