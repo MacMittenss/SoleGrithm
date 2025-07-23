@@ -15,18 +15,18 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-white max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
-        <div className="max-w-4xl">
-          <Badge variant="secondary" className="mb-6 bg-white/10 text-white border-white/20 text-sm">
+      <div className="relative z-10 text-white px-6 sm:px-8 lg:px-12 pt-20">
+        <div className="max-w-2xl">
+          <Badge variant="secondary" className="mb-4 bg-white/10 text-white border-white/20 text-xs">
             AI-Powered Sneaker Intelligence
           </Badge>
           
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             SoleGrithm
           </h1>
           
-          <div className="max-w-2xl">
-            <p className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed mb-8 text-white/90">
+          <div className="max-w-lg">
+            <p className="text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 text-white/90">
               Step into a world where style meets sole, and algorithms decode the culture. 
               Our AI doesn't just predict trends—it discovers the stories behind every drop, 
               every collab, and every grail. Whether you're hunting the latest heat or 
