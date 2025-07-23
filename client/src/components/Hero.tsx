@@ -30,7 +30,7 @@ export default function Hero() {
               Step into a world where style meets sole, and algorithms decode the culture. 
               Our AI doesn't just predict trends—it discovers the stories behind every drop, 
               every collab, and every grail. Whether you're hunting the latest heat or 
-              building your collection, let intelligent curation guide your sneaker journey. 
+              building your collection, let intelligent curation guide your sneaker journey.  
               <span className="font-medium text-white">Feed the sole, fuel the algorithm.</span>
             </p>
           </div>
