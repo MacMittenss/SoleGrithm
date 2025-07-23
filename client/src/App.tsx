@@ -13,6 +13,7 @@ import Catalog from "@/pages/Catalog";
 import Blog from "@/pages/Blog";
 import Profile from "@/pages/Profile";
 import SneakerDetail from "@/pages/SneakerDetail";
+import PostDetail from "@/pages/PostDetail";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient({
@@ -40,6 +41,7 @@ function App() {
                   <Route path="/" component={Home} />
                   <Route path="/catalog" component={Catalog} />
                   <Route path="/blog" component={Blog} />
+                  <Route path="/blog/:slug" component={PostDetail} />
                   <Route path="/profile" component={Profile} />
                   <Route path="/collection" component={Profile} />
                   <Route path="/sneakers/:slug" component={SneakerDetail} />
