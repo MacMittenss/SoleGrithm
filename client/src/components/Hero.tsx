@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -15,7 +15,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-white px-6 sm:px-8 lg:px-12 pt-20">
+      <div className="relative z-10 text-white pl-6 sm:pl-8 lg:pl-12 pt-20">
         <div className="max-w-2xl">
           <Badge variant="secondary" className="mb-4 bg-white/10 text-white border-white/20 text-xs">
             AI-Powered Sneaker Intelligence
