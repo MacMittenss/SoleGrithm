@@ -21,11 +21,11 @@ export default function Blog() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-            SoleGrid Stories
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6" style={{fontFamily: 'Staatliches, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '1px'}}>
+            SOLEGRITHM STORIES
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Dive deep into sneaker culture with expert insights, community stories, and the latest trends
+            Where AI meets sole culture. Explore expert insights, community stories, and algorithmic trends in sneaker culture.
           </p>
         </div>
 
@@ -60,7 +60,7 @@ export default function Blog() {
                       </div>
                       <div className="flex items-center space-x-1">
                         <User className="h-4 w-4" />
-                        <span>{blogPosts[0].author?.displayName || 'SoleGrid Team'}</span>
+                        <span>SoleGrithm Editorial</span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <Clock className="h-4 w-4" />
@@ -104,11 +104,11 @@ export default function Blog() {
                   </div>
                   <CardContent className="p-6">
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {post.tags?.slice(0, 2).map((tag: string) => (
-                        <Badge key={tag} variant="secondary" className="text-xs">
-                          {tag}
+                      {post.category && (
+                        <Badge variant="secondary" className="text-xs">
+                          {post.category}
                         </Badge>
-                      ))}
+                      )}
                     </div>
                     <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
                       {post.title}
@@ -152,7 +152,7 @@ export default function Blog() {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">No stories yet</h3>
                 <p className="text-muted-foreground mb-4">
-                  Check back soon for the latest sneaker culture stories and insights
+                  Check back soon for the latest AI-powered sneaker insights and culture stories
                 </p>
               </div>
             </CardContent>
