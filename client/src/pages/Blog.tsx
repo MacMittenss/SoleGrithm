@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,7 +26,7 @@ export default function Blog() {
     : blogPosts;
 
   // Reset showAllStories when category filter changes
-  React.useEffect(() => {
+  useEffect(() => {
     setShowAllStories(false);
   }, [selectedCategory]);
 
