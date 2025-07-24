@@ -74,7 +74,7 @@ export default function Blog() {
                   <div className="lg:w-1/2">
                     <div className="relative overflow-hidden h-64 lg:h-full">
                       <img
-                        src={filteredPosts[0].featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=600"}
+                        src={filteredPosts[0].featuredImage || "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/54a510de-a406-41b2-8d62-7f8c587c9a7e/air-jordan-1-retro-high-og-shoes-Pph9tm.png"}
                         alt={filteredPosts[0].title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -137,7 +137,7 @@ export default function Blog() {
                 <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
                   <div className="relative overflow-hidden">
                     <img
-                      src={post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400"}
+                      src={post.featuredImage || "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/54a510de-a406-41b2-8d62-7f8c587c9a7e/air-jordan-1-retro-high-og-shoes-Pph9tm.png"}
                       alt={post.title}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                     />

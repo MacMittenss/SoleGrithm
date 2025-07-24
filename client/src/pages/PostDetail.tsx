@@ -159,8 +159,8 @@ export default function PostDetail() {
             <Card className="group cursor-pointer transition-all hover:shadow-lg">
               <div className="relative overflow-hidden">
                 <img
-                  src="https://cms-cdn.flightclub.com/3000/8b0f7895ebbf-b709-0f11-6485-004b0029.jpg?w=800"
-                  alt="Related article"
+                  src="https://cdn.shopify.com/s/files/1/0419/1525/products/adidas-yeezy-boost-350-v2-cream-white-cp9366-sneakers-heat-1.jpg"
+                  alt="Authentication technology"
                   className="w-full h-32 object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
@@ -174,7 +174,7 @@ export default function PostDetail() {
               <div className="relative overflow-hidden">
                 <img
                   src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-ac9f65b6-a2e8-4cdb-953e-e0e5e8e2f5e5/react-infinity-run-flyknit-4-road-running-shoes.png"
-                  alt="Related article"
+                  alt="Sustainable sneakers"
                   className="w-full h-32 object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
