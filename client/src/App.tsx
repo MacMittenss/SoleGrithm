@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Router, Route, Switch } from "wouter";
+import React, { useState, useEffect } from "react";
+import { Router, Route, Switch, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -25,6 +25,17 @@ const queryClient = new QueryClient({
   },
 });
 
+// Component to handle scroll to top on route change
+function ScrollToTop() {
+  const [location] = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  
+  return null;
+}
+
 function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
 
@@ -34,6 +45,7 @@ function App() {
         <AuthProvider>
           <Router>
             <div className="min-h-screen bg-background text-foreground">
+              <ScrollToTop />
               <Header onAIChatToggle={() => setIsAIChatOpen(!isAIChatOpen)} />
               
               <main>

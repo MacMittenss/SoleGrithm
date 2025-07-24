@@ -22,7 +22,7 @@ export default function PostDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen py-8">
+      <div className="min-h-screen pt-20 pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
             <div className="h-8 bg-muted rounded w-1/4 mb-8" />
@@ -42,7 +42,7 @@ export default function PostDetail() {
 
   if (!post) {
     return (
-      <div className="min-h-screen py-8">
+      <div className="min-h-screen pt-20 pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-2xl font-bold mb-4">Post not found</h1>
           <p className="text-muted-foreground mb-8">The blog post you're looking for doesn't exist.</p>
@@ -58,7 +58,7 @@ export default function PostDetail() {
   }
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen pt-20 pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <Link href="/blog">
