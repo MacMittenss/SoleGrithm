@@ -34,8 +34,8 @@ export default function Blog() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6" style={{fontFamily: 'Staatliches, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '1px'}}>
-            SOLEGRITHM STORIES
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
+            SoleGrithm Stories
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Where AI meets sole culture. Explore expert insights, community stories, and algorithmic trends in sneaker culture.
