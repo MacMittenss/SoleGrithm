@@ -116,15 +116,13 @@ export default function PostDetail() {
         </div>
 
         {/* Featured Image */}
-        {post.featuredImage && (
-          <div className="relative overflow-hidden rounded-2xl mb-8">
-            <img
-              src={post.featuredImage}
-              alt={post.title}
-              className="w-full h-64 sm:h-80 lg:h-96 object-cover"
-            />
-          </div>
-        )}
+        <div className="relative overflow-hidden rounded-2xl mb-8">
+          <img
+            src={post.featuredImage || "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=1200&h=600&fit=crop"}
+            alt={post.title}
+            className="w-full h-64 sm:h-80 lg:h-96 object-cover"
+          />
+        </div>
 
         {/* Article Content */}
         <Card>
@@ -159,7 +157,7 @@ export default function PostDetail() {
             <Card className="group cursor-pointer transition-all hover:shadow-lg">
               <div className="relative overflow-hidden">
                 <img
-                  src="https://cdn.shopify.com/s/files/1/0419/1525/products/adidas-yeezy-boost-350-v2-cream-white-cp9366-sneakers-heat-1.jpg"
+                  src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=200&fit=crop"
                   alt="Authentication technology"
                   className="w-full h-32 object-cover group-hover:scale-105 transition-transform"
                 />
@@ -173,7 +171,7 @@ export default function PostDetail() {
             <Card className="group cursor-pointer transition-all hover:shadow-lg">
               <div className="relative overflow-hidden">
                 <img
-                  src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-ac9f65b6-a2e8-4cdb-953e-e0e5e8e2f5e5/react-infinity-run-flyknit-4-road-running-shoes.png"
+                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=200&fit=crop"
                   alt="Sustainable sneakers"
                   className="w-full h-32 object-cover group-hover:scale-105 transition-transform"
                 />
