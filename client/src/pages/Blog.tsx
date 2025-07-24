@@ -132,7 +132,7 @@ export default function Blog() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts?.slice(1).map((post: any) => (
+            {filteredPosts?.slice(1, 6).map((post: any) => (
               <Link key={post.id} href={`/blog/${post.slug}`}>
                 <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
                   <div className="relative overflow-hidden">
@@ -174,11 +174,11 @@ export default function Blog() {
           </div>
         )}
 
-        {/* Load More */}
-        {!isLoading && filteredPosts?.length > 0 && (
+        {/* View All Stories */}
+        {!isLoading && filteredPosts && filteredPosts.length > 6 && (
           <div className="text-center mt-12">
             <Button variant="outline" size="lg">
-              Load More Stories
+              View All Stories ({filteredPosts.length - 6} more)
             </Button>
           </div>
         )}
