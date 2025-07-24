@@ -9,6 +9,7 @@ import { format } from "date-fns";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showAllStories, setShowAllStories] = useState(false);
 
   const { data: blogPosts, isLoading } = useQuery({
     queryKey: ['/api/blog'],
@@ -23,6 +24,11 @@ export default function Blog() {
   const filteredPosts = selectedCategory
     ? blogPosts?.filter((post: any) => post.category === selectedCategory)
     : blogPosts;
+
+  // Reset showAllStories when category filter changes
+  React.useEffect(() => {
+    setShowAllStories(false);
+  }, [selectedCategory]);
 
   // Get unique categories
   const categories = blogPosts
@@ -132,7 +138,7 @@ export default function Blog() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts?.slice(1, 6).map((post: any) => (
+            {filteredPosts?.slice(1, showAllStories ? filteredPosts.length : 6).map((post: any) => (
               <Link key={post.id} href={`/blog/${post.slug}`}>
                 <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105">
                   <div className="relative overflow-hidden">
@@ -175,10 +181,19 @@ export default function Blog() {
         )}
 
         {/* View All Stories */}
-        {!isLoading && filteredPosts && filteredPosts.length > 6 && (
+        {!isLoading && filteredPosts && filteredPosts.length > 6 && !showAllStories && (
           <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={() => setShowAllStories(true)}>
               View All Stories ({filteredPosts.length - 6} more)
+            </Button>
+          </div>
+        )}
+
+        {/* Show Less Stories */}
+        {!isLoading && showAllStories && filteredPosts && filteredPosts.length > 6 && (
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg" onClick={() => setShowAllStories(false)}>
+              Show Less Stories
             </Button>
           </div>
         )}
