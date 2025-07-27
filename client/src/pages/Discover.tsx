@@ -1,438 +1,487 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TrendingUp, Calendar, DollarSign, Users, Flame, Clock, Star, BarChart3 } from "lucide-react";
+import { Link } from "wouter";
+import { 
+  Sparkles, 
+  TrendingUp, 
+  Camera, 
+  MessageSquare,
+  Target,
+  Zap,
+  Brain,
+  Search,
+  Upload,
+  Star,
+  DollarSign,
+  Calendar,
+  Users
+} from "lucide-react";
 import SneakerCard from "@/components/SneakerCard";
-import { useAI } from "@/hooks/useAI";
-
-interface TrendingItem {
-  id: number;
-  name: string;
-  brand: string;
-  currentPrice: number;
-  priceChange: number;
-  image: string;
-  popularity: number;
-}
-
-interface UpcomingRelease {
-  id: number;
-  name: string;
-  brand: string;
-  releaseDate: string;
-  retailPrice: number;
-  image: string;
-  hypeLevel: 'low' | 'medium' | 'high';
-}
 
 export default function Discover() {
-  const [selectedCategory, setSelectedCategory] = useState("trending");
-  const { getRecommendations, isLoading: aiLoading } = useAI();
+  const [chatMessage, setChatMessage] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [preferences, setPreferences] = useState({
+    style: '',
+    budget: '',
+    occasion: '',
+    brands: ''
+  });
 
-  // Mock data - in production this would come from real APIs
-  const { data: trendingData, isLoading: trendingLoading } = useQuery({
-    queryKey: ['/api/discover/trending'],
+  const queryClient = useQueryClient();
+
+  // Get AI recommendations
+  const { data: recommendations, isLoading: recommendationsLoading } = useQuery({
+    queryKey: ['/api/ai/recommendations'],
     queryFn: async () => {
-      // This would fetch from real market data APIs
-      const mockTrending: TrendingItem[] = [
-        {
-          id: 1,
-          name: "Air Jordan 1 'Chicago'",
-          brand: "Nike",
-          currentPrice: 2499,
-          priceChange: 12.5,
-          image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-          popularity: 95
-        },
-        {
-          id: 2,
-          name: "Yeezy Boost 350 V2 'Zebra'",
-          brand: "Adidas",
-          currentPrice: 325,
-          priceChange: -8.2,
-          image: "https://images.unsplash.com/photo-1605348532760-6753d2c43329?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-          popularity: 88
-        }
-      ];
-      return mockTrending;
+      const response = await fetch('/api/ai/recommendations');
+      if (!response.ok) throw new Error('Failed to fetch recommendations');
+      return response.json();
     }
   });
 
-  const { data: upcomingData, isLoading: upcomingLoading } = useQuery({
-    queryKey: ['/api/discover/upcoming'],
+  // Get trending sneakers
+  const { data: trending, isLoading: trendingLoading } = useQuery({
+    queryKey: ['/api/sneakers/trending'],
     queryFn: async () => {
-      // This would fetch from release calendar APIs
-      const mockUpcoming: UpcomingRelease[] = [
-        {
-          id: 1,
-          name: "Air Jordan 4 'White Cement' 2025",
-          brand: "Nike",
-          releaseDate: "2025-02-15",
-          retailPrice: 200,
-          image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-          hypeLevel: 'high'
-        },
-        {
-          id: 2,
-          name: "New Balance 990v6 'Grey'",
-          brand: "New Balance",
-          releaseDate: "2025-01-28",
-          retailPrice: 199,
-          image: "https://images.unsplash.com/photo-1584735175315-9d5df23860e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-          hypeLevel: 'medium'
-        }
-      ];
-      return mockUpcoming;
+      const response = await fetch('/api/sneakers/trending');
+      if (!response.ok) throw new Error('Failed to fetch trending sneakers');
+      return response.json();
     }
   });
 
-  const { data: aiRecommendations } = useQuery({
-    queryKey: ['/api/ai/recommendations', 'discover'],
+  // Get price predictions
+  const { data: predictions, isLoading: predictionsLoading } = useQuery({
+    queryKey: ['/api/ai/price-predictions'],
     queryFn: async () => {
-      return getRecommendations({
-        brands: ['Nike', 'Adidas', 'New Balance'],
-        styles: ['retro', 'modern'],
-        priceRange: '$100-500'
+      const response = await fetch('/api/ai/price-predictions');
+      if (!response.ok) throw new Error('Failed to fetch price predictions');
+      return response.json();
+    }
+  });
+
+  // Chat with AI mutation
+  const chatMutation = useMutation({
+    mutationFn: async (message: string) => {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
       });
+      if (!response.ok) throw new Error('Failed to send message');
+      return response.json();
+    },
+    onSuccess: () => {
+      setChatMessage('');
+      queryClient.invalidateQueries({ queryKey: ['/api/ai/chat-history'] });
     }
   });
 
-  const marketMetrics = {
-    totalVolume: "$2.3B",
-    avgPrice: "$247",
-    topGainer: "+23.4%",
-    activeListings: "1.2M"
+  // Image analysis mutation
+  const imageAnalysisMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('image', file);
+      const response = await fetch('/api/ai/analyze-image', {
+        method: 'POST',
+        body: formData
+      });
+      if (!response.ok) throw new Error('Failed to analyze image');
+      return response.json();
+    }
+  });
+
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (chatMessage.trim()) {
+      chatMutation.mutate(chatMessage);
+    }
   };
 
-  const getHypeBadgeColor = (level: string) => {
-    switch (level) {
-      case 'high': return 'bg-red-500';
-      case 'medium': return 'bg-yellow-500';
-      case 'low': return 'bg-green-500';
-      default: return 'bg-gray-500';
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      imageAnalysisMutation.mutate(file);
     }
   };
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <Brain className="w-4 h-4" />
+            AI-Powered Discovery
+          </div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-            Discover
+            Discover Your Next Grail
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Stay ahead of the market with trending sneakers, upcoming releases, and personalized recommendations
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Harness the power of AI to find personalized recommendations, predict market trends, 
+            and discover sneakers that match your unique style and preferences.
           </p>
         </div>
 
-        {/* Market Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-          <Card>
-            <CardContent className="p-6 text-center">
-              <BarChart3 className="h-8 w-8 mx-auto mb-2 text-primary" />
-              <div className="text-2xl font-bold">{marketMetrics.totalVolume}</div>
-              <div className="text-sm text-muted-foreground">Market Volume</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <DollarSign className="h-8 w-8 mx-auto mb-2 text-primary" />
-              <div className="text-2xl font-bold">{marketMetrics.avgPrice}</div>
-              <div className="text-sm text-muted-foreground">Average Price</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <TrendingUp className="h-8 w-8 mx-auto mb-2 text-green-500" />
-              <div className="text-2xl font-bold">{marketMetrics.topGainer}</div>
-              <div className="text-sm text-muted-foreground">Top Gainer</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-6 text-center">
-              <Users className="h-8 w-8 mx-auto mb-2 text-primary" />
-              <div className="text-2xl font-bold">{marketMetrics.activeListings}</div>
-              <div className="text-sm text-muted-foreground">Active Listings</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Tabs defaultValue="trending" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="trending">Trending Now</TabsTrigger>
-            <TabsTrigger value="upcoming">Upcoming Releases</TabsTrigger>
-            <TabsTrigger value="recommendations">AI Picks</TabsTrigger>
-            <TabsTrigger value="analytics">Market Analytics</TabsTrigger>
+        <Tabs defaultValue="recommendations" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-4 h-auto p-1">
+            <TabsTrigger value="recommendations" className="flex items-center gap-2 py-3">
+              <Target className="w-4 h-4" />
+              <span className="hidden sm:inline">Recommendations</span>
+            </TabsTrigger>
+            <TabsTrigger value="trending" className="flex items-center gap-2 py-3">
+              <TrendingUp className="w-4 h-4" />
+              <span className="hidden sm:inline">Trending</span>
+            </TabsTrigger>
+            <TabsTrigger value="chat" className="flex items-center gap-2 py-3">
+              <MessageSquare className="w-4 h-4" />
+              <span className="hidden sm:inline">AI Chat</span>
+            </TabsTrigger>
+            <TabsTrigger value="vision" className="flex items-center gap-2 py-3">
+              <Camera className="w-4 h-4" />
+              <span className="hidden sm:inline">Image Search</span>
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="trending" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Trending Sneakers</h2>
-              <div className="flex items-center space-x-2">
-                <Flame className="h-5 w-5 text-orange-500" />
-                <span className="text-sm text-muted-foreground">Updated every hour</span>
-              </div>
-            </div>
-
-            {trendingLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-muted rounded-2xl h-48 mb-4"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-muted rounded w-3/4"></div>
-                      <div className="h-6 bg-muted rounded w-full"></div>
-                      <div className="h-4 bg-muted rounded w-1/2"></div>
-                    </div>
+          {/* AI Recommendations */}
+          <TabsContent value="recommendations" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Preference Input */}
+              <Card className="lg:col-span-1">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                    Your Preferences
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Style Preference</label>
+                    <Input
+                      placeholder="e.g., minimalist, streetwear, athletic"
+                      value={preferences.style}
+                      onChange={(e) => setPreferences({...preferences, style: e.target.value})}
+                    />
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {trendingData?.map((item, index) => (
-                  <Card key={item.id}>
-                    <CardContent className="p-6">
-                      <div className="flex items-center space-x-6">
-                        <div className="flex-shrink-0">
-                          <div className="text-2xl font-bold text-muted-foreground">
-                            #{index + 1}
-                          </div>
-                        </div>
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-24 h-24 object-cover rounded-lg"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <Badge variant="secondary" className="mb-2">
-                                {item.brand}
-                              </Badge>
-                              <h3 className="text-lg font-semibold">{item.name}</h3>
-                              <div className="flex items-center space-x-4 mt-2">
-                                <div className="text-2xl font-bold">${item.currentPrice}</div>
-                                <div className={`flex items-center space-x-1 ${
-                                  item.priceChange > 0 ? 'text-green-500' : 'text-red-500'
-                                }`}>
-                                  <TrendingUp className="h-4 w-4" />
-                                  <span className="font-medium">
-                                    {item.priceChange > 0 ? '+' : ''}{item.priceChange}%
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <div className="text-sm text-muted-foreground mb-1">Popularity</div>
-                              <div className="flex items-center space-x-2">
-                                <div className="w-20 bg-muted rounded-full h-2">
-                                  <div 
-                                    className="bg-primary h-2 rounded-full" 
-                                    style={{ width: `${item.popularity}%` }}
-                                  ></div>
-                                </div>
-                                <span className="text-sm font-medium">{item.popularity}%</span>
-                              </div>
-                            </div>
-                          </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Budget Range</label>
+                    <Input
+                      placeholder="e.g., $100-300, under $200"
+                      value={preferences.budget}
+                      onChange={(e) => setPreferences({...preferences, budget: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Occasion</label>
+                    <Input
+                      placeholder="e.g., casual wear, gym, office"
+                      value={preferences.occasion}
+                      onChange={(e) => setPreferences({...preferences, occasion: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Preferred Brands</label>
+                    <Input
+                      placeholder="e.g., Nike, Adidas, Jordan"
+                      value={preferences.brands}
+                      onChange={(e) => setPreferences({...preferences, brands: e.target.value})}
+                    />
+                  </div>
+                  <Button className="w-full">
+                    <Zap className="w-4 h-4 mr-2" />
+                    Get AI Recommendations
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Recommendations Grid */}
+              <div className="lg:col-span-2">
+                <h3 className="text-2xl font-bold mb-6">Personalized for You</h3>
+                {recommendationsLoading ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <div key={i} className="animate-pulse">
+                        <div className="bg-muted rounded-2xl h-64 mb-4" />
+                        <div className="space-y-2">
+                          <div className="h-4 bg-muted rounded w-1/3" />
+                          <div className="h-5 bg-muted rounded w-2/3" />
+                          <div className="h-6 bg-muted rounded w-1/2" />
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="upcoming" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Upcoming Releases</h2>
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-primary" />
-                <span className="text-sm text-muted-foreground">Next 30 days</span>
-              </div>
-            </div>
-
-            {upcomingLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-muted rounded-2xl h-48 mb-4"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-muted rounded w-3/4"></div>
-                      <div className="h-6 bg-muted rounded w-full"></div>
-                      <div className="h-4 bg-muted rounded w-1/2"></div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {upcomingData?.map((release) => (
-                  <Card key={release.id} className="overflow-hidden">
-                    <div className="relative">
-                      <img
-                        src={release.image}
-                        alt={release.name}
-                        className="w-full h-48 object-cover"
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {recommendations?.slice(0, 4).map((sneaker: any) => (
+                      <SneakerCard 
+                        key={sneaker.id} 
+                        sneaker={{
+                          id: sneaker.id,
+                          name: sneaker.name,
+                          brand: sneaker.brandName || 'Unknown Brand',
+                          price: new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                          }).format(sneaker.retailPrice),
+                          imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                          slug: sneaker.slug,
+                          isNew: false,
+                          rating: 4.5,
+                          reviewCount: Math.floor(Math.random() * 50) + 10
+                        }} 
                       />
-                      <div className="absolute top-4 right-4">
-                        <Badge className={getHypeBadgeColor(release.hypeLevel)}>
-                          {release.hypeLevel} hype
-                        </Badge>
-                      </div>
-                    </div>
-                    <CardContent className="p-6">
-                      <Badge variant="secondary" className="mb-2">
-                        {release.brand}
-                      </Badge>
-                      <h3 className="text-lg font-semibold mb-2">{release.name}</h3>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="text-sm text-muted-foreground">Release Date</div>
-                          <div className="font-semibold">
-                            {new Date(release.releaseDate).toLocaleDateString()}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-sm text-muted-foreground">Retail Price</div>
-                          <div className="text-lg font-bold">${release.retailPrice}</div>
-                        </div>
-                      </div>
-                      <Button className="w-full mt-4">
-                        <Clock className="h-4 w-4 mr-2" />
-                        Set Reminder
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="recommendations" className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">AI Recommendations</h2>
-              <div className="flex items-center space-x-2">
-                <Star className="h-5 w-5 text-primary" />
-                <span className="text-sm text-muted-foreground">Personalized for you</span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
-
-            {aiLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="bg-muted rounded-2xl h-48 mb-4"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-muted rounded w-3/4"></div>
-                      <div className="h-6 bg-muted rounded w-full"></div>
-                      <div className="h-16 bg-muted rounded w-full"></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : aiRecommendations?.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {aiRecommendations.map((rec: any, index: number) => (
-                  <Card key={index}>
-                    <CardContent className="p-6">
-                      <div className="space-y-4">
-                        <div>
-                          <Badge variant="secondary" className="mb-2">
-                            {rec.brand}
-                          </Badge>
-                          <h3 className="text-lg font-semibold">{rec.name}</h3>
-                          <p className="text-sm text-muted-foreground mt-2">
-                            {rec.reason}
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-sm text-muted-foreground">Price Range</div>
-                            <div className="font-semibold">{rec.priceRange}</div>
-                          </div>
-                          <Badge variant="outline">{rec.category}</Badge>
-                        </div>
-                        <Button className="w-full">View Details</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <Card>
-                <CardContent className="p-12 text-center">
-                  <Star className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold mb-2">Building Your Profile</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Add some sneakers to your collection to get personalized recommendations
-                  </p>
-                  <Button>Browse Catalog</Button>
-                </CardContent>
-              </Card>
-            )}
           </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-6">
-            <h2 className="text-2xl font-bold">Market Analytics</h2>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Trending Analysis */}
+          <TabsContent value="trending" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
               <Card>
-                <CardHeader>
-                  <CardTitle>Top Performing Brands</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {[
-                      { brand: 'Nike', growth: '+18.5%', volume: '$1.2B' },
-                      { brand: 'Adidas', growth: '+12.3%', volume: '$680M' },
-                      { brand: 'New Balance', growth: '+25.1%', volume: '$340M' },
-                      { brand: 'Asics', growth: '+8.7%', volume: '$180M' }
-                    ].map((item, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <div>
-                          <div className="font-semibold">{item.brand}</div>
-                          <div className="text-sm text-muted-foreground">{item.volume}</div>
-                        </div>
-                        <div className="text-green-500 font-medium">
-                          {item.growth}
-                        </div>
-                      </div>
-                    ))}
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Hottest Brand</p>
+                      <p className="text-2xl font-bold text-primary">Nike</p>
+                    </div>
+                    <TrendingUp className="h-8 w-8 text-green-500" />
+                  </div>
+                  <div className="mt-4 flex items-center text-sm">
+                    <span className="text-green-500">+23.5%</span>
+                    <span className="text-muted-foreground ml-1">this week</span>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Avg Price Change</p>
+                      <p className="text-2xl font-bold text-primary">+$47</p>
+                    </div>
+                    <DollarSign className="h-8 w-8 text-blue-500" />
+                  </div>
+                  <div className="mt-4 flex items-center text-sm">
+                    <span className="text-blue-500">+8.2%</span>
+                    <span className="text-muted-foreground ml-1">vs last month</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Most Searched</p>
+                      <p className="text-2xl font-bold text-primary">Jordans</p>
+                    </div>
+                    <Search className="h-8 w-8 text-purple-500" />
+                  </div>
+                  <div className="mt-4 flex items-center text-sm">
+                    <span className="text-purple-500">45K</span>
+                    <span className="text-muted-foreground ml-1">searches today</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">Community Buzz</p>
+                      <p className="text-2xl font-bold text-primary">High</p>
+                    </div>
+                    <Users className="h-8 w-8 text-orange-500" />
+                  </div>
+                  <div className="mt-4 flex items-center text-sm">
+                    <span className="text-orange-500">2.3K</span>
+                    <span className="text-muted-foreground ml-1">discussions</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold">Trending Now</h3>
+              {trendingLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="bg-muted rounded-2xl h-64 mb-4" />
+                      <div className="space-y-2">
+                        <div className="h-4 bg-muted rounded w-1/3" />
+                        <div className="h-5 bg-muted rounded w-2/3" />
+                        <div className="h-6 bg-muted rounded w-1/2" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {trending?.slice(0, 8).map((sneaker: any) => (
+                    <SneakerCard 
+                      key={sneaker.id} 
+                      sneaker={{
+                        id: sneaker.id,
+                        name: sneaker.name,
+                        brand: sneaker.brandName || 'Unknown Brand',
+                        price: new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD'
+                        }).format(sneaker.retailPrice),
+                        imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                        slug: sneaker.slug,
+                        isNew: false,
+                        rating: 4.5,
+                        reviewCount: Math.floor(Math.random() * 50) + 10
+                      }} 
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          {/* AI Chat */}
+          <TabsContent value="chat" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <Card className="lg:col-span-2">
                 <CardHeader>
-                  <CardTitle>Price Categories</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    Chat with SoleBot
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {[
-                      { range: '$0-100', percentage: 35, count: '12.5K' },
-                      { range: '$100-300', percentage: 45, count: '18.2K' },
-                      { range: '$300-500', percentage: 15, count: '6.1K' },
-                      { range: '$500+', percentage: 5, count: '2.3K' }
-                    ].map((item, index) => (
-                      <div key={index} className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span>{item.range}</span>
-                          <span>{item.count} listings</span>
-                        </div>
-                        <div className="w-full bg-muted rounded-full h-2">
-                          <div 
-                            className="bg-primary h-2 rounded-full" 
-                            style={{ width: `${item.percentage}%` }}
-                          ></div>
-                        </div>
+                  <div className="space-y-4 mb-6 h-96 overflow-y-auto bg-muted/50 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                        <Brain className="w-4 h-4 text-white" />
                       </div>
-                    ))}
+                      <div className="bg-background rounded-lg p-3 max-w-md">
+                        <p className="text-sm">
+                          Hey! I'm SoleBot, your AI sneaker expert. Ask me anything about sneakers, 
+                          trends, prices, or get personalized recommendations!
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <form onSubmit={handleChatSubmit} className="flex gap-2">
+                    <Input
+                      placeholder="Ask me about sneakers, trends, recommendations..."
+                      value={chatMessage}
+                      onChange={(e) => setChatMessage(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button type="submit" disabled={chatMutation.isPending}>
+                      Send
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button variant="outline" className="w-full justify-start">
+                    <TrendingUp className="w-4 h-4 mr-2" />
+                    Show trending sneakers
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    Predict price changes
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Star className="w-4 h-4 mr-2" />
+                    Recommend based on style
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Upcoming releases
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Image Search */}
+          <TabsContent value="vision" className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Camera className="w-5 h-5 text-primary" />
+                    Sneaker Image Analysis
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                    <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Upload a sneaker image</p>
+                      <p className="text-xs text-muted-foreground">
+                        Our AI will identify the sneaker, find similar styles, and provide market insights
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload">
+                      <Button variant="outline" className="mt-4" asChild>
+                        <span>Choose Image</span>
+                      </Button>
+                    </label>
+                  </div>
+
+                  {imageAnalysisMutation.isPending && (
+                    <div className="text-center">
+                      <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                        Analyzing image...
+                      </div>
+                    </div>
+                  )}
+
+                  {imageAnalysisMutation.data && (
+                    <div className="space-y-4">
+                      <h4 className="font-semibold">Analysis Results</h4>
+                      <div className="space-y-2 text-sm">
+                        <p><strong>Identified:</strong> {imageAnalysisMutation.data.identification}</p>
+                        <p><strong>Brand:</strong> {imageAnalysisMutation.data.brand}</p>
+                        <p><strong>Style:</strong> {imageAnalysisMutation.data.style}</p>
+                        <p><strong>Estimated Value:</strong> {imageAnalysisMutation.data.estimatedValue}</p>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Similar Sneakers</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center text-muted-foreground py-8">
+                    <Camera className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>Upload an image to see similar sneakers</p>
                   </div>
                 </CardContent>
               </Card>

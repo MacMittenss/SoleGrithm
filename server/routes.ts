@@ -137,6 +137,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AI-powered endpoints
+  
+  // Get AI recommendations (using featured sneakers for now)
+  app.get('/api/ai/recommendations', async (req, res) => {
+    try {
+      const sneakers = await storage.getFeaturedSneakers();
+      res.json(sneakers);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch recommendations' });
+    }
+  });
+
+  // Get trending sneakers (using featured sneakers for now)
+  app.get('/api/sneakers/trending', async (req, res) => {
+    try {
+      const sneakers = await storage.getFeaturedSneakers();
+      res.json(sneakers);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch trending sneakers' });
+    }
+  });
+
+  // Get AI price predictions
+  app.get('/api/ai/price-predictions', async (req, res) => {
+    try {
+      const predictions = [
+        { sneaker: 'Air Jordan 1 Retro High OG', currentPrice: 170, predictedPrice: 220, confidence: 85 },
+        { sneaker: 'Nike Dunk Low', currentPrice: 100, predictedPrice: 140, confidence: 78 },
+        { sneaker: 'Adidas Yeezy Boost 350 V2', currentPrice: 220, predictedPrice: 260, confidence: 92 }
+      ];
+      res.json(predictions);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch price predictions' });
+    }
+  });
+
+  // AI Chat endpoint
+  app.post('/api/ai/chat', async (req, res) => {
+    try {
+      const { message } = req.body;
+      
+      // Simple AI responses for demonstration
+      const responses = {
+        'trending': 'Based on current market data, Nike Air Jordan 1s and Adidas Yeezys are trending up this week!',
+        'recommend': 'For your style, I recommend checking out the Nike Dunk Low series - they\'re versatile and currently undervalued.',
+        'price': 'Price trends show that retro Jordans typically appreciate 15-20% annually, especially limited editions.',
+        'default': 'I\'m SoleBot! Ask me about sneaker trends, recommendations, or market insights. Try asking about "trending sneakers" or "price predictions"!'
+      };
+
+      let response = responses.default;
+      if (message.toLowerCase().includes('trend')) response = responses.trending;
+      else if (message.toLowerCase().includes('recommend')) response = responses.recommend;
+      else if (message.toLowerCase().includes('price')) response = responses.price;
+
+      res.json({ response, timestamp: new Date().toISOString() });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to process chat message' });
+    }
+  });
+
+  // Image analysis endpoint
+  app.post('/api/ai/analyze-image', async (req, res) => {
+    try {
+      // Mock image analysis response
+      const analysis = {
+        identification: 'Nike Air Jordan 1 Retro High OG "Bred"',
+        brand: 'Nike/Jordan',
+        style: 'Basketball/Lifestyle',
+        estimatedValue: '$180-220',
+        confidence: 87,
+        similarSneakers: []
+      };
+      
+      res.json(analysis);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to analyze image' });
+    }
+  });
+
   // Get blog post by slug
   app.get('/api/blog/:slug', async (req, res) => {
     try {

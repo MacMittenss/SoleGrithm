@@ -15,6 +15,7 @@ import Profile from "@/pages/Profile";
 import SneakerDetail from "@/pages/SneakerDetail";
 import PostDetail from "@/pages/PostDetail";
 import NotFound from "@/pages/not-found";
+import Discover from "@/pages/Discover";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,14 +58,7 @@ function App() {
                   <Route path="/profile" component={Profile} />
                   <Route path="/collection" component={Profile} />
                   <Route path="/sneakers/:slug" component={SneakerDetail} />
-                  <Route path="/discover">
-                    <div className="min-h-screen flex items-center justify-center">
-                      <div className="text-center">
-                        <h1 className="text-4xl font-bold mb-4">Discover</h1>
-                        <p className="text-muted-foreground">Coming soon - AI-powered sneaker discovery</p>
-                      </div>
-                    </div>
-                  </Route>
+                  <Route path="/discover" component={Discover} />
                   <Route component={NotFound} />
                 </Switch>
               </main>
