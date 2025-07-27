@@ -96,7 +96,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getBrandBySlug(slug: string): Promise<Brand | undefined> {
-    const [brand] = await db.select().from(brands).where(eq(brands.slug, slug));
+    const [brand] = await db.select().from(brands).where(eq(brands.name, slug));
     return brand || undefined;
   }
 
@@ -207,9 +207,27 @@ export class DatabaseStorage implements IStorage {
 
   async getFeaturedSneakers(): Promise<Sneaker[]> {
     return await db
-      .select()
+      .select({
+        id: sneakers.id,
+        name: sneakers.name,
+        slug: sneakers.slug,
+        sku: sneakers.sku,
+        brandId: sneakers.brandId,
+        description: sneakers.description,
+        images: sneakers.images,
+        retailPrice: sneakers.retailPrice,
+        releaseDate: sneakers.releaseDate,
+        categories: sneakers.categories,
+        sizes: sneakers.sizes,
+        materials: sneakers.materials,
+        colorway: sneakers.colorway,
+        createdAt: sneakers.createdAt,
+        updatedAt: sneakers.updatedAt,
+        brandName: brands.name
+      })
       .from(sneakers)
-      .orderBy(desc(sneakers.createdAt))
+      .leftJoin(brands, eq(sneakers.brandId, brands.id))
+      .orderBy(desc(sneakers.releaseDate))
       .limit(8);
   }
 

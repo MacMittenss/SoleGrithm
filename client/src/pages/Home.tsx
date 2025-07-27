@@ -96,7 +96,23 @@ export default function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {featuredSneakers?.slice(0, 8).map((sneaker: any) => (
-                <SneakerCard key={sneaker.id} sneaker={sneaker} />
+                <SneakerCard 
+                  key={sneaker.id} 
+                  sneaker={{
+                    id: sneaker.id,
+                    name: sneaker.name,
+                    brand: sneaker.brandName || 'Unknown Brand',
+                    price: new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(sneaker.retailPrice),
+                    imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                    slug: sneaker.slug,
+                    isNew: new Date(sneaker.releaseDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+                    rating: 4.5,
+                    reviewCount: Math.floor(Math.random() * 50) + 10
+                  }} 
+                />
               ))}
             </div>
           )}
