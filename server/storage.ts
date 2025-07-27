@@ -116,22 +116,93 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getSneakerBySlug(slug: string): Promise<Sneaker | undefined> {
-    const [sneaker] = await db.select().from(sneakers).where(eq(sneakers.slug, slug));
+    const [sneaker] = await db
+      .select({
+        id: sneakers.id,
+        name: sneakers.name,
+        slug: sneakers.slug,
+        sku: sneakers.sku,
+        brandId: sneakers.brandId,
+        description: sneakers.description,
+        images: sneakers.images,
+        retailPrice: sneakers.retailPrice,
+        releaseDate: sneakers.releaseDate,
+        categories: sneakers.categories,
+        sizes: sneakers.sizes,
+        materials: sneakers.materials,
+        colorway: sneakers.colorway,
+        createdAt: sneakers.createdAt,
+        updatedAt: sneakers.updatedAt,
+        brandName: brands.name
+      })
+      .from(sneakers)
+      .leftJoin(brands, eq(sneakers.brandId, brands.id))
+      .where(eq(sneakers.slug, slug));
     return sneaker || undefined;
   }
 
   async searchSneakers(query: string, filters?: any): Promise<Sneaker[]> {
-    let queryBuilder = db.select().from(sneakers);
+    let queryBuilder = db
+      .select({
+        id: sneakers.id,
+        name: sneakers.name,
+        slug: sneakers.slug,
+        sku: sneakers.sku,
+        brandId: sneakers.brandId,
+        description: sneakers.description,
+        images: sneakers.images,
+        retailPrice: sneakers.retailPrice,
+        releaseDate: sneakers.releaseDate,
+        categories: sneakers.categories,
+        sizes: sneakers.sizes,
+        materials: sneakers.materials,
+        colorway: sneakers.colorway,
+        createdAt: sneakers.createdAt,
+        updatedAt: sneakers.updatedAt,
+        brandName: brands.name
+      })
+      .from(sneakers)
+      .leftJoin(brands, eq(sneakers.brandId, brands.id));
+
+    const conditions = [];
 
     if (query) {
-      queryBuilder = queryBuilder.where(ilike(sneakers.name, `%${query}%`));
+      conditions.push(ilike(sneakers.name, `%${query}%`));
     }
 
     if (filters?.brandId) {
-      queryBuilder = queryBuilder.where(eq(sneakers.brandId, parseInt(filters.brandId)));
+      conditions.push(eq(sneakers.brandId, filters.brandId));
     }
 
-    return await queryBuilder.orderBy(sneakers.name);
+    if (filters?.category) {
+      conditions.push(sql`${sneakers.categories} @> ${JSON.stringify([filters.category])}`);
+    }
+
+    if (conditions.length > 0) {
+      queryBuilder = queryBuilder.where(and(...conditions));
+    }
+
+    // Apply sorting
+    switch (filters?.sort) {
+      case 'oldest':
+        queryBuilder = queryBuilder.orderBy(sneakers.releaseDate);
+        break;
+      case 'price-low':
+        queryBuilder = queryBuilder.orderBy(sneakers.retailPrice);
+        break;
+      case 'price-high':
+        queryBuilder = queryBuilder.orderBy(desc(sneakers.retailPrice));
+        break;
+      case 'name':
+        queryBuilder = queryBuilder.orderBy(sneakers.name);
+        break;
+      case 'newest':
+      default:
+        queryBuilder = queryBuilder.orderBy(desc(sneakers.releaseDate));
+        break;
+    }
+
+    return await queryBuilder;
   }
 
   async getFeaturedSneakers(): Promise<Sneaker[]> {
@@ -154,6 +225,51 @@ export class DatabaseStorage implements IStorage {
       .where(eq(sneakers.id, id))
       .returning();
     return sneaker;
+  }
+
+  // Reviews
+  async getSneakerReviews(sneakerId: number): Promise<Review[]> {
+    return await db
+      .select({
+        id: reviews.id,
+        userId: reviews.userId,
+        sneakerId: reviews.sneakerId,
+        rating: reviews.rating,
+        title: reviews.title,
+        content: reviews.content,
+        createdAt: reviews.createdAt,
+        updatedAt: reviews.updatedAt,
+        user: {
+          displayName: users.displayName,
+          avatar: users.avatar
+        }
+      })
+      .from(reviews)
+      .leftJoin(users, eq(reviews.userId, users.id))
+      .where(eq(reviews.sneakerId, sneakerId))
+      .orderBy(desc(reviews.createdAt));
+  }
+
+  async getUserReviews(userId: number): Promise<Review[]> {
+    return await db
+      .select()
+      .from(reviews)
+      .where(eq(reviews.userId, userId))
+      .orderBy(desc(reviews.createdAt));
+  }
+
+  async createReview(insertReview: InsertReview): Promise<Review> {
+    const [review] = await db.insert(reviews).values(insertReview).returning();
+    return review;
+  }
+
+  async updateReview(id: number, updateData: Partial<InsertReview>): Promise<Review> {
+    const [review] = await db
+      .update(reviews)
+      .set({ ...updateData, updatedAt: new Date() })
+      .where(eq(reviews.id, id))
+      .returning();
+    return review;
   }
 
   // Collections
@@ -182,14 +298,7 @@ export class DatabaseStorage implements IStorage {
     await db.delete(collections).where(eq(collections.id, id));
   }
 
-  // Reviews
-  async getSneakerReviews(sneakerId: number): Promise<Review[]> {
-    return await db
-      .select()
-      .from(reviews)
-      .where(eq(reviews.sneakerId, sneakerId))
-      .orderBy(desc(reviews.createdAt));
-  }
+
 
   async getUserReviews(userId: number): Promise<Review[]> {
     return await db

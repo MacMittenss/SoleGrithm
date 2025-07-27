@@ -1,30 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "wouter";
-import SneakerCard from "@/components/SneakerCard";
+import { Link } from "wouter";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Search, Filter, SlidersHorizontal } from "lucide-react";
+import { Search, Filter, Grid, List, Heart, Plus } from "lucide-react";
+
+interface Sneaker {
+  id: number;
+  name: string;
+  slug: string;
+  brandId: number;
+  brandName?: string;
+  description: string;
+  images: string[];
+  retailPrice: number;
+  categories: string[];
+  colorway: string;
+  releaseDate: string;
+}
+
+interface Brand {
+  id: number;
+  name: string;
+  logo: string;
+}
 
 export default function Catalog() {
-  const [location] = useLocation();
-  const urlParams = new URLSearchParams(location.split('?')[1] || '');
-  const [searchQuery, setSearchQuery] = useState(urlParams.get('search') || '');
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("newest");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const { data: sneakers, isLoading: sneakersLoading } = useQuery({
-    queryKey: ['/api/sneakers/search', searchQuery, selectedBrand],
+    queryKey: ['/api/sneakers', searchQuery, selectedBrand, selectedCategory, sortBy],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (searchQuery) params.append('q', searchQuery);
-      if (selectedBrand) params.append('brand', selectedBrand);
+      if (searchQuery) params.append('search', searchQuery);
+      if (selectedBrand && selectedBrand !== 'all') params.append('brand', selectedBrand);
+      if (selectedCategory && selectedCategory !== 'all') params.append('category', selectedCategory);
+      if (sortBy) params.append('sort', sortBy);
       
-      const response = await fetch(`/api/sneakers/search?${params}`);
-      if (!response.ok) throw new Error('Failed to search sneakers');
+      const response = await fetch(`/api/sneakers?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch sneakers');
       return response.json();
     }
   });
@@ -38,167 +59,253 @@ export default function Catalog() {
     }
   });
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Trigger refetch by updating query key
+  // Get unique categories from sneakers
+  const categories = sneakers ? 
+    [...new Set(sneakers.flatMap((sneaker: Sneaker) => sneaker.categories))] : [];
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(price);
   };
 
-  const filteredAndSortedSneakers = sneakers ? [...sneakers].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low':
-        return parseFloat(a.retailPrice || '0') - parseFloat(b.retailPrice || '0');
-      case 'price-high':
-        return parseFloat(b.retailPrice || '0') - parseFloat(a.retailPrice || '0');
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'newest':
-      default:
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    }
-  }) : [];
-
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen pt-20 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">Sneaker Catalog</h1>
-          <p className="text-xl text-muted-foreground">
-            Discover and explore our comprehensive collection of sneakers
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">Sneaker Catalog</h1>
+          <p className="text-muted-foreground text-lg">
+            Discover the latest and greatest sneakers from top brands
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex flex-col lg:flex-row gap-4">
-                {/* Search */}
-                <form onSubmit={handleSearch} className="flex-1">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Search sneakers..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-                </form>
+        {/* Filters */}
+        <div className="mb-8 space-y-4">
+          {/* Search and View Toggle */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search sneakers..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Button
+                variant={viewMode === "grid" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("grid")}
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setViewMode("list")}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
 
-                {/* Brand Filter */}
-                <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-                  <SelectTrigger className="w-full lg:w-48">
-                    <SelectValue placeholder="All Brands" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All Brands</SelectItem>
-                    {brands?.map((brand: any) => (
-                      <SelectItem key={brand.id} value={brand.id.toString()}>
-                        {brand.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+          {/* Filter Controls */}
+          <div className="flex flex-wrap gap-4">
+            <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="All Brands" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Brands</SelectItem>
+                {brands?.map((brand: Brand) => (
+                  <SelectItem key={brand.id} value={brand.id.toString()}>
+                    {brand.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-                {/* Sort */}
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full lg:w-48">
-                    <SelectValue placeholder="Sort by" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="newest">Newest First</SelectItem>
-                    <SelectItem value="name">Name A-Z</SelectItem>
-                    <SelectItem value="price-low">Price: Low to High</SelectItem>
-                    <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category: string) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Newest First</SelectItem>
+                <SelectItem value="oldest">Oldest First</SelectItem>
+                <SelectItem value="price-low">Price: Low to High</SelectItem>
+                <SelectItem value="price-high">Price: High to Low</SelectItem>
+                <SelectItem value="name">Alphabetical</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Results */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <p className="text-muted-foreground">
-                {filteredAndSortedSneakers.length} sneakers found
-              </p>
-              {searchQuery && (
-                <Badge variant="secondary">
-                  Searching: {searchQuery}
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="ml-2 hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </Badge>
-              )}
-              {selectedBrand && (
-                <Badge variant="secondary">
-                  Brand: {brands?.find((b: any) => b.id.toString() === selectedBrand)?.name}
-                  <button 
-                    onClick={() => setSelectedBrand('')}
-                    className="ml-2 hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </Badge>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Sneaker Grid */}
         {sneakersLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="animate-pulse">
-                <div className="bg-muted rounded-2xl h-64 mb-4" />
-                <div className="space-y-2">
-                  <div className="h-4 bg-muted rounded w-1/3" />
-                  <div className="h-5 bg-muted rounded w-2/3" />
-                  <div className="h-6 bg-muted rounded w-1/2" />
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <div className="h-48 bg-muted rounded-t-lg" />
+                <CardContent className="p-4">
+                  <div className="h-4 bg-muted rounded mb-2" />
+                  <div className="h-3 bg-muted rounded w-2/3 mb-2" />
+                  <div className="h-3 bg-muted rounded w-1/2" />
+                </CardContent>
+              </Card>
             ))}
           </div>
-        ) : filteredAndSortedSneakers.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredAndSortedSneakers.map((sneaker: any) => (
-              <SneakerCard key={sneaker.id} sneaker={sneaker} />
+        ) : viewMode === "grid" ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {sneakers?.map((sneaker: Sneaker) => (
+              <Card key={sneaker.id} className="group cursor-pointer transition-all hover:shadow-lg">
+                <Link href={`/sneakers/${sneaker.slug}`}>
+                  <div className="relative overflow-hidden rounded-t-lg">
+                    <img
+                      src={sneaker.images[0] || "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop"}
+                      alt={sneaker.name}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform"
+                    />
+                    <div className="absolute top-2 right-2">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // Add to wishlist functionality
+                        }}
+                      >
+                        <Heart className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {sneaker.categories.slice(0, 2).map((category) => (
+                        <Badge key={category} variant="secondary" className="text-xs">
+                          {category}
+                        </Badge>
+                      ))}
+                    </div>
+                    <h3 className="font-semibold mb-1 line-clamp-2">{sneaker.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-2">{sneaker.colorway}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-lg">{formatPrice(sneaker.retailPrice)}</span>
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // Add to collection functionality
+                        }}
+                      >
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
             ))}
           </div>
         ) : (
-          <Card>
-            <CardContent className="p-12 text-center">
-              <div className="max-w-md mx-auto">
-                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">No sneakers found</h3>
-                <p className="text-muted-foreground mb-4">
-                  Try adjusting your search criteria or browse our featured collection
-                </p>
-                <Button onClick={() => {
-                  setSearchQuery('');
-                  setSelectedBrand('');
-                }}>
-                  Clear Filters
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="space-y-4">
+            {sneakers?.map((sneaker: Sneaker) => (
+              <Card key={sneaker.id} className="group cursor-pointer transition-all hover:shadow-lg">
+                <Link href={`/sneakers/${sneaker.slug}`}>
+                  <CardContent className="p-6">
+                    <div className="flex gap-6">
+                      <div className="relative overflow-hidden rounded-lg flex-shrink-0">
+                        <img
+                          src={sneaker.images[0] || "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=200&h=150&fit=crop"}
+                          alt={sneaker.name}
+                          className="w-32 h-24 object-cover group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex flex-wrap gap-1 mb-2">
+                          {sneaker.categories.map((category) => (
+                            <Badge key={category} variant="secondary" className="text-xs">
+                              {category}
+                            </Badge>
+                          ))}
+                        </div>
+                        <h3 className="font-semibold text-lg mb-1">{sneaker.name}</h3>
+                        <p className="text-muted-foreground mb-2">{sneaker.colorway}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                          {sneaker.description}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-xl">{formatPrice(sneaker.retailPrice)}</span>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                // Add to wishlist functionality
+                              }}
+                            >
+                              <Heart className="h-4 w-4 mr-1" />
+                              Wishlist
+                            </Button>
+                            <Button
+                              size="sm"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                // Add to collection functionality
+                              }}
+                            >
+                              <Plus className="h-4 w-4 mr-1" />
+                              Add to Collection
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+            ))}
+          </div>
         )}
 
-        {/* Load More */}
-        {filteredAndSortedSneakers.length > 0 && (
-          <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
-              Load More Sneakers
+        {/* No Results */}
+        {!sneakersLoading && sneakers?.length === 0 && (
+          <div className="text-center py-12">
+            <div className="mb-4">
+              <Search className="h-12 w-12 text-muted-foreground mx-auto" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">No sneakers found</h3>
+            <p className="text-muted-foreground mb-4">
+              Try adjusting your search or filters to find what you're looking for.
+            </p>
+            <Button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedBrand("all");
+                setSelectedCategory("all");
+                setSortBy("newest");
+              }}
+            >
+              Clear Filters
             </Button>
           </div>
         )}

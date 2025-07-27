@@ -1,97 +1,97 @@
-import React, { useState } from "react";
-import { useParams } from "wouter";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useParams, Link } from "wouter";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Star, Heart, Share2, TrendingUp, Calendar, DollarSign } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
-import ReviewForm from "@/components/ReviewForm";
-import PriceChart from "@/components/PriceChart";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { 
+  ArrowLeft, Heart, Plus, Share2, Star, Calendar, 
+  Package, Truck, Shield, ChevronLeft, ChevronRight 
+} from "lucide-react";
+import { format } from "date-fns";
+
+interface Sneaker {
+  id: number;
+  name: string;
+  slug: string;
+  brandId: number;
+  brandName?: string;
+  description: string;
+  images: string[];
+  retailPrice: number;
+  categories: string[];
+  sizes: string[];
+  materials: string;
+  colorway: string;
+  releaseDate: string;
+  sku: string;
+}
+
+interface Review {
+  id: number;
+  userId: number;
+  rating: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  user?: {
+    displayName: string;
+    avatar?: string;
+  };
+}
 
 export default function SneakerDetail() {
-  const { slug } = useParams();
-  const { user } = useAuth();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const params = useParams();
+  const slug = params.slug;
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>("");
 
   const { data: sneaker, isLoading } = useQuery({
-    queryKey: [`/api/sneakers/${slug}`],
+    queryKey: ['/api/sneakers', slug],
     queryFn: async () => {
       const response = await fetch(`/api/sneakers/${slug}`);
-      if (!response.ok) throw new Error('Sneaker not found');
+      if (!response.ok) throw new Error('Failed to fetch sneaker');
       return response.json();
-    }
+    },
+    enabled: !!slug
   });
 
   const { data: reviews } = useQuery({
-    queryKey: [`/api/sneakers/${sneaker?.id}/reviews`],
+    queryKey: ['/api/sneakers', sneaker?.id, 'reviews'],
     queryFn: async () => {
       const response = await fetch(`/api/sneakers/${sneaker.id}/reviews`);
       if (!response.ok) throw new Error('Failed to fetch reviews');
       return response.json();
     },
-    enabled: !!sneaker
+    enabled: !!sneaker?.id
   });
 
-  const { data: priceHistory } = useQuery({
-    queryKey: [`/api/sneakers/${sneaker?.id}/prices`, selectedSize],
-    queryFn: async () => {
-      const params = selectedSize ? `?size=${selectedSize}` : '';
-      const response = await fetch(`/api/sneakers/${sneaker.id}/prices${params}`);
-      if (!response.ok) throw new Error('Failed to fetch price history');
-      return response.json();
-    },
-    enabled: !!sneaker
-  });
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(price);
+  };
 
-  const addToCollectionMutation = useMutation({
-    mutationFn: async ({ isWishlist }: { isWishlist: boolean }) => {
-      const response = await fetch('/api/user/collections', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await user?.getIdToken()}`
-        },
-        body: JSON.stringify({
-          sneakerId: sneaker.id,
-          size: selectedSize,
-          isWishlist
-        })
-      });
-      if (!response.ok) throw new Error('Failed to add to collection');
-      return response.json();
-    },
-    onSuccess: (_, { isWishlist }) => {
-      toast({
-        title: "Success",
-        description: `Added to ${isWishlist ? 'wishlist' : 'collection'}!`
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/user/collections'] });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to add to collection",
-        variant: "destructive"
-      });
-    }
-  });
+  const averageRating = reviews?.length > 0 
+    ? reviews.reduce((acc: number, review: Review) => acc + review.rating, 0) / reviews.length 
+    : 0;
 
   if (isLoading) {
     return (
-      <div className="min-h-screen py-8">
+      <div className="min-h-screen pt-20 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="bg-muted rounded-2xl h-96"></div>
-              <div className="space-y-6">
-                <div className="h-8 bg-muted rounded w-3/4"></div>
-                <div className="h-12 bg-muted rounded w-full"></div>
-                <div className="h-6 bg-muted rounded w-1/2"></div>
+            <div className="h-8 bg-muted rounded w-1/4 mb-8" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="h-96 bg-muted rounded-lg" />
+              <div className="space-y-4">
+                <div className="h-8 bg-muted rounded w-3/4" />
+                <div className="h-4 bg-muted rounded w-1/2" />
+                <div className="h-6 bg-muted rounded w-1/4" />
+                <div className="h-20 bg-muted rounded" />
               </div>
             </div>
           </div>
@@ -102,45 +102,83 @@ export default function SneakerDetail() {
 
   if (!sneaker) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Sneaker Not Found</h1>
-          <p className="text-muted-foreground">The sneaker you're looking for doesn't exist.</p>
+      <div className="min-h-screen pt-20 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-2xl font-bold mb-4">Sneaker not found</h1>
+          <p className="text-muted-foreground mb-8">The sneaker you're looking for doesn't exist.</p>
+          <Link href="/catalog">
+            <Button>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Catalog
+            </Button>
+          </Link>
         </div>
       </div>
     );
   }
 
-  const averageRating = reviews?.length > 0 
-    ? reviews.reduce((acc: number, review: any) => acc + review.rating, 0) / reviews.length 
-    : 0;
-
-  const currentPrice = priceHistory?.[0]?.price || sneaker.retailPrice;
-
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen pt-20 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+        {/* Back Button */}
+        <Link href="/catalog">
+          <Button variant="ghost" className="mb-8">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Catalog
+          </Button>
+        </Link>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="bg-muted rounded-2xl p-8">
+            <div className="relative overflow-hidden rounded-2xl bg-muted">
               <img
-                src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"}
+                src={sneaker.images[selectedImageIndex] || "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&h=600&fit=crop"}
                 alt={sneaker.name}
-                className="w-full h-96 object-cover object-center rounded-xl"
+                className="w-full h-96 object-cover"
               />
+              {sneaker.images.length > 1 && (
+                <>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+                    onClick={() => setSelectedImageIndex(
+                      selectedImageIndex === 0 ? sneaker.images.length - 1 : selectedImageIndex - 1
+                    )}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+                    onClick={() => setSelectedImageIndex(
+                      selectedImageIndex === sneaker.images.length - 1 ? 0 : selectedImageIndex + 1
+                    )}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </>
+              )}
             </div>
-            {sneaker.images?.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {sneaker.images.slice(1, 5).map((image: string, index: number) => (
-                  <div key={index} className="bg-muted rounded-lg p-2">
+            
+            {sneaker.images.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto">
+                {sneaker.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${
+                      selectedImageIndex === index ? 'border-primary' : 'border-transparent'
+                    }`}
+                  >
                     <img
                       src={image}
-                      alt={`${sneaker.name} view ${index + 2}`}
-                      className="w-full h-20 object-cover object-center rounded"
+                      alt={`${sneaker.name} ${index + 1}`}
+                      className="w-20 h-20 object-cover"
                     />
-                  </div>
+                  </button>
                 ))}
               </div>
             )}
@@ -149,186 +187,176 @@ export default function SneakerDetail() {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <Badge variant="secondary" className="mb-2">
-                {sneaker.brand?.name || 'Unknown Brand'}
-              </Badge>
-              <h1 className="text-4xl font-bold mb-4">{sneaker.name}</h1>
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="flex items-center space-x-1">
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  <span className="font-semibold">{averageRating.toFixed(1)}</span>
-                  <span className="text-muted-foreground">({reviews?.length || 0} reviews)</span>
-                </div>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {sneaker.categories.map((category) => (
+                  <Badge key={category} variant="secondary">
+                    {category}
+                  </Badge>
+                ))}
               </div>
-              <div className="flex items-baseline space-x-4">
-                <span className="text-3xl font-bold text-primary">${currentPrice}</span>
-                {sneaker.retailPrice && parseFloat(currentPrice) !== parseFloat(sneaker.retailPrice) && (
-                  <span className="text-lg text-muted-foreground line-through">
-                    ${sneaker.retailPrice}
-                  </span>
+              
+              <h1 className="text-3xl font-bold mb-2">{sneaker.name}</h1>
+              <p className="text-lg text-muted-foreground mb-1">{sneaker.colorway}</p>
+              <p className="text-sm text-muted-foreground mb-4">SKU: {sneaker.sku}</p>
+              
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-3xl font-bold">{formatPrice(sneaker.retailPrice)}</span>
+                {reviews?.length > 0 && (
+                  <div className="flex items-center gap-1">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`h-4 w-4 ${
+                            star <= averageRating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm text-muted-foreground">
+                      ({reviews.length} review{reviews.length !== 1 ? 's' : ''})
+                    </span>
+                  </div>
                 )}
               </div>
             </div>
 
             {/* Size Selection */}
-            {sneaker.sizes?.length > 0 && (
-              <div>
-                <h3 className="font-semibold mb-3">Size</h3>
-                <div className="grid grid-cols-4 gap-2">
-                  {sneaker.sizes.map((size: string) => (
-                    <Button
-                      key={size}
-                      variant={selectedSize === size ? "default" : "outline"}
-                      onClick={() => setSelectedSize(size)}
-                      className="h-12"
-                    >
-                      {size}
-                    </Button>
-                  ))}
-                </div>
+            <div className="space-y-3">
+              <h3 className="font-semibold">Select Size</h3>
+              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                {sneaker.sizes.map((size) => (
+                  <Button
+                    key={size}
+                    variant={selectedSize === size ? "default" : "outline"}
+                    className="h-12"
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </Button>
+                ))}
               </div>
-            )}
+            </div>
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              {user && (
-                <>
-                  <Button
-                    onClick={() => addToCollectionMutation.mutate({ isWishlist: false })}
-                    disabled={addToCollectionMutation.isPending || !selectedSize}
-                    className="w-full"
-                    size="lg"
-                  >
-                    Add to Collection
-                  </Button>
-                  <Button
-                    onClick={() => addToCollectionMutation.mutate({ isWishlist: true })}
-                    disabled={addToCollectionMutation.isPending}
-                    variant="outline"
-                    className="w-full"
-                    size="lg"
-                  >
-                    <Heart className="h-4 w-4 mr-2" />
-                    Add to Wishlist
-                  </Button>
-                </>
-              )}
-              <Button variant="outline" className="w-full" size="lg">
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
+              <Button 
+                className="w-full h-12" 
+                disabled={!selectedSize}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add to Collection
               </Button>
+              
+              <div className="flex gap-3">
+                <Button variant="outline" className="flex-1">
+                  <Heart className="h-4 w-4 mr-2" />
+                  Wishlist
+                </Button>
+                <Button variant="outline" className="flex-1">
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share
+                </Button>
+              </div>
             </div>
 
             {/* Quick Info */}
-            <div className="grid grid-cols-2 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <Calendar className="h-6 w-6 mx-auto mb-2 text-primary" />
-                  <div className="text-sm text-muted-foreground">Release Date</div>
-                  <div className="font-semibold">
-                    {sneaker.releaseDate 
-                      ? new Date(sneaker.releaseDate).toLocaleDateString() 
-                      : 'TBA'
-                    }
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <DollarSign className="h-6 w-6 mx-auto mb-2 text-primary" />
-                  <div className="text-sm text-muted-foreground">Retail Price</div>
-                  <div className="font-semibold">${sneaker.retailPrice || 'N/A'}</div>
-                </CardContent>
-              </Card>
+            <div className="grid grid-cols-2 gap-4 p-4 bg-muted rounded-lg">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-medium">Release Date</p>
+                  <p className="text-xs text-muted-foreground">
+                    {format(new Date(sneaker.releaseDate), 'MMM dd, yyyy')}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Package className="h-4 w-4 text-muted-foreground" />
+                <div>
+                  <p className="text-sm font-medium">Materials</p>
+                  <p className="text-xs text-muted-foreground">{sneaker.materials}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Tabs */}
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+        {/* Tabs Section */}
+        <Tabs defaultValue="description" className="mb-12">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="description">Description</TabsTrigger>
             <TabsTrigger value="reviews">Reviews ({reviews?.length || 0})</TabsTrigger>
-            <TabsTrigger value="prices">Price History</TabsTrigger>
-            <TabsTrigger value="similar">Similar</TabsTrigger>
+            <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
           </TabsList>
-
-          <TabsContent value="overview" className="space-y-6">
+          
+          <TabsContent value="description">
             <Card>
               <CardContent className="p-6">
-                <h3 className="font-semibold mb-4">Description</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  {sneaker.description || 'No description available for this sneaker.'}
+                  {sneaker.description}
                 </p>
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold mb-2">Product Details</h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li>SKU: {sneaker.sku}</li>
+                      <li>Materials: {sneaker.materials}</li>
+                      <li>Colorway: {sneaker.colorway}</li>
+                      <li>Available Sizes: {sneaker.sizes.join(', ')}</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Categories</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {sneaker.categories.map((category) => (
+                        <Badge key={category} variant="outline">
+                          {category}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
-
-            {sneaker.materials && (
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-4">Materials</h3>
-                  <p className="text-muted-foreground">{sneaker.materials}</p>
-                </CardContent>
-              </Card>
-            )}
-
-            {sneaker.categories?.length > 0 && (
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-4">Categories</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {sneaker.categories.map((category: string) => (
-                      <Badge key={category} variant="secondary">
-                        {category}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
           </TabsContent>
-
-          <TabsContent value="reviews" className="space-y-6">
-            {user && (
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold mb-4">Write a Review</h3>
-                  <ReviewForm sneakerId={sneaker.id} />
-                </CardContent>
-              </Card>
-            )}
-
-            <div className="space-y-4">
+          
+          <TabsContent value="reviews">
+            <div className="space-y-6">
               {reviews?.length > 0 ? (
-                reviews.map((review: any) => (
+                reviews.map((review: Review) => (
                   <Card key={review.id}>
                     <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <div className="flex items-center space-x-2 mb-1">
-                            <span className="font-semibold">{review.user?.displayName || 'Anonymous'}</span>
-                            <div className="flex items-center">
-                              {Array.from({ length: 5 }).map((_, i) => (
+                      <div className="flex items-start gap-4">
+                        <Avatar>
+                          <AvatarImage src={review.user?.avatar} />
+                          <AvatarFallback>
+                            {review.user?.displayName?.charAt(0) || 'U'}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <h4 className="font-semibold">{review.user?.displayName || 'Anonymous'}</h4>
+                            <div className="flex">
+                              {[1, 2, 3, 4, 5].map((star) => (
                                 <Star
-                                  key={i}
+                                  key={star}
                                   className={`h-4 w-4 ${
-                                    i < review.rating
-                                      ? 'fill-yellow-400 text-yellow-400'
-                                      : 'text-muted-foreground'
+                                    star <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
                                   }`}
                                 />
                               ))}
                             </div>
+                            <span className="text-sm text-muted-foreground">
+                              {format(new Date(review.createdAt), 'MMM dd, yyyy')}
+                            </span>
                           </div>
-                          <div className="text-sm text-muted-foreground">
-                            {new Date(review.createdAt).toLocaleDateString()}
-                          </div>
+                          {review.title && (
+                            <h5 className="font-medium mb-2">{review.title}</h5>
+                          )}
+                          <p className="text-muted-foreground">{review.content}</p>
                         </div>
                       </div>
-                      {review.title && (
-                        <h4 className="font-semibold mb-2">{review.title}</h4>
-                      )}
-                      <p className="text-muted-foreground">{review.content}</p>
                     </CardContent>
                   </Card>
                 ))
@@ -341,24 +369,41 @@ export default function SneakerDetail() {
               )}
             </div>
           </TabsContent>
-
-          <TabsContent value="prices" className="space-y-6">
+          
+          <TabsContent value="shipping">
             <Card>
               <CardContent className="p-6">
-                <h3 className="font-semibold mb-4">Price History</h3>
-                {priceHistory?.length > 0 ? (
-                  <PriceChart data={priceHistory} />
-                ) : (
-                  <p className="text-muted-foreground">No price history available.</p>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="similar" className="space-y-6">
-            <Card>
-              <CardContent className="p-6 text-center">
-                <p className="text-muted-foreground">Similar sneakers feature coming soon!</p>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-3">
+                    <Truck className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold mb-1">Free Shipping</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Free standard shipping on all orders. Expedited shipping available at checkout.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <Shield className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold mb-1">Returns & Exchanges</h4>
+                      <p className="text-sm text-muted-foreground">
+                        30-day return policy. Items must be in original condition with all tags attached.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <Package className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold mb-1">Authenticity Guaranteed</h4>
+                      <p className="text-sm text-muted-foreground">
+                        All sneakers are verified for authenticity before shipping.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

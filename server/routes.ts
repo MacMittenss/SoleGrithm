@@ -64,14 +64,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Search sneakers
-  app.get('/api/sneakers/search', async (req, res) => {
+  // Get all sneakers with filters
+  app.get('/api/sneakers', async (req, res) => {
     try {
-      const { q, brand } = req.query;
-      const sneakers = await storage.searchSneakers(q as string || '', { brandId: brand });
+      const { search, brand, category, sort } = req.query;
+      const filters = {
+        search: search as string,
+        brandId: brand ? parseInt(brand as string) : undefined,
+        category: category as string,
+        sort: sort as string
+      };
+      const sneakers = await storage.searchSneakers(search as string || '', filters);
       res.json(sneakers);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to search sneakers' });
+      res.status(500).json({ error: 'Failed to fetch sneakers' });
+    }
+  });
+
+  // Get sneaker by slug
+  app.get('/api/sneakers/:slug', async (req, res) => {
+    try {
+      const sneaker = await storage.getSneakerBySlug(req.params.slug);
+      if (!sneaker) {
+        return res.status(404).json({ error: 'Sneaker not found' });
+      }
+      res.json(sneaker);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch sneaker' });
+    }
+  });
+
+  // Get sneaker reviews
+  app.get('/api/sneakers/:id/reviews', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.id);
+      const reviews = await storage.getSneakerReviews(sneakerId);
+      res.json(reviews);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch reviews' });
+    }
+  });
+
+  // Get all brands
+  app.get('/api/brands', async (req, res) => {
+    try {
+      const brands = await storage.getAllBrands();
+      res.json(brands);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch brands' });
     }
   });
 
