@@ -63,7 +63,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     { href: '/', label: 'Home', icon: Home },
     { href: '/catalog', label: 'Catalog', icon: Grid3X3 },
     { href: '/blog', label: 'Blog', icon: BookOpen },
-    { href: '/discover', label: 'Discover', icon: Compass },
+    { href: '/discover', label: 'SoleRadar', icon: Compass },
   ];
 
   const isActive = (href: string) => location === href;

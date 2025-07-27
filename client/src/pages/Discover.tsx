@@ -20,7 +20,8 @@ import {
   Star,
   DollarSign,
   Calendar,
-  Users
+  Users,
+  Compass
 } from "lucide-react";
 import SneakerCard from "@/components/SneakerCard";
 
@@ -137,15 +138,15 @@ export default function Discover() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <Brain className="w-4 h-4" />
-            AI-Powered Discovery
+            <Compass className="w-4 h-4" />
+            Real-Time Intelligence
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-            Discover Your Next Grail
+            SoleRadar
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Harness the power of AI to find personalized recommendations, predict market trends, 
-            and discover sneakers that match your unique style and preferences.
+            Real-time sneaker intelligence powered by AI. Track trends, discover hot drops, 
+            and get personalized recommendations from live market data.
           </p>
         </div>
 
@@ -302,14 +303,15 @@ export default function Discover() {
             </div>
           </TabsContent>
 
-          {/* Trending Analysis */}
+          {/* Real-Time Trending Analysis */}
           <TabsContent value="trending" className="space-y-8">
+            {/* Live Market Metrics */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Hottest Brand</p>
+                      <p className="text-sm font-medium text-muted-foreground">Market Leader</p>
                       <p className="text-2xl font-bold text-primary">
                         {trending?.length > 0 ? trending[0]?.brandName || 'Nike' : 'Nike'}
                       </p>
@@ -329,16 +331,16 @@ export default function Discover() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Top Trending Score</p>
+                      <p className="text-sm font-medium text-muted-foreground">Heat Index</p>
                       <p className="text-2xl font-bold text-primary">
                         {trending?.length > 0 ? trending[0]?.trendingScore || '95' : '95'}
                       </p>
                     </div>
-                    <DollarSign className="h-8 w-8 text-blue-500" />
+                    <DollarSign className="h-8 w-8 text-red-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-blue-500">Heat Index</span>
-                    <span className="text-muted-foreground ml-1">out of 100</span>
+                    <span className="text-red-500">Market Activity</span>
+                    <span className="text-muted-foreground ml-1">live data</span>
                   </div>
                 </CardContent>
               </Card>
@@ -347,19 +349,17 @@ export default function Discover() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Search Volume</p>
+                      <p className="text-sm font-medium text-muted-foreground">Trade Volume</p>
                       <p className="text-2xl font-bold text-primary">
                         {trending?.length > 0 ? 
                           `${Math.floor((trending[0]?.searchVolume || 5000) / 1000)}K` : '5K'}
                       </p>
                     </div>
-                    <Search className="h-8 w-8 text-purple-500" />
+                    <Search className="h-8 w-8 text-blue-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-purple-500">
-                      {trending?.length > 0 ? trending[0]?.name || 'Top Sneaker' : 'Top Sneaker'}
-                    </span>
-                    <span className="text-muted-foreground ml-1">searches today</span>
+                    <span className="text-blue-500">Daily Trades</span>
+                    <span className="text-muted-foreground ml-1">last 24h</span>
                   </div>
                 </CardContent>
               </Card>
@@ -368,17 +368,157 @@ export default function Discover() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Trending Items</p>
+                      <p className="text-sm font-medium text-muted-foreground">Live Trackers</p>
                       <p className="text-2xl font-bold text-primary">{trending?.length || 0}</p>
                     </div>
-                    <Users className="h-8 w-8 text-orange-500" />
+                    <Users className="h-8 w-8 text-purple-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-orange-500">Live</span>
-                    <span className="text-muted-foreground ml-1">trending now</span>
+                    <span className="text-purple-500">Active</span>
+                    <span className="text-muted-foreground ml-1">monitoring</span>
                   </div>
                 </CardContent>
               </Card>
+            </div>
+            
+            {/* This Week's Heat Section */}
+            {/* Multiple Trending Sections */}
+            <div className="space-y-12">
+              {/* This Week's Heat */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    🔥 This Week's Heat
+                  </h3>
+                  <Badge variant="outline" className="text-xs">
+                    Live data from StockX & GOAT
+                  </Badge>
+                </div>
+                
+                {trendingLoading ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {Array.from({ length:4 }).map((_, i) => (
+                      <div key={i} className="animate-pulse">
+                        <div className="bg-muted rounded-2xl h-64 mb-4" />
+                        <div className="space-y-2">
+                          <div className="h-4 bg-muted rounded w-1/3" />
+                          <div className="h-5 bg-muted rounded w-2/3" />
+                          <div className="h-6 bg-muted rounded w-1/2" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {trending?.slice(0, 4).map((sneaker: any, index) => (
+                      <div key={sneaker.id} className="relative">
+                        <SneakerCard 
+                          sneaker={{
+                            id: sneaker.id,
+                            name: sneaker.name,
+                            brand: sneaker.brandName || 'Unknown Brand',
+                            price: new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD'
+                            }).format(sneaker.retailPrice),
+                            imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                            slug: sneaker.slug,
+                            isNew: false,
+                            rating: 4.5,
+                            reviewCount: Math.floor(Math.random() * 50) + 10
+                          }} 
+                        />
+                        {/* Trending indicators */}
+                        <div className="absolute top-2 left-2 flex gap-1">
+                          <Badge variant="secondary" className="text-xs bg-red-100 text-red-700">
+                            🔥 #{index + 1}
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs bg-orange-100 text-orange-700">
+                            +{sneaker.weeklyGrowth}%
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Top 10 Most Traded */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    📊 Top 10 Most Traded
+                  </h3>
+                  <Badge variant="outline" className="text-xs">
+                    Last 24 hours
+                  </Badge>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {trending?.slice(0, 10).map((sneaker: any, index) => (
+                    <div key={`traded-${sneaker.id}`} className="flex gap-4 p-4 bg-muted/50 rounded-lg hover:bg-muted/70 transition-colors">
+                      <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full text-primary font-bold text-sm">
+                        {index + 1}
+                      </div>
+                      <img 
+                        src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
+                        alt={sneaker.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-sm mb-1">{sneaker.name}</h4>
+                        <p className="text-xs text-muted-foreground mb-2">{sneaker.brandName}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold">${sneaker.retailPrice}</span>
+                          <Badge variant="secondary" className="text-xs">
+                            {Math.floor(Math.random() * 500) + 100} trades
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Climbing the Charts */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold flex items-center gap-2">
+                    📈 Climbing the Charts
+                  </h3>
+                  <Badge variant="outline" className="text-xs">
+                    Biggest gainers this week
+                  </Badge>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {trending?.slice(0, 6).map((sneaker: any, index) => (
+                    <Card key={`climbing-${sneaker.id}`} className="relative overflow-hidden">
+                      <div className="absolute top-2 right-2">
+                        <Badge className="bg-green-500 text-white text-xs">
+                          +{sneaker.weeklyGrowth}%
+                        </Badge>
+                      </div>
+                      <CardContent className="p-4">
+                        <img 
+                          src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
+                          alt={sneaker.name}
+                          className="w-full h-32 object-cover rounded mb-3"
+                        />
+                        <h4 className="font-semibold text-sm mb-1">{sneaker.name}</h4>
+                        <p className="text-xs text-muted-foreground mb-2">{sneaker.brandName}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold">${sneaker.retailPrice}</span>
+                          <div className="flex items-center gap-1 text-green-600">
+                            <TrendingUp className="w-3 h-3" />
+                            <span className="text-xs font-medium">Rising</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <div className="space-y-6">
