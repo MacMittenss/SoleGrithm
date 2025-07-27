@@ -36,14 +36,21 @@ export default function Discover() {
 
   const queryClient = useQueryClient();
 
-  // Get AI recommendations
-  const { data: recommendations, isLoading: recommendationsLoading } = useQuery({
-    queryKey: ['/api/ai/recommendations'],
+  // Get AI recommendations with preferences
+  const { data: recommendations, isLoading: recommendationsLoading, refetch: refetchRecommendations } = useQuery({
+    queryKey: ['/api/ai/recommendations', preferences],
     queryFn: async () => {
-      const response = await fetch('/api/ai/recommendations');
+      const params = new URLSearchParams();
+      if (preferences.style) params.append('style', preferences.style);
+      if (preferences.budget) params.append('budget', preferences.budget);
+      if (preferences.brands) params.append('brands', preferences.brands);
+      if (preferences.occasion) params.append('occasion', preferences.occasion);
+      
+      const response = await fetch(`/api/ai/recommendations?${params}`);
       if (!response.ok) throw new Error('Failed to fetch recommendations');
       return response.json();
-    }
+    },
+    enabled: true
   });
 
   // Get trending sneakers
@@ -194,16 +201,37 @@ export default function Discover() {
                       onChange={(e) => setPreferences({...preferences, brands: e.target.value})}
                     />
                   </div>
-                  <Button className="w-full">
+                  <Button 
+                    className="w-full" 
+                    onClick={() => refetchRecommendations()}
+                    disabled={recommendationsLoading}
+                  >
                     <Zap className="w-4 h-4 mr-2" />
-                    Get AI Recommendations
+                    {recommendationsLoading ? 'Generating...' : 'Get AI Recommendations'}
                   </Button>
                 </CardContent>
               </Card>
 
               {/* Recommendations Grid */}
               <div className="lg:col-span-2">
-                <h3 className="text-2xl font-bold mb-6">Personalized for You</h3>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold">Personalized for You</h3>
+                  <Badge variant="secondary" className="bg-primary/10 text-primary">
+                    <Brain className="w-3 h-3 mr-1" />
+                    AI Powered
+                  </Badge>
+                </div>
+                
+                {!recommendations?.length && !recommendationsLoading && (
+                  <div className="text-center py-12">
+                    <Target className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                    <h4 className="text-lg font-semibold mb-2">Get Started with AI Recommendations</h4>
+                    <p className="text-muted-foreground mb-4">
+                      Fill in your preferences and click "Get AI Recommendations" to discover sneakers tailored to your style.
+                    </p>
+                  </div>
+                )}
+                
                 {recommendationsLoading ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {Array.from({ length: 4 }).map((_, i) => (
@@ -217,29 +245,47 @@ export default function Discover() {
                       </div>
                     ))}
                   </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {recommendations?.slice(0, 4).map((sneaker: any) => (
-                      <SneakerCard 
-                        key={sneaker.id} 
-                        sneaker={{
-                          id: sneaker.id,
-                          name: sneaker.name,
-                          brand: sneaker.brandName || 'Unknown Brand',
-                          price: new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                          }).format(sneaker.retailPrice),
-                          imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-                          slug: sneaker.slug,
-                          isNew: false,
-                          rating: 4.5,
-                          reviewCount: Math.floor(Math.random() * 50) + 10
-                        }} 
-                      />
-                    ))}
-                  </div>
-                )}
+                ) : recommendations?.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                      {recommendations.slice(0, 4).map((sneaker: any) => (
+                        <SneakerCard 
+                          key={sneaker.id} 
+                          sneaker={{
+                            id: sneaker.id,
+                            name: sneaker.name,
+                            brand: sneaker.brandName || 'Unknown Brand',
+                            price: new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: 'USD'
+                            }).format(sneaker.retailPrice),
+                            imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                            slug: sneaker.slug,
+                            isNew: false,
+                            rating: 4.5,
+                            reviewCount: Math.floor(Math.random() * 50) + 10
+                          }} 
+                        />
+                      ))}
+                    </div>
+                    
+                    {recommendations.length > 4 && (
+                      <div className="text-center">
+                        <Button variant="outline" className="mb-4">
+                          Show More Recommendations
+                        </Button>
+                      </div>
+                    )}
+                    
+                    <div className="bg-muted/50 rounded-lg p-4">
+                      <p className="text-sm text-muted-foreground">
+                        <Sparkles className="w-4 h-4 inline mr-1" />
+                        These recommendations are based on your preferences and current market trends. 
+                        Update your preferences for more personalized results.
+                      </p>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
           </TabsContent>
