@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import SneakerCard from "@/components/SneakerCard";
@@ -9,6 +9,8 @@ import { Link } from "wouter";
 import { TrendingUp, Users, MessageSquare, Star } from "lucide-react";
 
 export default function Home() {
+  const [selectedBrand, setSelectedBrand] = useState<string>('All');
+
   const { data: featuredSneakers, isLoading: sneakersLoading } = useQuery({
     queryKey: ['/api/sneakers/featured'],
     queryFn: async () => {
@@ -16,6 +18,21 @@ export default function Home() {
       if (!response.ok) throw new Error('Failed to fetch featured sneakers');
       return response.json();
     }
+  });
+
+  const { data: brands } = useQuery({
+    queryKey: ['/api/brands'],
+    queryFn: async () => {
+      const response = await fetch('/api/brands');
+      if (!response.ok) throw new Error('Failed to fetch brands');
+      return response.json();
+    }
+  });
+
+  // Filter sneakers based on selected brand
+  const filteredSneakers = featuredSneakers?.filter((sneaker: any) => {
+    if (selectedBrand === 'All') return true;
+    return sneaker.brandName === selectedBrand;
   });
 
   const { data: blogPosts, isLoading: blogLoading } = useQuery({
@@ -71,11 +88,25 @@ export default function Home() {
           {/* Filter Tabs */}
           <div className="flex justify-center mb-12">
             <div className="flex space-x-1 bg-muted p-1 rounded-lg">
-              <Button variant="secondary" size="sm" className="bg-background shadow-sm">All</Button>
-              <Button variant="ghost" size="sm">Nike</Button>
-              <Button variant="ghost" size="sm">Jordan</Button>
-              <Button variant="ghost" size="sm">Adidas</Button>
-              <Button variant="ghost" size="sm">New Balance</Button>
+              <Button 
+                variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
+                size="sm" 
+                className={selectedBrand === 'All' ? 'bg-background shadow-sm' : ''}
+                onClick={() => setSelectedBrand('All')}
+              >
+                All
+              </Button>
+              {brands?.map((brand: any) => (
+                <Button 
+                  key={brand.id}
+                  variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
+                  size="sm"
+                  className={selectedBrand === brand.name ? 'bg-background shadow-sm' : ''}
+                  onClick={() => setSelectedBrand(brand.name)}
+                >
+                  {brand.name}
+                </Button>
+              ))}
             </div>
           </div>
 
@@ -95,7 +126,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {featuredSneakers?.slice(0, 8).map((sneaker: any) => (
+              {filteredSneakers?.slice(0, 8).map((sneaker: any) => (
                 <SneakerCard 
                   key={sneaker.id} 
                   sneaker={{

@@ -101,7 +101,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllBrands(): Promise<Brand[]> {
-    return await db.select().from(brands).orderBy(brands.name);
+    const result = await db.select().from(brands).orderBy(brands.name);
+    return result;
   }
 
   async createBrand(insertBrand: InsertBrand): Promise<Brand> {

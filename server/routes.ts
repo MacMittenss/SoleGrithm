@@ -111,30 +111,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const brands = await storage.getAllBrands();
       res.json(brands);
     } catch (error) {
+      console.error('Brands API error:', error);
       res.status(500).json({ error: 'Failed to fetch brands' });
-    }
-  });
-
-  // Get sneaker by slug
-  app.get('/api/sneakers/:slug', async (req, res) => {
-    try {
-      const sneaker = await storage.getSneakerBySlug(req.params.slug);
-      if (!sneaker) {
-        return res.status(404).json({ error: 'Sneaker not found' });
-      }
-      res.json(sneaker);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch sneaker' });
-    }
-  });
-
-  // Get sneaker reviews
-  app.get('/api/sneakers/:id/reviews', async (req, res) => {
-    try {
-      const reviews = await storage.getSneakerReviews(parseInt(req.params.id));
-      res.json(reviews);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch reviews' });
     }
   });
 
@@ -146,16 +124,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(prices);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch prices' });
-    }
-  });
-
-  // Get all brands
-  app.get('/api/brands', async (req, res) => {
-    try {
-      const brands = await storage.getAllBrands();
-      res.json(brands);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch brands' });
     }
   });
 
