@@ -16,6 +16,7 @@ import SneakerDetail from "@/pages/SneakerDetail";
 import PostDetail from "@/pages/PostDetail";
 import NotFound from "@/pages/not-found";
 import Discover from "@/pages/Discover";
+import SneakerQuiz from "@/pages/SneakerQuiz";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,6 +60,7 @@ function App() {
                   <Route path="/collection" component={Profile} />
                   <Route path="/sneakers/:slug" component={SneakerDetail} />
                   <Route path="/discover" component={Discover} />
+                  <Route path="/quiz" component={SneakerQuiz} />
                   <Route component={NotFound} />
                 </Switch>
               </main>

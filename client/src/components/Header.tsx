@@ -15,7 +15,8 @@ import {
   Home,
   Grid3X3,
   BookOpen,
-  Compass
+  Compass,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import soleGridLogo from '@assets/S (2)_1752797110222.png';
@@ -64,6 +65,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     { href: '/catalog', label: 'Catalog', icon: Grid3X3 },
     { href: '/blog', label: 'Blog', icon: BookOpen },
     { href: '/discover', label: 'SoleRadar', icon: Compass },
+    { href: '/quiz', label: 'Style Quiz', icon: Sparkles },
   ];
 
   const isActive = (href: string) => location === href;
