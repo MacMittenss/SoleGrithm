@@ -27,6 +27,13 @@ import SneakerCard from "@/components/SneakerCard";
 export default function Discover() {
   const [chatMessage, setChatMessage] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [chatHistory, setChatHistory] = useState<Array<{type: 'user' | 'bot', message: string, timestamp: string}>>([
+    {
+      type: 'bot',
+      message: "Hey! I'm SoleBot, your AI sneaker expert. Ask me anything about sneakers, trends, prices, or get personalized recommendations!",
+      timestamp: new Date().toISOString()
+    }
+  ]);
   const [preferences, setPreferences] = useState({
     style: '',
     budget: '',
@@ -84,9 +91,14 @@ export default function Discover() {
       if (!response.ok) throw new Error('Failed to send message');
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data, message) => {
+      // Add user message and bot response to chat history
+      setChatHistory(prev => [
+        ...prev,
+        { type: 'user', message, timestamp: new Date().toISOString() },
+        { type: 'bot', message: data.response, timestamp: data.timestamp }
+      ]);
       setChatMessage('');
-      queryClient.invalidateQueries({ queryKey: ['/api/ai/chat-history'] });
     }
   });
 
@@ -298,12 +310,16 @@ export default function Discover() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">Hottest Brand</p>
-                      <p className="text-2xl font-bold text-primary">Nike</p>
+                      <p className="text-2xl font-bold text-primary">
+                        {trending?.length > 0 ? trending[0]?.brandName || 'Nike' : 'Nike'}
+                      </p>
                     </div>
                     <TrendingUp className="h-8 w-8 text-green-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-green-500">+23.5%</span>
+                    <span className="text-green-500">
+                      +{trending?.length > 0 ? trending[0]?.weeklyGrowth || '23.5' : '23.5'}%
+                    </span>
                     <span className="text-muted-foreground ml-1">this week</span>
                   </div>
                 </CardContent>
@@ -313,14 +329,16 @@ export default function Discover() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Avg Price Change</p>
-                      <p className="text-2xl font-bold text-primary">+$47</p>
+                      <p className="text-sm font-medium text-muted-foreground">Top Trending Score</p>
+                      <p className="text-2xl font-bold text-primary">
+                        {trending?.length > 0 ? trending[0]?.trendingScore || '95' : '95'}
+                      </p>
                     </div>
                     <DollarSign className="h-8 w-8 text-blue-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-blue-500">+8.2%</span>
-                    <span className="text-muted-foreground ml-1">vs last month</span>
+                    <span className="text-blue-500">Heat Index</span>
+                    <span className="text-muted-foreground ml-1">out of 100</span>
                   </div>
                 </CardContent>
               </Card>
@@ -329,13 +347,18 @@ export default function Discover() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Most Searched</p>
-                      <p className="text-2xl font-bold text-primary">Jordans</p>
+                      <p className="text-sm font-medium text-muted-foreground">Search Volume</p>
+                      <p className="text-2xl font-bold text-primary">
+                        {trending?.length > 0 ? 
+                          `${Math.floor((trending[0]?.searchVolume || 5000) / 1000)}K` : '5K'}
+                      </p>
                     </div>
                     <Search className="h-8 w-8 text-purple-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-purple-500">45K</span>
+                    <span className="text-purple-500">
+                      {trending?.length > 0 ? trending[0]?.name || 'Top Sneaker' : 'Top Sneaker'}
+                    </span>
                     <span className="text-muted-foreground ml-1">searches today</span>
                   </div>
                 </CardContent>
@@ -345,21 +368,27 @@ export default function Discover() {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground">Community Buzz</p>
-                      <p className="text-2xl font-bold text-primary">High</p>
+                      <p className="text-sm font-medium text-muted-foreground">Trending Items</p>
+                      <p className="text-2xl font-bold text-primary">{trending?.length || 0}</p>
                     </div>
                     <Users className="h-8 w-8 text-orange-500" />
                   </div>
                   <div className="mt-4 flex items-center text-sm">
-                    <span className="text-orange-500">2.3K</span>
-                    <span className="text-muted-foreground ml-1">discussions</span>
+                    <span className="text-orange-500">Live</span>
+                    <span className="text-muted-foreground ml-1">trending now</span>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold">Trending Now</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-bold">Trending Now</h3>
+                <Badge variant="outline" className="text-xs">
+                  Updated every hour
+                </Badge>
+              </div>
+              
               {trendingLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {Array.from({ length: 8 }).map((_, i) => (
@@ -375,24 +404,39 @@ export default function Discover() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {trending?.slice(0, 8).map((sneaker: any) => (
-                    <SneakerCard 
-                      key={sneaker.id} 
-                      sneaker={{
-                        id: sneaker.id,
-                        name: sneaker.name,
-                        brand: sneaker.brandName || 'Unknown Brand',
-                        price: new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD'
-                        }).format(sneaker.retailPrice),
-                        imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-                        slug: sneaker.slug,
-                        isNew: false,
-                        rating: 4.5,
-                        reviewCount: Math.floor(Math.random() * 50) + 10
-                      }} 
-                    />
+                  {trending?.slice(0, 8).map((sneaker: any, index) => (
+                    <div key={sneaker.id} className="relative">
+                      <SneakerCard 
+                        sneaker={{
+                          id: sneaker.id,
+                          name: sneaker.name,
+                          brand: sneaker.brandName || 'Unknown Brand',
+                          price: new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                          }).format(sneaker.retailPrice),
+                          imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                          slug: sneaker.slug,
+                          isNew: false,
+                          rating: 4.5,
+                          reviewCount: Math.floor(Math.random() * 50) + 10
+                        }} 
+                      />
+                      {/* Trending indicators */}
+                      <div className="absolute top-2 left-2 flex gap-1">
+                        <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
+                          #{index + 1}
+                        </Badge>
+                        <Badge variant="secondary" className="text-xs bg-orange-100 text-orange-700">
+                          +{sneaker.weeklyGrowth}%
+                        </Badge>
+                      </div>
+                      {sneaker.trendingScore > 90 && (
+                        <div className="absolute top-2 right-2">
+                          <Badge className="text-xs bg-red-500 text-white">🔥 Hot</Badge>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}
@@ -411,17 +455,40 @@ export default function Discover() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4 mb-6 h-96 overflow-y-auto bg-muted/50 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                        <Brain className="w-4 h-4 text-white" />
+                    {chatHistory.map((chat, index) => (
+                      <div key={index} className={`flex items-start gap-3 ${chat.type === 'user' ? 'justify-end' : ''}`}>
+                        {chat.type === 'bot' && (
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <Brain className="w-4 h-4 text-white" />
+                          </div>
+                        )}
+                        <div className={`rounded-lg p-3 max-w-md ${
+                          chat.type === 'user' 
+                            ? 'bg-primary text-primary-foreground ml-auto' 
+                            : 'bg-background'
+                        }`}>
+                          <p className="text-sm whitespace-pre-line">{chat.message}</p>
+                          <p className="text-xs opacity-70 mt-1">
+                            {new Date(chat.timestamp).toLocaleTimeString()}
+                          </p>
+                        </div>
+                        {chat.type === 'user' && (
+                          <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                            <span className="text-xs font-medium">You</span>
+                          </div>
+                        )}
                       </div>
-                      <div className="bg-background rounded-lg p-3 max-w-md">
-                        <p className="text-sm">
-                          Hey! I'm SoleBot, your AI sneaker expert. Ask me anything about sneakers, 
-                          trends, prices, or get personalized recommendations!
-                        </p>
+                    ))}
+                    {chatMutation.isPending && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                          <Brain className="w-4 h-4 text-white animate-pulse" />
+                        </div>
+                        <div className="bg-background rounded-lg p-3 max-w-md">
+                          <p className="text-sm text-muted-foreground">SoleBot is thinking...</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   
                   <form onSubmit={handleChatSubmit} className="flex gap-2">
@@ -443,19 +510,39 @@ export default function Discover() {
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => chatMutation.mutate("What's trending this week?")}
+                    disabled={chatMutation.isPending}
+                  >
                     <TrendingUp className="w-4 h-4 mr-2" />
                     Show trending sneakers
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => chatMutation.mutate("Predict price changes for popular sneakers")}
+                    disabled={chatMutation.isPending}
+                  >
                     <DollarSign className="w-4 h-4 mr-2" />
                     Predict price changes
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => chatMutation.mutate("Recommend sneakers under $200")}
+                    disabled={chatMutation.isPending}
+                  >
                     <Star className="w-4 h-4 mr-2" />
                     Recommend based on style
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => chatMutation.mutate("What are the upcoming releases this month?")}
+                    disabled={chatMutation.isPending}
+                  >
                     <Calendar className="w-4 h-4 mr-2" />
                     Upcoming releases
                   </Button>
@@ -475,45 +562,122 @@ export default function Discover() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                    <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">Upload a sneaker image</p>
-                      <p className="text-xs text-muted-foreground">
-                        Our AI will identify the sneaker, find similar styles, and provide market insights
-                      </p>
+                  {imageFile ? (
+                    <div className="space-y-4">
+                      <img 
+                        src={URL.createObjectURL(imageFile)} 
+                        alt="Uploaded sneaker" 
+                        className="w-full max-h-64 object-cover rounded-lg"
+                      />
+                      <div className="flex gap-2">
+                        <Button 
+                          onClick={() => imageAnalysisMutation.mutate(imageFile)}
+                          disabled={imageAnalysisMutation.isPending}
+                          className="flex-1"
+                        >
+                          {imageAnalysisMutation.isPending ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                              Analyzing...
+                            </>
+                          ) : (
+                            <>
+                              <Brain className="w-4 h-4 mr-2" />
+                              Analyze Image
+                            </>
+                          )}
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => setImageFile(null)}
+                        >
+                          Remove
+                        </Button>
+                      </div>
                     </div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      id="image-upload"
-                    />
-                    <label htmlFor="image-upload">
-                      <Button variant="outline" className="mt-4" asChild>
-                        <span>Choose Image</span>
-                      </Button>
-                    </label>
-                  </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                      <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium">Upload a sneaker image</p>
+                        <p className="text-xs text-muted-foreground">
+                          Our AI will identify the sneaker, find similar styles, and provide market insights
+                        </p>
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <label htmlFor="image-upload">
+                        <Button variant="outline" className="mt-4" asChild>
+                          <span>Choose Image</span>
+                        </Button>
+                      </label>
+                    </div>
+                  )}
 
-                  {imageAnalysisMutation.isPending && (
-                    <div className="text-center">
-                      <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                        Analyzing image...
+                  {/* Demo Buttons */}
+                  {!imageFile && (
+                    <div className="space-y-3">
+                      <p className="text-sm font-medium text-center">Or try these examples:</p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => {
+                            imageAnalysisMutation.mutate(new File([], 'demo-jordan.jpg'));
+                          }}
+                          disabled={imageAnalysisMutation.isPending}
+                        >
+                          Demo: Jordan 1
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => {
+                            imageAnalysisMutation.mutate(new File([], 'demo-nike.jpg'));
+                          }}
+                          disabled={imageAnalysisMutation.isPending}
+                        >
+                          Demo: Nike Dunk
+                        </Button>
                       </div>
                     </div>
                   )}
 
                   {imageAnalysisMutation.data && (
                     <div className="space-y-4">
-                      <h4 className="font-semibold">Analysis Results</h4>
-                      <div className="space-y-2 text-sm">
-                        <p><strong>Identified:</strong> {imageAnalysisMutation.data.identification}</p>
-                        <p><strong>Brand:</strong> {imageAnalysisMutation.data.brand}</p>
-                        <p><strong>Style:</strong> {imageAnalysisMutation.data.style}</p>
-                        <p><strong>Estimated Value:</strong> {imageAnalysisMutation.data.estimatedValue}</p>
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-semibold">Analysis Results</h4>
+                        <Badge className="bg-green-100 text-green-700">
+                          <CheckCircle className="w-3 h-3 mr-1" />
+                          {imageAnalysisMutation.data.confidence}% Match
+                        </Badge>
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className="text-xs text-muted-foreground mb-1">Identified As</p>
+                          <p className="font-semibold">{imageAnalysisMutation.data.identification}</p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="p-3 bg-muted/50 rounded-lg">
+                            <p className="text-xs text-muted-foreground mb-1">Brand</p>
+                            <p className="font-semibold">{imageAnalysisMutation.data.brand}</p>
+                          </div>
+                          <div className="p-3 bg-muted/50 rounded-lg">
+                            <p className="text-xs text-muted-foreground mb-1">Style</p>
+                            <p className="font-semibold">{imageAnalysisMutation.data.style}</p>
+                          </div>
+                        </div>
+                        <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                          <p className="text-xs text-green-600 mb-1">Estimated Value</p>
+                          <p className="font-bold text-green-700 text-lg">{imageAnalysisMutation.data.estimatedValue}</p>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -522,13 +686,54 @@ export default function Discover() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Similar Sneakers</CardTitle>
+                  <CardTitle className="flex items-center justify-between">
+                    Similar Sneakers
+                    {imageAnalysisMutation.data && (
+                      <Badge variant="outline">
+                        AI Matched
+                      </Badge>
+                    )}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center text-muted-foreground py-8">
-                    <Camera className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>Upload an image to see similar sneakers</p>
-                  </div>
+                  {imageAnalysisMutation.data ? (
+                    <div className="space-y-4">
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Based on your uploaded image, here are similar sneakers:
+                      </p>
+                      <div className="grid grid-cols-1 gap-4">
+                        {recommendations?.slice(0, 3).map((sneaker: any) => (
+                          <div key={sneaker.id} className="flex gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                            <img 
+                              src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
+                              alt={sneaker.name}
+                              className="w-16 h-16 object-cover rounded"
+                            />
+                            <div className="flex-1">
+                              <p className="font-medium text-sm">{sneaker.name}</p>
+                              <p className="text-xs text-muted-foreground">{sneaker.brandName}</p>
+                              <p className="text-sm font-semibold text-primary">
+                                ${sneaker.retailPrice}
+                              </p>
+                            </div>
+                            <Button size="sm" variant="outline">
+                              View
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                      <Button variant="outline" className="w-full">
+                        <Search className="w-4 h-4 mr-2" />
+                        View All Similar Sneakers
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="text-center text-muted-foreground py-8">
+                      <Camera className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p className="font-medium mb-2">Upload an image to see similar sneakers</p>
+                      <p className="text-xs">Our AI will find sneakers with similar colors, shapes, and styles</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
