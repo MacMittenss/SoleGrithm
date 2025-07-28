@@ -12,7 +12,9 @@ import {
   analyzeSneakerImage, 
   generateBlogContent,
   predictSneakerPrice,
-  enhanceReviewContent
+  enhanceReviewContent,
+  summarizeReviews,
+  generateSyntheticReviews
 } from "./services/openai";
 import { updateSneakerPrices, fetchUpcomingReleases } from "./services/sneaker-api";
 import { insertUserSchema, insertSneakerSchema, insertReviewSchema, insertCollectionSchema, insertBlogPostSchema, type SneakerWithBrand } from "@shared/schema";
@@ -951,6 +953,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(prediction);
     } catch (error) {
       res.status(500).json({ error: 'Failed to predict price' });
+    }
+  });
+
+  // AI Review Summarization - Generate synthetic reviews for demo
+  app.post('/api/ai/generate-reviews/:sneakerId', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.sneakerId);
+      const sneaker = await storage.getSneaker(sneakerId);
+      
+      if (!sneaker) {
+        return res.status(404).json({ error: 'Sneaker not found' });
+      }
+
+      // Get brand name for context
+      const brand = sneaker.brandId ? await storage.getBrand(sneaker.brandId) : null;
+      const brandName = brand?.name || 'Unknown';
+
+      const syntheticReviews = await generateSyntheticReviews(sneaker.name, brandName);
+      res.json({ reviews: syntheticReviews });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to generate reviews' });
+    }
+  });
+
+  // AI Review Summarization - Get "What Sneakerheads Are Saying"
+  app.get('/api/ai/review-summary/:sneakerId', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.sneakerId);
+      const sneaker = await storage.getSneaker(sneakerId);
+      
+      if (!sneaker) {
+        return res.status(404).json({ error: 'Sneaker not found' });
+      }
+
+      // Get existing reviews from database
+      const dbReviews = await storage.getSneakerReviews(sneakerId);
+      let reviewTexts = dbReviews.map(review => review.content);
+
+      // If no reviews exist, generate synthetic ones for demo
+      if (reviewTexts.length === 0) {
+        const brand = sneaker.brandId ? await storage.getBrand(sneaker.brandId) : null;
+        const brandName = brand?.name || 'Unknown';
+        reviewTexts = await generateSyntheticReviews(sneaker.name, brandName);
+      }
+
+      const summary = await summarizeReviews(reviewTexts, sneaker.name);
+      res.json(summary);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to summarize reviews' });
+    }
+  });
+
+  // AI Review Summarization - Custom reviews input
+  app.post('/api/ai/summarize-reviews', async (req, res) => {
+    try {
+      const { reviews, sneakerName } = req.body;
+      
+      if (!reviews || !Array.isArray(reviews) || reviews.length === 0) {
+        return res.status(400).json({ error: 'Reviews array is required' });
+      }
+      
+      if (!sneakerName) {
+        return res.status(400).json({ error: 'Sneaker name is required' });
+      }
+
+      const summary = await summarizeReviews(reviews, sneakerName);
+      res.json(summary);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to summarize reviews' });
     }
   });
 

@@ -251,3 +251,105 @@ export async function enhanceReviewContent(draft: string): Promise<{
     throw new Error("Failed to enhance content");
   }
 }
+
+export async function summarizeReviews(reviews: string[], sneakerName: string): Promise<{
+  summary: string;
+  whatSneakerheadsAreSaying: string[];
+  prosAndCons: {
+    pros: string[];
+    cons: string[];
+  };
+  overallSentiment: 'positive' | 'negative' | 'mixed';
+  confidenceScore: number;
+}> {
+  try {
+    const reviewsText = reviews.join('\n\n---\n\n');
+    
+    const prompt = `Analyze these reviews for the sneaker "${sneakerName}" from various sources (Reddit, StockX, social media, etc.):
+
+${reviewsText}
+
+Create a comprehensive summary with:
+1. A general summary of what people think
+2. Key quotes representing "What Sneakerheads Are Saying" (3-5 authentic-sounding quotes)
+3. Clear pros and cons lists
+4. Overall sentiment and confidence
+
+Respond in JSON format with:
+{
+  "summary": "Overall summary paragraph",
+  "whatSneakerheadsAreSaying": ["Quote 1", "Quote 2", "Quote 3"],
+  "prosAndCons": {
+    "pros": ["Pro 1", "Pro 2", "Pro 3"],
+    "cons": ["Con 1", "Con 2", "Con 3"]
+  },
+  "overallSentiment": "positive/negative/mixed",
+  "confidenceScore": 0.85
+}`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are an expert at analyzing sneaker reviews and community sentiment. Synthesize authentic opinions from the sneaker community." 
+        },
+        { role: "user", content: prompt }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 800
+    });
+
+    const result = JSON.parse(response.choices[0].message.content || '{}');
+    return {
+      summary: result.summary || "Unable to generate summary",
+      whatSneakerheadsAreSaying: result.whatSneakerheadsAreSaying || [],
+      prosAndCons: result.prosAndCons || { pros: [], cons: [] },
+      overallSentiment: result.overallSentiment || 'mixed',
+      confidenceScore: result.confidenceScore || 0.5
+    };
+  } catch (error) {
+    console.error('OpenAI review summarization error:', error);
+    throw new Error("Failed to summarize reviews");
+  }
+}
+
+export async function generateSyntheticReviews(sneakerName: string, brandName: string): Promise<string[]> {
+  try {
+    const prompt = `Generate 8-10 realistic sneaker reviews for the "${sneakerName}" by ${brandName} that would appear on Reddit, StockX, or sneaker forums. 
+
+Make them diverse in:
+- Review length (some short, some detailed)
+- User types (casual buyers, collectors, resellers)
+- Perspectives (comfort, style, quality, value)
+- Writing styles (casual, technical, emotional)
+
+Each review should feel authentic and include specific details about:
+- Fit and comfort
+- Build quality
+- Styling versatility
+- Value for money
+- Personal experiences
+
+Return as an array of review strings in JSON format: {"reviews": ["review1", "review2", ...]}.`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are generating realistic sneaker reviews that capture authentic community sentiment and diverse perspectives." 
+        },
+        { role: "user", content: prompt }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 1200
+    });
+
+    const result = JSON.parse(response.choices[0].message.content || '{}');
+    return result.reviews || [];
+  } catch (error) {
+    console.error('OpenAI synthetic review generation error:', error);
+    throw new Error("Failed to generate reviews");
+  }
+}

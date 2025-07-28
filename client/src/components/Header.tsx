@@ -69,6 +69,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     { href: '/quiz', label: 'Style Quiz', icon: Sparkles },
     { href: '/visual-search', label: 'Visual Search', icon: Search },
     { href: '/collections', label: 'Collections', icon: Grid3X3 },
+    { href: '/review-summary', label: 'AI Reviews', icon: MessageCircle },
     { href: '/ar-tryon', label: 'AR Try-On', icon: Eye },
   ];
 

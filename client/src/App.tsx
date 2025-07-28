@@ -20,6 +20,7 @@ import SneakerQuiz from "@/pages/SneakerQuiz";
 import VisualSearch from "@/pages/VisualSearch";
 import Collections from "@/pages/Collections";
 import ARTryOn from "@/pages/ARTryOn";
+import ReviewSummaryDemo from "@/pages/ReviewSummaryDemo";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,6 +67,7 @@ function App() {
                   <Route path="/quiz" component={SneakerQuiz} />
                   <Route path="/visual-search" component={VisualSearch} />
                   <Route path="/collections" component={Collections} />
+                  <Route path="/review-summary" component={ReviewSummaryDemo} />
                   <Route path="/ar-tryon" component={ARTryOn} />
                   <Route component={NotFound} />
                 </Switch>
