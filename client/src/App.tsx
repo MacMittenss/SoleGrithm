@@ -19,6 +19,7 @@ import Discover from "@/pages/Discover";
 import SneakerQuiz from "@/pages/SneakerQuiz";
 import VisualSearch from "@/pages/VisualSearch";
 import Collections from "@/pages/Collections";
+import ARTryOn from "@/pages/ARTryOn";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -65,6 +66,7 @@ function App() {
                   <Route path="/quiz" component={SneakerQuiz} />
                   <Route path="/visual-search" component={VisualSearch} />
                   <Route path="/collections" component={Collections} />
+                  <Route path="/ar-tryon" component={ARTryOn} />
                   <Route component={NotFound} />
                 </Switch>
               </main>

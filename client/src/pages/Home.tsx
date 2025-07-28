@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import SneakerCard from "@/components/SneakerCard";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
+import ARDemo from "@/components/ARDemo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -163,6 +164,9 @@ export default function Home() {
 
       {/* Collections Demo Section */}
       <CollectionsDemo />
+
+      {/* AR Try-On Demo Section */}
+      <ARDemo />
 
       {/* Latest Blog Posts */}
       <section className="py-24 bg-muted/50">
