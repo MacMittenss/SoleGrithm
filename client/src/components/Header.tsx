@@ -107,21 +107,37 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                   className={`nav-link group relative transition-all duration-300 ease-in-out px-3 py-2 h-8 ${
                     isHomePage && !isScrolled
                       ? isActive(item.href)
-                        ? "bg-white text-black hover:bg-white/90"
-                        : "text-white hover:bg-white/10"
+                        ? "bg-white text-black hover:bg-white/90 hover:text-black"
+                        : "text-white hover:bg-white/10 hover:text-white"
                       : isActive(item.href)
-                        ? "bg-black text-white hover:bg-black/90"
-                        : "text-black hover:bg-black/10"
+                        ? "bg-black text-white hover:bg-black/90 hover:text-white"
+                        : "text-black hover:bg-black/10 hover:text-black"
                   }`}
                 >
                   <div className={`flex items-center transition-all duration-300 ${
                     isActive(item.href) ? 'justify-start' : 'justify-center group-hover:justify-start'
                   }`}>
-                    <item.icon className="w-4 h-4 flex-shrink-0" />
+                    <item.icon className={`w-4 h-4 flex-shrink-0 ${
+                      isHomePage && !isScrolled
+                        ? isActive(item.href)
+                          ? "text-black"
+                          : "text-white group-hover:text-white"
+                        : isActive(item.href)
+                          ? "text-white"
+                          : "text-black group-hover:text-black"
+                    }`} />
                     <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
                       isActive(item.href) 
                         ? 'ml-2 max-w-xs' 
                         : 'ml-0 group-hover:ml-2 max-w-0 group-hover:max-w-xs'
+                    } ${
+                      isHomePage && !isScrolled
+                        ? isActive(item.href)
+                          ? "text-black"
+                          : "text-white group-hover:text-white"
+                        : isActive(item.href)
+                          ? "text-white"
+                          : "text-black group-hover:text-black"
                     }`}>
                       {item.label}
                     </span>
