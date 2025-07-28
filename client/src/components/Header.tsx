@@ -104,7 +104,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                 <Button
                   variant={isActive(item.href) ? "secondary" : "ghost"}
                   size="sm"
-                  className={`nav-link transition-colors ${
+                  className={`nav-link group relative transition-all duration-300 ease-in-out px-3 py-2 h-8 ${
                     isHomePage && !isScrolled
                       ? isActive(item.href)
                         ? "bg-white text-black hover:bg-white/90"
@@ -114,8 +114,12 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                         : "text-black hover:bg-black/10"
                   }`}
                 >
-                  <item.icon className="w-4 h-4 mr-2" />
-                  {item.label}
+                  <div className="flex items-center justify-center group-hover:justify-start transition-all duration-300">
+                    <item.icon className="w-4 h-4 flex-shrink-0" />
+                    <span className="ml-0 group-hover:ml-2 whitespace-nowrap max-w-0 group-hover:max-w-xs overflow-hidden transition-all duration-300 ease-in-out">
+                      {item.label}
+                    </span>
+                  </div>
                 </Button>
               </Link>
             ))}
