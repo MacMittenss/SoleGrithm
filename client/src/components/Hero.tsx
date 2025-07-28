@@ -15,7 +15,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-white pl-16 sm:pl-20 lg:pl-24 xl:pl-32 pt-20">
+      <div className="relative z-10 text-white pl-20 sm:pl-24 lg:pl-32 xl:pl-40 pt-20">
         <div className="max-w-2xl">
           <Badge variant="secondary" className="mb-4 bg-white/10 text-white border-white/20 text-xs">
             AI-Powered Sneaker Intelligence
