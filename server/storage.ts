@@ -1,6 +1,6 @@
 import { users, brands, sneakers, collections, reviews, priceHistory, blogPosts, aiChats } from "@shared/schema";
 import type { 
-  User, InsertUser, Brand, InsertBrand, Sneaker, InsertSneaker,
+  User, InsertUser, Brand, InsertBrand, Sneaker, InsertSneaker, SneakerWithBrand,
   Collection, InsertCollection, Review, InsertReview, 
   PriceHistory, InsertPriceHistory, BlogPost, InsertBlogPost,
   AiChat, InsertAiChat
@@ -24,9 +24,9 @@ export interface IStorage {
 
   // Sneakers
   getSneaker(id: number): Promise<Sneaker | undefined>;
-  getSneakerBySlug(slug: string): Promise<Sneaker | undefined>;
-  searchSneakers(query: string, filters?: any): Promise<Sneaker[]>;
-  getFeaturedSneakers(): Promise<Sneaker[]>;
+  getSneakerBySlug(slug: string): Promise<SneakerWithBrand | undefined>;
+  searchSneakers(query: string, filters?: any): Promise<SneakerWithBrand[]>;
+  getFeaturedSneakers(): Promise<SneakerWithBrand[]>;
   createSneaker(sneaker: InsertSneaker): Promise<Sneaker>;
   updateSneaker(id: number, sneaker: Partial<InsertSneaker>): Promise<Sneaker>;
 
@@ -116,7 +116,7 @@ export class DatabaseStorage implements IStorage {
     return sneaker || undefined;
   }
 
-  async getSneakerBySlug(slug: string): Promise<Sneaker | undefined> {
+  async getSneakerBySlug(slug: string): Promise<SneakerWithBrand | undefined> {
     const [sneaker] = await db
       .select({
         id: sneakers.id,
@@ -142,7 +142,7 @@ export class DatabaseStorage implements IStorage {
     return sneaker || undefined;
   }
 
-  async searchSneakers(query: string, filters?: any): Promise<Sneaker[]> {
+  async searchSneakers(query: string, filters?: any): Promise<SneakerWithBrand[]> {
     let queryBuilder = db
       .select({
         id: sneakers.id,
@@ -206,7 +206,7 @@ export class DatabaseStorage implements IStorage {
     return await queryBuilder;
   }
 
-  async getFeaturedSneakers(): Promise<Sneaker[]> {
+  async getFeaturedSneakers(): Promise<SneakerWithBrand[]> {
     return await db
       .select({
         id: sneakers.id,

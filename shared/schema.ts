@@ -226,6 +226,12 @@ export type InsertBrand = z.infer<typeof insertBrandSchema>;
 export type Sneaker = typeof sneakers.$inferSelect;
 export type InsertSneaker = z.infer<typeof insertSneakerSchema>;
 
+// Extended type for sneakers with brand information
+export type SneakerWithBrand = Sneaker & {
+  brandName?: string | null;
+  matchScore?: number;
+};
+
 export type Collection = typeof collections.$inferSelect;
 export type InsertCollection = z.infer<typeof insertCollectionSchema>;
 
