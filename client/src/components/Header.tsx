@@ -102,7 +102,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
-                  variant={isActive(item.href) ? "secondary" : "ghost"}
+                  variant="ghost"
                   size="sm"
                   className={`nav-link group relative transition-all duration-300 ease-in-out px-3 py-2 h-8 ${
                     isHomePage && !isScrolled
@@ -114,9 +114,15 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                         : "text-black hover:bg-black/10"
                   }`}
                 >
-                  <div className="flex items-center justify-center group-hover:justify-start transition-all duration-300">
+                  <div className={`flex items-center transition-all duration-300 ${
+                    isActive(item.href) ? 'justify-start' : 'justify-center group-hover:justify-start'
+                  }`}>
                     <item.icon className="w-4 h-4 flex-shrink-0" />
-                    <span className="ml-0 group-hover:ml-2 whitespace-nowrap max-w-0 group-hover:max-w-xs overflow-hidden transition-all duration-300 ease-in-out">
+                    <span className={`whitespace-nowrap overflow-hidden transition-all duration-300 ease-in-out ${
+                      isActive(item.href) 
+                        ? 'ml-2 max-w-xs' 
+                        : 'ml-0 group-hover:ml-2 max-w-0 group-hover:max-w-xs'
+                    }`}>
                       {item.label}
                     </span>
                   </div>

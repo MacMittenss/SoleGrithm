@@ -166,7 +166,7 @@ export default function SneakerDetail() {
             
             {sneaker.images.length > 1 && (
               <div className="flex gap-2 overflow-x-auto">
-                {sneaker.images.map((image, index) => (
+                {sneaker.images.map((image: string, index: number) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImageIndex(index)}
@@ -189,7 +189,7 @@ export default function SneakerDetail() {
           <div className="space-y-6">
             <div>
               <div className="flex flex-wrap gap-2 mb-3">
-                {sneaker.categories.map((category) => (
+                {sneaker.categories.map((category: string) => (
                   <Badge key={category} variant="secondary">
                     {category}
                   </Badge>
@@ -226,7 +226,7 @@ export default function SneakerDetail() {
             <div className="space-y-3">
               <h3 className="font-semibold">Select Size</h3>
               <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                {sneaker.sizes.map((size) => (
+                {sneaker.sizes.map((size: string) => (
                   <Button
                     key={size}
                     variant={selectedSize === size ? "default" : "outline"}
@@ -311,7 +311,7 @@ export default function SneakerDetail() {
                   <div>
                     <h4 className="font-semibold mb-2">Categories</h4>
                     <div className="flex flex-wrap gap-2">
-                      {sneaker.categories.map((category) => (
+                      {sneaker.categories.map((category: string) => (
                         <Badge key={category} variant="outline">
                           {category}
                         </Badge>
