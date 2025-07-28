@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import SneakerCard from "@/components/SneakerCard";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
+import CollectionsDemo from "@/components/CollectionsDemo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -159,6 +160,9 @@ export default function Home() {
 
       {/* Visual Search Demo Section */}
       <VisualSearchDemo />
+
+      {/* Collections Demo Section */}
+      <CollectionsDemo />
 
       {/* Latest Blog Posts */}
       <section className="py-24 bg-muted/50">

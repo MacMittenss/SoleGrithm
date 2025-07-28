@@ -18,6 +18,7 @@ import NotFound from "@/pages/not-found";
 import Discover from "@/pages/Discover";
 import SneakerQuiz from "@/pages/SneakerQuiz";
 import VisualSearch from "@/pages/VisualSearch";
+import Collections from "@/pages/Collections";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -63,6 +64,7 @@ function App() {
                   <Route path="/discover" component={Discover} />
                   <Route path="/quiz" component={SneakerQuiz} />
                   <Route path="/visual-search" component={VisualSearch} />
+                  <Route path="/collections" component={Collections} />
                   <Route component={NotFound} />
                 </Switch>
               </main>
