@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
 import SneakerCard from "@/components/SneakerCard";
+import VisualSearchDemo from "@/components/VisualSearchDemo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -155,6 +156,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Visual Search Demo Section */}
+      <VisualSearchDemo />
 
       {/* Latest Blog Posts */}
       <section className="py-24 bg-muted/50">
