@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
@@ -34,31 +34,66 @@ interface SneakerCardProps {
 export default function SneakerCard({ sneaker, enableHoverPreview = false }: SneakerCardProps) {  
   const [showPreview, setShowPreview] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHoveringCard, setIsHoveringCard] = useState(false);
+  const [isHoveringPreview, setIsHoveringPreview] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+  const hideTimeoutRef = useRef<NodeJS.Timeout>();
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     if (!enableHoverPreview) return;
     
+    setIsHoveringCard(true);
     clearTimeout(hoverTimeoutRef.current);
+    clearTimeout(hideTimeoutRef.current);
     setMousePosition({ x: e.clientX, y: e.clientY });
     
     hoverTimeoutRef.current = setTimeout(() => {
       setShowPreview(true);
-    }, 500); // 500ms delay before showing preview
+    }, 300); // Reduced delay for better UX
   };
 
   const handleMouseLeave = () => {
     if (!enableHoverPreview) return;
     
+    setIsHoveringCard(false);
     clearTimeout(hoverTimeoutRef.current);
-    setShowPreview(false);
+    
+    // Only hide if not hovering preview
+    hideTimeoutRef.current = setTimeout(() => {
+      if (!isHoveringPreview) {
+        setShowPreview(false);
+      }
+    }, 150); // Longer delay for cursor movement
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!enableHoverPreview) return;
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
+
+  const handlePreviewEnter = () => {
+    setIsHoveringPreview(true);
+    clearTimeout(hideTimeoutRef.current);
+  };
+
+  const handlePreviewLeave = () => {
+    setIsHoveringPreview(false);
+    // Hide preview when leaving both card and preview
+    if (!isHoveringCard) {
+      hideTimeoutRef.current = setTimeout(() => {
+        setShowPreview(false);
+      }, 100);
+    }
+  };
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      clearTimeout(hoverTimeoutRef.current);
+      clearTimeout(hideTimeoutRef.current);
+    };
+  }, []);
 
   // Prepare sneaker data for preview with fallbacks
   const previewSneaker = {
@@ -152,7 +187,13 @@ export default function SneakerCard({ sneaker, enableHoverPreview = false }: Sne
           sneaker={previewSneaker}
           isVisible={showPreview}
           position={mousePosition}
-          onClose={() => setShowPreview(false)}
+          onMouseEnter={handlePreviewEnter}
+          onMouseLeave={handlePreviewLeave}
+          onClose={() => {
+            clearTimeout(hoverTimeoutRef.current);
+            clearTimeout(hideTimeoutRef.current);
+            setShowPreview(false);
+          }}
         />
       )}
     </>

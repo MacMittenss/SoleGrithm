@@ -35,6 +35,8 @@ interface SneakerHoverPreviewProps {
   };
   isVisible: boolean;
   position: { x: number; y: number };
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
   onClose: () => void;
 }
 
@@ -42,6 +44,8 @@ export default function SneakerHoverPreview({
   sneaker, 
   isVisible, 
   position, 
+  onMouseEnter,
+  onMouseLeave,
   onClose 
 }: SneakerHoverPreviewProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -126,7 +130,8 @@ export default function SneakerHoverPreview({
             left: adjustedPosition.x,
             top: adjustedPosition.y,
           }}
-          onMouseLeave={onClose}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
         >
           <Card className="w-[400px] shadow-2xl border-2 bg-white/95 dark:bg-black/95 backdrop-blur-md">
             <CardContent className="p-0">
