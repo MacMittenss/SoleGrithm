@@ -76,7 +76,19 @@ The application follows a modern full-stack architecture with clear separation b
 - Review and rating system with user-generated content
 - Price history tracking for market analysis
 
-## Recent Changes (July 28, 2025)
+## Recent Changes (July 29, 2025)
+
+### Daily Content Rotation System Implementation
+- **Dynamic Hero Slider**: "What's Hot Right Now" section now rotates content daily based on day of year
+- **Three Content Types**: 
+  - "AI Picks of the Day" (Purple theme, Sparkles icon, AI recommendations endpoint)
+  - "Newly Added to the Archive" (Green theme, Archive icon, featured sneakers endpoint)
+  - "Recently Dropped" (Orange theme, Zap icon, trending sneakers endpoint)
+- **Visual Adaptation**: Each content type has unique color schemes, gradients, and icons
+- **Date Integration**: Shows current date with "Updates daily" indicator
+- **Navigation Branding**: Updated navbar buttons to "Sole Search" and "Sole Map" for consistent theming
+
+## Previous Changes (July 28, 2025)
 
 ### Step 7: Sneaker Discovery Map Implementation
 - **Interactive Geographic Map**: Visual map showing sneaker trends across major US cities with real-time data
