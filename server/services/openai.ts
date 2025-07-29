@@ -51,6 +51,83 @@ export async function chatWithAI(message: string, context?: ChatContext): Promis
   }
 }
 
+export async function generateSneakerCareTips(sneaker: {
+  name: string;
+  materials: string;
+  colorway: string;
+  brand: string;
+}): Promise<{
+  generalTips: string[];
+  materialSpecific: string[];
+  cleaningSteps: string[];
+  storageAdvice: string[];
+  warnings: string[];
+}> {
+  try {
+    const prompt = `Generate comprehensive care and maintenance tips for this sneaker:
+    - Name: ${sneaker.name}
+    - Brand: ${sneaker.brand}
+    - Materials: ${sneaker.materials}
+    - Colorway: ${sneaker.colorway}
+    
+    Provide specific, actionable advice organized into categories. Consider the unique materials and construction of this sneaker. Format as JSON with these fields:
+    - generalTips: 3-4 general maintenance tips
+    - materialSpecific: 3-4 tips specific to the materials used
+    - cleaningSteps: 4-5 step-by-step cleaning instructions
+    - storageAdvice: 3-4 storage recommendations
+    - warnings: 2-3 things to avoid or warning signs`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are a sneaker care expert. Provide detailed, accurate care instructions based on specific sneaker materials and construction. Respond only with valid JSON." 
+        },
+        { role: "user", content: prompt }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 800,
+      temperature: 0.3
+    });
+
+    const result = JSON.parse(response.choices[0].message.content || '{}');
+    return result;
+  } catch (error) {
+    console.error('OpenAI sneaker care generation error:', error);
+    // Fallback care tips based on common materials
+    return {
+      generalTips: [
+        "Regular cleaning prevents stains from setting and materials from deteriorating",
+        "Allow sneakers to air dry completely between wears to prevent odor and mold",
+        "Use shoe trees or stuff with paper to maintain shape during storage"
+      ],
+      materialSpecific: [
+        "Test cleaning products on a small, hidden area first",
+        "Use appropriate brushes - soft for delicate materials, medium for leather",
+        "Avoid excessive water on suede and nubuck materials"
+      ],
+      cleaningSteps: [
+        "Remove loose dirt with a dry brush",
+        "Prepare cleaning solution appropriate for the material",
+        "Clean in circular motions with gentle pressure",
+        "Remove excess moisture and cleaning residue",
+        "Allow to air dry away from direct heat or sunlight"
+      ],
+      storageAdvice: [
+        "Store in a cool, dry place away from direct sunlight",
+        "Use dust bags or boxes to prevent dust accumulation",
+        "Maintain shape with shoe trees or paper stuffing"
+      ],
+      warnings: [
+        "Never use bleach or harsh chemicals on colored materials",
+        "Avoid machine washing unless specifically recommended by the manufacturer",
+        "Don't wear the same pair multiple days in a row"
+      ]
+    };
+  }
+}
+
 export async function getSneakerRecommendations(preferences: {
   brands?: string[];
   styles?: string[];

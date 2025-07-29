@@ -14,7 +14,8 @@ import {
   predictSneakerPrice,
   enhanceReviewContent,
   summarizeReviews,
-  generateSyntheticReviews
+  generateSyntheticReviews,
+  generateSneakerCareTips
 } from "./services/openai";
 import { updateSneakerPrices, fetchUpcomingReleases } from "./services/sneaker-api";
 import { insertUserSchema, insertSneakerSchema, insertReviewSchema, insertCollectionSchema, insertBlogPostSchema, type SneakerWithBrand } from "@shared/schema";
@@ -953,6 +954,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(prediction);
     } catch (error) {
       res.status(500).json({ error: 'Failed to predict price' });
+    }
+  });
+
+  // AI Care Tips Generation
+  app.post("/api/ai/care-tips/:sneakerId", async (req, res) => {
+    try {
+      const { sneakerId } = req.params;
+      const { name, materials, colorway, brand } = req.body;
+
+      if (!name || !materials) {
+        return res.status(400).json({ error: "Missing required sneaker information" });
+      }
+
+      const careTips = await generateSneakerCareTips({
+        name,
+        materials,
+        colorway: colorway || 'Standard',
+        brand: brand || 'Unknown'
+      });
+
+      res.json(careTips);
+    } catch (error) {
+      console.error('Care tips generation error:', error);
+      res.status(500).json({ error: "Failed to generate care tips" });
     }
   });
 

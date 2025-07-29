@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import AIChat from "./AIChat";
 import AuthModal from "./AuthModal";
+import BackgroundCareFacts from "./BackgroundCareFacts";
 
 interface LayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ export default function Layout({ children }: LayoutProps) {
       </main>
       <AIChat />
       <AuthModal />
+      <BackgroundCareFacts />
     </div>
   );
 }

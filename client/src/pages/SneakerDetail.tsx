@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import ReviewSummary from "@/components/ReviewSummary";
+import SneakerCareTips from "@/components/SneakerCareTips";
 
 interface Sneaker {
   id: number;
@@ -285,8 +286,9 @@ export default function SneakerDetail() {
 
         {/* Tabs Section */}
         <Tabs defaultValue="description" className="mb-12">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="description">Description</TabsTrigger>
+            <TabsTrigger value="care-tips">Care Tips</TabsTrigger>
             <TabsTrigger value="ai-summary">AI Summary</TabsTrigger>
             <TabsTrigger value="reviews">Reviews ({reviews?.length || 0})</TabsTrigger>
             <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
@@ -321,6 +323,18 @@ export default function SneakerDetail() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="care-tips">
+            <SneakerCareTips 
+              sneaker={{
+                id: sneaker.id,
+                name: sneaker.name,
+                materials: sneaker.materials,
+                colorway: sneaker.colorway,
+                brandName: sneaker.brandName
+              }}
+            />
           </TabsContent>
           
           <TabsContent value="ai-summary">
