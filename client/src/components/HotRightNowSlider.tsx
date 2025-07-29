@@ -19,7 +19,8 @@ type DailyContent = {
 
 export default function HotRightNowSlider() {
   const [translateX, setTranslateX] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, translateX: 0 });
   const [cardWidth, setCardWidth] = useState(320); // Default card width including gap
 
   // Daily rotation logic based on current day
@@ -91,7 +92,7 @@ export default function HotRightNowSlider() {
 
   // Smooth continuous scrolling
   useEffect(() => {
-    if (!sneakers?.length || isHovered) return;
+    if (!sneakers?.length || isDragging) return;
     
     const animationFrame = requestAnimationFrame(() => {
       setTranslateX(prev => {
@@ -107,15 +108,54 @@ export default function HotRightNowSlider() {
     });
 
     return () => cancelAnimationFrame(animationFrame);
-  }, [sneakers?.length, cardWidth, isHovered, translateX]);
+  }, [sneakers?.length, cardWidth, isDragging, translateX]);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX,
+      translateX: translateX
+    });
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.clientX - dragStart.x;
+    const newTranslateX = dragStart.translateX + deltaX;
+    
+    // Apply boundaries to prevent dragging too far
+    const maxTranslate = -(sneakers.length * cardWidth);
+    const boundedTranslate = Math.max(Math.min(newTranslateX, cardWidth), maxTranslate - cardWidth);
+    
+    setTranslateX(boundedTranslate);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    setIsDragging(false);
   };
+
+  // Global mouse up listener for when user releases outside the slider
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+      document.addEventListener('mouseleave', handleGlobalMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+      document.removeEventListener('mouseleave', handleGlobalMouseUp);
+    };
+  }, [isDragging]);
 
   if (isLoading) {
     return (
@@ -182,21 +222,25 @@ export default function HotRightNowSlider() {
         <div className="relative overflow-hidden">
           {/* Continuous Scrolling Container */}
           <div 
-            className="flex gap-6 transition-none"
+            className={`flex gap-6 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{
               transform: `translateX(${translateX}px)`,
-              width: `${extendedSneakers.length * cardWidth}px`
+              width: `${extendedSneakers.length * cardWidth}px`,
+              userSelect: 'none'
             }}
-            onMouseEnter={handleMouseEnter}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
           >
             {extendedSneakers.map((sneaker: any, index: number) => (
-              <Link key={`${sneaker.id}-${index}`} href={`/sneaker/${sneaker.slug}`}>
-                <Card 
-                  className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-purple-100 dark:border-purple-900/30 flex-shrink-0"
-                  style={{ width: `${cardWidth - 24}px` }}
-                >
-                  <div className="relative overflow-hidden">
+              <div key={`${sneaker.id}-${index}`} className="flex-shrink-0" style={{ width: `${cardWidth - 24}px` }}>
+                <Link href={`/sneaker/${sneaker.slug}`}>
+                  <Card 
+                    className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-purple-100 dark:border-purple-900/30 h-full"
+                    onMouseDown={(e) => e.preventDefault()}
+                  >
+                    <div className="relative overflow-hidden">
                     <img
                       src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
                       alt={sneaker.name}
@@ -238,8 +282,9 @@ export default function HotRightNowSlider() {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
-              </Link>
+                  </Card>
+                </Link>
+              </div>
             ))}
           </div>
 
