@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Filter, Grid, List, Heart, Plus } from "lucide-react";
+import SneakerCard from "@/components/SneakerCard";
 
 interface Sneaker {
   id: number;
@@ -175,54 +176,29 @@ export default function Catalog() {
         ) : viewMode === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {sneakers?.map((sneaker: Sneaker) => (
-              <Card key={sneaker.id} className="group cursor-pointer transition-all hover:shadow-lg">
-                <Link href={`/sneakers/${sneaker.slug}`}>
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <img
-                      src={sneaker.images[0] || "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=300&fit=crop"}
-                      alt={sneaker.name}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform"
-                    />
-                    <div className="absolute top-2 right-2">
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          // Add to wishlist functionality
-                        }}
-                      >
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <CardContent className="p-4">
-                    <div className="flex flex-wrap gap-1 mb-2">
-                      {sneaker.categories.slice(0, 2).map((category) => (
-                        <Badge key={category} variant="secondary" className="text-xs">
-                          {category}
-                        </Badge>
-                      ))}
-                    </div>
-                    <h3 className="font-semibold mb-1 line-clamp-2">{sneaker.name}</h3>
-                    <p className="text-sm text-muted-foreground mb-2">{sneaker.colorway}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-lg">{formatPrice(sneaker.retailPrice)}</span>
-                      <Button
-                        size="sm"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          // Add to collection functionality
-                        }}
-                      >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Add
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Link>
-              </Card>
+              <SneakerCard
+                key={sneaker.id}
+                sneaker={{
+                  id: sneaker.id,
+                  name: sneaker.name,
+                  brand: sneaker.brandName || 'Unknown',
+                  price: formatPrice(sneaker.retailPrice),
+                  imageUrl: sneaker.images[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc",
+                  slug: sneaker.slug,
+                  // Extended properties for hover preview
+                  brandName: sneaker.brandName,
+                  description: sneaker.description,
+                  images: sneaker.images,
+                  retailPrice: sneaker.retailPrice,
+                  categories: sneaker.categories,
+                  sizes: ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+                  materials: 'Premium materials and construction',
+                  colorway: sneaker.colorway,
+                  releaseDate: sneaker.releaseDate,
+                  sku: `SKU-${sneaker.id}`
+                }}
+                enableHoverPreview={true}
+              />
             ))}
           </div>
         ) : (

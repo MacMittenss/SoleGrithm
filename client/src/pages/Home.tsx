@@ -148,8 +148,20 @@ export default function Home() {
                     slug: sneaker.slug,
                     isNew: new Date(sneaker.releaseDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
                     rating: 4.5,
-                    reviewCount: Math.floor(Math.random() * 50) + 10
-                  }} 
+                    reviewCount: Math.floor(Math.random() * 50) + 10,
+                    // Extended properties for hover preview
+                    brandName: sneaker.brandName,
+                    description: sneaker.description,
+                    images: sneaker.images,
+                    retailPrice: sneaker.retailPrice,
+                    categories: sneaker.categories,
+                    sizes: ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+                    materials: 'Premium materials and construction',
+                    colorway: sneaker.colorway,
+                    releaseDate: sneaker.releaseDate,
+                    sku: `SKU-${sneaker.id}`
+                  }}
+                  enableHoverPreview={true}
                 />
               ))}
             </div>

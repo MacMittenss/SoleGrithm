@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
 import { Heart, Star, TrendingUp } from 'lucide-react';
+import SneakerHoverPreview from './SneakerHoverPreview';
 
 interface SneakerCardProps {
   sneaker: {
@@ -15,14 +16,78 @@ interface SneakerCardProps {
     isNew?: boolean;
     rating?: number;
     reviewCount?: number;
+    // Extended properties for hover preview
+    brandName?: string;
+    description?: string;
+    images?: string[];
+    retailPrice?: number;
+    categories?: string[];
+    sizes?: string[];
+    materials?: string;
+    colorway?: string;
+    releaseDate?: string;
+    sku?: string;
   };
+  enableHoverPreview?: boolean;
 }
 
-export default function SneakerCard({ sneaker }: SneakerCardProps) {
+export default function SneakerCard({ sneaker, enableHoverPreview = false }: SneakerCardProps) {  
+  const [showPreview, setShowPreview] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout>();
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    if (!enableHoverPreview) return;
+    
+    clearTimeout(hoverTimeoutRef.current);
+    setMousePosition({ x: e.clientX, y: e.clientY });
+    
+    hoverTimeoutRef.current = setTimeout(() => {
+      setShowPreview(true);
+    }, 500); // 500ms delay before showing preview
+  };
+
+  const handleMouseLeave = () => {
+    if (!enableHoverPreview) return;
+    
+    clearTimeout(hoverTimeoutRef.current);
+    setShowPreview(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!enableHoverPreview) return;
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  };
+
+  // Prepare sneaker data for preview with fallbacks
+  const previewSneaker = {
+    id: sneaker.id,
+    name: sneaker.name,
+    slug: sneaker.slug,
+    brandName: sneaker.brandName || sneaker.brand,
+    description: sneaker.description || `Premium ${sneaker.brand} sneaker with authentic design and quality construction.`,
+    images: sneaker.images || [sneaker.imageUrl],
+    retailPrice: sneaker.retailPrice || parseFloat(sneaker.price.replace(/[^0-9.]/g, '')),
+    categories: sneaker.categories || ['Lifestyle'],
+    sizes: sneaker.sizes || ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+    materials: sneaker.materials || 'Premium materials and construction',
+    colorway: sneaker.colorway || 'Classic',
+    releaseDate: sneaker.releaseDate || new Date().toISOString(),
+    sku: sneaker.sku || `SKU-${sneaker.id}`
+  };
+
   return (
-    <Link href={`/sneakers/${sneaker.slug}`}>
-      <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 sneaker-card">
-        <div className="relative overflow-hidden">
+    <>
+      <Link href={`/sneakers/${sneaker.slug}`}>
+        <Card 
+          ref={cardRef}
+          className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 sneaker-card"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+        >
+          <div className="relative overflow-hidden">
           <img
             src={sneaker.imageUrl || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
             alt={sneaker.name}
@@ -78,7 +143,18 @@ export default function SneakerCard({ sneaker }: SneakerCardProps) {
             </div>
           </div>
         </CardContent>
-      </Card>
-    </Link>
+        </Card>
+      </Link>
+      
+      {/* Hover Preview */}
+      {enableHoverPreview && (
+        <SneakerHoverPreview
+          sneaker={previewSneaker}
+          isVisible={showPreview}
+          position={mousePosition}
+          onClose={() => setShowPreview(false)}
+        />
+      )}
+    </>
   );
 }
