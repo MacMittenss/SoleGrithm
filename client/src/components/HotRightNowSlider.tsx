@@ -18,7 +18,9 @@ type DailyContent = {
 };
 
 export default function HotRightNowSlider() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [cardWidth, setCardWidth] = useState(320); // Default card width including gap
 
   // Daily rotation logic based on current day
   const dailyContent = useMemo((): DailyContent => {
@@ -70,29 +72,49 @@ export default function HotRightNowSlider() {
     }
   });
 
-  // Auto-advance slides every 5 seconds
+  // Calculate card width based on screen size
   useEffect(() => {
-    if (!sneakers?.length) return;
+    const updateCardWidth = () => {
+      if (window.innerWidth >= 1024) {
+        setCardWidth(320); // Large screens: 4 cards per view, ~300px + gap
+      } else if (window.innerWidth >= 640) {
+        setCardWidth(360); // Medium screens: 2 cards per view
+      } else {
+        setCardWidth(window.innerWidth - 48); // Small screens: 1 card per view
+      }
+    };
+
+    updateCardWidth();
+    window.addEventListener('resize', updateCardWidth);
+    return () => window.removeEventListener('resize', updateCardWidth);
+  }, []);
+
+  // Smooth continuous scrolling
+  useEffect(() => {
+    if (!sneakers?.length || isHovered) return;
     
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % Math.ceil(sneakers.length / 4));
-    }, 5000);
+    const animationFrame = requestAnimationFrame(() => {
+      setTranslateX(prev => {
+        const maxTranslate = -(sneakers.length * cardWidth);
+        const newTranslate = prev - 0.5; // Slow movement speed
+        
+        // Reset to beginning when reached the end
+        if (newTranslate <= maxTranslate) {
+          return 0;
+        }
+        return newTranslate;
+      });
+    });
 
-    return () => clearInterval(timer);
-  }, [sneakers?.length]);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [sneakers?.length, cardWidth, isHovered, translateX]);
 
-  const nextSlide = () => {
-    if (!sneakers?.length) return;
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(sneakers.length / 4));
+  const handleMouseEnter = () => {
+    setIsHovered(true);
   };
 
-  const prevSlide = () => {
-    if (!sneakers?.length) return;
-    setCurrentSlide((prev) => (prev - 1 + Math.ceil(sneakers.length / 4)) % Math.ceil(sneakers.length / 4));
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
 
   if (isLoading) {
@@ -122,8 +144,8 @@ export default function HotRightNowSlider() {
 
   if (!sneakers?.length) return null;
 
-  const slidesCount = Math.ceil(sneakers.length / 4);
-  const currentSneakers = sneakers.slice(currentSlide * 4, (currentSlide + 1) * 4);
+  // Duplicate sneakers array for seamless loop
+  const extendedSneakers = [...sneakers, ...sneakers];
 
   const IconComponent = dailyContent.icon;
 
@@ -157,34 +179,23 @@ export default function HotRightNowSlider() {
         </div>
 
         {/* Slider Container */}
-        <div className="relative">
-          {/* Navigation Buttons */}
-          {slidesCount > 1 && (
-            <>
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white/90 dark:bg-black/90 backdrop-blur-sm border-purple-200 hover:border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/50"
-                onClick={prevSlide}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white/90 dark:bg-black/90 backdrop-blur-sm border-purple-200 hover:border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/50"
-                onClick={nextSlide}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </>
-          )}
-
-          {/* Sneakers Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {currentSneakers.map((sneaker: any, index: number) => (
-              <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
-                <Card className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-purple-100 dark:border-purple-900/30">
+        <div className="relative overflow-hidden">
+          {/* Continuous Scrolling Container */}
+          <div 
+            className="flex gap-6 transition-none"
+            style={{
+              transform: `translateX(${translateX}px)`,
+              width: `${extendedSneakers.length * cardWidth}px`
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {extendedSneakers.map((sneaker: any, index: number) => (
+              <Link key={`${sneaker.id}-${index}`} href={`/sneaker/${sneaker.slug}`}>
+                <Card 
+                  className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-purple-100 dark:border-purple-900/30 flex-shrink-0"
+                  style={{ width: `${cardWidth - 24}px` }}
+                >
                   <div className="relative overflow-hidden">
                     <img
                       src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
@@ -199,7 +210,7 @@ export default function HotRightNowSlider() {
                     </div>
                     <div className="absolute top-3 right-3">
                       <Badge variant="secondary" className="bg-white/90 dark:bg-black/90 text-black dark:text-white">
-                        #{currentSlide * 4 + index + 1}
+                        #{(index % sneakers.length) + 1}
                       </Badge>
                     </div>
                   </div>
@@ -232,22 +243,9 @@ export default function HotRightNowSlider() {
             ))}
           </div>
 
-          {/* Slide Indicators */}
-          {slidesCount > 1 && (
-            <div className="flex justify-center mt-8 gap-2">
-              {Array.from({ length: slidesCount }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? 'bg-purple-500 w-8'
-                      : 'bg-purple-200 dark:bg-purple-800 hover:bg-purple-300 dark:hover:bg-purple-700'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+          {/* Fade gradients on edges */}
+          <div className={`absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r ${dailyContent.gradientFrom} via-white/50 to-transparent dark:from-black dark:via-black/50 pointer-events-none z-10`} />
+          <div className={`absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l ${dailyContent.gradientFrom} via-white/50 to-transparent dark:from-black dark:via-black/50 pointer-events-none z-10`} />
         </div>
 
         {/* View All Button */}
