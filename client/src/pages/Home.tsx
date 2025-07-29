@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import Hero from "@/components/Hero";
+import HotRightNowSlider from "@/components/HotRightNowSlider";
 import SneakerCard from "@/components/SneakerCard";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
@@ -51,6 +52,9 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section - Ultra-minimalistic, buttonless */}
       <Hero />
+
+      {/* What's Hot Right Now Slider */}
+      <HotRightNowSlider />
 
       {/* Quick Stats */}
       <section className="py-24 bg-muted/50">
