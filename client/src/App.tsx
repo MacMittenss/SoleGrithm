@@ -21,6 +21,7 @@ import VisualSearch from "@/pages/VisualSearch";
 import Collections from "@/pages/Collections";
 import ARTryOn from "@/pages/ARTryOn";
 import ReviewSummaryDemo from "@/pages/ReviewSummaryDemo";
+import TrendMap from "@/pages/TrendMap";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,6 +70,7 @@ function App() {
                   <Route path="/collections" component={Collections} />
                   <Route path="/review-summary" component={ReviewSummaryDemo} />
                   <Route path="/ar-tryon" component={ARTryOn} />
+                  <Route path="/trend-map" component={TrendMap} />
                   <Route component={NotFound} />
                 </Switch>
               </main>

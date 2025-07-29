@@ -106,6 +106,22 @@ export const aiChats = pgTable("ai_chats", {
   createdAt: timestamp("created_at").defaultNow()
 });
 
+export const geographicTrends = pgTable("geographic_trends", {
+  id: serial("id").primaryKey(),
+  city: text("city").notNull(),
+  state: text("state").notNull(),
+  country: text("country").default("US"),
+  latitude: decimal("latitude", { precision: 10, scale: 7 }).notNull(),
+  longitude: decimal("longitude", { precision: 10, scale: 7 }).notNull(),
+  sneakerId: integer("sneaker_id").references(() => sneakers.id),
+  trendScore: integer("trend_score").notNull(), // 0-100
+  searchVolume: integer("search_volume").default(0),
+  priceChangePercent: decimal("price_change_percent", { precision: 5, scale: 2 }).default("0"),
+  popularityRank: integer("popularity_rank").default(1),
+  lastUpdated: timestamp("last_updated").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow()
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   collections: many(collections),
@@ -171,6 +187,13 @@ export const aiChatsRelations = relations(aiChats, ({ one }) => ({
   })
 }));
 
+export const geographicTrendsRelations = relations(geographicTrends, ({ one }) => ({
+  sneaker: one(sneakers, {
+    fields: [geographicTrends.sneakerId],
+    references: [sneakers.id]
+  })
+}));
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -216,6 +239,12 @@ export const insertAiChatSchema = createInsertSchema(aiChats).omit({
   createdAt: true
 });
 
+export const insertGeographicTrendSchema = createInsertSchema(geographicTrends).omit({
+  id: true,
+  createdAt: true,
+  lastUpdated: true
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -246,3 +275,6 @@ export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 
 export type AiChat = typeof aiChats.$inferSelect;
 export type InsertAiChat = z.infer<typeof insertAiChatSchema>;
+
+export type GeographicTrend = typeof geographicTrends.$inferSelect;
+export type InsertGeographicTrend = z.infer<typeof insertGeographicTrendSchema>;

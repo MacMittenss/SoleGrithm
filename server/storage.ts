@@ -1,9 +1,9 @@
-import { users, brands, sneakers, collections, reviews, priceHistory, blogPosts, aiChats } from "@shared/schema";
+import { users, brands, sneakers, collections, reviews, priceHistory, blogPosts, aiChats, geographicTrends } from "@shared/schema";
 import type { 
   User, InsertUser, Brand, InsertBrand, Sneaker, InsertSneaker, SneakerWithBrand,
   Collection, InsertCollection, Review, InsertReview, 
   PriceHistory, InsertPriceHistory, BlogPost, InsertBlogPost,
-  AiChat, InsertAiChat
+  AiChat, InsertAiChat, GeographicTrend, InsertGeographicTrend
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, like, ilike, sql } from "drizzle-orm";
@@ -56,6 +56,12 @@ export interface IStorage {
   // AI Chats
   getUserChats(userId: number): Promise<AiChat[]>;
   createChat(chat: InsertAiChat): Promise<AiChat>;
+
+  // Geographic Trends
+  getGeographicTrends(): Promise<GeographicTrend[]>;
+  getGeographicTrendsByRegion(city: string, state: string): Promise<GeographicTrend[]>;
+  createGeographicTrend(data: InsertGeographicTrend): Promise<GeographicTrend>;
+  updateTrendScore(id: number, trendScore: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -408,6 +414,34 @@ export class DatabaseStorage implements IStorage {
   async createChat(insertChat: InsertAiChat): Promise<AiChat> {
     const [chat] = await db.insert(aiChats).values(insertChat).returning();
     return chat;
+  }
+
+  // Geographic Trends
+  async getGeographicTrends(): Promise<GeographicTrend[]> {
+    return await db
+      .select()
+      .from(geographicTrends)
+      .orderBy(desc(geographicTrends.trendScore));
+  }
+
+  async getGeographicTrendsByRegion(city: string, state: string): Promise<GeographicTrend[]> {
+    return await db
+      .select()
+      .from(geographicTrends)
+      .where(and(eq(geographicTrends.city, city), eq(geographicTrends.state, state)))
+      .orderBy(desc(geographicTrends.trendScore));
+  }
+
+  async createGeographicTrend(insertTrend: InsertGeographicTrend): Promise<GeographicTrend> {
+    const [trend] = await db.insert(geographicTrends).values(insertTrend).returning();
+    return trend;
+  }
+
+  async updateTrendScore(id: number, trendScore: number): Promise<void> {
+    await db
+      .update(geographicTrends)
+      .set({ trendScore, lastUpdated: new Date() })
+      .where(eq(geographicTrends.id, id));
   }
 }
 

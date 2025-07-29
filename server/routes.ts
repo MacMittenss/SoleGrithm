@@ -1089,6 +1089,117 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Geographic Trends Routes
+  app.get('/api/geographic-trends', async (req, res) => {
+    try {
+      const trends = await storage.getGeographicTrends();
+      res.json(trends);
+    } catch (error) {
+      console.error('Error fetching geographic trends:', error);
+      res.status(500).json({ error: 'Failed to fetch geographic trends' });
+    }
+  });
+
+  app.get('/api/geographic-trends/:city/:state', async (req, res) => {
+    try {
+      const { city, state } = req.params;
+      const trends = await storage.getGeographicTrendsByRegion(city, state);
+      res.json(trends);
+    } catch (error) {
+      console.error('Error fetching regional trends:', error);
+      res.status(500).json({ error: 'Failed to fetch regional trends' });
+    }
+  });
+
+  // Mock endpoint that provides sample geographic trend data for development
+  app.get('/api/geographic-trends/mock', async (req, res) => {
+    try {
+      // Sample data for development and demonstration
+      const mockTrends = [
+        {
+          id: 1,
+          city: "New York",
+          state: "NY", 
+          country: "US",
+          latitude: "40.7128000",
+          longitude: "-74.0060000",
+          sneakerId: 1,
+          trendScore: 95,
+          searchVolume: 15420,
+          priceChangePercent: "12.50",
+          popularityRank: 1,
+          lastUpdated: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 2,
+          city: "Los Angeles", 
+          state: "CA",
+          country: "US",
+          latitude: "34.0522000",
+          longitude: "-118.2437000", 
+          sneakerId: 2,
+          trendScore: 98,
+          searchVolume: 21500,
+          priceChangePercent: "22.10",
+          popularityRank: 1,
+          lastUpdated: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 3,
+          city: "Atlanta",
+          state: "GA",
+          country: "US", 
+          latitude: "33.7490000",
+          longitude: "-84.3880000",
+          sneakerId: 3,
+          trendScore: 92,
+          searchVolume: 18750,
+          priceChangePercent: "15.80",
+          popularityRank: 1,
+          lastUpdated: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 4,
+          city: "Chicago",
+          state: "IL",
+          country: "US",
+          latitude: "41.8781000", 
+          longitude: "-87.6298000",
+          sneakerId: 4,
+          trendScore: 89,
+          searchVolume: 9800,
+          priceChangePercent: "5.70",
+          popularityRank: 1,
+          lastUpdated: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 5,
+          city: "Miami",
+          state: "FL",
+          country: "US",
+          latitude: "25.7617000",
+          longitude: "-80.1918000",
+          sneakerId: 5,
+          trendScore: 85,
+          searchVolume: 14200,
+          priceChangePercent: "18.30",
+          popularityRank: 1,
+          lastUpdated: new Date().toISOString(),
+          createdAt: new Date().toISOString()
+        }
+      ];
+
+      res.json(mockTrends);
+    } catch (error) {
+      console.error('Error generating mock trends:', error);
+      res.status(500).json({ error: 'Failed to generate mock trends' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
