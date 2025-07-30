@@ -13,6 +13,40 @@ export const users = pgTable("users", {
   bio: text("bio"),
   isVerified: boolean("is_verified").default(false),
   isPremium: boolean("is_premium").default(false),
+  // Enhanced user profile data
+  preferences: jsonb("preferences"), // Stores user preferences for personalization
+  lastActiveAt: timestamp("last_active_at").defaultNow(),
+  totalInteractions: integer("total_interactions").default(0),
+  favoriteCategories: text("favorite_categories").array(),
+  sizesOwned: text("sizes_owned").array(),
+  preferredBrands: text("preferred_brands").array(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+// User interaction tracking table for anonymous data collection
+export const userInteractions = pgTable("user_interactions", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id"), // Anonymous session tracking
+  userId: integer("user_id").references(() => users.id), // Optional - for logged in users
+  actionType: text("action_type").notNull(), // click, save, like, view, search, etc.
+  targetType: text("target_type").notNull(), // sneaker, brand, blog, etc.
+  targetId: integer("target_id"), // ID of the target item
+  metadata: jsonb("metadata"), // Additional context data
+  userAgent: text("user_agent"),
+  ipAddress: text("ip_address"),
+  timestamp: timestamp("timestamp").defaultNow()
+});
+
+// User personalization profiles
+export const userPersonalization = pgTable("user_personalization", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  aiProfile: jsonb("ai_profile"), // AI-generated user profile
+  recommendationHistory: jsonb("recommendation_history"), // Track AI recommendations
+  interactionPatterns: jsonb("interaction_patterns"), // Behavioral patterns
+  stylePreferences: jsonb("style_preferences"), // AI-learned style preferences
+  lastPersonalizationUpdate: timestamp("last_personalization_update").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow()
 });
@@ -69,6 +103,18 @@ export const reviews = pgTable("reviews", {
   helpfulCount: integer("helpful_count").default(0),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow()
+});
+
+// Third-party API sync tracking
+export const apiSyncLog = pgTable("api_sync_log", {
+  id: serial("id").primaryKey(),
+  provider: text("provider").notNull(), // stockx, goat, etc.
+  endpoint: text("endpoint").notNull(),
+  lastSyncAt: timestamp("last_sync_at").defaultNow(),
+  status: text("status").notNull(), // success, error, pending
+  recordsUpdated: integer("records_updated").default(0),
+  errorMessage: text("error_message"),
+  metadata: jsonb("metadata")
 });
 
 export const priceHistory = pgTable("price_history", {
@@ -245,6 +291,24 @@ export const insertGeographicTrendSchema = createInsertSchema(geographicTrends).
   lastUpdated: true
 });
 
+// Insert schemas for new data strategy tables
+export const insertUserInteractionSchema = createInsertSchema(userInteractions).omit({
+  id: true,
+  timestamp: true
+});
+
+export const insertUserPersonalizationSchema = createInsertSchema(userPersonalization).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  lastPersonalizationUpdate: true
+});
+
+export const insertApiSyncLogSchema = createInsertSchema(apiSyncLog).omit({
+  id: true,
+  lastSyncAt: true
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -278,3 +342,13 @@ export type InsertAiChat = z.infer<typeof insertAiChatSchema>;
 
 export type GeographicTrend = typeof geographicTrends.$inferSelect;
 export type InsertGeographicTrend = z.infer<typeof insertGeographicTrendSchema>;
+
+// New data strategy types
+export type UserInteraction = typeof userInteractions.$inferSelect;
+export type InsertUserInteraction = z.infer<typeof insertUserInteractionSchema>;
+
+export type UserPersonalization = typeof userPersonalization.$inferSelect;
+export type InsertUserPersonalization = z.infer<typeof insertUserPersonalizationSchema>;
+
+export type ApiSyncLog = typeof apiSyncLog.$inferSelect;
+export type InsertApiSyncLog = z.infer<typeof insertApiSyncLogSchema>;

@@ -26,6 +26,9 @@ The application follows a modern full-stack architecture with clear separation b
 - **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
 - **Authentication**: Firebase Authentication for user management and JWT token verification
 - **AI Integration**: OpenAI API for chat functionality, recommendations, and content generation
+- **Data Strategy Services**: Modular service architecture for user tracking, Firebase profiles, third-party sync, and AI personalization
+- **Anonymous Analytics**: Session-based tracking system for collecting interaction data without user accounts
+- **Market Data Integration**: Live price feeds and market analysis from StockX and GOAT APIs
 
 ## Key Components
 
@@ -47,6 +50,9 @@ The application follows a modern full-stack architecture with clear separation b
 - **Image Analysis**: Sneaker image recognition and analysis capabilities
 - **Price Prediction**: Market trend analysis and price forecasting
 - **Personalized Recommendations**: User preference-based sneaker suggestions
+- **AI User Profiling**: OpenAI GPT-4o generates comprehensive user behavior profiles for personalization
+- **Anonymous Interaction Analysis**: AI-driven insights from anonymous user behavior patterns
+- **Real-Time Personalization**: Dynamic recommendation engine that adapts with every user visit
 
 ### UI Component System
 - Built on Radix UI primitives for accessibility and customization

@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
 import { Heart, Star, TrendingUp } from 'lucide-react';
 import SneakerHoverPreview from './SneakerHoverPreview';
+import { useUserTracking } from '@/hooks/useUserTracking';
 
 interface SneakerCardProps {
   sneaker: {
@@ -33,6 +34,7 @@ interface SneakerCardProps {
 
 export default function SneakerCard({ sneaker, enableHoverPreview = false }: SneakerCardProps) {  
   const [showPreview, setShowPreview] = useState(false);
+  const { trackSneakerView, trackHoverPreview } = useUserTracking();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHoveringCard, setIsHoveringCard] = useState(false);
   const [isHoveringPreview, setIsHoveringPreview] = useState(false);

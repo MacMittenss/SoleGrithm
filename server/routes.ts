@@ -18,6 +18,10 @@ import {
   generateSneakerCareTips
 } from "./services/openai";
 import { updateSneakerPrices, fetchUpcomingReleases } from "./services/sneaker-api";
+import { UserTrackingService } from "./services/user-tracking";
+import { FirebaseProfileService } from "./services/firebase-profiles";
+import { ThirdPartyAPIService } from "./services/third-party-sync";
+import { AIPersonalizationService } from "./services/ai-personalization";
 import { insertUserSchema, insertSneakerSchema, insertReviewSchema, insertCollectionSchema, insertBlogPostSchema, type SneakerWithBrand } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
@@ -1222,6 +1226,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error generating mock trends:', error);
       res.status(500).json({ error: 'Failed to generate mock trends' });
+    }
+  });
+
+  // === NEW DATA STRATEGY ROUTES ===
+
+  // User interaction tracking (anonymous)
+  app.post('/api/track/interaction', async (req, res) => {
+    try {
+      const { sessionId, actionType, targetType, targetId, metadata } = req.body;
+      
+      if (!actionType || !targetType) {
+        return res.status(400).json({ error: 'actionType and targetType are required' });
+      }
+
+      await UserTrackingService.trackInteraction(req, {
+        sessionId,
+        actionType,
+        targetType,
+        targetId,
+        metadata
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Tracking error:', error);
+      res.status(500).json({ error: 'Failed to track interaction' });
+    }
+  });
+
+  // AI Personalized recommendations  
+  app.get('/api/ai/personalized-recommendations', authenticateUser, async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 10;
+      const recommendations = await AIPersonalizationService.getPersonalizedRecommendations(req.user.id, limit);
+      
+      // Track recommendation view
+      await UserTrackingService.trackInteraction(req, {
+        userId: req.user.id,
+        actionType: 'view',
+        targetType: 'search',
+        metadata: { type: 'personalized_recommendations', count: recommendations.length }
+      });
+
+      res.json(recommendations);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get personalized recommendations' });
+    }
+  });
+
+  // Generate AI user profile
+  app.post('/api/ai/generate-profile', authenticateUser, async (req, res) => {
+    try {
+      const profile = await AIPersonalizationService.generateUserProfile(req.user.id);
+      res.json({ profile, success: true });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to generate AI profile' });
+    }
+  });
+
+  // Third-party API sync - get latest price data
+  app.get('/api/sneakers/:id/prices', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.id);
+      const prices = await ThirdPartyAPIService.getLatestPrices(sneakerId);
+      res.json(prices);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get price data' });
+    }
+  });
+
+  // Enhanced Firebase user profile
+  app.get('/api/user/enhanced-profile', authenticateUser, async (req, res) => {
+    try {
+      const profile = await FirebaseProfileService.getEnhancedProfile(req.user.firebaseUid);
+      res.json(profile);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get enhanced profile' });
+    }
+  });
+
+  // Admin sync endpoints
+  app.post('/api/admin/sync/stockx', authenticateUser, async (req, res) => {
+    try {
+      if (!req.user.isPremium) {
+        return res.status(403).json({ error: 'Admin access required' });
+      }
+      
+      const result = await ThirdPartyAPIService.syncStockXPrices();
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to sync StockX data' });
     }
   });
 
