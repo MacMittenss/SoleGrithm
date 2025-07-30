@@ -255,22 +255,8 @@ export class DatabaseStorage implements IStorage {
   // Reviews
   async getSneakerReviews(sneakerId: number): Promise<Review[]> {
     return await db
-      .select({
-        id: reviews.id,
-        userId: reviews.userId,
-        sneakerId: reviews.sneakerId,
-        rating: reviews.rating,
-        title: reviews.title,
-        content: reviews.content,
-        createdAt: reviews.createdAt,
-        updatedAt: reviews.updatedAt,
-        user: {
-          displayName: users.displayName,
-          avatar: users.avatar
-        }
-      })
+      .select()
       .from(reviews)
-      .leftJoin(users, eq(reviews.userId, users.id))
       .where(eq(reviews.sneakerId, sneakerId))
       .orderBy(desc(reviews.createdAt));
   }
@@ -323,30 +309,6 @@ export class DatabaseStorage implements IStorage {
     await db.delete(collections).where(eq(collections.id, id));
   }
 
-
-
-  async getUserReviews(userId: number): Promise<Review[]> {
-    return await db
-      .select()
-      .from(reviews)
-      .where(eq(reviews.userId, userId))
-      .orderBy(desc(reviews.createdAt));
-  }
-
-  async createReview(insertReview: InsertReview): Promise<Review> {
-    const [review] = await db.insert(reviews).values(insertReview).returning();
-    return review;
-  }
-
-  async updateReview(id: number, updateData: Partial<InsertReview>): Promise<Review> {
-    const [review] = await db
-      .update(reviews)
-      .set({ ...updateData, updatedAt: new Date() })
-      .where(eq(reviews.id, id))
-      .returning();
-    return review;
-  }
-
   // Price History
   async getSneakerPrices(sneakerId: number, size?: string): Promise<PriceHistory[]> {
     let queryBuilder = db
@@ -355,10 +317,10 @@ export class DatabaseStorage implements IStorage {
       .where(eq(priceHistory.sneakerId, sneakerId));
 
     if (size) {
-      queryBuilder = queryBuilder.where(eq(priceHistory.size, size));
+      queryBuilder = queryBuilder.where(and(eq(priceHistory.sneakerId, sneakerId), eq(priceHistory.size, size)));
     }
 
-    return await queryBuilder.orderBy(desc(priceHistory.timestamp));
+    return await queryBuilder.orderBy(desc(priceHistory.recordedAt));
   }
 
   async addPriceRecord(insertPriceRecord: InsertPriceHistory): Promise<PriceHistory> {
@@ -368,13 +330,14 @@ export class DatabaseStorage implements IStorage {
 
   // Blog Posts
   async getBlogPosts(published = true): Promise<BlogPost[]> {
-    let queryBuilder = db.select().from(blogPosts);
-    
     if (published) {
-      queryBuilder = queryBuilder.where(eq(blogPosts.published, true));
+      return await db.select().from(blogPosts)
+        .where(eq(blogPosts.published, true))
+        .orderBy(desc(blogPosts.createdAt));
     }
-
-    return await queryBuilder.orderBy(desc(blogPosts.createdAt));
+    
+    return await db.select().from(blogPosts)
+      .orderBy(desc(blogPosts.createdAt));
   }
 
   async getBlogPost(id: number): Promise<BlogPost | undefined> {
