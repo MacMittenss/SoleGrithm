@@ -170,7 +170,7 @@ export default function Footer() {
         <div className="py-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="text-sm text-muted-foreground">
-              © {currentYear} SoleGrid. All rights reserved. Built for sneaker culture.
+              © {currentYear} SoleGrithm. All rights reserved. Built for sneaker culture.
             </div>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
               <div className="text-sm text-muted-foreground">

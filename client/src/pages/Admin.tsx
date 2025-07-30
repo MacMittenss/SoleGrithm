@@ -114,7 +114,7 @@ export default function Admin() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold tracking-tight mb-4">Admin Dashboard</h1>
           <p className="text-xl text-slate-600 dark:text-slate-400">
-            Manage your SoleGrid platform
+            Manage your SoleGrithm platform
           </p>
         </div>
 
@@ -414,7 +414,7 @@ export default function Admin() {
                     <Label htmlFor="site-name">Site Name</Label>
                     <Input
                       id="site-name"
-                      defaultValue="SoleGrid"
+                      defaultValue="SoleGrithm"
                     />
                   </div>
                   <div className="space-y-2">

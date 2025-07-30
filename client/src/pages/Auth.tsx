@@ -113,7 +113,7 @@ export default function Auth({ isOpen, onClose }: AuthProps) {
           </CardTitle>
           <p className="text-sm text-muted-foreground">
             {mode === "signin" 
-              ? "Sign in to your SoleGrid account" 
+              ? "Sign in to your SoleGrithm account" 
               : "Join the ultimate sneaker community"
             }
           </p>

@@ -52,7 +52,7 @@ export default function AuthModal() {
         await createUserWithEmailAndPassword(auth, formData.email, formData.password);
         toast({
           title: "Account created!",
-          description: "Welcome to SoleGrid. Start building your collection."
+          description: "Welcome to SoleGrithm. Start building your collection."
         });
       } else {
         await signInWithEmailAndPassword(auth, formData.email, formData.password);
@@ -80,7 +80,7 @@ export default function AuthModal() {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       toast({
-        title: "Welcome to SoleGrid!",
+        title: "Welcome to SoleGrithm!",
         description: "Successfully signed in with Google."
       });
       setIsOpen(false);
@@ -100,7 +100,7 @@ export default function AuthModal() {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-2xl text-center">
-            {mode === 'signin' ? 'Welcome Back' : 'Join SoleGrid'}
+            {mode === 'signin' ? 'Welcome Back' : 'Join SoleGrithm'}
           </DialogTitle>
           <p className="text-center text-muted-foreground">
             {mode === 'signin' 

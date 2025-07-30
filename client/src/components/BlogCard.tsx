@@ -68,7 +68,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
               <div className="flex items-center space-x-4 text-sm text-white/80">
                 <div className="flex items-center space-x-1">
                   <User className="h-4 w-4" />
-                  <span>{post.author?.displayName || 'SoleGrid Team'}</span>
+                  <span>{post.author?.displayName || 'SoleGrithm Team'}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <Calendar className="h-4 w-4" />
@@ -127,7 +127,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-1">
                 <User className="h-3 w-3" />
-                <span>{post.author?.displayName || 'SoleGrid Team'}</span>
+                <span>{post.author?.displayName || 'SoleGrithm Team'}</span>
               </div>
               <div className="flex items-center space-x-1">
                 <Calendar className="h-3 w-3" />
