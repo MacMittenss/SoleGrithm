@@ -18,8 +18,8 @@ export default function VisualSearchDemo() {
             Visual Sneaker Search
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Upload any sneaker photo and let our AI identify the exact model, suggest similar styles, 
-            and provide market insights. Perfect for finding that pair you spotted on social media.
+            Upload any sneaker photo and let our <strong>OpenAI-powered Vision AI</strong> identify the exact model, 
+            analyze colorways, detect style categories, and provide market insights. Perfect for finding that pair you spotted on social media.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export default function VisualSearchDemo() {
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-sm text-muted-foreground">
-                Advanced computer vision identifies brand, model, colorway, and provides confidence scoring
+                OpenAI GPT-4o Vision analyzes brand, model, colorway, style category, and market context with confidence scoring
               </p>
             </CardContent>
           </Card>

@@ -288,6 +288,19 @@ export default function VisualSearch() {
 
           {/* Results Section */}
           <div className="space-y-6">
+            {analyzeImageMutation.isError && (
+              <Card className="border-destructive">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-2 text-destructive">
+                    <AlertCircle className="w-4 h-4" />
+                    <span className="text-sm">
+                      Failed to analyze image. Please try again or ensure your image is clear and well-lit.
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
             {analysisResult ? (
               <Tabs defaultValue="identification" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
@@ -364,17 +377,20 @@ export default function VisualSearch() {
                 <TabsContent value="analysis" className="space-y-4">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Style Analysis</CardTitle>
+                      <CardTitle className="flex items-center gap-2">
+                        <Sparkles className="w-5 h-5" />
+                        AI-Powered Analysis
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
-                        <h4 className="font-medium mb-2">Category</h4>
-                        <Badge variant="outline">
+                        <h4 className="font-medium mb-2">Category & Style</h4>
+                        <Badge variant="outline" className="mb-2">
                           {analysisResult.styleClassification.category} → {analysisResult.styleClassification.subcategory}
                         </Badge>
                       </div>
                       <div>
-                        <h4 className="font-medium mb-2">Style Tags</h4>
+                        <h4 className="font-medium mb-2">AI Recognition Tags</h4>
                         <div className="flex flex-wrap gap-2">
                           {analysisResult.styleClassification.tags.map((tag, index) => (
                             <Badge key={index} variant="secondary" className="text-xs">
@@ -384,17 +400,21 @@ export default function VisualSearch() {
                         </div>
                       </div>
                       <div>
-                        <h4 className="font-medium mb-2">Color Scheme</h4>
-                        <div className="flex items-center gap-2">
+                        <h4 className="font-medium mb-2">Colorway Analysis</h4>
+                        <div className="space-y-2">
                           <Badge variant="outline">{analysisResult.colorAnalysis.colorScheme}</Badge>
-                          <div className="flex gap-1">
-                            {analysisResult.colorAnalysis.dominantColors.map((color, index) => (
-                              <div 
-                                key={index}
-                                className="w-4 h-4 rounded-full border"
-                                style={{ backgroundColor: color }}
-                              />
-                            ))}
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-muted-foreground">Dominant Colors:</span>
+                            <div className="flex gap-1">
+                              {analysisResult.colorAnalysis.dominantColors.map((color, index) => (
+                                <div 
+                                  key={index}
+                                  className="w-5 h-5 rounded-full border-2 border-muted"
+                                  style={{ backgroundColor: color }}
+                                  title={color}
+                                />
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -402,14 +422,22 @@ export default function VisualSearch() {
                   </Card>
                 </TabsContent>
               </Tabs>
-            ) : (
+            ) : !analyzeImageMutation.isPending && !analyzeImageMutation.isError && (
               <Card>
                 <CardContent className="py-12 text-center">
-                  <Camera className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No image uploaded yet</h3>
-                  <p className="text-muted-foreground">
-                    Upload a sneaker photo to see AI-powered identification and analysis
+                  <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Search className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">Ready for AI Analysis</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Upload a sneaker image to experience real-time OpenAI Vision identification
                   </p>
+                  <div className="flex justify-center">
+                    <Badge variant="outline" className="text-xs">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      Powered by GPT-4o Vision API
+                    </Badge>
+                  </div>
                 </CardContent>
               </Card>
             )}

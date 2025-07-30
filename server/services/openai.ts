@@ -169,17 +169,35 @@ export async function analyzeSneakerImage(base64Image: string): Promise<{
   model: string;
   confidence: number;
   description: string;
+  colorway?: string;
+  dominantColors?: string[];
+  styleCategory?: string;
+  marketContext?: string;
 }> {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       messages: [
+        {
+          role: "system",
+          content: "You are an expert sneaker analyst with deep knowledge of sneaker brands, models, colorways, and market trends. Analyze images with high accuracy and provide detailed insights."
+        },
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: "Analyze this sneaker image and identify the brand, model, and provide a description. Respond in JSON format with fields: brand, model, confidence (0-1), description."
+              text: `Analyze this sneaker image in detail and provide:
+              1. Brand identification (Nike, Adidas, Jordan, etc.)
+              2. Specific model name and version
+              3. Colorway description
+              4. Dominant colors (hex codes if possible, or color names)
+              5. Style category (Basketball, Running, Lifestyle, etc.)
+              6. Confidence level (0-1)
+              7. Detailed description including notable features
+              8. Market context or cultural significance if recognizable
+              
+              Respond in JSON format with fields: brand, model, confidence, description, colorway, dominantColors (array), styleCategory, marketContext.`
             },
             {
               type: "image_url",
@@ -191,15 +209,19 @@ export async function analyzeSneakerImage(base64Image: string): Promise<{
         },
       ],
       response_format: { type: "json_object" },
-      max_tokens: 300,
+      max_tokens: 500,
     });
 
     const result = JSON.parse(response.choices[0].message.content || '{}');
     return {
       brand: result.brand || 'Unknown',
       model: result.model || 'Unknown',
-      confidence: result.confidence || 0,
-      description: result.description || 'No description available'
+      confidence: Math.max(0, Math.min(1, result.confidence || 0)),
+      description: result.description || 'No description available',
+      colorway: result.colorway || 'Unknown colorway',
+      dominantColors: result.dominantColors || ['#000000', '#FFFFFF'],
+      styleCategory: result.styleCategory || 'Lifestyle',
+      marketContext: result.marketContext || 'Market analysis unavailable'
     };
   } catch (error) {
     console.error('OpenAI image analysis error:', error);
