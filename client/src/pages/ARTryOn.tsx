@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import { 
   Camera, 
   Video, 
@@ -19,7 +24,14 @@ import {
   PauseCircle,
   RefreshCw,
   Settings,
-  Info
+  Info,
+  ArrowLeft,
+  Volume2,
+  VolumeX,
+  Maximize,
+  Minimize,
+  SkipForward,
+  SkipBack
 } from 'lucide-react';
 import SneakerCard from '@/components/SneakerCard';
 
@@ -28,6 +40,20 @@ interface ARSession {
   selectedSneaker: any | null;
   cameraStream: MediaStream | null;
   isRecording: boolean;
+  overlayOpacity: number;
+  trackingQuality: 'high' | 'medium' | 'low';
+  isFullscreen: boolean;
+  isMuted: boolean;
+}
+
+interface ARControls {
+  rotation: number;
+  scale: number;
+  position: { x: number; y: number };
+  brightness: number;
+  contrast: number;
+  autoTracking: boolean;
+  footDetection: boolean;
 }
 
 export default function ARTryOn() {
@@ -37,11 +63,25 @@ export default function ARTryOn() {
     isActive: false,
     selectedSneaker: null,
     cameraStream: null,
-    isRecording: false
+    isRecording: false,
+    overlayOpacity: 80,
+    trackingQuality: 'high',
+    isFullscreen: false,
+    isMuted: false
+  });
+  const [arControls, setArControls] = useState<ARControls>({
+    rotation: 0,
+    scale: 100,
+    position: { x: 0, y: 0 },
+    brightness: 100,
+    contrast: 100,
+    autoTracking: true,
+    footDetection: true
   });
   const [selectedSneakerId, setSelectedSneakerId] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showAdvancedControls, setShowAdvancedControls] = useState(false);
 
   // Fetch sneakers for try-on
   const { data: sneakers } = useQuery({
@@ -78,8 +118,11 @@ export default function ARTryOn() {
         isActive: true,
         cameraStream: stream
       }));
+      
+      // Initialize enhanced AR rendering
+      initializeAROverlay();
     } catch (err) {
-      setError('Unable to access camera. Please check permissions.');
+      setError('Unable to access camera. Please check permissions and try again.');
       console.error('Camera error:', err);
     } finally {
       setIsLoading(false);
@@ -108,7 +151,115 @@ export default function ARTryOn() {
     setSelectedSneakerId(sneaker.id.toString());
   };
 
-  // Simulate AR overlay rendering
+  // Enhanced AR overlay initialization
+  const initializeAROverlay = () => {
+    if (!canvasRef.current || !videoRef.current) return;
+    
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const ctx = canvas.getContext('2d');
+    
+    if (!ctx) return;
+    
+    const renderARFrame = () => {
+      if (!arSession.isActive) return;
+      
+      // Set canvas size to match video
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
+      
+      // Apply brightness and contrast adjustments
+      ctx.filter = `brightness(${arControls.brightness}%) contrast(${arControls.contrast}%)`;
+      
+      // Draw video frame
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // Reset filter for overlay
+      ctx.filter = 'none';
+      
+      // Draw AR sneaker overlay if selected
+      if (arSession.selectedSneaker) {
+        drawEnhancedAROverlay(ctx, canvas.width, canvas.height);
+      }
+      
+      requestAnimationFrame(renderARFrame);
+    };
+    
+    requestAnimationFrame(renderARFrame);
+  };
+
+  // Enhanced AR sneaker overlay rendering
+  const drawEnhancedAROverlay = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    if (!arSession.selectedSneaker) return;
+    
+    // Calculate foot position with tracking
+    const baseFootX = width * 0.5;
+    const baseFootY = height * 0.75;
+    const footX = baseFootX + arControls.position.x;
+    const footY = baseFootY + arControls.position.y;
+    
+    const sneakerWidth = 180 * (arControls.scale / 100);
+    const sneakerHeight = 100 * (arControls.scale / 100);
+    
+    ctx.save();
+    ctx.translate(footX, footY);
+    ctx.rotate((arControls.rotation * Math.PI) / 180);
+    ctx.globalAlpha = arSession.overlayOpacity / 100;
+    
+    // Enhanced sneaker visualization
+    const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, sneakerWidth/2);
+    gradient.addColorStop(0, '#FF6B35');
+    gradient.addColorStop(0.6, '#F7931E');
+    gradient.addColorStop(1, '#C73E1D');
+    
+    // Main sneaker body
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, sneakerWidth/2, sneakerHeight/2, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Sneaker sole
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.beginPath();
+    ctx.ellipse(0, sneakerHeight/3, sneakerWidth/2.2, sneakerHeight/6, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Sneaker details
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, sneakerWidth/2, sneakerHeight/2, 0, 0, 2 * Math.PI);
+    ctx.stroke();
+    
+    // Brand/model text
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(arSession.selectedSneaker.brand || 'SoleGrithm', 0, -10);
+    ctx.font = '12px Arial';
+    ctx.fillText(arSession.selectedSneaker.name?.split(' ').slice(-2).join(' ') || 'AR Sneaker', 0, 8);
+    
+    // Foot tracking indicators
+    if (arControls.footDetection) {
+      ctx.strokeStyle = arControls.autoTracking ? '#00FF00' : '#FFA500';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.strokeRect(-sneakerWidth/2 - 15, -sneakerHeight/2 - 15, sneakerWidth + 30, sneakerHeight + 30);
+      ctx.setLineDash([]);
+      
+      // Tracking quality indicator
+      const qualityColor = arSession.trackingQuality === 'high' ? '#00FF00' : 
+                          arSession.trackingQuality === 'medium' ? '#FFA500' : '#FF0000';
+      ctx.fillStyle = qualityColor;
+      ctx.beginPath();
+      ctx.arc(sneakerWidth/2 + 20, -sneakerHeight/2 - 20, 4, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+    
+    ctx.restore();
+  };
+
+  // Simulate AR overlay rendering (legacy support)
   useEffect(() => {
     if (arSession.isActive && arSession.selectedSneaker && videoRef.current && canvasRef.current) {
       const canvas = canvasRef.current;
