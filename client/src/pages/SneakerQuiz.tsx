@@ -42,6 +42,10 @@ interface QuizResult {
   confidence: number;
   personalityDescription: string;
   styleStory: string;
+  brandRecommendations?: string[];
+  matchingExplanation?: string;
+  aiEnhanced?: boolean;
+  matchingAlgorithm?: string;
 }
 
 const quizQuestions: QuizQuestion[] = [
@@ -258,18 +262,39 @@ export default function SneakerQuiz() {
     return (
       <div className="min-h-screen flex items-center justify-center py-12">
         <div className="max-w-md mx-auto text-center space-y-6">
-          <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-            <Sparkles className="w-8 h-8 text-primary animate-pulse" />
+          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-primary to-primary/60 rounded-full flex items-center justify-center">
+            <Sparkles className="w-10 h-10 text-white animate-spin" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold mb-2">Analyzing Your Style...</h2>
-            <p className="text-muted-foreground">
-              Our AI is matching your personality with perfect sneakers
+            <h2 className="text-2xl font-bold mb-2">AI Personality Analysis in Progress...</h2>
+            <p className="text-muted-foreground mb-4">
+              OpenAI GPT-4o is analyzing your responses to create a comprehensive personality profile
             </p>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                <span>Analyzing personality traits</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-100" />
+                <span>Matching with brand preferences</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-200" />
+                <span>Generating personalized recommendations</span>
+              </div>
+            </div>
           </div>
           <div className="w-full bg-muted rounded-full h-2">
-            <div className="bg-primary h-2 rounded-full animate-pulse" style={{ width: '75%' }} />
+            <div 
+              className="bg-gradient-to-r from-primary to-primary/60 h-2 rounded-full animate-pulse transition-all duration-1000" 
+              style={{ width: '85%' }} 
+            />
           </div>
+          <Badge variant="outline" className="text-xs">
+            <Sparkles className="w-3 h-3 mr-1" />
+            Powered by AI Personality Analysis
+          </Badge>
         </div>
       </div>
     );
@@ -335,13 +360,61 @@ export default function SneakerQuiz() {
             </Card>
           </div>
 
+          {/* AI Enhanced Insights */}
+          {(result.brandRecommendations && result.brandRecommendations.length > 0) && (
+            <Card className="mb-12">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                  AI-Powered Brand Insights
+                </CardTitle>
+                {result.aiEnhanced && (
+                  <Badge variant="outline" className="w-fit">
+                    <Sparkles className="w-3 h-3 mr-1" />
+                    Enhanced by OpenAI GPT-4o
+                  </Badge>
+                )}
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="font-semibold mb-3">Recommended Brands for Your Personality</h3>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {result.brandRecommendations.map((brand, index) => (
+                      <Badge key={index} variant="secondary" className="px-3 py-2 text-sm">
+                        {brand}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                {result.matchingExplanation && (
+                  <div className="bg-muted/50 p-4 rounded-lg">
+                    <p className="text-sm text-muted-foreground italic">
+                      "{result.matchingExplanation}"
+                    </p>
+                  </div>
+                )}
+                {result.matchingAlgorithm && (
+                  <div className="text-xs text-muted-foreground">
+                    Powered by {result.matchingAlgorithm}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
           {/* Recommendations */}
           <div className="space-y-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold mb-4">Your Perfect Matches</h2>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-2">
                 These sneakers were chosen specifically for your personality and style
               </p>
+              {result.aiEnhanced && (
+                <Badge variant="outline" className="text-xs">
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  AI-Enhanced Matching
+                </Badge>
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

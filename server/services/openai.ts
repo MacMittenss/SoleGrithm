@@ -229,6 +229,72 @@ export async function analyzeSneakerImage(base64Image: string): Promise<{
   }
 }
 
+export async function analyzePersonalityFromQuiz(quizAnswers: {
+  personality: string;
+  lifestyle: string;
+  style: string;
+  budget: string;
+  occasion: string;
+}, personalityTraits: string[]): Promise<{
+  personalityType: string;
+  detailedAnalysis: string;
+  styleInsights: string;
+  brandRecommendations: string[];
+  personalityScore: number;
+  matchingExplanation: string;
+}> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      messages: [
+        {
+          role: "system",
+          content: "You are an expert personality analyst and sneaker stylist with deep understanding of fashion psychology, brand positioning, and personal style. Analyze quiz responses to provide detailed personality insights and sneaker recommendations."
+        },
+        {
+          role: "user",
+          content: `Analyze this sneaker style quiz responses and provide comprehensive personality analysis:
+
+          Quiz Answers:
+          - Personality Type: ${quizAnswers.personality}
+          - Lifestyle: ${quizAnswers.lifestyle} 
+          - Style Preference: ${quizAnswers.style}
+          - Budget Range: ${quizAnswers.budget}
+          - Primary Occasion: ${quizAnswers.occasion}
+          
+          Personality Traits: ${personalityTraits.join(', ')}
+
+          Provide analysis in JSON format with:
+          - personalityType: A catchy title for their sneaker personality (e.g., "The Urban Explorer", "The Classic Connoisseur")
+          - detailedAnalysis: 2-3 sentences analyzing their personality based on quiz responses
+          - styleInsights: 2-3 sentences about how their personality translates to sneaker choices
+          - brandRecommendations: Array of 4-5 sneaker brands that match their personality
+          - personalityScore: Confidence score (1-100) in the personality assessment
+          - matchingExplanation: 1-2 sentences explaining why these brands fit their personality
+          
+          Focus on authentic personality insights and genuine brand-personality connections.`
+        }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 600,
+    });
+
+    const result = JSON.parse(response.choices[0].message.content || '{}');
+    
+    return {
+      personalityType: result.personalityType || 'The Sneaker Enthusiast',
+      detailedAnalysis: result.detailedAnalysis || 'Your style reflects a balanced approach to fashion and functionality.',
+      styleInsights: result.styleInsights || 'You appreciate quality and comfort in your sneaker choices.',
+      brandRecommendations: result.brandRecommendations || ['Nike', 'Adidas', 'New Balance', 'Converse'],
+      personalityScore: Math.max(70, Math.min(100, result.personalityScore || 85)),
+      matchingExplanation: result.matchingExplanation || 'These brands align with your style preferences and lifestyle needs.'
+    };
+  } catch (error) {
+    console.error('Personality analysis error:', error);
+    throw new Error("Failed to analyze personality");
+  }
+}
+
 export async function generateBlogContent(topic: string, keywords?: string[]): Promise<{
   title: string;
   excerpt: string;
