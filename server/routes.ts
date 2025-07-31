@@ -103,7 +103,7 @@ function generateEnhancedFallbackAnalysis(preferences: any, personalityTraits: s
 
 // Generate AI collection with OpenAI
 async function generateAICollection(theme: string, preferences: any, sneakers: any[]) {
-  const openai = await import('../services/openai.js');
+  const openai = await import('./services/openai.js');
   
   const prompt = `Create a unique sneaker collection based on the theme "${theme}" and user preferences: ${JSON.stringify(preferences)}. 
 
