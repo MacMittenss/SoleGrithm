@@ -65,7 +65,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
 
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
-    { href: '/catalog', label: 'Catalog', icon: Grid3X3 },
+    { href: '/live-market', label: 'Live Market', icon: TrendingUp },
     { href: '/blog', label: 'Blog', icon: BookOpen },
     { href: '/discover', label: 'SoleRadar', icon: Compass },
     { href: '/quiz', label: 'Style Quiz', icon: Sparkles },
@@ -74,7 +74,6 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     { href: '/review-summary', label: 'AI Reviews', icon: MessageCircle },
     { href: '/ar-tryon', label: 'AR Try-On', icon: Eye },
     { href: '/trend-map', label: 'Sole Map', icon: MapPin },
-    { href: '/live-market', label: 'Live Market', icon: TrendingUp },
   ];
 
   const isActive = (href: string) => location === href;
