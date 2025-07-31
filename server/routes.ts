@@ -1401,6 +1401,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Mock endpoint that provides sample geographic trend data for development
+  // Live market data endpoints
+  app.get('/api/market/search', async (req, res) => {
+    try {
+      const { q: query, limit = 20 } = req.query;
+      
+      if (!query || typeof query !== 'string') {
+        return res.status(400).json({ error: 'Query parameter is required' });
+      }
+
+      const { marketAggregator } = await import('./services/sneaker-market-aggregator.js');
+      const results = await marketAggregator.searchSneakers(query, parseInt(limit as string));
+      
+      res.json({
+        results,
+        total: results.length,
+        query: query,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Market search error:', error);
+      res.status(500).json({ 
+        error: 'Market search unavailable',
+        fallback: 'Using local catalog data'
+      });
+    }
+  });
+
+  app.get('/api/market/trending', async (req, res) => {
+    try {
+      const { limit = 50 } = req.query;
+      
+      const { marketAggregator } = await import('./services/sneaker-market-aggregator.js');
+      const trending = await marketAggregator.getTrendingSneakers(parseInt(limit as string));
+      
+      res.json({
+        trending,
+        total: trending.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Market trending error:', error);
+      res.status(500).json({ 
+        error: 'Market trending unavailable',
+        fallback: 'Using local trending data'
+      });
+    }
+  });
+
+  app.get('/api/market/trends', async (req, res) => {
+    try {
+      const { marketAggregator } = await import('./services/sneaker-market-aggregator.js');
+      const trends = await marketAggregator.getMarketTrends();
+      
+      res.json({
+        ...trends,
+        timestamp: new Date().toISOString(),
+        sources: ['StockX', 'GOAT']
+      });
+    } catch (error) {
+      console.error('Market trends error:', error);
+      res.status(500).json({ 
+        error: 'Market trends unavailable',
+        fallback: 'Using local trend analysis'
+      });
+    }
+  });
+
+  app.get('/api/market/releases', async (req, res) => {
+    try {
+      const { limit = 20 } = req.query;
+      
+      const { marketAggregator } = await import('./services/sneaker-market-aggregator.js');
+      const releases = await marketAggregator.getNewReleases(parseInt(limit as string));
+      
+      res.json({
+        releases,
+        total: releases.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('New releases error:', error);
+      res.status(500).json({ 
+        error: 'New releases unavailable',
+        fallback: 'Using local release data'
+      });
+    }
+  });
+
   app.get('/api/geographic-trends/mock', async (req, res) => {
     try {
       // Sample data for development and demonstration

@@ -18,7 +18,8 @@ import {
   Compass,
   Sparkles,
   Eye,
-  MapPin
+  MapPin,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import soleGridLogo from '@assets/S (2)_1752797110222.png';
@@ -73,6 +74,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     { href: '/review-summary', label: 'AI Reviews', icon: MessageCircle },
     { href: '/ar-tryon', label: 'AR Try-On', icon: Eye },
     { href: '/trend-map', label: 'Sole Map', icon: MapPin },
+    { href: '/live-market', label: 'Live Market', icon: TrendingUp },
   ];
 
   const isActive = (href: string) => location === href;

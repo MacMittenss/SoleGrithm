@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import { Router, Route, Switch, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
@@ -71,6 +71,7 @@ function App() {
                   <Route path="/review-summary" component={ReviewSummaryDemo} />
                   <Route path="/ar-tryon" component={ARTryOn} />
                   <Route path="/trend-map" component={TrendMap} />
+                  <Route path="/live-market" component={lazy(() => import('./pages/LiveMarket'))} />
                   <Route component={NotFound} />
                 </Switch>
               </main>
