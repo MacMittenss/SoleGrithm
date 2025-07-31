@@ -66,6 +66,35 @@ export default function Collections() {
     }
   });
 
+  // Generate new collection mutation
+  const generateCollectionMutation = useMutation({
+    mutationFn: async ({ theme, preferences }: { theme: string; preferences?: any }) => {
+      const response = await fetch('/api/collections/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ theme, preferences })
+      });
+      if (!response.ok) throw new Error('Failed to generate collection');
+      return response.json();
+    },
+    onSuccess: (newCollection) => {
+      // Add the new collection to the existing collections
+      if (collections) {
+        collections.unshift(newCollection);
+      }
+    }
+  });
+
+  const generateNewCollection = () => {
+    const themes = ['street-art', 'minimalist', 'retro-future', 'nature-inspired'];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    
+    generateCollectionMutation.mutate({ 
+      theme: randomTheme,
+      preferences: { category: selectedCategory }
+    });
+  };
+
   const categories = [
     { id: 'all', label: 'All Collections', icon: Grid3X3 },
     { id: 'gems', label: 'Hidden Gems', icon: Gem },
@@ -177,6 +206,12 @@ export default function Collections() {
                   
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mt-3">
+                    {collection.aiGenerated && (
+                      <Badge variant="default" className="text-xs bg-primary">
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        AI Generated
+                      </Badge>
+                    )}
                     {collection.tags.map((tag) => (
                       <Badge key={tag} variant="secondary" className="text-xs">
                         {tag}
@@ -253,10 +288,27 @@ export default function Collections() {
               <p className="text-sm text-muted-foreground mb-4">
                 Let our AI generate a personalized collection just for you
               </p>
-              <Button>
-                <Zap className="w-4 h-4 mr-2" />
-                Generate New Collection
+              <Button 
+                onClick={() => generateNewCollection()}
+                disabled={generateCollectionMutation.isPending}
+              >
+                {generateCollectionMutation.isPending ? (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2 animate-spin" />
+                    AI Generating...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-4 h-4 mr-2" />
+                    Generate New Collection
+                  </>
+                )}
               </Button>
+              {generateCollectionMutation.isError && (
+                <p className="text-sm text-red-500 mt-2">
+                  AI generation unavailable - using enhanced curated selection
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>

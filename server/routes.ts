@@ -101,6 +101,135 @@ function generateEnhancedFallbackAnalysis(preferences: any, personalityTraits: s
   };
 }
 
+// Generate AI collection with OpenAI
+async function generateAICollection(theme: string, preferences: any, sneakers: any[]) {
+  const openai = await import('../services/openai.js');
+  
+  const prompt = `Create a unique sneaker collection based on the theme "${theme}" and user preferences: ${JSON.stringify(preferences)}. 
+
+  Generate a creative collection with:
+  1. A catchy, unique title
+  2. Compelling description (2-3 sentences)
+  3. Creative emoji icon
+  4. Clear selection criteria
+  5. AI rationale explaining the curation logic
+  6. 3-5 relevant tags
+  7. Price range estimate
+  
+  Be creative and specific. Consider current trends, cultural moments, seasonal themes, lifestyle connections, or artistic concepts.
+  
+  Respond in JSON format:
+  {
+    "title": "Collection Name",
+    "description": "Engaging description",
+    "icon": "🎯",
+    "criteria": "Selection criteria",
+    "aiRationale": "Why these picks work together",
+    "tags": ["tag1", "tag2", "tag3"],
+    "priceRange": "$100-$300"
+  }`;
+
+  const response = await openai.generateAIResponse(prompt);
+  const collectionData = JSON.parse(response);
+  
+  // Filter sneakers based on AI-generated criteria
+  const selectedSneakers = selectSneakersForCollection(collectionData, sneakers);
+  
+  return {
+    id: `ai-${Date.now()}`,
+    ...collectionData,
+    sneakers: selectedSneakers,
+    totalCount: selectedSneakers.length,
+    avgPrice: calculateAveragePrice(selectedSneakers),
+    aiGenerated: true
+  };
+}
+
+// Fallback collection generator
+function generateFallbackCollection(theme: string, preferences: any, sneakers: any[]) {
+  const themeCollections = {
+    'street-art': {
+      title: 'Street Art Canvas',
+      description: 'Bold, expressive sneakers that turn your feet into walking art galleries. Each pair tells a story of urban creativity.',
+      icon: '🎨',
+      criteria: 'Vibrant colorways, artistic collaborations, unique patterns, street culture connections',
+      aiRationale: 'Selected for their artistic merit and ability to express individuality. These sneakers represent the intersection of fashion and street art culture.',
+      tags: ['artistic', 'bold', 'expressive', 'street-culture'],
+      priceRange: '$120-$280'
+    },
+    'minimalist': {
+      title: 'Pure Essentials',
+      description: 'Clean, timeless designs that embody the philosophy that less is more. Refined simplicity meets superior craftsmanship.',
+      icon: '⚪',
+      criteria: 'Clean lines, neutral colors, premium materials, timeless silhouettes',
+      aiRationale: 'Curated for their enduring design principles and versatility. These pieces transcend trends through masterful simplicity.',
+      tags: ['minimal', 'clean', 'timeless', 'versatile'],
+      priceRange: '$150-$400'
+    },
+    'retro-future': {
+      title: 'Neo-Retro Fusion',
+      description: 'Where vintage meets tomorrow. Classic silhouettes reimagined with futuristic materials and forward-thinking design.',
+      icon: '🚀',
+      criteria: 'Retro silhouettes, modern tech, metallic accents, innovative materials',
+      aiRationale: 'Selected for their ability to bridge past and future. These designs honor sneaker heritage while pushing boundaries.',
+      tags: ['retro', 'futuristic', 'innovative', 'tech'],
+      priceRange: '$180-$350'
+    },
+    'nature-inspired': {
+      title: 'Earth Elements',
+      description: 'Nature-inspired colorways and sustainable materials that connect urban style with the natural world.',
+      icon: '🌿',
+      criteria: 'Earth tones, sustainable materials, outdoor functionality, organic patterns',
+      aiRationale: 'Chosen for their harmony with nature and sustainable design principles. Perfect for eco-conscious sneaker enthusiasts.',
+      tags: ['sustainable', 'natural', 'eco-friendly', 'earthy'],
+      priceRange: '$140-$300'
+    }
+  };
+  
+  const selectedTheme = themeCollections[theme] || themeCollections['street-art'];
+  const selectedSneakers = selectSneakersForCollection(selectedTheme, sneakers);
+  
+  return {
+    id: `fallback-${Date.now()}`,
+    ...selectedTheme,
+    sneakers: selectedSneakers,
+    totalCount: selectedSneakers.length,
+    avgPrice: calculateAveragePrice(selectedSneakers),
+    aiGenerated: false
+  };
+}
+
+// Helper function to select sneakers based on collection criteria
+function selectSneakersForCollection(collectionData: any, sneakers: any[]) {
+  // Simple filtering logic - in a real app, this would be more sophisticated
+  let filtered = sneakers;
+  
+  // Filter by price range if specified
+  if (collectionData.priceRange) {
+    const prices = collectionData.priceRange.match(/\$(\d+)-\$(\d+)/);
+    if (prices) {
+      const minPrice = parseInt(prices[1]);
+      const maxPrice = parseInt(prices[2]);
+      filtered = filtered.filter(s => {
+        const price = parseFloat(s.retailPrice);
+        return price >= minPrice && price <= maxPrice;
+      });
+    }
+  }
+  
+  // Apply some randomization and limit results
+  const shuffled = filtered.sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 8);
+}
+
+// Helper function to calculate average price
+function calculateAveragePrice(sneakers: any[]) {
+  if (sneakers.length === 0) return '$0';
+  const total = sneakers.reduce((sum, sneaker) => sum + parseFloat(sneaker.retailPrice), 0);
+  const average = Math.round(total / sneakers.length);
+  return `$${average}`;
+}
+
 // Middleware to verify Firebase token
 async function authenticateUser(req: AuthenticatedRequest, res: any, next: any) {
   try {
@@ -786,6 +915,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Save collection error:', error);
       res.status(500).json({ error: 'Failed to save collection' });
+    }
+  });
+
+  // Generate new AI collection endpoint
+  app.post('/api/collections/generate', async (req, res) => {
+    try {
+      const { theme, preferences } = req.body;
+      const sneakers = await storage.getFeaturedSneakers();
+      
+      // Use OpenAI to generate creative collection concepts with fallback
+      let aiCollection = null;
+      try {
+        aiCollection = await generateAICollection(theme, preferences, sneakers);
+      } catch (error: any) {
+        console.warn('OpenAI collection generation unavailable, using enhanced fallback:', error?.message || 'Unknown error');
+        aiCollection = generateFallbackCollection(theme, preferences, sneakers);
+      }
+      
+      res.json(aiCollection);
+    } catch (error) {
+      console.error('Generate collection error:', error);
+      res.status(500).json({ error: 'Failed to generate new collection' });
     }
   });
 

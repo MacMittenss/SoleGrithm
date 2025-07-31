@@ -518,3 +518,30 @@ Return as an array of review strings in JSON format: {"reviews": ["review1", "re
     throw new Error("Failed to generate reviews");
   }
 }
+
+// Generate AI-powered content responses
+export async function generateAIResponse(prompt: string): Promise<string> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      messages: [
+        {
+          role: "system",
+          content: "You are an expert sneaker curator and cultural analyst. Create innovative, culturally relevant sneaker collections that resonate with modern consumers. Be creative but grounded in real sneaker culture."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 500,
+      temperature: 0.8
+    });
+
+    return response.choices[0].message.content || '';
+  } catch (error) {
+    console.error('AI response generation error:', error);
+    throw new Error('Failed to generate AI response');
+  }
+}
