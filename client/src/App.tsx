@@ -2,7 +2,7 @@ import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Router, Route, Switch, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
-import { AuthProvider } from "@/hooks/useAuth";
+// Auth will be handled via Firebase directly
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
 import AIChat from "@/components/AIChat";
@@ -12,6 +12,7 @@ import Home from "@/pages/Home";
 import Catalog from "@/pages/Catalog";
 import Blog from "@/pages/Blog";
 import Profile from "@/pages/Profile";
+import Auth from "@/pages/Auth";
 import SneakerDetail from "@/pages/SneakerDetail";
 import PostDetail from "@/pages/PostDetail";
 import NotFound from "@/pages/not-found";
@@ -52,7 +53,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-        <AuthProvider>
+        {/* AuthProvider removed - using Firebase directly */}
           <Router>
             <div className="min-h-screen bg-background text-foreground">
               <ScrollToTop />
@@ -61,6 +62,7 @@ function App() {
               <main>
                 <Switch>
                   <Route path="/" component={Home} />
+                  <Route path="/auth" component={Auth} />
                   {/* Redirect Catalog to Live Market */}
                   <Route path="/catalog">
                     <Suspense fallback={
@@ -110,7 +112,7 @@ function App() {
               <Toaster />
             </div>
           </Router>
-        </AuthProvider>
+        {/* End AuthProvider */}
       </ThemeProvider>
     </QueryClientProvider>
   );

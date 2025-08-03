@@ -30,7 +30,7 @@ interface HeaderProps {
 
 export default function Header({ onAIChatToggle }: HeaderProps) {
   const [location] = useLocation();
-  const { user, signOut } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -188,23 +188,27 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             </Button>
 
             {/* User actions - Mobile optimized */}
-            {user ? (
+            {isAuthenticated ? (
               <div className="flex items-center space-x-1">
                 <Button variant="ghost" size="sm" className={`hidden sm:flex transition-colors ${
                   isHomePage && !isScrolled ? "text-white hover:bg-white/10" : "text-black hover:bg-black/10"
-                }`}>
+                }`} data-testid="button-wishlist-mobile">
                   <Heart className="w-4 h-4" />
                 </Button>
                 <Button variant="ghost" size="sm" className={`hidden sm:flex transition-colors ${
                   isHomePage && !isScrolled ? "text-white hover:bg-white/10" : "text-black hover:bg-black/10"
-                }`}>
+                }`} data-testid="button-cart-mobile">
                   <ShoppingBag className="w-4 h-4" />
                 </Button>
                 <Link href="/profile">
-                  <Avatar className="w-7 h-7 cursor-pointer">
-                    <AvatarImage src={user.photoURL || undefined} />
-                    <AvatarFallback className="bg-white/20 text-white text-xs">
-                      {user.displayName?.[0] || user.email?.[0] || 'U'}
+                  <Avatar className="w-7 h-7 cursor-pointer" data-testid="avatar-profile-mobile">
+                    <AvatarImage src={user?.photoURL || undefined} />
+                    <AvatarFallback className={`text-xs ${
+                      isHomePage && !isScrolled 
+                        ? "bg-white/20 text-white" 
+                        : "bg-primary text-primary-foreground"
+                    }`}>
+                      {user?.displayName?.[0] || user?.email?.[0] || 'U'}
                     </AvatarFallback>
                   </Avatar>
                 </Link>
@@ -215,7 +219,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                   isHomePage && !isScrolled
                     ? "bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur-sm"
                     : "bg-black text-white border-black hover:bg-black/90"
-                }`}>
+                }`} data-testid="button-sign-in-mobile">
                   <User className="w-4 h-4 mr-1" />
                   Sign In
                 </Button>
@@ -260,6 +264,51 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
                 </Link>
               ))}
               
+              {/* Mobile Auth/Profile */}
+              <div className="pt-4 border-t border-white/20">
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <Link href="/profile">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="justify-start w-full text-white hover:bg-white/10"
+                        onClick={() => setIsMenuOpen(false)}
+                        data-testid="button-profile-mobile"
+                      >
+                        <User className="w-4 h-4 mr-2" />
+                        Profile
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="justify-start w-full text-white hover:bg-white/10"
+                      onClick={() => setIsMenuOpen(false)}
+                      data-testid="button-wishlist-mobile-menu"
+                    >
+                      <Heart className="w-4 h-4 mr-2" />
+                      Wishlist
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Link href="/auth">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="justify-start w-full"
+                        onClick={() => setIsMenuOpen(false)}
+                        data-testid="button-sign-in-mobile-menu"
+                      >
+                        <User className="w-4 h-4 mr-2" />
+                        Sign In
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
               {/* Mobile Search */}
               <div className="pt-4 border-t border-white/20">
                 <div className="relative">
