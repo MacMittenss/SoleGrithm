@@ -11,7 +11,7 @@ import {
   ArrowLeft, Heart, Plus, Share2, Star, Calendar, 
   Package, Truck, Shield, ChevronLeft, ChevronRight,
   TrendingUp, DollarSign, Activity, ExternalLink,
-  Clock, CheckCircle, XCircle, AlertCircle
+  Clock, CheckCircle, XCircle, AlertCircle, Eye
 } from "lucide-react";
 import { format } from "date-fns";
 import ReviewSummary from "@/components/ReviewSummary";
