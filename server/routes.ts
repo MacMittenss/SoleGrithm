@@ -16,7 +16,10 @@ import {
   summarizeReviews,
   generateSyntheticReviews,
   generateSneakerCareTips,
-  analyzePersonalityFromQuiz
+  analyzePersonalityFromQuiz,
+  generateAICollection,
+  generateMultipleCollections,
+  generatePersonalizedCollection
 } from "./services/openai";
 import { updateSneakerPrices, fetchUpcomingReleases } from "./services/sneaker-api";
 import { UserTrackingService } from "./services/user-tracking";
@@ -1395,19 +1398,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Get existing reviews from database
       const dbReviews = await storage.getSneakerReviews(sneakerId);
-      let reviewTexts = dbReviews.map(review => review.content);
+      
+      // Enhanced sneaker context for better AI analysis
+      const brand = sneaker.brandId ? await storage.getBrand(sneaker.brandId) : null;
+      const sneakerInfo = {
+        name: sneaker.name,
+        brandName: brand?.name || 'Unknown',
+        retailPrice: sneaker.retailPrice,
+        materials: sneaker.materials,
+        releaseDate: sneaker.releaseDate,
+        categories: sneaker.categories,
+        colorway: sneaker.colorway
+      };
 
-      // If no reviews exist, generate synthetic ones for demo
-      if (reviewTexts.length === 0) {
-        const brand = sneaker.brandId ? await storage.getBrand(sneaker.brandId) : null;
-        const brandName = brand?.name || 'Unknown';
-        reviewTexts = await generateSyntheticReviews(sneaker.name, brandName);
-      }
-
-      const summary = await summarizeReviews(reviewTexts, sneaker.name);
+      // Use enhanced AI analysis with comprehensive insights
+      const summary = await summarizeReviews(dbReviews, sneakerInfo);
       res.json(summary);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to summarize reviews' });
+      console.error('Enhanced review summarization error:', error);
+      res.status(500).json({ error: 'Failed to generate comprehensive review analysis' });
     }
   });
 
@@ -1424,10 +1433,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Sneaker name is required' });
       }
 
-      const summary = await summarizeReviews(reviews, sneakerName);
+      // Use enhanced AI analysis for custom reviews too
+      const summary = await summarizeReviews(reviews.map(r => ({ content: r })), { name: sneakerName });
       res.json(summary);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to summarize reviews' });
+      console.error('Custom review summarization error:', error);
+      res.status(500).json({ error: 'Failed to analyze custom reviews' });
     }
   });
 

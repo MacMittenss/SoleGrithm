@@ -30,6 +30,15 @@ interface ReviewSummaryData {
   };
   overallSentiment: 'positive' | 'negative' | 'mixed';
   confidenceScore: number;
+  keyInsights: {
+    comfort: { rating: number; comments: string[] };
+    durability: { rating: number; comments: string[] };
+    style: { rating: number; comments: string[] };
+    valueForMoney: { rating: number; comments: string[] };
+  };
+  recommendationScore: number;
+  targetAudience: string[];
+  comparisonInsights?: string;
 }
 
 export default function ReviewSummary({ sneakerId, sneakerName }: ReviewSummaryProps) {

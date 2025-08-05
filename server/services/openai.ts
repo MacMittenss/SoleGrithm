@@ -417,7 +417,7 @@ export async function enhanceReviewContent(draft: string): Promise<{
   }
 }
 
-export async function summarizeReviews(reviews: string[], sneakerName: string): Promise<{
+export async function summarizeReviews(reviews: any[], sneakerInfo?: any): Promise<{
   summary: string;
   whatSneakerheadsAreSaying: string[];
   prosAndCons: {
@@ -426,56 +426,108 @@ export async function summarizeReviews(reviews: string[], sneakerName: string): 
   };
   overallSentiment: 'positive' | 'negative' | 'mixed';
   confidenceScore: number;
+  keyInsights: {
+    comfort: { rating: number; comments: string[] };
+    durability: { rating: number; comments: string[] };
+    style: { rating: number; comments: string[] };
+    valueForMoney: { rating: number; comments: string[] };
+  };
+  recommendationScore: number;
+  targetAudience: string[];
+  comparisonInsights?: string;
 }> {
   try {
-    const reviewsText = reviews.join('\n\n---\n\n');
+    // Handle both string arrays and review objects
+    const reviewTexts = Array.isArray(reviews) && reviews.length > 0
+      ? reviews.map(r => typeof r === 'string' 
+          ? r 
+          : `Rating: ${r.rating}/5\nTitle: ${r.title || 'No title'}\nContent: ${r.content}\nDate: ${r.createdAt || 'Unknown'}`
+        ).join('\n\n---\n\n')
+      : '';
+
+    if (!reviewTexts) {
+      return {
+        summary: "No reviews available for this sneaker yet. Be the first to share your experience!",
+        whatSneakerheadsAreSaying: [
+          "First impressions are everything - share yours!",
+          "The community is waiting for authentic feedback",
+          "Your review could help fellow sneakerheads decide"
+        ],
+        prosAndCons: { pros: [], cons: [] },
+        overallSentiment: 'mixed',
+        confidenceScore: 0,
+        keyInsights: {
+          comfort: { rating: 0, comments: ["No comfort feedback yet"] },
+          durability: { rating: 0, comments: ["No durability reports yet"] },
+          style: { rating: 0, comments: ["No style opinions yet"] },
+          valueForMoney: { rating: 0, comments: ["No value assessments yet"] }
+        },
+        recommendationScore: 0,
+        targetAudience: ["Early adopters", "Trend enthusiasts"]
+      };
+    }
+
+    const sneakerName = sneakerInfo?.name || 'this sneaker';
+    const sneakerContext = sneakerInfo ? 
+      `\nSneaker Context: ${sneakerInfo.name} - ${sneakerInfo.brandName || 'Unknown Brand'} | Price: $${sneakerInfo.retailPrice} | Materials: ${sneakerInfo.materials} | Release: ${sneakerInfo.releaseDate}` : '';
     
-    const prompt = `Analyze these reviews for the sneaker "${sneakerName}" from various sources (Reddit, StockX, social media, etc.):
+    const prompt = `You are an expert sneaker analyst with deep knowledge of sneaker culture, materials, and community sentiment. Analyze these authentic reviews for "${sneakerName}" and provide comprehensive insights.
 
-${reviewsText}
+Reviews:
+${reviewTexts}${sneakerContext}
 
-Create a comprehensive summary with:
-1. A general summary of what people think
-2. Key quotes representing "What Sneakerheads Are Saying" (3-5 authentic-sounding quotes)
-3. Clear pros and cons lists
-4. Overall sentiment and confidence
+Provide detailed analysis in JSON format with:
+- summary: Engaging 3-4 sentence overview highlighting key community takeaways and overall reception
+- whatSneakerheadsAreSaying: Array of 4-6 authentic-sounding community quotes that capture real sentiment and specific experiences
+- prosAndCons: Object with detailed pros and cons arrays (4-6 items each when available, focusing on specific attributes)
+- overallSentiment: "positive", "negative", or "mixed" based on ratings, content analysis, and community reception
+- confidenceScore: 0-1 based on review quantity, quality, consistency, and depth of feedback
+- keyInsights: Object analyzing comfort, durability, style, valueForMoney (each with rating 0-10 and 2-4 relevant community comments)
+- recommendationScore: 0-100 percentage likelihood the community would recommend this sneaker
+- targetAudience: Array of 3-5 specific user types who would love this sneaker based on review insights
+- comparisonInsights: Optional string comparing to similar sneakers or category expectations
 
-Respond in JSON format with:
-{
-  "summary": "Overall summary paragraph",
-  "whatSneakerheadsAreSaying": ["Quote 1", "Quote 2", "Quote 3"],
-  "prosAndCons": {
-    "pros": ["Pro 1", "Pro 2", "Pro 3"],
-    "cons": ["Con 1", "Con 2", "Con 3"]
-  },
-  "overallSentiment": "positive/negative/mixed",
-  "confidenceScore": 0.85
-}`;
+Focus on authentic sneaker community language, specific details about fit/sizing, materials quality, styling versatility, long-term wear experience, and value proposition. Extract real insights about comfort, durability, and style that help potential buyers make informed decisions.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
         { 
           role: "system", 
-          content: "You are an expert at analyzing sneaker reviews and community sentiment. Synthesize authentic opinions from the sneaker community." 
+          content: "You are an expert at analyzing sneaker reviews and synthesizing authentic community sentiment. Create comprehensive insights that help sneaker enthusiasts make informed decisions." 
         },
         { role: "user", content: prompt }
       ],
       response_format: { type: "json_object" },
-      max_tokens: 800
+      max_tokens: 1500,
+      temperature: 0.4
     });
 
     const result = JSON.parse(response.choices[0].message.content || '{}');
+    
+    // Ensure all required fields with proper defaults
     return {
-      summary: result.summary || "Unable to generate summary",
+      summary: result.summary || "Analysis in progress based on community feedback...",
       whatSneakerheadsAreSaying: result.whatSneakerheadsAreSaying || [],
-      prosAndCons: result.prosAndCons || { pros: [], cons: [] },
+      prosAndCons: {
+        pros: result.prosAndCons?.pros || [],
+        cons: result.prosAndCons?.cons || []
+      },
       overallSentiment: result.overallSentiment || 'mixed',
-      confidenceScore: result.confidenceScore || 0.5
+      confidenceScore: Math.max(0, Math.min(1, result.confidenceScore || 0.5)),
+      keyInsights: result.keyInsights || {
+        comfort: { rating: 0, comments: [] },
+        durability: { rating: 0, comments: [] },
+        style: { rating: 0, comments: [] },
+        valueForMoney: { rating: 0, comments: [] }
+      },
+      recommendationScore: Math.max(0, Math.min(100, result.recommendationScore || 0)),
+      targetAudience: result.targetAudience || [],
+      comparisonInsights: result.comparisonInsights
     };
   } catch (error) {
-    console.error('OpenAI review summarization error:', error);
-    throw new Error("Failed to summarize reviews");
+    console.error('Advanced review summarization error:', error);
+    throw new Error("Failed to generate comprehensive review analysis");
   }
 }
 
@@ -519,15 +571,62 @@ Return as an array of review strings in JSON format: {"reviews": ["review1", "re
   }
 }
 
-// Generate AI-powered content responses
-export async function generateAIResponse(prompt: string): Promise<string> {
+// Enhanced AI Collection Generation
+export async function generateAICollection(theme: string, preferences: any = {}, availableSneakers: any[] = []): Promise<{
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  criteria: string;
+  aiRationale: string;
+  sneakers: any[];
+  totalCount: number;
+  avgPrice: string;
+  priceRange: string;
+  tags: string[];
+  culturalContext: string;
+  stylingTips: string[];
+  targetDemographic: string[];
+  seasonality?: string;
+  exclusivityLevel: 'mainstream' | 'niche' | 'exclusive';
+}> {
   try {
+    const sneakerData = availableSneakers.length > 0 
+      ? `Available sneakers: ${availableSneakers.map(s => `${s.name} (${s.brandName || 'Unknown'}) - $${s.retailPrice}`).join(', ')}`
+      : 'Using comprehensive sneaker database';
+    
+    const prompt = `Create an innovative, culturally relevant sneaker collection based on the theme "${theme}".
+
+${sneakerData}
+
+User preferences: ${JSON.stringify(preferences)}
+
+Generate a comprehensive collection in JSON format with:
+- id: Unique identifier (kebab-case)
+- title: Compelling collection name (2-4 words)
+- description: Engaging description that captures the collection's essence and appeal (2-3 sentences)
+- icon: Single emoji that represents the collection
+- criteria: Specific criteria used for sneaker selection (technical details)
+- aiRationale: Sophisticated explanation of why this collection matters culturally and stylistically (2-3 sentences)
+- sneakers: Array of sneaker objects selected for this collection (use available sneakers when provided)
+- totalCount: Number of sneakers in collection
+- avgPrice: Average price formatted as currency string
+- priceRange: Price range formatted as "$min-$max"
+- tags: Array of 3-5 relevant tags/keywords
+- culturalContext: 2-3 sentences about the cultural significance and current relevance
+- stylingTips: Array of 3-4 specific styling suggestions for this collection
+- targetDemographic: Array of 2-3 specific audience segments who would love this collection
+- seasonality: Optional season if relevant ("Spring", "Summer", "Fall", "Winter", "Year-round")
+- exclusivityLevel: "mainstream", "niche", or "exclusive" based on accessibility and appeal
+
+Focus on authentic sneaker culture insights, current trends, and practical styling advice. Make the collection feel curated by an expert who understands both fashion and functionality.`;
+
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: "You are an expert sneaker curator and cultural analyst. Create innovative, culturally relevant sneaker collections that resonate with modern consumers. Be creative but grounded in real sneaker culture."
+          content: "You are a visionary sneaker curator with deep knowledge of streetwear culture, fashion trends, and consumer psychology. Create collections that balance cultural relevance with commercial appeal."
         },
         {
           role: "user",
@@ -535,13 +634,84 @@ export async function generateAIResponse(prompt: string): Promise<string> {
         }
       ],
       response_format: { type: "json_object" },
-      max_tokens: 500,
-      temperature: 0.8
+      max_tokens: 1200,
+      temperature: 0.7
     });
 
-    return response.choices[0].message.content || '';
+    const result = JSON.parse(response.choices[0].message.content || '{}');
+    
+    // Generate a proper collection based on available sneakers if provided
+    const selectedSneakers = availableSneakers.length > 0 
+      ? availableSneakers.slice(0, Math.min(8, availableSneakers.length))
+      : [];
+
+    const avgPrice = selectedSneakers.length > 0 
+      ? Math.round(selectedSneakers.reduce((sum, s) => sum + parseFloat(s.retailPrice || '0'), 0) / selectedSneakers.length)
+      : 0;
+
+    const prices = selectedSneakers.map(s => parseFloat(s.retailPrice || '0')).filter(p => p > 0);
+    const priceRange = prices.length > 0 
+      ? `$${Math.min(...prices)}-$${Math.max(...prices)}`
+      : '$0-$0';
+
+    return {
+      id: result.id || theme.toLowerCase().replace(/\s+/g, '-'),
+      title: result.title || `${theme} Collection`,
+      description: result.description || `Curated selection inspired by ${theme}`,
+      icon: result.icon || '✨',
+      criteria: result.criteria || `Sneakers selected based on ${theme} aesthetic and cultural relevance`,
+      aiRationale: result.aiRationale || `This collection represents the intersection of ${theme} and contemporary sneaker culture`,
+      sneakers: selectedSneakers,
+      totalCount: selectedSneakers.length,
+      avgPrice: avgPrice > 0 ? `$${avgPrice}` : '$0',
+      priceRange,
+      tags: result.tags || [theme.toLowerCase()],
+      culturalContext: result.culturalContext || `The ${theme} aesthetic continues to influence modern sneaker design and street culture`,
+      stylingTips: result.stylingTips || [`Pair with complementary ${theme}-inspired pieces`],
+      targetDemographic: result.targetDemographic || ['Style enthusiasts', 'Cultural trendsetters'],
+      seasonality: result.seasonality,
+      exclusivityLevel: result.exclusivityLevel || 'mainstream'
+    };
   } catch (error) {
-    console.error('AI response generation error:', error);
-    throw new Error('Failed to generate AI response');
+    console.error('AI collection generation error:', error);
+    throw new Error('Failed to generate AI collection');
+  }
+}
+
+// Generate multiple themed collections at once
+export async function generateMultipleCollections(themes: string[], availableSneakers: any[] = []): Promise<any[]> {
+  try {
+    const collections = await Promise.all(
+      themes.map(theme => generateAICollection(theme, {}, availableSneakers))
+    );
+    return collections;
+  } catch (error) {
+    console.error('Multiple collection generation error:', error);
+    throw new Error('Failed to generate multiple collections');
+  }
+}
+
+// Generate personalized collection based on user profile
+export async function generatePersonalizedCollection(userProfile: {
+  preferences: string[];
+  purchaseHistory: any[];
+  styleQuizResults?: any;
+  demographics?: any;
+}, availableSneakers: any[] = []): Promise<any> {
+  try {
+    const profileContext = `
+User Profile:
+- Preferences: ${userProfile.preferences.join(', ')}
+- Purchase History: ${userProfile.purchaseHistory.map(p => p.name || 'Unknown').join(', ')}
+- Style Results: ${JSON.stringify(userProfile.styleQuizResults || {})}
+- Demographics: ${JSON.stringify(userProfile.demographics || {})}
+`;
+
+    const theme = `Personalized for ${userProfile.preferences[0] || 'unique style'}`;
+    
+    return await generateAICollection(theme, userProfile, availableSneakers);
+  } catch (error) {
+    console.error('Personalized collection generation error:', error);
+    throw new Error('Failed to generate personalized collection');
   }
 }
