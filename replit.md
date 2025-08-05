@@ -32,8 +32,7 @@ The application employs a modern full-stack architecture with clear separation o
 ### Core Features & Design Patterns
 - **Authentication**: Firebase handles user registration, login, and token management, with automatic local database creation for new users.
 - **Database Layer**: Drizzle ORM with PostgreSQL (Neon serverless) for type-safe operations and schema migrations.
-- **AI-Powered Features**: SoleBot (chat assistant), AI-generated content and collections, sneaker image recognition and analysis (OpenAI GPT-4o Vision API), price prediction, personalized recommendations, AI user profiling, anonymous interaction analysis, real-time personalization, and revolutionary Sneaker Mood Matcher with psychological insights.
-- **Mood-Based Discovery**: Interactive Sneaker Mood Matcher with 8 distinct personality moods (energetic, chill, confident, nostalgic, adventurous, minimalist, romantic, creative), advanced Framer Motion animations, personality insights, and comprehensive styling recommendations.
+- **AI-Powered Features**: SoleBot (chat assistant), AI-generated content and collections, sneaker image recognition and analysis (OpenAI GPT-4o Vision API), price prediction, personalized recommendations, AI user profiling, anonymous interaction analysis, and real-time personalization.
 - **Data Flow**: Frontend uses Firebase tokens for authenticated requests; backend verifies tokens; Drizzle ORM handles database operations. AI API calls are managed via a dedicated service layer with robust fallback systems.
 - **Data Storage Strategy**: User profiles, sneaker catalog, collections, reviews, and price history are stored in PostgreSQL.
 - **Interactive Map**: A geographic map visualizes sneaker trends across major US cities with heat map visualization and city-specific insights, integrated into the navigation.

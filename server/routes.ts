@@ -19,8 +19,7 @@ import {
   analyzePersonalityFromQuiz,
   generateAICollection,
   generateMultipleCollections,
-  generatePersonalizedCollection,
-  generateMoodMatch
+  generatePersonalizedCollection
 } from "./services/openai";
 import { updateSneakerPrices, fetchUpcomingReleases } from "./services/sneaker-api";
 import { UserTrackingService } from "./services/user-tracking";
@@ -47,119 +46,6 @@ const upload = multer({
   },
 });
 
-// Fallback mood matching function
-function generateFallbackMoodMatch(mood: string, availableSneakers: any[]) {
-  const moodMappings = {
-    energetic: {
-      keywords: ['athletic', 'bright', 'neon', 'running', 'basketball'],
-      colors: ['yellow', 'orange', 'red', 'neon'],
-      brands: ['Nike', 'Adidas'],
-      insights: "Your energetic mood suggests you're drawn to performance-focused designs that reflect your active lifestyle and vibrant personality.",
-      tips: ["Pair with bold, athletic-inspired outfits", "Choose bright colors that energize your look", "Go for technical fabrics and sporty silhouettes", "Perfect for gym sessions and active days"]
-    },
-    chill: {
-      keywords: ['comfort', 'casual', 'lifestyle', 'neutral'],
-      colors: ['white', 'grey', 'beige', 'cream'],
-      brands: ['Converse', 'Vans', 'New Balance'],
-      insights: "Your chill vibe indicates you value comfort and effortless style, preferring versatile pieces that work in any casual setting.",
-      tips: ["Embrace relaxed, comfortable silhouettes", "Stick to neutral color palettes", "Layer with cozy knits and casual pieces", "Great for everyday wear and relaxed social settings"]
-    },
-    confident: {
-      keywords: ['luxury', 'premium', 'statement', 'bold'],
-      colors: ['black', 'red', 'gold'],
-      brands: ['Jordan', 'Yeezy'],
-      insights: "Your confident mood reflects a bold personality that isn't afraid to make statements through fashion choices.",
-      tips: ["Choose statement pieces that command attention", "Invest in premium materials and finishes", "Bold colorways that reflect your personality", "Perfect for making impressions and special occasions"]
-    },
-    nostalgic: {
-      keywords: ['retro', 'vintage', 'classic', 'heritage'],
-      colors: ['burgundy', 'navy', 'cream'],
-      brands: ['Jordan', 'Converse', 'New Balance'],
-      insights: "Your nostalgic mood shows appreciation for timeless design and the cultural heritage of sneaker history.",
-      tips: ["Embrace vintage-inspired styling", "Mix classic pieces with modern touches", "Focus on heritage brands and retro colorways", "Great for creating timeless, sophisticated looks"]
-    },
-    adventurous: {
-      keywords: ['outdoor', 'hiking', 'versatile', 'durable'],
-      colors: ['green', 'brown', 'khaki'],
-      brands: ['New Balance', 'Nike'],
-      insights: "Your adventurous spirit calls for versatile footwear that can handle various activities and environments.",
-      tips: ["Choose durable, weather-resistant materials", "Go for earth tones and natural colors", "Prioritize comfort for long wear", "Perfect for outdoor activities and travel"]
-    },
-    minimalist: {
-      keywords: ['clean', 'simple', 'minimal', 'monochrome'],
-      colors: ['white', 'black', 'grey'],
-      brands: ['Common Projects', 'Vans', 'Converse'],
-      insights: "Your minimalist aesthetic values clean lines, quality construction, and understated elegance over flashy details.",
-      tips: ["Focus on clean, uncluttered designs", "Stick to monochromatic color schemes", "Invest in quality basics", "Perfect for professional and refined casual looks"]
-    },
-    romantic: {
-      keywords: ['soft', 'elegant', 'delicate', 'feminine'],
-      colors: ['pink', 'cream', 'pastel'],
-      brands: ['Nike', 'Adidas'],
-      insights: "Your romantic mood gravitates toward soft, elegant designs that complement feminine and graceful styling.",
-      tips: ["Choose soft, pastel color palettes", "Look for elegant silhouettes and refined details", "Pair with flowing fabrics and delicate accessories", "Great for dates and feminine styling"]
-    },
-    creative: {
-      keywords: ['unique', 'artistic', 'experimental', 'collaboration'],
-      colors: ['rainbow', 'multicolor', 'unique'],
-      brands: ['Off-White', 'Jordan'],
-      insights: "Your creative energy seeks unique, artistic pieces that allow self-expression and showcase your individual style.",
-      tips: ["Experiment with bold patterns and unique colorways", "Mix unexpected combinations", "Look for artist collaborations and limited editions", "Perfect for creative environments and self-expression"]
-    }
-  };
-
-  const moodData = moodMappings[mood as keyof typeof moodMappings] || moodMappings.chill;
-  
-  // Filter sneakers that match the mood
-  const matches = availableSneakers.filter(sneaker => {
-    const name = sneaker.name.toLowerCase();
-    const brand = sneaker.brandName?.toLowerCase() || '';
-    const colorway = sneaker.colorway?.toLowerCase() || '';
-    
-    return moodData.keywords.some(keyword => 
-      name.includes(keyword) || brand.includes(keyword) || colorway.includes(keyword)
-    ) || moodData.brands.some(brandName => 
-      brand.includes(brandName.toLowerCase())
-    );
-  }).slice(0, 6).map(sneaker => ({
-    id: sneaker.id,
-    name: sneaker.name,
-    brandName: sneaker.brandName || 'Unknown',
-    images: sneaker.images || [],
-    retailPrice: sneaker.retailPrice,
-    colorway: sneaker.colorway,
-    matchScore: Math.floor(Math.random() * 20) + 75, // 75-95% match
-    matchReason: `Perfect for your ${mood} mood with its ${moodData.keywords[0]} aesthetic and ${moodData.colors[0]} tones`,
-    mood: mood
-  }));
-
-  // If no matches, use first few sneakers with generic reasons
-  if (matches.length === 0) {
-    return {
-      selectedMood: mood,
-      matches: availableSneakers.slice(0, 3).map(sneaker => ({
-        id: sneaker.id,
-        name: sneaker.name,
-        brandName: sneaker.brandName || 'Unknown',
-        images: sneaker.images || [],
-        retailPrice: sneaker.retailPrice,
-        colorway: sneaker.colorway,
-        matchScore: Math.floor(Math.random() * 15) + 70,
-        matchReason: `A versatile choice that complements your ${mood} vibe`,
-        mood: mood
-      })),
-      personalityInsights: moodData.insights,
-      styleRecommendations: moodData.tips
-    };
-  }
-
-  return {
-    selectedMood: mood,
-    matches: matches,
-    personalityInsights: moodData.insights,
-    styleRecommendations: moodData.tips
-  };
-}
 
 // Enhanced fallback personality analysis function
 function generateEnhancedFallbackAnalysis(preferences: any, personalityTraits: string[]) {
@@ -1037,32 +923,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Sneaker Mood Matcher API
-  app.post('/api/ai/mood-match', async (req, res) => {
-    try {
-      const { mood, preferences = {} } = req.body;
-      
-      if (!mood) {
-        return res.status(400).json({ error: 'Mood is required' });
-      }
-
-      // Get available sneakers for mood matching
-      const availableSneakers = await storage.getFeaturedSneakers();
-      
-      // Generate mood-based recommendations
-      try {
-        const moodMatch = await generateMoodMatch(mood, preferences, availableSneakers);
-        res.json(moodMatch);
-      } catch (error: any) {
-        console.warn('AI mood matching unavailable, using fallback:', error?.message || 'Unknown error');
-        const fallbackMatch = generateFallbackMoodMatch(mood, availableSneakers);
-        res.json(fallbackMatch);
-      }
-    } catch (error) {
-      console.error('Mood matching error:', error);
-      res.status(500).json({ error: 'Failed to generate mood matches' });
-    }
-  });
 
   // Generate new AI collection endpoint
   app.post('/api/collections/generate', async (req, res) => {

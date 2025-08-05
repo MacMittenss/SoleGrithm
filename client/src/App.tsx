@@ -101,23 +101,7 @@ function App() {
                   <Route path="/review-summary" component={ReviewSummaryDemo} />
                   <Route path="/ar-tryon" component={ARTryOn} />
                   <Route path="/trend-map" component={TrendMap} />
-                  <Route path="/mood-matcher">
-                    {() => {
-                      const MoodMatcherPage = lazy(() => import('@/pages/MoodMatcher'));
-                      return (
-                        <Suspense fallback={
-                          <div className="min-h-screen bg-background flex items-center justify-center">
-                            <div className="text-center">
-                              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                              <p className="text-muted-foreground">Loading Mood Matcher...</p>
-                            </div>
-                          </div>
-                        }>
-                          <MoodMatcherPage />
-                        </Suspense>
-                      );
-                    }}
-                  </Route>
+
                   <Route path="/live-market">
                     <Suspense fallback={
                       <div className="min-h-screen bg-background flex items-center justify-center">
