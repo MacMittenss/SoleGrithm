@@ -6,6 +6,11 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
 import AIChat from "@/components/AIChat";
+import { MobileNavigation } from "@/components/navigation/MobileNavigation";
+import { SkipLinks } from "@/components/accessibility/SkipToContent";
+import { PageTransition } from "@/components/transitions/PageTransition";
+import { useNotifications } from '@/hooks/useNotifications';
+import { ToastContainer } from '@/components/ui/notification-toast';
 
 // Pages
 import Home from "@/pages/Home";
@@ -49,6 +54,7 @@ function ScrollToTop() {
 
 function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+  const { notifications, removeNotification } = useNotifications();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -56,15 +62,18 @@ function App() {
         {/* AuthProvider removed - using Firebase directly */}
           <Router>
             <div className="min-h-screen bg-background text-foreground">
+              <SkipLinks />
               <ScrollToTop />
               <Header onAIChatToggle={() => setIsAIChatOpen(!isAIChatOpen)} />
+              <MobileNavigation />
               
-              <main>
-                <Switch>
-                  <Route path="/" component={Home} />
-                  <Route path="/auth" component={Auth} />
-                  {/* Redirect Catalog to Live Market */}
-                  <Route path="/catalog">
+              <main id="main-content">
+                <PageTransition>
+                  <Switch>
+                    <Route path="/" component={Home} />
+                    <Route path="/auth" component={Auth} />
+                    {/* Redirect Catalog to Live Market */}
+                    <Route path="/catalog">
                     <Suspense fallback={
                       <div className="min-h-screen bg-background flex items-center justify-center">
                         <div className="text-center">
@@ -116,6 +125,7 @@ function App() {
                   </Route>
                   <Route component={NotFound} />
                 </Switch>
+                </PageTransition>
               </main>
 
               <AIChat 
@@ -124,6 +134,10 @@ function App() {
               />
               
               <Toaster />
+              <ToastContainer 
+                toasts={notifications} 
+                position="top-right" 
+              />
             </div>
           </Router>
         {/* End AuthProvider */}
