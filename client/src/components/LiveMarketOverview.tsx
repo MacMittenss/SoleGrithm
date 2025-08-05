@@ -15,10 +15,20 @@ import {
   Filter,
   RefreshCw,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Grid,
+  List,
+  SortAsc,
+  Heart,
+  Plus,
+  Package
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Link } from 'wouter';
 import MarketDataCard from './MarketDataCard';
+import SneakerCard from '@/components/SneakerCard';
 
 interface MarketOverview {
   totalItems: number;
@@ -51,9 +61,29 @@ interface TrendingSneaker {
   trending: boolean;
 }
 
+interface Sneaker {
+  id: number;
+  name: string;
+  brandName: string;
+  retailPrice: number;
+  images: string[];
+  slug: string;
+  description: string;
+  categories: string[];
+  colorway: string;
+  releaseDate: string;
+}
+
 export function LiveMarketOverview() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedSneaker, setSelectedSneaker] = useState<number | null>(null);
+  
+  // Catalog state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const { data: overview, isLoading: overviewLoading } = useQuery<MarketOverview>({
     queryKey: ['/api/market/overview'],
@@ -64,6 +94,17 @@ export function LiveMarketOverview() {
     queryKey: ['/api/market/trending'],
     queryFn: () => fetch('/api/market/trending?limit=10').then(res => res.json()),
     refetchInterval: 30000, // Refresh every 30 seconds
+  });
+
+  // Catalog data queries
+  const { data: sneakers, isLoading: sneakersLoading } = useQuery<Sneaker[]>({
+    queryKey: ['/api/sneakers/featured'],
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: brands } = useQuery<{ id: number; name: string; slug: string }[]>({
+    queryKey: ['/api/brands'],
+    refetchOnWindowFocus: false,
   });
 
   const formatPrice = (price: number) => `$${price.toLocaleString()}`;
@@ -122,7 +163,7 @@ export function LiveMarketOverview() {
       </motion.div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview" data-testid="tab-overview">
             <BarChart3 className="w-4 h-4 mr-2" />
             Overview
@@ -130,6 +171,10 @@ export function LiveMarketOverview() {
           <TabsTrigger value="trending" data-testid="tab-trending">
             <TrendingUp className="w-4 h-4 mr-2" />
             Trending
+          </TabsTrigger>
+          <TabsTrigger value="catalog" data-testid="tab-catalog">
+            <Package className="w-4 h-4 mr-2" />
+            Catalog
           </TabsTrigger>
           <TabsTrigger value="detailed" data-testid="tab-detailed">
             <Eye className="w-4 h-4 mr-2" />
@@ -383,6 +428,227 @@ export function LiveMarketOverview() {
               </div>
             )}
           </motion.div>
+        </TabsContent>
+
+        <TabsContent value="catalog" className="space-y-6">
+          {/* Catalog Header and Filters */}
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-semibold">Sneaker Catalog</h3>
+                <p className="text-sm text-muted-foreground">
+                  Browse and discover sneakers with live market data
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                  data-testid="view-grid"
+                >
+                  <Grid className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                  data-testid="view-list"
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Search and Filters */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder="Search sneakers..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                  data-testid="catalog-search"
+                />
+              </div>
+
+              <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+                <SelectTrigger data-testid="brand-filter">
+                  <SelectValue placeholder="All Brands" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Brands</SelectItem>
+                  {brands?.map((brand) => (
+                    <SelectItem key={brand.id} value={brand.slug}>
+                      {brand.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger data-testid="category-filter">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  <SelectItem value="basketball">Basketball</SelectItem>
+                  <SelectItem value="running">Running</SelectItem>
+                  <SelectItem value="lifestyle">Lifestyle</SelectItem>
+                  <SelectItem value="skateboarding">Skateboarding</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger data-testid="sort-filter">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="oldest">Oldest First</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="name">Alphabetical</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Sneaker Grid/List */}
+          {sneakersLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <Card key={i} className="animate-pulse">
+                  <div className="h-48 bg-muted rounded-t-lg" />
+                  <CardContent className="p-4">
+                    <div className="h-4 bg-muted rounded mb-2" />
+                    <div className="h-3 bg-muted rounded w-2/3 mb-2" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : viewMode === 'grid' ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {sneakers?.map((sneaker) => (
+                <motion.div
+                  key={sneaker.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <SneakerCard
+                    sneaker={{
+                      id: sneaker.id,
+                      name: sneaker.name,
+                      brand: sneaker.brandName || 'Unknown',
+                      price: `$${sneaker.retailPrice}`,
+                      imageUrl: sneaker.images[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc",
+                      slug: sneaker.slug,
+                      brandName: sneaker.brandName,
+                      description: sneaker.description,
+                      images: sneaker.images,
+                      retailPrice: sneaker.retailPrice,
+                      categories: sneaker.categories,
+                      sizes: ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+                      materials: 'Premium materials and construction',
+                      colorway: sneaker.colorway,
+                      releaseDate: sneaker.releaseDate,
+                      sku: `SKU-${sneaker.id}`
+                    }}
+                    enableHoverPreview={true}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {sneakers?.map((sneaker) => (
+                <motion.div
+                  key={sneaker.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Card className="group cursor-pointer transition-all hover:shadow-lg">
+                    <Link href={`/sneakers/${sneaker.slug}`}>
+                      <CardContent className="p-6">
+                        <div className="flex gap-6">
+                          <div className="relative overflow-hidden rounded-lg flex-shrink-0">
+                            <img
+                              src={sneaker.images[0] || "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=200&h=150&fit=crop"}
+                              alt={sneaker.name}
+                              className="w-32 h-24 object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex flex-wrap gap-1 mb-2">
+                              {sneaker.categories.map((category) => (
+                                <Badge key={category} variant="secondary" className="text-xs">
+                                  {category}
+                                </Badge>
+                              ))}
+                            </div>
+                            <h3 className="font-semibold text-lg mb-1">{sneaker.name}</h3>
+                            <p className="text-muted-foreground mb-2">{sneaker.colorway}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                              {sneaker.description}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-xl">${sneaker.retailPrice}</span>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    // Add to wishlist functionality
+                                  }}
+                                >
+                                  <Heart className="h-4 w-4 mr-1" />
+                                  Wishlist
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    // Add to collection functionality
+                                  }}
+                                >
+                                  <Plus className="h-4 w-4 mr-1" />
+                                  Add to Collection
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          )}
+
+          {/* No Results */}
+          {sneakers?.length === 0 && !sneakersLoading && (
+            <div className="text-center py-12">
+              <Package className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+              <p className="text-gray-500 mb-4">No sneakers found matching your criteria</p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedBrand('all');
+                  setSelectedCategory('all');
+                  setSortBy('newest');
+                }}
+              >
+                Clear Filters
+              </Button>
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="detailed">
