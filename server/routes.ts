@@ -30,6 +30,8 @@ import { marketDataService } from "./services/marketData";
 import { insertUserSchema, insertSneakerSchema, insertReviewSchema, insertCollectionSchema, insertBlogPostSchema, type SneakerWithBrand } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
+import { nanoid } from 'nanoid';
+import { cacheControl, apiCache, noCache, conditionalCache } from './middleware/cache';
 
 // Configure multer for image uploads
 const upload = multer({

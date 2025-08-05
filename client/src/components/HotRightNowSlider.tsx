@@ -70,7 +70,9 @@ export default function HotRightNowSlider() {
       const response = await fetch(dailyContent.apiEndpoint);
       if (!response.ok) throw new Error(`Failed to fetch ${dailyContent.title.toLowerCase()}`);
       return response.json();
-    }
+    },
+    staleTime: 1000 * 60 * 10, // 10 minutes cache for better performance
+    refetchOnWindowFocus: false
   });
 
   // Calculate card width based on screen size

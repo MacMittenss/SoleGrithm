@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'wouter';
 import { Heart, Star, TrendingUp } from 'lucide-react';
 import SneakerHoverPreview from './SneakerHoverPreview';
+import LazyImage from '@/components/optimized/LazyImage';
 import { useUserTracking } from '@/hooks/useUserTracking';
 
 interface SneakerCardProps {
@@ -125,10 +126,13 @@ export default function SneakerCard({ sneaker, enableHoverPreview = false }: Sne
           onMouseMove={handleMouseMove}
         >
           <div className="relative overflow-hidden">
-          <img
+          <LazyImage
             src={sneaker.imageUrl || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"}
             alt={sneaker.name}
             className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+            fallbackSrc="https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            priority={false}
           />
           
           {/* Overlay */}

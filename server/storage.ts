@@ -313,14 +313,15 @@ export class DatabaseStorage implements IStorage {
   async getSneakerPrices(sneakerId: number, size?: string): Promise<PriceHistory[]> {
     let queryBuilder = db
       .select()
-      .from(priceHistory)
-      .where(eq(priceHistory.sneakerId, sneakerId));
+      .from(priceHistory);
 
     if (size) {
       queryBuilder = queryBuilder.where(and(eq(priceHistory.sneakerId, sneakerId), eq(priceHistory.size, size)));
+    } else {
+      queryBuilder = queryBuilder.where(eq(priceHistory.sneakerId, sneakerId));
     }
 
-    return await queryBuilder.orderBy(desc(priceHistory.recordedAt));
+    return await queryBuilder.orderBy(desc(priceHistory.timestamp));
   }
 
   async addPriceRecord(insertPriceRecord: InsertPriceHistory): Promise<PriceHistory> {
