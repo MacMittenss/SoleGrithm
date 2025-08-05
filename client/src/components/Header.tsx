@@ -74,6 +74,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
     { href: '/review-summary', label: 'AI Reviews', icon: MessageCircle },
     { href: '/ar-tryon', label: 'AR Try-On', icon: Eye },
     { href: '/trend-map', label: 'Sole Map', icon: MapPin },
+    { href: '/mood-matcher', label: 'Mood Matcher', icon: Heart },
   ];
 
   const isActive = (href: string) => location === href;

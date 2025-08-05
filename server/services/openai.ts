@@ -715,3 +715,61 @@ User Profile:
     throw new Error('Failed to generate personalized collection');
   }
 }
+
+// Sneaker Mood Matcher functionality
+export async function generateMoodMatch(mood: string, preferences: any, availableSneakers: any[]): Promise<any> {
+  try {
+    const prompt = `You are an AI sneaker stylist specializing in mood-based recommendations. A user is feeling "${mood}" today.
+
+    Available sneakers: ${JSON.stringify(availableSneakers)}
+    User preferences: ${JSON.stringify(preferences)}
+
+    Based on the mood "${mood}", analyze each sneaker and return a JSON object with:
+    {
+      "selectedMood": "${mood}",
+      "matches": [
+        {
+          "id": number,
+          "name": string,
+          "brandName": string,
+          "images": string[],
+          "retailPrice": string,
+          "colorway": string,
+          "matchScore": number (0-100),
+          "matchReason": "specific reason why this sneaker matches the ${mood} mood",
+          "mood": "${mood}"
+        }
+      ],
+      "personalityInsights": "brief analysis of what this mood says about their style preferences",
+      "styleRecommendations": [
+        "specific styling tip for ${mood} mood",
+        "color palette recommendation",
+        "outfit suggestions",
+        "occasion recommendations"
+      ]
+    }
+
+    Mood analysis guidelines:
+    - "energetic": bright colors, bold designs, athletic styles
+    - "chill": comfortable, neutral colors, relaxed fits
+    - "confident": statement pieces, luxury brands, bold colorways
+    - "nostalgic": retro styles, classic brands, vintage aesthetics
+    - "adventurous": outdoor-ready, versatile, durable materials
+    - "minimalist": clean lines, monochrome, simple designs
+    - "romantic": soft colors, elegant designs, refined aesthetics
+    - "creative": unique patterns, artistic collaborations, experimental designs
+
+    Select 3-6 best matches with scores above 70. Provide detailed match reasons.`;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      messages: [{ role: "user", content: prompt }],
+      response_format: { type: "json_object" }
+    });
+
+    return JSON.parse(response.choices[0].message.content || '{}');
+  } catch (error) {
+    console.error('AI mood matching error:', error);
+    throw error;
+  }
+}

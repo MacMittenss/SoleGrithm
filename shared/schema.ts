@@ -99,7 +99,7 @@ export const reviews = pgTable("reviews", {
   rating: integer("rating").notNull(),
   title: text("title"),
   content: text("content").notNull(),
-  verified: boolean("verified").default(false),
+  isVerified: boolean("is_verified").default(false),
   helpfulCount: integer("helpful_count").default(0),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow()
