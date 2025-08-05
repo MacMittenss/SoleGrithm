@@ -4,9 +4,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
-import { X, Send, Bot, User, Loader2 } from 'lucide-react';
+import { X, Send, Bot, User, Loader2, Sparkles, TrendingUp, ShoppingBag } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import SneakerCard from '@/components/SneakerCard';
 
 interface AIChatProps {
   isOpen: boolean;
@@ -18,6 +19,10 @@ interface Message {
   content: string;
   sender: 'user' | 'bot';
   timestamp: Date;
+  suggestions?: string[];
+  sneakerRecommendations?: any[];
+  marketInsights?: any;
+  actionable?: boolean;
 }
 
 export default function AIChat({ isOpen, onClose }: AIChatProps) {
@@ -26,7 +31,9 @@ export default function AIChat({ isOpen, onClose }: AIChatProps) {
       id: '1',
       content: "Hey! I'm SoleBot, your AI sneaker expert. I can help you find the perfect sneakers, track prices, get style advice, and answer any questions about sneaker culture. What can I help you with today?",
       sender: 'bot',
-      timestamp: new Date()
+      timestamp: new Date(),
+      suggestions: ["What's trending in sneakers right now?", "Help me find my next pair", "Tell me about sneaker care"],
+      actionable: true
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -66,19 +73,28 @@ export default function AIChat({ isOpen, onClose }: AIChatProps) {
         },
         body: JSON.stringify({
           message: inputMessage,
-          context: messages.slice(-5) // Send last 5 messages for context
+          context: {
+            userPreferences: [], // Could be enhanced with user profile data
+            recentQueries: messages.slice(-3).filter(m => m.sender === 'user').map(m => m.content),
+            collectionSize: 0 // Could be enhanced with actual collection data
+          },
+          conversationHistory: messages.slice(-6) // Send conversation history for context
         })
       });
 
       if (!response.ok) throw new Error('Failed to get AI response');
 
-      const { response: aiResponse } = await response.json();
+      const aiData = await response.json();
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: aiResponse,
+        content: aiData.response || aiData.message || "I'm here to help with your sneaker questions!",
         sender: 'bot',
-        timestamp: new Date()
+        timestamp: new Date(),
+        suggestions: aiData.suggestions || [],
+        sneakerRecommendations: aiData.sneakerRecommendations || [],
+        marketInsights: aiData.marketInsights,
+        actionable: aiData.actionable || false
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -88,6 +104,17 @@ export default function AIChat({ isOpen, onClose }: AIChatProps) {
         description: 'Failed to get AI response. Please try again.',
         variant: 'destructive'
       });
+      
+      // Add fallback message
+      const fallbackMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "I'm having trouble connecting right now, but I'm still here to help! Try asking about specific sneaker models, styling advice, or market trends.",
+        sender: 'bot',
+        timestamp: new Date(),
+        suggestions: ["What's trending in sneakers?", "Help me find a specific model", "Sneaker care tips"],
+        actionable: false
+      };
+      setMessages(prev => [...prev, fallbackMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -98,6 +125,16 @@ export default function AIChat({ isOpen, onClose }: AIChatProps) {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputMessage(suggestion);
+    // Automatically send the suggestion
+    setTimeout(() => {
+      const event = { target: { value: suggestion } } as any;
+      setInputMessage(suggestion);
+      handleSendMessage();
+    }, 100);
   };
 
   if (!isOpen) return null;
@@ -139,8 +176,69 @@ export default function AIChat({ isOpen, onClose }: AIChatProps) {
                       message.sender === 'user' ? 'user' : 'bot'
                     }`}
                   >
-                    <div className="text-sm">{message.content}</div>
-                    <div className="text-xs opacity-60 mt-1">
+                    <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                    
+                    {/* Enhanced bot message features */}
+                    {message.sender === 'bot' && (
+                      <div className="mt-3 space-y-3">
+                        {/* Sneaker Recommendations */}
+                        {message.sneakerRecommendations && message.sneakerRecommendations.length > 0 && (
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+                              <ShoppingBag className="w-3 h-3" />
+                              Recommended Sneakers
+                            </div>
+                            <div className="grid gap-2">
+                              {message.sneakerRecommendations.slice(0, 2).map((sneaker, idx) => (
+                                <div key={idx} className="bg-muted rounded-lg p-2 text-xs">
+                                  <div className="font-medium">{sneaker.name}</div>
+                                  <div className="text-muted-foreground">{sneaker.brand} • ${sneaker.retailPrice}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Market Insights */}
+                        {message.marketInsights && (
+                          <div className="bg-blue-50 dark:bg-blue-950/30 rounded-lg p-2 text-xs">
+                            <div className="font-medium text-blue-700 dark:text-blue-300 flex items-center gap-1">
+                              <TrendingUp className="w-3 h-3" />
+                              Market Insight
+                            </div>
+                            <div className="text-blue-600 dark:text-blue-400 mt-1">
+                              {typeof message.marketInsights === 'string' ? message.marketInsights : 'Market data available'}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Quick Suggestions */}
+                        {message.suggestions && message.suggestions.length > 0 && (
+                          <div className="space-y-1">
+                            <div className="text-xs font-medium text-muted-foreground flex items-center gap-1">
+                              <Sparkles className="w-3 h-3" />
+                              Try asking:
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              {message.suggestions.map((suggestion, idx) => (
+                                <Button
+                                  key={idx}
+                                  variant="outline"
+                                  size="sm"
+                                  className="h-6 text-xs"
+                                  onClick={() => handleSuggestionClick(suggestion)}
+                                  data-testid={`suggestion-button-${idx}`}
+                                >
+                                  {suggestion}
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    <div className="text-xs opacity-60 mt-2">
                       {message.timestamp.toLocaleTimeString()}
                     </div>
                   </div>

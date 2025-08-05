@@ -28,20 +28,45 @@ interface AnalysisResult {
     confidence: number;
     marketValue: string;
     description: string;
+    releaseDate?: string;
+    retailPrice?: string;
+    currentMarketTrend?: string;
   };
   similarStyles: any[];
   colorAnalysis: {
     dominantColors: string[];
     colorScheme: string;
+    seasonalFit?: string;
   };
   styleClassification: {
     category: string;
     subcategory: string;
     tags: string[];
+    targetDemographic?: string[];
+    versatilityScore?: number;
+  };
+  condition?: {
+    overall: string;
+    wear: string;
+    authenticity: string;
+    careRecommendations?: string[];
   };
   celebrityContext?: {
     detected: boolean;
     context: string;
+    stylingTips?: string[];
+  };
+  marketInsights?: {
+    investmentPotential: string;
+    priceHistory: string;
+    availabilityStatus: string;
+    recommendedAction: string;
+  };
+  stylingAdvice?: {
+    occasions: string[];
+    outfitSuggestions: string[];
+    seasonalWear: string;
+    colorPairing: string[];
   };
 }
 
@@ -303,10 +328,11 @@ export default function VisualSearch() {
             
             {analysisResult ? (
               <Tabs defaultValue="identification" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-4">
                   <TabsTrigger value="identification">Identification</TabsTrigger>
                   <TabsTrigger value="similar">Similar Styles</TabsTrigger>
                   <TabsTrigger value="analysis">Analysis</TabsTrigger>
+                  <TabsTrigger value="insights">Market & Style</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="identification" className="space-y-4">
@@ -331,14 +357,21 @@ export default function VisualSearch() {
                           {analysisResult.identifiedSneaker.brand}
                         </p>
                       </div>
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <Badge variant="outline">
                           Market Value: {analysisResult.identifiedSneaker.marketValue}
                         </Badge>
-                        <Badge variant="outline" className="bg-green-50 text-green-700">
-                          <TrendingUp className="w-3 h-3 mr-1" />
-                          In Demand
-                        </Badge>
+                        {analysisResult.identifiedSneaker.currentMarketTrend && (
+                          <Badge variant="outline" className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
+                            <TrendingUp className="w-3 h-3 mr-1" />
+                            {analysisResult.identifiedSneaker.currentMarketTrend}
+                          </Badge>
+                        )}
+                        {analysisResult.identifiedSneaker.retailPrice && (
+                          <Badge variant="secondary">
+                            Retail: ${analysisResult.identifiedSneaker.retailPrice}
+                          </Badge>
+                        )}
                       </div>
                       <p className="text-sm text-muted-foreground">
                         {analysisResult.identifiedSneaker.description}
@@ -398,6 +431,24 @@ export default function VisualSearch() {
                             </Badge>
                           ))}
                         </div>
+                        
+                        {/* Versatility Score */}
+                        {analysisResult.styleClassification.versatilityScore && (
+                          <div className="mt-3">
+                            <h4 className="font-medium mb-2">Versatility Score</h4>
+                            <div className="flex items-center gap-2">
+                              <div className="flex-1 bg-muted rounded-full h-2">
+                                <div 
+                                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                                  style={{ width: `${analysisResult.styleClassification.versatilityScore * 10}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium">
+                                {analysisResult.styleClassification.versatilityScore}/10
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div>
                         <h4 className="font-medium mb-2">Colorway Analysis</h4>
@@ -420,6 +471,134 @@ export default function VisualSearch() {
                       </div>
                     </CardContent>
                   </Card>
+                </TabsContent>
+
+                <TabsContent value="insights" className="space-y-4">
+                  {/* Market Insights */}
+                  {analysisResult.marketInsights && (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <TrendingUp className="w-5 h-5" />
+                          Market Intelligence
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="font-medium mb-1">Investment Potential</h4>
+                            <p className="text-sm text-muted-foreground">{analysisResult.marketInsights.investmentPotential}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium mb-1">Availability</h4>
+                            <p className="text-sm text-muted-foreground">{analysisResult.marketInsights.availabilityStatus}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium mb-1">Price History</h4>
+                            <p className="text-sm text-muted-foreground">{analysisResult.marketInsights.priceHistory}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium mb-1">Recommendation</h4>
+                            <p className="text-sm text-muted-foreground">{analysisResult.marketInsights.recommendedAction}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Styling Advice */}
+                  {analysisResult.stylingAdvice && (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Sparkles className="w-5 h-5" />
+                          Style Guide
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div>
+                          <h4 className="font-medium mb-2">Perfect Occasions</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {analysisResult.stylingAdvice.occasions.map((occasion, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {occasion}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium mb-2">Outfit Suggestions</h4>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            {analysisResult.stylingAdvice.outfitSuggestions.map((suggestion, index) => (
+                              <li key={index} className="flex items-start gap-2">
+                                <span className="text-primary">•</span>
+                                {suggestion}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div>
+                          <h4 className="font-medium mb-2">Color Pairing</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {analysisResult.stylingAdvice.colorPairing.map((color, index) => (
+                              <Badge key={index} variant="secondary" className="text-xs">
+                                {color}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-medium mb-1">Seasonal Wear</h4>
+                          <p className="text-sm text-muted-foreground">{analysisResult.stylingAdvice.seasonalWear}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Condition Assessment */}
+                  {analysisResult.condition && (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <CheckCircle className="w-5 h-5" />
+                          Condition Assessment
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="grid grid-cols-3 gap-4 text-sm">
+                          <div>
+                            <div className="font-medium">Overall</div>
+                            <div className="text-muted-foreground">{analysisResult.condition.overall}</div>
+                          </div>
+                          <div>
+                            <div className="font-medium">Wear Pattern</div>
+                            <div className="text-muted-foreground">{analysisResult.condition.wear}</div>
+                          </div>
+                          <div>
+                            <div className="font-medium">Authenticity</div>
+                            <div className="text-muted-foreground">{analysisResult.condition.authenticity}</div>
+                          </div>
+                        </div>
+                        
+                        {analysisResult.condition.careRecommendations && (
+                          <div>
+                            <h4 className="font-medium mb-2">Care Recommendations</h4>
+                            <ul className="text-sm text-muted-foreground space-y-1">
+                              {analysisResult.condition.careRecommendations.map((recommendation, index) => (
+                                <li key={index} className="flex items-start gap-2">
+                                  <span className="text-primary">•</span>
+                                  {recommendation}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )}
                 </TabsContent>
               </Tabs>
             ) : !analyzeImageMutation.isPending && !analyzeImageMutation.isError && (
