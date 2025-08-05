@@ -1,80 +1,65 @@
 import '@testing-library/jest-dom';
-import { setupTestEnvironment } from './utils/testUtils';
+import 'jest-axe/extend-expect';
 
-// Global test setup
-setupTestEnvironment();
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserver {
+  constructor(cb: any) {
+    this.cb = cb;
+  }
+  cb: any;
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
 
-// Mock framer-motion to avoid animation issues in tests
-jest.mock('framer-motion', () => ({
-  ...jest.requireActual('framer-motion'),
-  motion: {
-    div: 'div',
-    button: 'button',
-    span: 'span',
-    img: 'img',
-    a: 'a',
-    form: 'form',
-    input: 'input',
-    textarea: 'textarea',
-    select: 'select',
-    option: 'option',
-    h1: 'h1',
-    h2: 'h2',
-    h3: 'h3',
-    h4: 'h4',
-    h5: 'h5',
-    h6: 'h6',
-    p: 'p',
-    ul: 'ul',
-    ol: 'ol',
-    li: 'li',
-  },
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
-  useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
-  useTransform: () => 0,
-  useSpring: () => 0,
-  useAnimation: () => ({
-    start: jest.fn(),
-    stop: jest.fn(),
-    set: jest.fn(),
-  }),
-}));
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor(cb: any) {
+    this.cb = cb;
+  }
+  cb: any;
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
 
-// Mock next-themes
-jest.mock('next-themes', () => ({
-  ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
-  useTheme: () => ({
-    theme: 'light',
-    setTheme: jest.fn(),
-    resolvedTheme: 'light',
-  }),
-}));
+// Mock matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
 
-// Mock nanoid
-jest.mock('nanoid', () => ({
-  nanoid: () => 'test-id-123',
-}));
+// Mock scrollTo
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: jest.fn(),
+});
 
-// Suppress console warnings and errors in tests
-const originalError = console.error;
+// Mock getComputedStyle
+Object.defineProperty(window, 'getComputedStyle', {
+  writable: true,
+  value: jest.fn().mockImplementation(() => ({
+    getPropertyValue: jest.fn().mockReturnValue(''),
+  })),
+});
+
+// Suppress console.warn for tests
 const originalWarn = console.warn;
-
 beforeAll(() => {
-  console.error = (...args: any[]) => {
-    if (
-      typeof args[0] === 'string' &&
-      args[0].includes('Warning: ReactDOM.render is no longer supported')
-    ) {
-      return;
-    }
-    originalError.call(console, ...args);
-  };
-
   console.warn = (...args: any[]) => {
     if (
       typeof args[0] === 'string' &&
-      (args[0].includes('componentWillReceiveProps') ||
-        args[0].includes('componentWillUpdate'))
+      (args[0].includes('Warning: ReactDOM.render is deprecated') ||
+       args[0].includes('Warning: findDOMNode is deprecated'))
     ) {
       return;
     }
@@ -83,13 +68,5 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-  console.error = originalError;
   console.warn = originalWarn;
-});
-
-// Global test cleanup
-afterEach(() => {
-  jest.clearAllMocks();
-  localStorage.clear();
-  sessionStorage.clear();
 });

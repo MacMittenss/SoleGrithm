@@ -1,9 +1,9 @@
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/client/src/tests/setup.ts'],
   moduleNameMapping: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@/(.*)$': '<rootDir>/client/src/$1',
     '^@assets/(.*)$': '<rootDir>/attached_assets/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
@@ -13,14 +13,14 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: [
-    '<rootDir>/src/tests/**/*.(test|spec).(ts|tsx|js|jsx)',
+    '<rootDir>/client/src/tests/**/*.(test|spec).(ts|tsx|js|jsx)',
   ],
   collectCoverageFrom: [
-    'src/**/*.(ts|tsx)',
-    '!src/**/*.d.ts',
-    '!src/tests/**/*',
-    '!src/main.tsx',
-    '!src/vite-env.d.ts',
+    'client/src/**/*.(ts|tsx)',
+    '!client/src/**/*.d.ts',
+    '!client/src/tests/**/*',
+    '!client/src/main.tsx',
+    '!client/src/vite-env.d.ts',
   ],
   coverageReporters: ['text', 'lcov', 'html'],
   coverageDirectory: 'coverage',
