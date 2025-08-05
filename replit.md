@@ -24,7 +24,7 @@ The application employs a modern full-stack architecture with clear separation o
 - **Language**: TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Firebase Authentication
-- **AI Integration**: OpenAI API for chat, recommendations, content generation, image analysis, and user profiling.
+- **AI Integration**: OpenAI API for chat, recommendations, content generation, image analysis, and user profiling with smart fallback systems for quota management.
 - **Data Strategy Services**: Modular architecture for user tracking, Firebase profiles, third-party sync, and AI personalization.
 - **Anonymous Analytics**: Session-based tracking system.
 - **Market Data Integration**: Live price feeds and market analysis.
@@ -32,7 +32,7 @@ The application employs a modern full-stack architecture with clear separation o
 ### Core Features & Design Patterns
 - **Authentication**: Firebase handles user registration, login, and token management, with automatic local database creation for new users.
 - **Database Layer**: Drizzle ORM with PostgreSQL (Neon serverless) for type-safe operations and schema migrations.
-- **AI-Powered Features**: SoleBot (chat assistant), AI-generated content and collections, sneaker image recognition and analysis (OpenAI GPT-4o Vision API), price prediction, personalized recommendations, AI user profiling, anonymous interaction analysis, and real-time personalization.
+- **AI-Powered Features**: SoleBot (chat assistant), AI-generated content and collections with intelligent fallbacks, sneaker image recognition and analysis (OpenAI GPT-4o Vision API), price prediction, personalized recommendations, AI user profiling, anonymous interaction analysis, and real-time personalization.
 - **Data Flow**: Frontend uses Firebase tokens for authenticated requests; backend verifies tokens; Drizzle ORM handles database operations. AI API calls are managed via a dedicated service layer with robust fallback systems.
 - **Data Storage Strategy**: User profiles, sneaker catalog, collections, reviews, and price history are stored in PostgreSQL.
 - **Interactive Map**: A geographic map visualizes sneaker trends across major US cities with heat map visualization and city-specific insights, integrated into the navigation.
