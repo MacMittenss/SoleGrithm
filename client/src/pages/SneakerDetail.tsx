@@ -16,6 +16,7 @@ import {
 import { format } from "date-fns";
 import ReviewSummary from "@/components/ReviewSummary";
 import SneakerCareTips from "@/components/SneakerCareTips";
+import MarketDataCard from "@/components/MarketDataCard";
 
 interface Sneaker {
   id: number;
@@ -519,8 +520,9 @@ export default function SneakerDetail() {
 
         {/* Tabs Section */}
         <Tabs defaultValue="description" className="mb-12">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="description">Description</TabsTrigger>
+            <TabsTrigger value="market">Live Market</TabsTrigger>
             <TabsTrigger value="care-tips">Care Tips</TabsTrigger>
             <TabsTrigger value="ai-summary">AI Summary</TabsTrigger>
             <TabsTrigger value="reviews">Reviews ({reviews?.length || 0})</TabsTrigger>
@@ -556,6 +558,14 @@ export default function SneakerDetail() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="market">
+            <MarketDataCard 
+              sneakerId={sneaker.id}
+              sneakerName={sneaker.name}
+              size={selectedSize}
+            />
           </TabsContent>
 
           <TabsContent value="care-tips">

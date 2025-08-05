@@ -23,6 +23,7 @@ import { UserTrackingService } from "./services/user-tracking";
 import { FirebaseProfileService } from "./services/firebase-profiles";
 import { ThirdPartyAPIService } from "./services/third-party-sync";
 import { AIPersonalizationService } from "./services/ai-personalization";
+import { marketDataService } from "./services/marketData";
 import { insertUserSchema, insertSneakerSchema, insertReviewSchema, insertCollectionSchema, insertBlogPostSchema, type SneakerWithBrand } from "@shared/schema";
 import { z } from "zod";
 import multer from 'multer';
@@ -1242,6 +1243,122 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Care tips generation error:', error);
       res.status(500).json({ error: "Failed to generate care tips" });
+    }
+  });
+
+  // ==================== MARKET DATA API ROUTES ====================
+  
+  // Get market analytics for a specific sneaker
+  app.get('/api/market/analytics/:sneakerId', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.sneakerId);
+      const { size } = req.query;
+      
+      const analytics = await marketDataService.getMarketAnalytics(sneakerId, size as string);
+      res.json(analytics);
+    } catch (error) {
+      console.error('Market analytics error:', error);
+      res.status(500).json({ error: 'Failed to fetch market analytics' });
+    }
+  });
+
+  // Get trending sneakers with market data
+  app.get('/api/market/trending', async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 20;
+      const trending = await marketDataService.getTrendingSneakers(limit);
+      res.json(trending);
+    } catch (error) {
+      console.error('Trending sneakers error:', error);
+      res.status(500).json({ error: 'Failed to fetch trending sneakers' });
+    }
+  });
+
+  // Search sneakers by price range
+  app.get('/api/market/search', async (req, res) => {
+    try {
+      const { minPrice, maxPrice, limit } = req.query;
+      const min = minPrice ? parseInt(minPrice as string) : undefined;
+      const max = maxPrice ? parseInt(maxPrice as string) : undefined;
+      const searchLimit = parseInt(limit as string) || 50;
+      
+      const results = await marketDataService.searchSneakersByPrice(min, max, searchLimit);
+      res.json(results);
+    } catch (error) {
+      console.error('Price search error:', error);
+      res.status(500).json({ error: 'Failed to search sneakers by price' });
+    }
+  });
+
+  // Update market prices for a sneaker (admin/cron endpoint)
+  app.post('/api/market/update/:sneakerId', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.sneakerId);
+      await marketDataService.updateMarketPrices(sneakerId);
+      res.json({ success: true, message: 'Market prices updated successfully' });
+    } catch (error) {
+      console.error('Market update error:', error);
+      res.status(500).json({ error: 'Failed to update market prices' });
+    }
+  });
+
+  // Get real-time price comparison across platforms
+  app.get('/api/market/compare/:sneakerId', async (req, res) => {
+    try {
+      const sneakerId = parseInt(req.params.sneakerId);
+      const analytics = await marketDataService.getMarketAnalytics(sneakerId);
+      
+      const comparison = {
+        sneakerId,
+        platforms: analytics.platforms.map(platform => ({
+          name: platform.platform,
+          price: platform.price,
+          availability: platform.availability,
+          lastUpdated: platform.lastUpdated,
+          url: platform.url
+        })),
+        bestPrice: Math.min(...analytics.platforms.map(p => p.price)),
+        avgPrice: analytics.currentPrice,
+        priceSpread: Math.max(...analytics.platforms.map(p => p.price)) - Math.min(...analytics.platforms.map(p => p.price)),
+        recommendation: analytics.platforms.find(p => p.price === Math.min(...analytics.platforms.map(p => p.price)))
+      };
+      
+      res.json(comparison);
+    } catch (error) {
+      console.error('Price comparison error:', error);
+      res.status(500).json({ error: 'Failed to compare prices' });
+    }
+  });
+
+  // Get market overview statistics
+  app.get('/api/market/overview', async (req, res) => {
+    try {
+      // Get trending sneakers and calculate market stats
+      const trending = await marketDataService.getTrendingSneakers(10);
+      
+      const marketOverview = {
+        totalItems: trending.length,
+        avgPrice: Math.round(trending.reduce((sum, item) => sum + item.currentPrice, 0) / trending.length),
+        priceRange: {
+          min: Math.min(...trending.map(item => item.currentPrice)),
+          max: Math.max(...trending.map(item => item.currentPrice))
+        },
+        topGainers: trending
+          .filter(item => item.priceChange24h > 0)
+          .sort((a, b) => b.priceChange24h - a.priceChange24h)
+          .slice(0, 3),
+        topLosers: trending
+          .filter(item => item.priceChange24h < 0)
+          .sort((a, b) => a.priceChange24h - b.priceChange24h)
+          .slice(0, 3),
+        marketSentiment: trending.filter(item => item.trend === 'up').length > trending.length / 2 ? 'bullish' : 'bearish',
+        lastUpdated: new Date().toISOString()
+      };
+      
+      res.json(marketOverview);
+    } catch (error) {
+      console.error('Market overview error:', error);
+      res.status(500).json({ error: 'Failed to fetch market overview' });
     }
   });
 

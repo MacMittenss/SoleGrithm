@@ -76,6 +76,19 @@ function App() {
                       <LiveMarket />
                     </Suspense>
                   </Route>
+                  {/* Live Market page */}
+                  <Route path="/live-market">
+                    <Suspense fallback={
+                      <div className="min-h-screen bg-background flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                          <p className="text-muted-foreground">Loading Live Market...</p>
+                        </div>
+                      </div>
+                    }>
+                      <LiveMarket />
+                    </Suspense>
+                  </Route>
                   <Route path="/blog" component={Blog} />
                   <Route path="/blog/:slug" component={PostDetail} />
                   <Route path="/profile" component={Profile} />

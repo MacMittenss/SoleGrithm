@@ -127,6 +127,18 @@ export const priceHistory = pgTable("price_history", {
   timestamp: timestamp("timestamp").defaultNow()
 });
 
+export const marketPrices = pgTable("market_prices", {
+  id: serial("id").primaryKey(),
+  sneakerId: integer("sneaker_id").references(() => sneakers.id),
+  platform: text("platform").notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  currency: text("currency").default("USD"),
+  availability: text("availability").default("in_stock"), // in_stock, out_of_stock, limited
+  url: text("url"),
+  lastUpdated: timestamp("last_updated").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow()
+});
+
 export const blogPosts = pgTable("blog_posts", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -187,7 +199,8 @@ export const sneakersRelations = relations(sneakers, ({ one, many }) => ({
   }),
   collections: many(collections),
   reviews: many(reviews),
-  priceHistory: many(priceHistory)
+  priceHistory: many(priceHistory),
+  marketPrices: many(marketPrices)
 }));
 
 export const collectionsRelations = relations(collections, ({ one }) => ({
@@ -215,6 +228,13 @@ export const reviewsRelations = relations(reviews, ({ one }) => ({
 export const priceHistoryRelations = relations(priceHistory, ({ one }) => ({
   sneaker: one(sneakers, {
     fields: [priceHistory.sneakerId],
+    references: [sneakers.id]
+  })
+}));
+
+export const marketPricesRelations = relations(marketPrices, ({ one }) => ({
+  sneaker: one(sneakers, {
+    fields: [marketPrices.sneakerId],
     references: [sneakers.id]
   })
 }));
@@ -272,6 +292,11 @@ export const insertReviewSchema = createInsertSchema(reviews).omit({
 export const insertPriceHistorySchema = createInsertSchema(priceHistory).omit({
   id: true,
   timestamp: true
+});
+
+export const insertMarketPriceSchema = createInsertSchema(marketPrices).omit({
+  id: true,
+  createdAt: true
 });
 
 export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
@@ -333,6 +358,9 @@ export type InsertReview = z.infer<typeof insertReviewSchema>;
 
 export type PriceHistory = typeof priceHistory.$inferSelect;
 export type InsertPriceHistory = z.infer<typeof insertPriceHistorySchema>;
+
+export type MarketPrice = typeof marketPrices.$inferSelect;
+export type InsertMarketPrice = z.infer<typeof insertMarketPriceSchema>;
 
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
