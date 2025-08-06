@@ -1,0 +1,686 @@
+{
+  "info": {
+    "name": "SoleGrithm API Tests",
+    "description": "Comprehensive API testing suite for SoleGrithm sneaker platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "a1b2c3d4-e5f6-4789-a1b2-c3d4e5f67890"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "apiPrefix",
+      "value": "/api",
+      "type": "string"
+    },
+    {
+      "key": "testUserId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "testSneakerId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication Tests",
+      "item": [
+        {
+          "name": "Get Current User - Unauthenticated",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Returns 401 for unauthenticated user', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test('Response contains unauthorized message', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson.message).to.eql('Unauthorized');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/auth/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "auth", "user"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sneakers API Tests",
+      "item": [
+        {
+          "name": "Get All Sneakers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Each sneaker has required fields', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.length > 0) {",
+                  "        const sneaker = responseJson[0];",
+                  "        pm.expect(sneaker).to.have.property('id');",
+                  "        pm.expect(sneaker).to.have.property('name');",
+                  "        pm.expect(sneaker).to.have.property('brand');",
+                  "        pm.expect(sneaker).to.have.property('price');",
+                  "        pm.expect(sneaker).to.have.property('description');",
+                  "        ",
+                  "        // Store first sneaker ID for later tests",
+                  "        pm.collectionVariables.set('testSneakerId', sneaker.id);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Response time is less than 3000ms', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers"]
+            }
+          }
+        },
+        {
+          "name": "Get Featured Sneakers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Featured sneakers have required fields', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.length > 0) {",
+                  "        responseJson.forEach(sneaker => {",
+                  "            pm.expect(sneaker).to.have.property('id');",
+                  "            pm.expect(sneaker).to.have.property('name');",
+                  "            pm.expect(sneaker).to.have.property('brand');",
+                  "            pm.expect(sneaker).to.have.property('featured').that.equals(true);",
+                  "        });",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers/featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers", "featured"]
+            }
+          }
+        },
+        {
+          "name": "Get Single Sneaker",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Use stored sneaker ID or default to 1",
+                  "const sneakerId = pm.collectionVariables.get('testSneakerId') || '1';",
+                  "pm.collectionVariables.set('testSneakerId', sneakerId);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Sneaker has complete details', function () {",
+                  "    const sneaker = pm.response.json();",
+                  "    pm.expect(sneaker).to.have.property('id');",
+                  "    pm.expect(sneaker).to.have.property('name');",
+                  "    pm.expect(sneaker).to.have.property('brand');",
+                  "    pm.expect(sneaker).to.have.property('price');",
+                  "    pm.expect(sneaker).to.have.property('description');",
+                  "    pm.expect(sneaker).to.have.property('images');",
+                  "    pm.expect(sneaker).to.have.property('sizes');",
+                  "});",
+                  "",
+                  "pm.test('Images is an array', function () {",
+                  "    const sneaker = pm.response.json();",
+                  "    pm.expect(sneaker.images).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Sizes is an array', function () {",
+                  "    const sneaker = pm.response.json();",
+                  "    pm.expect(sneaker.sizes).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers/{{testSneakerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers", "{{testSneakerId}}"]
+            }
+          }
+        },
+        {
+          "name": "Search Sneakers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has results array', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.have.property('results');",
+                  "    pm.expect(responseJson.results).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Search results contain query term', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.results.length > 0) {",
+                  "        const firstResult = responseJson.results[0];",
+                  "        const searchTerm = 'jordan';",
+                  "        const nameMatch = firstResult.name.toLowerCase().includes(searchTerm);",
+                  "        const brandMatch = firstResult.brand.toLowerCase().includes(searchTerm);",
+                  "        pm.expect(nameMatch || brandMatch).to.be.true;",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers/search?q=jordan",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "jordan"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Sneaker - Invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404 for invalid ID', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Response contains error message', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.have.property('message');",
+                  "    pm.expect(responseJson.message).to.include('not found');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers/99999",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers", "99999"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Brands API Tests",
+      "item": [
+        {
+          "name": "Get All Brands",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Each brand has required fields', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.length > 0) {",
+                  "        const brand = responseJson[0];",
+                  "        pm.expect(brand).to.have.property('id');",
+                  "        pm.expect(brand).to.have.property('name');",
+                  "        pm.expect(brand).to.have.property('slug');",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Brand names are not empty', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    responseJson.forEach(brand => {",
+                  "        pm.expect(brand.name).to.not.be.empty;",
+                  "        pm.expect(brand.slug).to.not.be.empty;",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/brands",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "brands"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blog API Tests",
+      "item": [
+        {
+          "name": "Get All Blog Posts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Each blog post has required fields', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.length > 0) {",
+                  "        const post = responseJson[0];",
+                  "        pm.expect(post).to.have.property('id');",
+                  "        pm.expect(post).to.have.property('title');",
+                  "        pm.expect(post).to.have.property('excerpt');",
+                  "        pm.expect(post).to.have.property('content');",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Blog posts have valid dates', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    responseJson.forEach(post => {",
+                  "        if (post.publishedAt) {",
+                  "            pm.expect(new Date(post.publishedAt)).to.be.a('date');",
+                  "        }",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/blog",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "blog"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews API Tests",
+      "item": [
+        {
+          "name": "Get Reviews for Sneaker",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Use stored sneaker ID or default to 1",
+                  "const sneakerId = pm.collectionVariables.get('testSneakerId') || '1';",
+                  "pm.collectionVariables.set('testSneakerId', sneakerId);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is an array', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Each review has required fields', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.length > 0) {",
+                  "        const review = responseJson[0];",
+                  "        pm.expect(review).to.have.property('id');",
+                  "        pm.expect(review).to.have.property('rating');",
+                  "        pm.expect(review).to.have.property('content');",
+                  "        pm.expect(review).to.have.property('sneakerId');",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Ratings are valid numbers', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    responseJson.forEach(review => {",
+                  "        pm.expect(review.rating).to.be.a('number');",
+                  "        pm.expect(review.rating).to.be.at.least(1);",
+                  "        pm.expect(review.rating).to.be.at.most(5);",
+                  "    });",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/reviews/sneaker/{{testSneakerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "reviews", "sneaker", "{{testSneakerId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Performance Tests",
+      "item": [
+        {
+          "name": "API Response Time Test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('API response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers/featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers", "featured"]
+            }
+          }
+        },
+        {
+          "name": "Large Dataset Response Test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Large dataset loads within acceptable time', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test('Response size is reasonable', function () {",
+                  "    const responseSize = pm.response.responseSize;",
+                  "    pm.expect(responseSize).to.be.below(10000000); // 10MB limit",
+                  "});",
+                  "",
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Handling Tests",
+      "item": [
+        {
+          "name": "404 - Endpoint Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Response contains error message', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/nonexistent-endpoint",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "nonexistent-endpoint"]
+            }
+          }
+        },
+        {
+          "name": "400 - Bad Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400 or 422', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+                  "});",
+                  "",
+                  "pm.test('Response contains error information', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/sneakers/search?q=",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "sneakers", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Women in Sneakers API Tests",
+      "item": [
+        {
+          "name": "Women Section Data Validation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Women-focused content exists', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.be.an('array');",
+                  "    ",
+                  "    // Check for women-related content",
+                  "    const womenContent = responseJson.some(item => {",
+                  "        return item.title && (",
+                  "            item.title.toLowerCase().includes('women') ||",
+                  "            item.title.toLowerCase().includes('female') ||",
+                  "            item.content && item.content.toLowerCase().includes('women')",
+                  "        );",
+                  "    });",
+                  "    ",
+                  "    pm.expect(womenContent).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}{{apiPrefix}}/blog",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{apiPrefix}}", "blog"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global pre-request script",
+          "console.log('Running SoleGrithm API test: ' + pm.info.requestName);"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script",
+          "pm.test('Response has correct headers', function () {",
+          "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+          "});",
+          "",
+          "pm.test('Response is valid JSON', function () {",
+          "    pm.response.to.be.json;",
+          "});"
+        ]
+      }
+    }
+  ]
+}

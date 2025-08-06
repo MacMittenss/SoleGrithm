@@ -2,7 +2,7 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/client/src/tests/setup.ts'],
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/client/src/$1',
     '^@assets/(.*)$': '<rootDir>/attached_assets/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
@@ -13,6 +13,7 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: [
+    '<rootDir>/client/src/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)',
     '<rootDir>/client/src/tests/**/*.(test|spec).(ts|tsx|js|jsx)',
   ],
   collectCoverageFrom: [

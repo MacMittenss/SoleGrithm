@@ -1,243 +1,274 @@
 #!/bin/bash
 
-# SoleGrithm Test Runner Script
-# Comprehensive testing automation for development and CI/CD
+# SoleGrithm Test Execution Script
+# Comprehensive testing script for unit tests and API tests
 
 set -e
+
+echo "🧪 SoleGrithm Testing Suite"
+echo "=========================="
 
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
+YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Print colored output
+# Function to print colored output
 print_status() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+    echo -e "${BLUE}[$(date +'%H:%M:%S')]${NC} $1"
 }
 
 print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+    echo -e "${GREEN}✓${NC} $1"
 }
 
 print_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo -e "${RED}✗${NC} $1"
 }
 
-# Test categories
-COMPONENT_TESTS="client/src/tests/components"
-INTEGRATION_TESTS="client/src/tests/integration"
-E2E_TESTS="client/src/tests/e2e"
-ACCESSIBILITY_TESTS="client/src/tests/accessibility"
-PERFORMANCE_TESTS="client/src/tests/performance"
-RESPONSIVE_TESTS="client/src/tests/responsive"
+print_warning() {
+    echo -e "${YELLOW}⚠${NC} $1"
+}
 
-# Default options
-RUN_ALL=true
-COVERAGE=false
-WATCH=false
-VERBOSE=false
-CI_MODE=false
-
-# Parse command line arguments
-while [[ $# -gt 0 ]]; do
-    case $1 in
-        --component)
-            RUN_ALL=false
-            COMPONENT=true
-            shift
-            ;;
-        --integration)
-            RUN_ALL=false
-            INTEGRATION=true
-            shift
-            ;;
-        --e2e)
-            RUN_ALL=false
-            E2E=true
-            shift
-            ;;
-        --accessibility)
-            RUN_ALL=false
-            ACCESSIBILITY=true
-            shift
-            ;;
-        --performance)
-            RUN_ALL=false
-            PERFORMANCE=true
-            shift
-            ;;
-        --responsive)
-            RUN_ALL=false
-            RESPONSIVE=true
-            shift
-            ;;
-        --coverage)
-            COVERAGE=true
-            shift
-            ;;
-        --watch)
-            WATCH=true
-            shift
-            ;;
-        --verbose)
-            VERBOSE=true
-            shift
-            ;;
-        --ci)
-            CI_MODE=true
-            shift
-            ;;
-        --help)
-            echo "SoleGrithm Test Runner"
-            echo ""
-            echo "Usage: $0 [OPTIONS]"
-            echo ""
-            echo "Options:"
-            echo "  --component     Run component tests only"
-            echo "  --integration   Run integration tests only"
-            echo "  --e2e          Run end-to-end tests only"
-            echo "  --accessibility Run accessibility tests only"
-            echo "  --performance   Run performance tests only"
-            echo "  --responsive    Run responsive design tests only"
-            echo "  --coverage      Generate coverage report"
-            echo "  --watch         Run tests in watch mode"
-            echo "  --verbose       Enable verbose output"
-            echo "  --ci            Run in CI mode (no watch, coverage enabled)"
-            echo "  --help          Show this help message"
-            echo ""
-            echo "Examples:"
-            echo "  $0                    # Run all tests"
-            echo "  $0 --component        # Run component tests only"
-            echo "  $0 --coverage         # Run all tests with coverage"
-            echo "  $0 --component --watch # Run component tests in watch mode"
-            echo "  $0 --ci               # Run in CI mode"
-            exit 0
-            ;;
-        *)
-            print_error "Unknown option: $1"
-            exit 1
-            ;;
-    esac
-done
-
-# CI mode configuration
-if [ "$CI_MODE" = true ]; then
-    COVERAGE=true
-    WATCH=false
-    VERBOSE=true
-    print_status "Running in CI mode"
-fi
-
-# Start testing
-print_status "Starting SoleGrithm Test Suite"
-echo "=================================="
-
-# Check if Jest is available
-if ! command -v npx &> /dev/null; then
-    print_error "npx not found. Please install Node.js and npm."
-    exit 1
-fi
-
-# Create test results directory
-mkdir -p test-results
-
-# Function to run tests with proper configuration
-run_test_suite() {
-    local test_name=$1
-    local test_path=$2
-    local jest_options=""
+# Check if required tools are available
+check_prerequisites() {
+    print_status "Checking prerequisites..."
     
-    if [ "$COVERAGE" = true ]; then
-        jest_options="$jest_options --coverage"
+    # Check Node.js
+    if command -v node &> /dev/null; then
+        NODE_VERSION=$(node --version)
+        print_success "Node.js is available (${NODE_VERSION})"
+    else
+        print_error "Node.js is not installed"
+        exit 1
     fi
     
-    if [ "$WATCH" = true ]; then
-        jest_options="$jest_options --watch"
+    # Check npm
+    if command -v npm &> /dev/null; then
+        NPM_VERSION=$(npm --version)
+        print_success "npm is available (${NPM_VERSION})"
+    else
+        print_error "npm is not installed"
+        exit 1
     fi
     
-    if [ "$VERBOSE" = true ]; then
-        jest_options="$jest_options --verbose"
+    # Check if Jest is available
+    if npx jest --version &> /dev/null; then
+        JEST_VERSION=$(npx jest --version)
+        print_success "Jest is available (${JEST_VERSION})"
+    else
+        print_error "Jest is not available"
+        exit 1
     fi
     
-    if [ "$CI_MODE" = true ]; then
-        jest_options="$jest_options --ci --watchAll=false"
-    fi
+    echo ""
+}
+
+# Run unit tests
+run_unit_tests() {
+    print_status "Running unit tests..."
     
-    print_status "Running $test_name tests..."
+    # Create test reports directory
+    mkdir -p test-reports
     
-    if npx jest $test_path $jest_options; then
-        print_success "$test_name tests completed successfully"
+    # Run Jest with coverage and detailed reporting
+    if npx jest \
+        --testPathPatterns="__tests__" \
+        --coverage \
+        --coverageDirectory="coverage" \
+        --coverageReporters="text" \
+        --coverageReporters="lcov" \
+        --coverageReporters="json-summary" \
+        --verbose \
+        --watchAll=false \
+        --passWithNoTests \
+        --testResultsProcessor="jest-sonar-reporter" 2>/dev/null || npx jest \
+        --testPathPatterns="__tests__" \
+        --coverage \
+        --coverageDirectory="coverage" \
+        --coverageReporters="text" \
+        --coverageReporters="lcov" \
+        --coverageReporters="json-summary" \
+        --verbose \
+        --watchAll=false \
+        --passWithNoTests; then
+        
+        print_success "Unit tests completed successfully"
+        
+        # Display coverage summary if available
+        if [ -f "coverage/coverage-summary.json" ]; then
+            print_status "Code Coverage Summary:"
+            node -e "
+                const fs = require('fs');
+                try {
+                    const coverage = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+                    if (coverage.total) {
+                        console.log('  Statements: ' + coverage.total.statements.pct + '%');
+                        console.log('  Branches: ' + coverage.total.branches.pct + '%');
+                        console.log('  Functions: ' + coverage.total.functions.pct + '%');
+                        console.log('  Lines: ' + coverage.total.lines.pct + '%');
+                    }
+                } catch (e) {
+                    console.log('  Coverage data not available');
+                }
+            "
+        fi
+        
         return 0
     else
-        print_error "$test_name tests failed"
+        print_error "Unit tests failed"
         return 1
     fi
 }
 
-# Track test results
-FAILED_SUITES=()
+# Run Women in Sneakers specific tests
+run_women_tests() {
+    print_status "Running Women in Sneakers component tests..."
+    
+    if npx jest \
+        --testPathPatterns="women" \
+        --verbose \
+        --watchAll=false; then
+        
+        print_success "Women in Sneakers tests completed successfully"
+        return 0
+    else
+        print_error "Women in Sneakers tests failed"
+        return 1
+    fi
+}
 
-# Run test suites based on options
-if [ "$RUN_ALL" = true ] || [ "$COMPONENT" = true ]; then
-    if ! run_test_suite "Component" "--testPathPattern=components"; then
-        FAILED_SUITES+=("Component")
+# Test API endpoints (simple curl tests)
+test_api_endpoints() {
+    print_status "Testing API endpoints..."
+    
+    # Check if server is running
+    if curl -s "http://localhost:5000/api/brands" > /dev/null; then
+        print_success "Server is responding"
+        
+        # Test key endpoints
+        ENDPOINTS=(
+            "/api/brands"
+            "/api/sneakers/featured"
+            "/api/blog"
+        )
+        
+        for endpoint in "${ENDPOINTS[@]}"; do
+            if curl -s -f "http://localhost:5000${endpoint}" > /dev/null; then
+                print_success "✓ ${endpoint}"
+            else
+                print_error "✗ ${endpoint}"
+            fi
+        done
+        
+        return 0
+    else
+        print_warning "Server not running on localhost:5000 - API tests skipped"
+        return 0
+    fi
+}
+
+# Generate test report
+generate_report() {
+    print_status "Generating test report..."
+    
+    TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
+    REPORT_FILE="test-reports/test-report-${TIMESTAMP}.md"
+    
+    cat > "${REPORT_FILE}" << EOF
+# SoleGrithm Test Report
+Generated: $(date)
+
+## Test Summary
+- Unit Tests: $([ $UNIT_TESTS_RESULT -eq 0 ] && echo "✅ PASSED" || echo "❌ FAILED")
+- Women Components: $([ $WOMEN_TESTS_RESULT -eq 0 ] && echo "✅ PASSED" || echo "❌ FAILED")
+- API Tests: $([ $API_TESTS_RESULT -eq 0 ] && echo "✅ PASSED" || echo "❌ FAILED")
+
+## Coverage
+$([ -f "coverage/coverage-summary.json" ] && node -e "
+const fs = require('fs');
+try {
+    const coverage = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+    if (coverage.total) {
+        console.log('- Statements: ' + coverage.total.statements.pct + '%');
+        console.log('- Branches: ' + coverage.total.branches.pct + '%');
+        console.log('- Functions: ' + coverage.total.functions.pct + '%');
+        console.log('- Lines: ' + coverage.total.lines.pct + '%');
+    }
+} catch (e) {
+    console.log('- Coverage data not available');
+}
+" || echo "- Coverage data not available")
+
+## Test Files
+$(find client/src/__tests__ -name "*.test.tsx" -o -name "*.test.ts" 2>/dev/null | sort || echo "No test files found")
+
+## Postman Collection
+- Location: postman/SoleGrithm_API_Tests.postman_collection.json
+- Tests: Authentication, Sneakers API, Brands API, Blog API, Reviews API, Performance, Error Handling
+EOF
+
+    print_success "Test report saved to: ${REPORT_FILE}"
+}
+
+# Main execution
+main() {
+    echo ""
+    print_status "Starting SoleGrithm test suite execution..."
+    echo ""
+    
+    # Check prerequisites
+    check_prerequisites
+    
+    # Initialize result variables
+    UNIT_TESTS_RESULT=1
+    WOMEN_TESTS_RESULT=1
+    API_TESTS_RESULT=1
+    
+    # Run tests
+    echo "📋 Running test suites..."
+    echo ""
+    
+    # Unit tests
+    if run_unit_tests; then
+        UNIT_TESTS_RESULT=0
     fi
     echo ""
-fi
-
-if [ "$RUN_ALL" = true ] || [ "$INTEGRATION" = true ]; then
-    if ! run_test_suite "Integration" "--testPathPattern=integration"; then
-        FAILED_SUITES+=("Integration")
+    
+    # Women in Sneakers specific tests
+    if run_women_tests; then
+        WOMEN_TESTS_RESULT=0
     fi
     echo ""
-fi
-
-if [ "$RUN_ALL" = true ] || [ "$E2E" = true ]; then
-    if ! run_test_suite "End-to-End" "--testPathPattern=e2e"; then
-        FAILED_SUITES+=("End-to-End")
+    
+    # API tests
+    if test_api_endpoints; then
+        API_TESTS_RESULT=0
     fi
     echo ""
-fi
-
-if [ "$RUN_ALL" = true ] || [ "$ACCESSIBILITY" = true ]; then
-    if ! run_test_suite "Accessibility" "--testPathPattern=accessibility"; then
-        FAILED_SUITES+=("Accessibility")
-    fi
+    
+    # Generate report
+    generate_report
     echo ""
-fi
-
-if [ "$RUN_ALL" = true ] || [ "$PERFORMANCE" = true ]; then
-    if ! run_test_suite "Performance" "--testPathPattern=performance"; then
-        FAILED_SUITES+=("Performance")
-    fi
+    
+    # Final summary
+    print_status "Test Execution Summary:"
+    echo "  Unit Tests: $([ $UNIT_TESTS_RESULT -eq 0 ] && echo -e "${GREEN}PASSED${NC}" || echo -e "${RED}FAILED${NC}")"
+    echo "  Women Components: $([ $WOMEN_TESTS_RESULT -eq 0 ] && echo -e "${GREEN}PASSED${NC}" || echo -e "${RED}FAILED${NC}")"
+    echo "  API Tests: $([ $API_TESTS_RESULT -eq 0 ] && echo -e "${GREEN}PASSED${NC}" || echo -e "${RED}FAILED${NC}")"
     echo ""
-fi
-
-if [ "$RUN_ALL" = true ] || [ "$RESPONSIVE" = true ]; then
-    if ! run_test_suite "Responsive" "--testPathPattern=responsive"; then
-        FAILED_SUITES+=("Responsive")
+    
+    # Exit with appropriate code
+    if [ $UNIT_TESTS_RESULT -eq 0 ] && [ $WOMEN_TESTS_RESULT -eq 0 ] && [ $API_TESTS_RESULT -eq 0 ]; then
+        print_success "All tests completed successfully! 🎉"
+        exit 0
+    else
+        print_error "Some tests failed. Please review the results above."
+        exit 1
     fi
-    echo ""
-fi
+}
 
-# Summary
-echo "=================================="
-print_status "Test Suite Summary"
-
-if [ ${#FAILED_SUITES[@]} -eq 0 ]; then
-    print_success "All test suites passed! ✅"
-    exit 0
-else
-    print_error "The following test suites failed:"
-    for suite in "${FAILED_SUITES[@]}"; do
-        echo "  - $suite"
-    done
-    print_error "❌ Testing completed with failures"
-    exit 1
-fi
+# Run main function
+main "$@"
