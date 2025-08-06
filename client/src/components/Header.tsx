@@ -66,6 +66,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
     { href: '/live-market', label: 'Live Market', icon: TrendingUp },
+    { href: '/women-in-sneakers', label: 'Women in Sneakers', icon: Heart },
     { href: '/blog', label: 'Blog', icon: BookOpen },
     { href: '/discover', label: 'SoleRadar', icon: Compass },
     { href: '/quiz', label: 'Style Quiz', icon: Sparkles },

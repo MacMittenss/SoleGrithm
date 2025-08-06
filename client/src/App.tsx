@@ -29,6 +29,7 @@ import ARTryOn from "@/pages/ARTryOn";
 import ReviewSummaryDemo from "@/pages/ReviewSummaryDemo";
 import TrendMap from "@/pages/TrendMap";
 import Testing from "@/pages/Testing";
+import WomenInSneakers from "@/pages/WomenInSneakers";
 
 // Lazy load LiveMarket component
 const LiveMarket = lazy(() => import("@/pages/LiveMarket"));
@@ -112,6 +113,7 @@ function App() {
                   <Route path="/ar-tryon" component={ARTryOn} />
                   <Route path="/trend-map" component={TrendMap} />
                   <Route path="/testing" component={Testing} />
+                  <Route path="/women-in-sneakers" component={WomenInSneakers} />
                   <Route component={NotFound} />
                 </Switch>
                 </PageTransition>

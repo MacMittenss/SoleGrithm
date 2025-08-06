@@ -1,0 +1,114 @@
+Section Breakdown & Wireframe Planning
+We’ll build this out in modular sections, each with its own content function. Here’s how we’ll structure it:
+
+🖼️ Hero Section (Top Banner)
+Wireframe Content:
+📸 Large dynamic image or featured video (e.g. an interview highlight or campaign photo)
+
+📝 Headline: “Women Move the Culture”
+
+💬 Subtext: Stories, sneakers, and spotlight moments curated for and by women in the game.
+
+🔘 CTA buttons:
+
+“Explore Features”
+
+“Submit Your Story”
+
+🌟 Spotlight Feature Card (Modular)
+Each month/week features:
+
+Image (of the person or sneaker)
+
+Name + Role (e.g., "Janelle – Collector & Content Creator")
+
+Sneaker of Choice
+
+Quote Highlight
+
+Read More → Leads to full feature page
+
+🔁 This card rotates monthly or with swipe/tap on mobile.
+
+📚 Editorial Section – Articles Grid
+Layout:
+2–3 column responsive grid
+
+Article Cards:
+
+Thumbnail
+
+Title
+
+Category Tag (e.g. History, Reviews, Interviews)
+
+Read Time
+
+CTA: “Read”
+
+📌 Each article page will have share buttons + related posts at the bottom.
+
+👟 Curated Kicks – “Sneakers for Her”
+Layout:
+Carousel or grid view
+
+Filter options:
+
+🔍 Brand
+
+🎨 Colorway
+
+📏 Sizing
+
+💡 Designer
+
+Each sneaker card has:
+
+Image
+
+Release Date
+
+“Why We Picked It” (small AI-generated sentence)
+
+CTA: “Discover” or “Buy Now”
+
+🗣️ Community Voices – UGC Section
+Layout:
+User-submitted sneaker photos or stories
+
+Displayed in 2x2 or scrollable feed
+
+Button to “Submit Your Story”
+
+Community vote or react option (🔥, ❤️, 💬)
+
+📅 Event Spotlight + Coverage
+Layout:
+Upcoming events: Cards with dates & locations
+
+Past events: Recap images, galleries, and article links
+
+CTA: “See More Events”
+
+🤖 AI Assist Widget (Sticky or Popup)
+Button text: “Need help finding women’s kicks?”
+
+Opens AI-powered assistant to:
+
+Recommend by style or brand
+
+Auto-detect sizing
+
+Pull from curated lists
+
+Answer FAQs (e.g. fit, exclusives, resale value)
+
+🧱 Content CMS Plan
+Here’s how we’ll manage the backend content:
+
+Content Type	Updated How Often	Managed By
+Spotlights	Monthly	Editorial Team
+Articles	Weekly/Bi-weekly	Writers/AI
+Curated Sneakers	Weekly	Merch Curator
+Events	As Needed	Events Editor
+User Submissions	Live/Moderated	Community Mod
