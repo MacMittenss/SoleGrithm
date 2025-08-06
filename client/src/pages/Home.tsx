@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
 import Hero from "@/components/Hero";
 import HotRightNowSlider from "@/components/HotRightNowSlider";
-import SneakerCard from "@/components/SneakerCard";
+import PinterestSneakerCard from "@/components/PinterestSneakerCard";
+import PinterestBlogCard from "@/components/PinterestBlogCard";
+import { MasonryGrid } from "@/components/ui/masonry-grid";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
 import ARDemo from "@/components/ARDemo";
@@ -333,86 +335,53 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile-First Sneaker Grid with Animations */}
+          {/* Pinterest-Style Masonry Grid */}
           {sneakersLoading ? (
-            <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
-              variants={containerVariants}
-            >
-              {Array.from({ length: 8 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="animate-pulse"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="bg-muted rounded-xl sm:rounded-2xl h-48 sm:h-64 mb-4" />
-                  <div className="space-y-2 px-2">
-                    <div className="h-3 sm:h-4 bg-muted rounded w-1/3" />
-                    <div className="h-4 sm:h-5 bg-muted rounded w-2/3" />
-                    <div className="h-5 sm:h-6 bg-muted rounded w-1/2" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-muted rounded-lg aspect-[3/4] mb-3" />
+                  <div className="space-y-2">
+                    <div className="h-3 bg-muted rounded w-3/4" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           ) : (
-            <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
-              variants={containerVariants}
+            <MasonryGrid
+              columns={{ default: 2, sm: 3, md: 4, lg: 5, xl: 6 }}
+              gap="1rem"
+              className="max-w-7xl mx-auto"
             >
-              {filteredSneakers?.slice(0, 8).map((sneaker: any, index: number) => (
-                <motion.div
+              {filteredSneakers?.slice(0, 12).map((sneaker: any, index: number) => (
+                <PinterestSneakerCard
                   key={sneaker.id}
-                  variants={{
-                    hidden: { opacity: 0, y: 30, scale: 0.95 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                      transition: {
-                        duration: 0.5,
-                        delay: index * 0.1,
-                        ease: "easeOut"
-                      }
-                    }
+                  sneaker={{
+                    id: sneaker.id,
+                    name: sneaker.name,
+                    brand: sneaker.brandName || 'Unknown Brand',
+                    price: new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }).format(sneaker.retailPrice),
+                    imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600",
+                    slug: sneaker.slug,
+                    isNew: new Date(sneaker.releaseDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+                    brandName: sneaker.brandName,
+                    retailPrice: sneaker.retailPrice,
+                    colorway: sneaker.colorway
                   }}
-                  whileHover={{
-                    scale: 1.03,
-                    y: -8,
-                    transition: { duration: 0.3 }
+                  aspectRatio={index % 3 === 0 ? 'portrait' : 'square'}
+                  priority={index < 4}
+                  onSave={(sneakerId) => {
+                    // Handle save to collection functionality
+                    console.log('Save sneaker:', sneakerId);
                   }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <SneakerCard 
-                    sneaker={{
-                      id: sneaker.id,
-                      name: sneaker.name,
-                      brand: sneaker.brandName || 'Unknown Brand',
-                      price: new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                      }).format(sneaker.retailPrice),
-                      imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-                      slug: sneaker.slug,
-                      isNew: new Date(sneaker.releaseDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-                      rating: 4.5,
-                      reviewCount: Math.floor(Math.random() * 50) + 10,
-                      brandName: sneaker.brandName,
-                      description: sneaker.description,
-                      images: sneaker.images,
-                      retailPrice: sneaker.retailPrice,
-                      categories: sneaker.categories,
-                      sizes: ['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
-                      materials: 'Premium materials and construction',
-                      colorway: sneaker.colorway,
-                      releaseDate: sneaker.releaseDate,
-                      sku: `SKU-${sneaker.id}`
-                    }}
-                    enableHoverPreview={true}
-                  />
-                </motion.div>
+                  isSaved={false}
+                />
               ))}
-            </motion.div>
+            </MasonryGrid>
           )}
 
           <motion.div 
@@ -448,90 +417,62 @@ export default function Home() {
         <ARDemo />
       </motion.div>
 
-      {/* Mobile-First Blog Section */}
+      {/* Pinterest-Style Blog Section */}
       <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-muted/30 to-background"
+        className="py-16 sm:py-24 bg-muted/20"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+          <motion.div className="text-center mb-12" variants={itemVariants}>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
               Latest Stories
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Dive deep into sneaker culture with our community-driven blog
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              Discover sneaker culture and trends
             </p>
           </motion.div>
 
           {blogLoading ? (
-            <motion.div 
-              className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
-              variants={containerVariants}
-            >
-              {Array.from({ length: 3 }).map((_, i) => (
-                <motion.div key={i} className="animate-pulse" variants={itemVariants}>
-                  <div className="bg-muted rounded-xl sm:rounded-2xl h-48 sm:h-64 mb-4 sm:mb-6" />
-                  <div className="space-y-2 px-2">
-                    <div className="h-3 sm:h-4 bg-muted rounded w-1/4" />
-                    <div className="h-5 sm:h-6 bg-muted rounded w-3/4" />
-                    <div className="h-3 sm:h-4 bg-muted rounded w-full" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-muted rounded-lg aspect-[3/4] mb-3" />
+                  <div className="space-y-2">
+                    <div className="h-3 bg-muted rounded w-3/4" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           ) : (
-            <motion.div 
-              className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
-              variants={containerVariants}
+            <MasonryGrid
+              columns={{ default: 2, sm: 3, md: 4, lg: 4 }}
+              gap="1rem"
+              className="max-w-6xl mx-auto"
             >
-              {blogPosts?.slice(0, 3).map((post: any, index: number) => (
-                <Link key={post.id} href={`/blog/${post.slug}`}>
-                  <motion.div
-                    variants={{
-                      hidden: { opacity: 0, y: 30, scale: 0.95 },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        transition: {
-                          duration: 0.5,
-                          delay: index * 0.15,
-                          ease: "easeOut"
-                        }
-                      }
-                    }}
-                    whileHover={{
-                      scale: 1.03,
-                      y: -8,
-                      transition: { duration: 0.3 }
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Card className="group cursor-pointer overflow-hidden border-0 shadow-lg bg-card/50 backdrop-blur-sm hover:shadow-xl">
-                      <div className="relative overflow-hidden">
-                        <img
-                          src={post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400"}
-                          alt={post.title}
-                          className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
-                          <Badge variant="secondary" className="mb-2 text-xs">Featured</Badge>
-                          <h3 className="text-white font-semibold text-sm sm:text-lg group-hover:text-primary transition-colors line-clamp-2">
-                            {post.title}
-                          </h3>
-                        </div>
-                      </div>
-                      <CardContent className="p-4 sm:p-6">
-                        <p className="text-muted-foreground text-sm sm:text-base line-clamp-3">
-                          {post.excerpt || "Exploring the latest trends and stories in sneaker culture..."}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </Link>
+              {blogPosts?.slice(0, 6).map((post: any, index: number) => (
+                <PinterestBlogCard
+                  key={post.id}
+                  post={{
+                    id: post.id,
+                    title: post.title,
+                    excerpt: post.excerpt || 'Discover the latest in sneaker culture and trends.',
+                    slug: post.slug,
+                    featuredImage: post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800",
+                    author: post.author || 'SoleGrithm Team',
+                    publishedAt: post.publishedAt || new Date().toISOString(),
+                    readTime: post.readTime || Math.floor(Math.random() * 8) + 3,
+                    category: post.category || 'Sneaker Culture'
+                  }}
+                  priority={index < 2}
+                  onSave={(postId) => {
+                    // Handle save to reading list functionality
+                    console.log('Save post:', postId);
+                  }}
+                  isSaved={false}
+                />
               ))}
-            </motion.div>
+            </MasonryGrid>
           )}
 
           <motion.div className="text-center mt-8 sm:mt-12" variants={itemVariants}>
