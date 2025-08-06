@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SpotlightFeatureCard from '@/components/women/SpotlightFeatureCard';
+import SpotlightFeatureCard from '../../../components/women/SpotlightFeatureCard';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({

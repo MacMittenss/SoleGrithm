@@ -17,7 +17,6 @@ import {
   generateSyntheticReviews,
   generateSneakerCareTips,
   analyzePersonalityFromQuiz,
-  generateAICollection,
   generateMultipleCollections,
   generatePersonalizedCollection
 } from "./services/openai";
@@ -51,7 +50,7 @@ const upload = multer({
 
 // Enhanced fallback personality analysis function
 function generateEnhancedFallbackAnalysis(preferences: any, personalityTraits: string[]) {
-  const personalityInsights = {
+  const personalityInsights: Record<string, any> = {
     trendsetter: {
       personalityType: "The Sneaker Trendsetter",
       detailedAnalysis: "You're a natural tastemaker who thrives on being ahead of the curve. Your innovative spirit and bold confidence drive you to discover and champion new styles before they hit mainstream, making you an influential voice in sneaker culture.",
@@ -136,7 +135,7 @@ async function generateAICollection(theme: string, preferences: any, sneakers: a
     "priceRange": "$100-$300"
   }`;
 
-  const response = await openai.generateAIResponse(prompt);
+  const response = await openai.chatWithAI(prompt, { role: 'collection_curator' });
   const collectionData = JSON.parse(response);
   
   // Filter sneakers based on AI-generated criteria
@@ -634,7 +633,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Style-based matching algorithm
-      const styleScoring = {
+      const styleScoring: Record<string, string[]> = {
         streetwear: ['Nike', 'Jordan', 'Adidas'],
         athletic: ['Nike', 'Adidas', 'Under Armour'],
         luxury: ['Balenciaga', 'Gucci', 'Off-White'],
@@ -647,7 +646,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Brand preference scoring
         const preferredBrands = styleScoring[preferences.style] || [];
-        if (preferredBrands.some(brand => sneaker.brandName?.toLowerCase().includes(brand.toLowerCase()))) {
+        if (preferredBrands.some((brand: string) => sneaker.brandName?.toLowerCase().includes(brand.toLowerCase()))) {
           score += 30;
         }
         
@@ -665,11 +664,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Sort by match score and take top recommendations
       const topMatches = matchedSneakers
-        .sort((a, b) => b.matchScore - a.matchScore)
+        .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0))
         .slice(0, 6);
       
       // Generate AI stories for each recommendation
-      const aiStories = {
+      const aiStories: Record<string, string[]> = {
         'trendsetter': [
           "This isn't just a sneaker—it's your next conversation starter and trend catalyst.",
           "Designed for those who don't follow trends, they create them. Perfect for your bold personality.",
@@ -692,7 +691,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ]
       };
       
-      // Add AI-generated stories to recommendations
       const storiesForType = aiStories[preferences.personality] || aiStories.classic;
       const recommendationsWithStories = topMatches.map((sneaker, index) => ({
         ...sneaker,
@@ -707,7 +705,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         styleProfile: preferences.style,
         recommendations: recommendationsWithStories,
         confidence: aiPersonalityAnalysis.personalityScore || (Math.floor(Math.random() * 15) + 85),
-        matchingAlgorithm: aiPersonalityAnalysis?.isAI 
+        matchingAlgorithm: (aiPersonalityAnalysis as any)?.isAI 
           ? 'OpenAI GPT-4o personality analysis with collaborative filtering'
           : 'Enhanced AI-style personality analysis with collaborative filtering',
         totalAnalyzed: sneakers.length,
@@ -745,7 +743,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Use enhanced OpenAI Vision API for comprehensive sneaker analysis
         const analysisResult = await analyzeSneakerImage(base64Image, allSneakers);
         res.json(analysisResult);
-      } catch (aiError) {
+      } catch (aiError: any) {
         console.warn('AI visual analysis unavailable, using enhanced fallback:', aiError?.message || 'Unknown error');
         
         // Enhanced fallback analysis with smart features
@@ -1458,7 +1456,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin routes (simple auth check for now)
-  app.use('/api/admin', authenticateUser, (req, res, next) => {
+  app.use('/api/admin', authenticateUser, (req: AuthenticatedRequest, res, next) => {
     if (!req.user.isPremium) {
       return res.status(403).json({ error: 'Admin access required' });
     }
@@ -1477,7 +1475,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create blog post (admin)
-  app.post('/api/admin/blog', async (req, res) => {
+  app.post('/api/admin/blog', async (req: AuthenticatedRequest, res) => {
     try {
       const postData = insertBlogPostSchema.parse({
         ...req.body,
@@ -1788,7 +1786,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Enhanced Firebase user profile
-  app.get('/api/user/enhanced-profile', authenticateUser, async (req, res) => {
+  app.get('/api/user/enhanced-profile', authenticateUser, async (req: AuthenticatedRequest, res) => {
     try {
       const profile = await FirebaseProfileService.getEnhancedProfile(req.user.firebaseUid);
       res.json(profile);
@@ -1809,6 +1807,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       res.status(500).json({ error: 'Failed to sync StockX data' });
     }
+  });
+
+  // Add catch-all route for undefined API endpoints (must be last)
+  app.use('/api/*', (req, res) => {
+    res.status(404).json({ 
+      error: 'API endpoint not found',
+      path: req.path,
+      method: req.method 
+    });
   });
 
   const httpServer = createServer(app);

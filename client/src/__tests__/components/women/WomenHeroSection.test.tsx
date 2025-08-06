@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import WomenHeroSection from '@/components/women/WomenHeroSection';
+import WomenHeroSection from '../../../components/women/WomenHeroSection';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({

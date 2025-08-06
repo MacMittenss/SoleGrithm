@@ -1,34 +1,34 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import WomenInSneakers from '@/pages/WomenInSneakers';
+import WomenInSneakers from '../../pages/WomenInSneakers';
 
 // Mock all the child components
-jest.mock('@/components/women/WomenHeroSection', () => {
+jest.mock('../../components/women/WomenHeroSection', () => {
   return function MockWomenHeroSection() {
     return <div data-testid="mock-women-hero-section">Women Hero Section</div>;
   };
 });
 
-jest.mock('@/components/women/SpotlightFeatureCard', () => {
+jest.mock('../../components/women/SpotlightFeatureCard', () => {
   return function MockSpotlightFeatureCard() {
     return <div data-testid="mock-spotlight-feature">Spotlight Feature</div>;
   };
 });
 
-jest.mock('@/components/women/EditorialSection', () => {
+jest.mock('../../components/women/EditorialSection', () => {
   return function MockEditorialSection() {
     return <div data-testid="mock-editorial-section">Editorial Section</div>;
   };
 });
 
-jest.mock('@/components/women/CuratedKicks', () => {
+jest.mock('../../components/women/CuratedKicks', () => {
   return function MockCuratedKicks() {
     return <div data-testid="mock-curated-kicks">Curated Kicks</div>;
   };
 });
 
-jest.mock('@/components/women/CommunityVoices', () => {
+jest.mock('../../components/women/CommunityVoices', () => {
   return function MockCommunityVoices() {
     return <div data-testid="mock-community-voices">Community Voices</div>;
   };

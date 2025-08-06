@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import EventSpotlight from '@/components/women/EventSpotlight';
+import EventSpotlight from '../../../components/women/EventSpotlight';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({

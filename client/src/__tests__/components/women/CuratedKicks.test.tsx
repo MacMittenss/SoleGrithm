@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import CuratedKicks from '@/components/women/CuratedKicks';
+import CuratedKicks from '../../../components/women/CuratedKicks';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({

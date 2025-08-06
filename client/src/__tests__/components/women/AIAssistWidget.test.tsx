@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import AIAssistWidget from '@/components/women/AIAssistWidget';
+import AIAssistWidget from '../../../components/women/AIAssistWidget';
 
 // Mock framer-motion
 jest.mock('framer-motion', () => ({
