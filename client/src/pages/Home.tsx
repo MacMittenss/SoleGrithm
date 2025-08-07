@@ -118,8 +118,7 @@ export default function Home() {
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
-  // Debug: Check if blog posts are loading correctly
-  console.log('Blog posts:', { blogPosts, isLoading: blogLoading, isArray: Array.isArray(blogPosts) });
+
 
   return (
     <motion.div 

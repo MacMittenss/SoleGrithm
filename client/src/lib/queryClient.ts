@@ -3,6 +3,10 @@ import { QueryClient } from '@tanstack/react-query';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      queryFn: async ({ queryKey }) => {
+        const [url] = queryKey as [string];
+        return apiRequest(url);
+      },
       staleTime: 1000 * 60 * 15, // 15 minutes for better caching
       gcTime: 1000 * 60 * 30, // 30 minutes garbage collection
       retry: 2,
