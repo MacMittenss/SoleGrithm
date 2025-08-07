@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Router, Route, Switch, useLocation } from "wouter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
 import { ThemeProvider } from "next-themes";
 // Auth will be handled via Firebase directly
 import { Toaster } from "@/components/ui/toaster";
@@ -34,14 +35,7 @@ import WomenInSneakers from "@/pages/WomenInSneakers";
 // Lazy load LiveMarket component
 const LiveMarket = lazy(() => import("@/pages/LiveMarket"));
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      retry: 1,
-    },
-  },
-});
+
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {

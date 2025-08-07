@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
 import Hero from "@/components/Hero";
@@ -113,10 +113,12 @@ export default function Home() {
     return sneaker.brandName === selectedBrand;
   }) : [];
 
-  const { data: blogPosts, isLoading: blogLoading } = useQuery({
+  const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
     queryKey: ["/api/blog"],
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
+
+  // Now that the query client is fixed, all queries should work
 
 
 
