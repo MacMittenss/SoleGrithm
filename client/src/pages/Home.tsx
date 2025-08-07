@@ -116,14 +116,10 @@ export default function Home() {
   const { data: blogPosts, isLoading: blogLoading } = useQuery({
     queryKey: ["/api/blog"],
     staleTime: 1000 * 60 * 5, // 5 minutes
-    select: (response: any) => {
-      if (response?.error) {
-        console.error('Blog API Error:', response.error);
-        return [];
-      }
-      return response.json();
-    }
   });
+
+  // Debug: Check if blog posts are loading correctly
+  console.log('Blog posts:', { blogPosts, isLoading: blogLoading, isArray: Array.isArray(blogPosts) });
 
   return (
     <motion.div 
@@ -483,12 +479,13 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <MasonryGrid
-              columns={{ default: 2, sm: 3, md: 4, lg: 4 }}
-              gap="1rem"
-              className="max-w-6xl mx-auto"
-            >
-              {Array.isArray(blogPosts) ? blogPosts.slice(0, 6).map((post: any, index: number) => (
+            Array.isArray(blogPosts) && blogPosts.length > 0 ? (
+              <MasonryGrid
+                columns={{ default: 2, sm: 3, md: 4, lg: 4 }}
+                gap="1rem"
+                className="max-w-6xl mx-auto"
+              >
+                {blogPosts.slice(0, 6).map((post: any, index: number) => (
                 <PinterestBlogCard
                   key={post.id}
                   post={{
@@ -509,8 +506,13 @@ export default function Home() {
                   }}
                   isSaved={false}
                 />
-              )) : null}
-            </MasonryGrid>
+                ))}
+              </MasonryGrid>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No stories available</p>
+              </div>
+            )
           )}
 
           <motion.div className="text-center mt-8 sm:mt-12" variants={itemVariants}>

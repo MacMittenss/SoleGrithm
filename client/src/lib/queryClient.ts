@@ -42,7 +42,7 @@ export async function apiRequest(url: string, options: RequestInit = {}) {
     return response.json();
   } catch (error) {
     clearTimeout(timeoutId);
-    if (error.name === 'AbortError') {
+    if (error instanceof Error && error.name === 'AbortError') {
       throw new Error('Request timeout - please try again');
     }
     throw error;
