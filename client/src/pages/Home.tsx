@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import HotRightNowSlider from "@/components/HotRightNowSlider";
 import PinterestSneakerCard from "@/components/PinterestSneakerCard";
 import PinterestBlogCard from "@/components/PinterestBlogCard";
+import GoatStyleFeaturedGrid from "@/components/GoatStyleFeaturedGrid";
 import { MasonryGrid } from "@/components/ui/masonry-grid";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
@@ -93,35 +94,33 @@ export default function Home() {
     }
   };
 
-  const { data: featuredSneakers, isLoading: sneakersLoading } = useQuery({
-    queryKey: ['/api/sneakers/featured'],
-    queryFn: async () => {
-      const response = await fetch('/api/sneakers/featured');
-      if (!response.ok) throw new Error('Failed to fetch featured sneakers');
-      return response.json();
-    }
+  // API Data fetching
+  const { data: sneakers, isLoading: sneakersLoading } = useQuery({
+    queryKey: ["/api/sneakers/trending"],
+  });
+
+  const { data: featuredSneakers, isLoading: featuredLoading } = useQuery({
+    queryKey: ["/api/sneakers/featured"],
   });
 
   const { data: brands } = useQuery({
-    queryKey: ['/api/brands'],
-    queryFn: async () => {
-      const response = await fetch('/api/brands');
-      if (!response.ok) throw new Error('Failed to fetch brands');
-      return response.json();
-    }
+    queryKey: ["/api/brands"],
   });
 
-  // Filter sneakers based on selected brand
-  const filteredSneakers = featuredSneakers?.filter((sneaker: any) => {
+  // Filter trending sneakers based on selected brand
+  const filteredSneakers = sneakers?.filter((sneaker: any) => {
     if (selectedBrand === 'All') return true;
     return sneaker.brandName === selectedBrand;
   });
 
   const { data: blogPosts, isLoading: blogLoading } = useQuery({
-    queryKey: ['/api/blog'],
-    queryFn: async () => {
-      const response = await fetch('/api/blog');
-      if (!response.ok) throw new Error('Failed to fetch blog posts');
+    queryKey: ["/api/blog"],
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    select: (response: any) => {
+      if (response?.error) {
+        console.error('Blog API Error:', response.error);
+        return [];
+      }
       return response.json();
     }
   });
@@ -295,24 +294,63 @@ export default function Home() {
         </motion.section>
       )}
 
-      {/* Featured Sneakers with Mobile-First Design */}
+      {/* GOAT-Style Featured Sneakers Section */}
       <motion.section 
         className="py-16 sm:py-24"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-              Featured Sneakers
+          {featuredLoading ? (
+            <div className="mb-6">
+              <div className="h-6 bg-muted rounded w-32 mb-6" />
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+                {Array.from({ length: 24 }).map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="aspect-square bg-muted rounded-lg" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <GoatStyleFeaturedGrid
+              sneakers={featuredSneakers?.map((sneaker: any) => ({
+                id: sneaker.id,
+                name: sneaker.name,
+                brand: sneaker.brandName || 'Unknown Brand',
+                price: new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(sneaker.retailPrice),
+                imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
+                slug: sneaker.slug,
+                brandName: sneaker.brandName,
+                retailPrice: sneaker.retailPrice,
+                colorway: sneaker.colorway
+              })) || []}
+              title="Just Dropped"
+            />
+          )}
+        </div>
+      </motion.section>
+
+      {/* Pinterest-Style Trending Sneakers Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-muted/20"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Trending Now
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover the latest drops and timeless classics in our curated collection
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              Discover what's hot in the sneaker community
             </p>
           </div>
 
           {/* Filter Tabs */}
           <div className="flex justify-center mb-12">
-            <div className="flex space-x-1 bg-muted p-1 rounded-lg">
+            <div className="flex space-x-1 bg-background/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
               <Button 
                 variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
                 size="sm" 
