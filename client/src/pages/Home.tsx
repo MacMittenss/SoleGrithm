@@ -108,10 +108,10 @@ export default function Home() {
   });
 
   // Filter trending sneakers based on selected brand
-  const filteredSneakers = sneakers?.filter((sneaker: any) => {
+  const filteredSneakers = Array.isArray(sneakers) ? sneakers.filter((sneaker: any) => {
     if (selectedBrand === 'All') return true;
     return sneaker.brandName === selectedBrand;
-  });
+  }) : [];
 
   const { data: blogPosts, isLoading: blogLoading } = useQuery({
     queryKey: ["/api/blog"],
@@ -313,7 +313,7 @@ export default function Home() {
             </div>
           ) : (
             <GoatStyleFeaturedGrid
-              sneakers={featuredSneakers?.map((sneaker: any) => ({
+              sneakers={Array.isArray(featuredSneakers) ? featuredSneakers.map((sneaker: any) => ({
                 id: sneaker.id,
                 name: sneaker.name,
                 brand: sneaker.brandName || 'Unknown Brand',
@@ -326,7 +326,7 @@ export default function Home() {
                 brandName: sneaker.brandName,
                 retailPrice: sneaker.retailPrice,
                 colorway: sneaker.colorway
-              })) || []}
+              })) : []}
               title="Just Dropped"
             />
           )}
@@ -359,7 +359,7 @@ export default function Home() {
               >
                 All
               </Button>
-              {brands?.map((brand: any) => (
+              {Array.isArray(brands) ? brands.map((brand: any) => (
                 <Button 
                   key={brand.id}
                   variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
@@ -369,7 +369,7 @@ export default function Home() {
                 >
                   {brand.name}
                 </Button>
-              ))}
+              )) : null}
             </div>
           </div>
 
@@ -488,7 +488,7 @@ export default function Home() {
               gap="1rem"
               className="max-w-6xl mx-auto"
             >
-              {blogPosts?.slice(0, 6).map((post: any, index: number) => (
+              {Array.isArray(blogPosts) ? blogPosts.slice(0, 6).map((post: any, index: number) => (
                 <PinterestBlogCard
                   key={post.id}
                   post={{
@@ -509,7 +509,7 @@ export default function Home() {
                   }}
                   isSaved={false}
                 />
-              ))}
+              )) : null}
             </MasonryGrid>
           )}
 
