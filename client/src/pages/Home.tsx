@@ -360,7 +360,7 @@ export default function Home() {
                   style: 'currency',
                   currency: 'USD'
                 }).format(sneaker.retailPrice),
-                imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
+                imageUrl: sneaker.images?.[0] || `https://images.unsplash.com/photo-${sneaker.id % 2 === 0 ? '1549298916-b41d501d3772' : '1551107696-a4b537c892cc'}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&bg=ffffff`,
                 slug: sneaker.slug,
                 brandName: sneaker.brandName,
                 retailPrice: sneaker.retailPrice,
