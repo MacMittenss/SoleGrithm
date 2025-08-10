@@ -475,238 +475,415 @@ export default function Home() {
 
 
 
-      {/* SoleRadar Discovery Section */}
+      {/* SoleRadar Discovery Section - Using ARDemo styling */}
       <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-background"
-        variants={itemVariants}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
           <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center">
-                <Compass className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-                SoleRadar Discovery
-              </h2>
-            </div>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Personalized sneaker discovery powered by AI and community insights
+            <motion.div
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Compass className="w-4 h-4" />
+              SoleRadar Discovery
+            </motion.div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Personalized Discovery Experience
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              AI-powered sneaker discovery tailored to your style, preferences, and community insights. 
+              Find your next perfect pair with intelligent recommendations.
             </p>
           </motion.div>
 
-          <motion.div 
-            className="grid grid-cols-1 gap-6"
-            variants={containerVariants}
-          >
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <TrendingUp className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Discovery Interface */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <motion.div
+                className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
+                variants={cardVariants}
+                whileHover="hover"
+              >
+                <div className="text-center space-y-6">
+                  <motion.div
+                    className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl flex items-center justify-center mx-auto"
+                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Compass className="w-10 h-10 sm:w-12 sm:h-12 text-blue-500" />
+                  </motion.div>
+                  
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-semibold mb-2">Smart Recommendations</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-6">
+                      Get personalized sneaker suggestions based on your style and preferences
+                    </p>
+                    
+                    <motion.div
+                      variants={cardVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                    >
+                      <Link href="/discover">
+                        <Button 
+                          size="lg" 
+                          className="h-12 px-8 text-base bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+                          data-testid="button-start-discovery"
+                        >
+                          <Compass className="w-5 h-5 mr-2" />
+                          Start Discovery
+                        </Button>
+                      </Link>
+                    </motion.div>
                   </div>
-                  <h3 className="text-xl font-semibold">Trending Now</h3>
-                  <p className="text-muted-foreground">Discover what's hot in the sneaker world with real-time trend analysis</p>
-                  <Link href="/discover">
-                    <Button variant="outline" size="sm" data-testid="button-trending-now">
-                      Explore Trends
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            </motion.div>
-          </motion.div>
 
-          <motion.div className="text-center mt-8" variants={itemVariants}>
-            <Link href="/discover">
-              <Button size="lg" className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600" data-testid="button-start-discovery">
-                Start Your Discovery
-                <Compass className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-          </motion.div>
+                  {/* Features */}
+                  <motion.div 
+                    className="grid grid-cols-2 gap-4 pt-4"
+                    variants={containerVariants}
+                  >
+                    {[
+                      { icon: TrendingUp, label: "Trending Now", color: "text-blue-500" },
+                      { icon: Sparkles, label: "AI Powered", color: "text-cyan-500" }
+                    ].map((feature, index) => (
+                      <motion.div
+                        key={feature.label}
+                        className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                      >
+                        <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
+                        <p className="text-xs font-medium">{feature.label}</p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Discovery Categories */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <h3 className="text-xl sm:text-2xl font-semibold text-center">
+                Discover By Category
+              </h3>
+              
+              <motion.div className="space-y-4" variants={containerVariants}>
+                {[
+                  { category: "Trending Now", description: "What's hot in sneaker culture", icon: TrendingUp },
+                  { category: "Your Style", description: "Matched to your preferences", icon: Heart },
+                  { category: "New Releases", description: "Latest drops and releases", icon: Sparkles }
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.category}
+                    className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
+                    variants={cardVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    data-testid={`category-${item.category.toLowerCase().replace(' ', '-')}`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl flex items-center justify-center">
+                        <item.icon className="w-6 h-6 text-blue-500" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-base">{item.category}</h4>
+                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </motion.section>
 
-      {/* Style Quiz Section */}
+      {/* Style Quiz Section - Using ARDemo styling */}
       <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-background"
-        variants={itemVariants}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
-            variants={containerVariants}
-          >
-            {/* Content */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                    Style Quiz
-                  </h2>
-                  <p className="text-muted-foreground">Discover your perfect sneaker style</p>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Take our AI-powered style quiz to discover sneakers that match your personality, 
-                lifestyle, and aesthetic preferences. Get personalized recommendations based on 
-                your unique style profile.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                    <span className="text-sm font-medium text-purple-700 dark:text-purple-300">AI-Powered</span>
+          {/* Header */}
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <motion.div
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Sparkles className="w-4 h-4" />
+              Style Quiz
+            </motion.div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Discover Your Style Experience
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Take our AI-powered style quiz to discover sneakers that perfectly match your personality, 
+              lifestyle, and aesthetic preferences with personalized recommendations.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Quiz Interface */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <motion.div
+                className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
+                variants={cardVariants}
+                whileHover="hover"
+              >
+                <div className="text-center space-y-6">
+                  <motion.div
+                    className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl flex items-center justify-center mx-auto"
+                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Sparkles className="w-10 h-10 sm:w-12 sm:h-12 text-purple-500" />
+                  </motion.div>
+                  
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-semibold mb-2">AI Style Assessment</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-6">
+                      Personalized recommendations based on your unique style profile
+                    </p>
+                    
+                    <motion.div
+                      variants={cardVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                    >
+                      <Link href="/quiz">
+                        <Button 
+                          size="lg" 
+                          className="h-12 px-8 text-base bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                          data-testid="button-take-style-quiz"
+                        >
+                          <Sparkles className="w-5 h-5 mr-2" />
+                          Take Style Quiz
+                        </Button>
+                      </Link>
+                    </motion.div>
                   </div>
-                  <p className="text-xs text-muted-foreground">Smart recommendations based on your answers</p>
+
+                  {/* Features */}
+                  <motion.div 
+                    className="grid grid-cols-2 gap-4 pt-4"
+                    variants={containerVariants}
+                  >
+                    {[
+                      { icon: Sparkles, label: "AI-Powered", color: "text-purple-500" },
+                      { icon: Heart, label: "Personalized", color: "text-pink-500" }
+                    ].map((feature, index) => (
+                      <motion.div
+                        key={feature.label}
+                        className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                      >
+                        <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
+                        <p className="text-xs font-medium">{feature.label}</p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
                 </div>
-                <div className="p-4 rounded-lg bg-pink-500/10 border border-pink-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Heart className="w-3 h-3 text-pink-600 dark:text-pink-400" />
-                    <span className="text-sm font-medium text-pink-700 dark:text-pink-300">Personalized</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Tailored to your unique style</p>
-                </div>
-              </div>
-              <Link href="/quiz">
-                <Button size="lg" className="mt-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600" data-testid="button-take-style-quiz">
-                  Take Style Quiz
-                  <Sparkles className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
+              </motion.div>
             </motion.div>
 
-            {/* Style Quiz Visual */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10">
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-center mb-4">Quick Style Questions</h3>
-                  <div className="space-y-3">
-                    <div className="p-3 bg-white/10 rounded-lg">
-                      <p className="text-sm font-medium mb-2">What's your daily style?</p>
-                      <div className="flex gap-2">
-                        <Badge variant="secondary" className="text-xs">Casual</Badge>
-                        <Badge variant="outline" className="text-xs">Athletic</Badge>
-                        <Badge variant="outline" className="text-xs">Streetwear</Badge>
-                      </div>
-                    </div>
-                    <div className="p-3 bg-white/10 rounded-lg">
-                      <p className="text-sm font-medium mb-2">Preferred colors?</p>
-                      <div className="flex gap-2">
-                        <div className="w-4 h-4 bg-black rounded-full border-2 border-white" />
-                        <div className="w-4 h-4 bg-white rounded-full border-2 border-gray-300" />
-                        <div className="w-4 h-4 bg-red-500 rounded-full" />
-                        <div className="w-4 h-4 bg-blue-500 rounded-full" />
-                      </div>
-                    </div>
+            {/* Quiz Preview */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <h3 className="text-xl sm:text-2xl font-semibold text-center">
+                Quick Style Questions
+              </h3>
+              
+              <motion.div className="space-y-4" variants={containerVariants}>
+                <motion.div
+                  className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
+                  variants={cardVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                >
+                  <p className="text-sm font-medium mb-3">What's your daily style?</p>
+                  <div className="flex gap-2">
+                    <Badge variant="secondary" className="text-xs bg-purple-500/10 text-purple-700">Casual</Badge>
+                    <Badge variant="outline" className="text-xs">Athletic</Badge>
+                    <Badge variant="outline" className="text-xs">Streetwear</Badge>
                   </div>
-                  <div className="text-center pt-2">
-                    <p className="text-xs text-muted-foreground">2 minutes • 8 questions</p>
+                </motion.div>
+
+                <motion.div
+                  className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
+                  variants={cardVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                >
+                  <p className="text-sm font-medium mb-3">Preferred colors?</p>
+                  <div className="flex gap-2">
+                    <div className="w-6 h-6 bg-black rounded-full border-2 border-white shadow-md" />
+                    <div className="w-6 h-6 bg-white rounded-full border-2 border-gray-300 shadow-md" />
+                    <div className="w-6 h-6 bg-red-500 rounded-full shadow-md" />
+                    <div className="w-6 h-6 bg-blue-500 rounded-full shadow-md" />
                   </div>
+                </motion.div>
+
+                <div className="text-center pt-2">
+                  <p className="text-sm text-muted-foreground">2 minutes • 8 questions</p>
                 </div>
-              </Card>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
-      {/* AI Reviews Section */}
+      {/* AI Reviews Section - Using ARDemo styling */}
       <motion.section 
-        className="py-16 sm:py-24"
-        variants={itemVariants}
+        className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 via-teal-500/5 to-background"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
-            variants={containerVariants}
-          >
-            {/* AI Reviews Visual */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-green-500/10 to-teal-500/10">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
-                    <h3 className="font-semibold">AI Review Summary</h3>
+          {/* Header */}
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <motion.div
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <MessageSquare className="w-4 h-4" />
+              AI Reviews
+            </motion.div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Intelligent Review Experience
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Get comprehensive AI-powered analysis of thousands of sneaker reviews. Our intelligent system 
+              analyzes community feedback to provide key insights about comfort, quality, sizing, and style.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* AI Review Interface */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <motion.div
+                className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
+                variants={cardVariants}
+                whileHover="hover"
+              >
+                <div className="text-center space-y-6">
+                  <motion.div
+                    className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-2xl flex items-center justify-center mx-auto"
+                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <MessageSquare className="w-10 h-10 sm:w-12 sm:h-12 text-green-500" />
+                  </motion.div>
+                  
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-semibold mb-2">Smart Review Analysis</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-6">
+                      AI-powered insights from thousands of community reviews and expert opinions
+                    </p>
+                    
+                    <motion.div
+                      variants={cardVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                    >
+                      <Link href="/review-summary">
+                        <Button 
+                          size="lg" 
+                          className="h-12 px-8 text-base bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600"
+                          data-testid="button-explore-ai-reviews"
+                        >
+                          <MessageSquare className="w-5 h-5 mr-2" />
+                          Explore AI Reviews
+                        </Button>
+                      </Link>
+                    </motion.div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="p-3 bg-white/10 rounded-lg">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-medium">Nike Air Jordan 1</span>
-                        <div className="flex gap-1">
-                          {[1,2,3,4,5].map(star => (
-                            <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground">"Great build quality, comfortable fit, iconic design"</p>
-                    </div>
-                    <div className="p-3 bg-white/10 rounded-lg">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-medium">Yeezy Boost 350</span>
-                        <div className="flex gap-1">
-                          {[1,2,3,4].map(star => (
-                            <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                          ))}
-                          <Star className="w-3 h-3 text-gray-300" />
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground">"Very comfortable, unique style, runs small"</p>
-                    </div>
-                  </div>
-                  <div className="text-center pt-2">
-                    <p className="text-xs text-muted-foreground">Based on 1,250+ community reviews</p>
-                  </div>
+
+                  {/* Key Features */}
+                  <motion.div 
+                    className="grid grid-cols-2 gap-4 pt-4"
+                    variants={containerVariants}
+                  >
+                    {[
+                      { icon: MessageSquare, label: "Smart Summaries", color: "text-green-500" },
+                      { icon: Star, label: "Key Insights", color: "text-teal-500" }
+                    ].map((feature, index) => (
+                      <motion.div
+                        key={feature.label}
+                        className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                      >
+                        <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
+                        <p className="text-xs font-medium">{feature.label}</p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
                 </div>
-              </Card>
+              </motion.div>
             </motion.div>
 
-            {/* Content */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-teal-500/20 rounded-xl flex items-center justify-center">
-                  <MessageSquare className="w-6 h-6 text-green-600 dark:text-green-400" />
+            {/* Review Examples */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <h3 className="text-xl sm:text-2xl font-semibold text-center">
+                Sample AI Reviews
+              </h3>
+              
+              <motion.div className="space-y-4" variants={containerVariants}>
+                {[
+                  { 
+                    name: "Nike Air Jordan 1", 
+                    rating: 5, 
+                    insight: "Great build quality, comfortable fit, iconic design",
+                    color: "from-green-500/10 to-teal-500/10"
+                  },
+                  { 
+                    name: "Yeezy Boost 350", 
+                    rating: 4, 
+                    insight: "Very comfortable, unique style, runs small",
+                    color: "from-teal-500/10 to-green-500/10"
+                  }
+                ].map((review, index) => (
+                  <motion.div
+                    key={review.name}
+                    className={`p-4 rounded-xl border bg-gradient-to-br ${review.color} hover:border-primary/50 transition-all`}
+                    variants={cardVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium">{review.name}</span>
+                      <div className="flex gap-1">
+                        {[1,2,3,4,5].map(star => (
+                          <Star 
+                            key={star} 
+                            className={`w-3 h-3 ${
+                              star <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+                            }`} 
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">"{review.insight}"</p>
+                  </motion.div>
+                ))}
+
+                <div className="text-center pt-2">
+                  <p className="text-sm text-muted-foreground">Based on 1,250+ community reviews</p>
                 </div>
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                    AI Reviews
-                  </h2>
-                  <p className="text-muted-foreground">Intelligent review insights</p>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Get intelligent summaries of thousands of sneaker reviews. Our AI analyzes 
-                community feedback to give you the key insights about comfort, quality, 
-                sizing, and style for every sneaker.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <MessageSquare className="w-3 h-3 text-green-600 dark:text-green-400" />
-                    <span className="text-sm font-medium text-green-700 dark:text-green-300">Smart Summaries</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">AI-powered analysis of community reviews</p>
-                </div>
-                <div className="p-4 rounded-lg bg-teal-500/10 border border-teal-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Star className="w-3 h-3 text-teal-600 dark:text-teal-400" />
-                    <span className="text-sm font-medium text-teal-700 dark:text-teal-300">Key Insights</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Comfort, quality, and sizing info</p>
-                </div>
-              </div>
-              <Link href="/review-summary">
-                <Button size="lg" className="mt-6 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600" data-testid="button-explore-ai-reviews">
-                  Explore AI Reviews
-                  <MessageSquare className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
@@ -883,169 +1060,142 @@ export default function Home() {
 
 
       {/* Sole Search - Visual Search Section */}
-      <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-background"
-        variants={itemVariants}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
-            variants={containerVariants}
-          >
-            {/* Content */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
-                  <Search className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-                </div>
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                    Sole Search
-                  </h2>
-                  <p className="text-muted-foreground">AI-powered visual sneaker identification</p>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Upload any sneaker image and get instant AI-powered identification. Our advanced 
-                visual recognition technology identifies brands, models, colorways, and provides 
-                market insights, styling suggestions, and purchase recommendations.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Eye className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
-                    <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">Visual AI</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Advanced image recognition technology</p>
-                </div>
-                <div className="p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Zap className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                    <span className="text-sm font-medium text-purple-700 dark:text-purple-300">Instant Results</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Get identification and insights instantly</p>
-                </div>
-              </div>
-              <Link href="/visual-search">
-                <Button size="lg" className="mt-6 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600" data-testid="button-try-sole-search">
-                  Try Sole Search
-                  <Search className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Visual */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10">
-                <div className="space-y-4">
-                  <div className="text-center mb-4">
-                    <h3 className="font-semibold mb-2">Visual Search Demo</h3>
-                    <p className="text-sm text-muted-foreground">Upload or camera • Instant AI analysis</p>
-                  </div>
-                  <div className="h-40 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-lg flex items-center justify-center border-2 border-dashed border-indigo-300/50">
-                    <div className="text-center space-y-2">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-full flex items-center justify-center mx-auto">
-                        <Search className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-                      </div>
-                      <p className="text-sm text-muted-foreground">Drop image or click to upload</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="h-12 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded flex items-center justify-center">
-                      <span className="text-xs font-medium">Brand</span>
-                    </div>
-                    <div className="h-12 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded flex items-center justify-center">
-                      <span className="text-xs font-medium">Model</span>
-                    </div>
-                    <div className="h-12 bg-gradient-to-br from-pink-400/10 to-indigo-400/10 rounded flex items-center justify-center">
-                      <span className="text-xs font-medium">Price</span>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
+      <VisualSearchDemo />
 
       {/* AR Try-On Section */}
       <ARDemo />
 
-      {/* Sole Map - Global Trends Section */}
+      {/* Sole Map - Global Trends Section - Using ARDemo styling */}
       <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 via-blue-500/5 to-background"
-        variants={itemVariants}
+        className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 to-blue-500/5"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
-            variants={containerVariants}
-          >
-            {/* Visual */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-green-500/10 to-blue-500/10">
-                <div className="relative h-64 sm:h-80">
-                  {/* Mock map visualization */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-lg">
-                    <div className="relative h-full flex items-center justify-center">
-                      <div className="grid grid-cols-3 gap-4 w-full h-full p-4">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                          <div key={i} className="bg-white/10 rounded-lg flex items-center justify-center">
-                            <div className={`w-2 h-2 rounded-full ${
-                              i % 3 === 0 ? 'bg-red-400' : i % 2 === 0 ? 'bg-blue-400' : 'bg-green-400'
-                            } animate-pulse`} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+          {/* Header */}
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <motion.div
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <TrendingUp className="w-4 h-4" />
+              Sole Map
+            </motion.div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Global Trends Experience
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Explore real-time sneaker trends across the globe with interactive visualization. 
+              Discover regional preferences and track sneaker culture worldwide.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Interactive Map Visualization */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <motion.div
+                className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
+                variants={cardVariants}
+                whileHover="hover"
+              >
+                <div className="text-center space-y-6">
+                  <motion.div
+                    className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-2xl flex items-center justify-center mx-auto"
+                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <TrendingUp className="w-10 h-10 sm:w-12 sm:h-12 text-green-500" />
+                  </motion.div>
+                  
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-semibold mb-2">Interactive Heat Map</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-6">
+                      Live visualization of sneaker trends across major cities worldwide
+                    </p>
+                    
+                    <motion.div
+                      variants={cardVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                    >
+                      <Link href="/trend-map">
+                        <Button 
+                          size="lg" 
+                          className="h-12 px-8 text-base bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                          data-testid="button-explore-sole-map"
+                        >
+                          <TrendingUp className="w-5 h-5 mr-2" />
+                          Explore Sole Map
+                        </Button>
+                      </Link>
+                    </motion.div>
                   </div>
+
+                  {/* Features */}
+                  <motion.div 
+                    className="grid grid-cols-3 gap-4 pt-4"
+                    variants={containerVariants}
+                  >
+                    {[
+                      { label: "High-heat", color: "bg-red-400" },
+                      { label: "Emerging", color: "bg-blue-400" },
+                      { label: "Stable", color: "bg-green-400" }
+                    ].map((feature, index) => (
+                      <motion.div
+                        key={feature.label}
+                        className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                      >
+                        <div className={`w-4 h-4 ${feature.color} rounded-full mx-auto mb-2`} />
+                        <p className="text-xs font-medium">{feature.label}</p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
                 </div>
-                <div className="mt-4 text-center">
-                  <p className="text-sm text-muted-foreground">Live trend heatmap across major cities</p>
-                </div>
-              </Card>
+              </motion.div>
             </motion.div>
 
-            {/* Content */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-xl flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                    Sole Map
-                  </h2>
-                  <p className="text-muted-foreground">Global sneaker trends visualization</p>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Explore sneaker trends across the globe with our interactive heat map. 
-                See what's trending in major cities, discover regional preferences, and 
-                track the spread of sneaker culture worldwide.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-red-400 rounded-full"></div>
-                  <span className="text-sm">High-heat trends</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-blue-400 rounded-full"></div>
-                  <span className="text-sm">Emerging markets</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-green-400 rounded-full"></div>
-                  <span className="text-sm">Stable demand</span>
-                </div>
-              </div>
-              <Link href="/trend-map">
-                <Button size="lg" className="mt-6" data-testid="button-explore-sole-map">
-                  Explore Sole Map
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
+            {/* Trending Cities */}
+            <motion.div className="space-y-6" variants={itemVariants}>
+              <h3 className="text-xl sm:text-2xl font-semibold text-center">
+                Trending Cities
+              </h3>
+              
+              <motion.div className="space-y-4" variants={containerVariants}>
+                {[
+                  { city: "New York", trend: "Nike Dunk Low", activity: 95 },
+                  { city: "Los Angeles", trend: "Jordan 1 High", activity: 87 },
+                  { city: "Atlanta", trend: "Yeezy 350", activity: 76 }
+                ].map((location, index) => (
+                  <motion.div
+                    key={location.city}
+                    className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
+                    variants={cardVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    data-testid={`city-${location.city.toLowerCase()}`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h4 className="font-semibold text-base">{location.city}</h4>
+                        <p className="text-sm text-muted-foreground">{location.trend}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-medium">{location.activity}%</div>
+                        <div className={`w-16 h-2 rounded-full ${
+                          location.activity > 90 ? 'bg-red-400' : 
+                          location.activity > 80 ? 'bg-blue-400' : 'bg-green-400'
+                        }`} />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
