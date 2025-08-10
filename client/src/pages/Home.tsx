@@ -533,9 +533,206 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Mobile-First Features Section */}
+      {/* AI-Powered Features Showcase */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-muted/30 via-background to-muted/20"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Smart Discovery Tools
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Find your perfect sneakers with AI-powered technology
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
+            variants={containerVariants}
+          >
+            {/* Visual Search */}
+            <motion.div 
+              variants={itemVariants}
+              whileHover={{ y: -5 }}
+              className="group"
+            >
+              <Card className="p-6 sm:p-8 border-0 shadow-lg bg-card/80 backdrop-blur-sm hover:shadow-xl transition-all group">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl flex items-center justify-center">
+                    <Search className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold">Visual Search</h3>
+                    <p className="text-sm text-muted-foreground">AI Image Recognition</p>
+                  </div>
+                </div>
+                <VisualSearchDemo />
+                <Link href="/visual-search">
+                  <Button variant="outline" className="w-full mt-4" data-testid="button-try-visual-search">
+                    Try Visual Search
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </Card>
+            </motion.div>
+
+            {/* Collections */}
+            <motion.div 
+              variants={itemVariants}
+              whileHover={{ y: -5 }}
+              className="group"
+            >
+              <Card className="p-6 sm:p-8 border-0 shadow-lg bg-card/80 backdrop-blur-sm hover:shadow-xl transition-all group">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl flex items-center justify-center">
+                    <Heart className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold">Smart Collections</h3>
+                    <p className="text-sm text-muted-foreground">AI Curated Lists</p>
+                  </div>
+                </div>
+                <CollectionsDemo />
+                <Link href="/collections">
+                  <Button variant="outline" className="w-full mt-4" data-testid="button-explore-collections">
+                    Explore Collections
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </Card>
+            </motion.div>
+
+            {/* AR Try-On */}
+            <motion.div 
+              variants={itemVariants}
+              whileHover={{ y: -5 }}
+              className="group"
+            >
+              <Card className="p-6 sm:p-8 border-0 shadow-lg bg-card/80 backdrop-blur-sm hover:shadow-xl transition-all group">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-xl flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold">AR Try-On</h3>
+                    <p className="text-sm text-muted-foreground">Virtual Fitting</p>
+                  </div>
+                </div>
+                <ARDemo />
+                <Link href="/ar-try-on">
+                  <Button variant="outline" className="w-full mt-4" data-testid="button-try-ar">
+                    Try AR Experience
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Community & Social Section */}
       <motion.section 
         className="py-16 sm:py-24"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Join the Community
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Connect with sneaker enthusiasts worldwide
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Community Stats */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-lg bg-gradient-to-br from-orange-500/5 to-red-500/5">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center">
+                      <Users className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold">50K+ Members</h3>
+                      <p className="text-muted-foreground">Active collectors & enthusiasts</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
+                      <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold">100K+ Reviews</h3>
+                      <p className="text-muted-foreground">Authentic community reviews</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-teal-500/20 rounded-xl flex items-center justify-center">
+                      <ShoppingBag className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold">$2M+ Traded</h3>
+                      <p className="text-muted-foreground">Monthly marketplace volume</p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Social Features */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <h3 className="text-2xl font-semibold">Connect & Share</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center">
+                    <Heart className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Share Your Collection</h4>
+                    <p className="text-sm text-muted-foreground">Showcase your sneaker collection to the community</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center">
+                    <Star className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Rate & Review</h4>
+                    <p className="text-sm text-muted-foreground">Help others with authentic sneaker reviews</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Trend Alerts</h4>
+                    <p className="text-sm text-muted-foreground">Get notified about price drops and new releases</p>
+                  </div>
+                </div>
+              </div>
+              <Link href="/auth">
+                <Button size="lg" className="w-full" data-testid="button-join-community">
+                  Join Community
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Mobile-First Features Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-muted/20 to-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
