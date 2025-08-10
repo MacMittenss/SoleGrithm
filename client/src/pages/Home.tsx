@@ -292,166 +292,9 @@ export default function Home() {
         </motion.section>
       )}
 
-      {/* GOAT-Style Featured Sneakers Section */}
-      <motion.section 
-        className="py-16 sm:py-24"
-        variants={itemVariants}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {featuredLoading ? (
-            <div className="mb-6">
-              <div className="h-6 bg-muted rounded w-32 mb-6" />
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="aspect-square bg-muted rounded-lg" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <GoatStyleFeaturedGrid
-              sneakers={Array.isArray(featuredSneakers) ? featuredSneakers.map((sneaker: any) => ({
-                id: sneaker.id,
-                name: sneaker.name,
-                brand: sneaker.brandName || 'Unknown Brand',
-                price: new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(sneaker.retailPrice),
-                imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
-                slug: sneaker.slug,
-                brandName: sneaker.brandName,
-                retailPrice: sneaker.retailPrice,
-                colorway: sneaker.colorway
-              })) : []}
-              title="Just Dropped"
-            />
-          )}
-        </div>
-      </motion.section>
 
-      {/* Pinterest-Style Trending Sneakers Section */}
-      <motion.section 
-        className="py-16 sm:py-24 bg-muted/20"
-        variants={itemVariants}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-              Trending Now
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Discover what's hot in the sneaker community
-            </p>
-          </div>
 
-          {/* Filter Tabs */}
-          <div className="flex justify-center mb-12">
-            <div className="flex space-x-1 bg-background/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
-              <Button 
-                variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
-                size="sm" 
-                className={selectedBrand === 'All' ? 'bg-background shadow-sm' : ''}
-                onClick={() => setSelectedBrand('All')}
-              >
-                All
-              </Button>
-              {Array.isArray(brands) ? brands.map((brand: any) => (
-                <Button 
-                  key={brand.id}
-                  variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
-                  size="sm"
-                  className={selectedBrand === brand.name ? 'bg-background shadow-sm' : ''}
-                  onClick={() => setSelectedBrand(brand.name)}
-                >
-                  {brand.name}
-                </Button>
-              )) : null}
-            </div>
-          </div>
 
-          {/* Pinterest-Style Masonry Grid */}
-          {sneakersLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="bg-muted rounded-lg aspect-[3/4] mb-3" />
-                  <div className="space-y-2">
-                    <div className="h-3 bg-muted rounded w-3/4" />
-                    <div className="h-3 bg-muted rounded w-1/2" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <MasonryGrid
-              columns={{ default: 2, sm: 3, md: 4, lg: 5, xl: 6 }}
-              gap="1rem"
-              className="max-w-7xl mx-auto"
-            >
-              {filteredSneakers?.slice(0, 12).map((sneaker: any, index: number) => (
-                <PinterestSneakerCard
-                  key={sneaker.id}
-                  sneaker={{
-                    id: sneaker.id,
-                    name: sneaker.name,
-                    brand: sneaker.brandName || 'Unknown Brand',
-                    price: new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD'
-                    }).format(sneaker.retailPrice),
-                    imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600",
-                    slug: sneaker.slug,
-                    isNew: new Date(sneaker.releaseDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-                    brandName: sneaker.brandName,
-                    retailPrice: sneaker.retailPrice,
-                    colorway: sneaker.colorway
-                  }}
-                  aspectRatio={index % 3 === 0 ? 'portrait' : 'square'}
-                  priority={index < 4}
-                  onSave={(sneakerId) => {
-                    // Handle save to collection functionality
-                    console.log('Save sneaker:', sneakerId);
-                  }}
-                  isSaved={false}
-                />
-              ))}
-            </MasonryGrid>
-          )}
-
-          <motion.div 
-            className="text-center mt-8 sm:mt-12"
-            variants={itemVariants}
-          >
-            <Link href="/live-market">
-              <motion.div
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Button size="lg" className="h-12 px-8 text-base" data-testid="button-view-all-sneakers">
-                  View All Sneakers
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Mobile-First Feature Sections */}
-      <motion.div variants={itemVariants}>
-        <VisualSearchDemo />
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
-        <CollectionsDemo />
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
-        <ARDemo />
-      </motion.div>
 
       {/* Pinterest-Style Blog Section */}
       <motion.section 
@@ -556,27 +399,38 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
-            className="grid grid-cols-1 gap-6"
-            variants={containerVariants}
-          >
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <TrendingUp className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold">Trending Now</h3>
-                  <p className="text-muted-foreground">Discover what's hot in the sneaker world with real-time trend analysis</p>
-                  <Link href="/discover">
-                    <Button variant="outline" size="sm" data-testid="button-trending-now">
-                      Explore Trends
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
+          {/* GOAT-Style Icon Sneaker Grid for Trending Now */}
+          <motion.div variants={itemVariants}>
+            {sneakersLoading ? (
+              <div className="mb-6">
+                <div className="h-6 bg-muted rounded w-32 mb-6" />
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+                  {Array.from({ length: 24 }).map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="aspect-square bg-muted rounded-lg" />
+                    </div>
+                  ))}
                 </div>
-              </Card>
-            </motion.div>
+              </div>
+            ) : (
+              <GoatStyleFeaturedGrid
+                sneakers={Array.isArray(sneakers) ? sneakers.map((sneaker: any) => ({
+                  id: sneaker.id,
+                  name: sneaker.name,
+                  brand: sneaker.brandName || 'Unknown Brand',
+                  price: new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  }).format(sneaker.retailPrice),
+                  imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
+                  slug: sneaker.slug,
+                  brandName: sneaker.brandName,
+                  retailPrice: sneaker.retailPrice,
+                  colorway: sneaker.colorway
+                })) : []}
+                title="Trending Now"
+              />
+            )}
           </motion.div>
 
           <motion.div className="text-center mt-8" variants={itemVariants}>
