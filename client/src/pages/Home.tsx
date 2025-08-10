@@ -27,7 +27,8 @@ import {
   Zap,
   ChevronDown,
   Play,
-  Search
+  Search,
+  Compass
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
 
@@ -534,6 +535,96 @@ export default function Home() {
       </motion.section>
 
 
+
+      {/* SoleRadar Discovery Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center">
+                <Compass className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                SoleRadar Discovery
+              </h2>
+            </div>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Personalized sneaker discovery powered by AI and community insights
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+          >
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <TrendingUp className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Trending Now</h3>
+                  <p className="text-muted-foreground">Discover what's hot in the sneaker world with real-time trend analysis</p>
+                  <Link href="/discover">
+                    <Button variant="outline" size="sm" data-testid="button-trending-now">
+                      Explore Trends
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <Sparkles className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Style Quiz</h3>
+                  <p className="text-muted-foreground">Take our AI-powered quiz to discover your perfect sneaker style</p>
+                  <Link href="/quiz">
+                    <Button variant="outline" size="sm" data-testid="button-style-quiz">
+                      Take Quiz
+                      <Sparkles className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <MessageSquare className="w-8 h-8 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">AI Reviews</h3>
+                  <p className="text-muted-foreground">Get intelligent review summaries and insights from the community</p>
+                  <Link href="/review-summary">
+                    <Button variant="outline" size="sm" data-testid="button-ai-reviews">
+                      View Reviews
+                      <MessageSquare className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+
+          <motion.div className="text-center mt-8" variants={itemVariants}>
+            <Link href="/discover">
+              <Button size="lg" className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600" data-testid="button-start-discovery">
+                Start Your Discovery
+                <Compass className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* Community & Social Section */}
       <motion.section 
