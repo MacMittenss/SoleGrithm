@@ -296,44 +296,6 @@ export default function Home() {
 
 
 
-      {/* GOAT-Style Featured Sneakers Section */}
-      <motion.section 
-        className="py-16 sm:py-24"
-        variants={itemVariants}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {featuredLoading ? (
-            <div className="mb-6">
-              <div className="h-6 bg-muted rounded w-32 mb-6" />
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="aspect-square bg-muted rounded-lg" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <GoatStyleFeaturedGrid
-              sneakers={Array.isArray(featuredSneakers) ? featuredSneakers.map((sneaker: any) => ({
-                id: sneaker.id,
-                name: sneaker.name,
-                brand: sneaker.brandName || 'Unknown Brand',
-                price: new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(sneaker.retailPrice),
-                imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
-                slug: sneaker.slug,
-                brandName: sneaker.brandName,
-                retailPrice: sneaker.retailPrice,
-                colorway: sneaker.colorway
-              })) : []}
-              title="Just Dropped"
-            />
-          )}
-        </div>
-      </motion.section>
 
       {/* Pinterest-Style Trending Sneakers Section */}
       <motion.section 
