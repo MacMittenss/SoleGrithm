@@ -68,17 +68,15 @@ export default function GoatStyleFeaturedGrid({
               }}
               data-testid={`featured-sneaker-${sneaker.id}`}
             >
-              {/* Sneaker Image - Product cutout style like GOAT */}
-              <div className="relative w-full h-full bg-gradient-to-br from-gray-50 to-white rounded-lg overflow-hidden border border-border/30 group-hover:border-border group-hover:shadow-md transition-all duration-300">
-                <div className="w-full h-full flex items-center justify-center p-2">
-                  <LazyImage
-                    src={sneaker.imageUrl || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"}
-                    alt={sneaker.name}
-                    className="max-w-[85%] max-h-[85%] object-contain transition-all duration-300 group-hover:scale-105 drop-shadow-sm"
-                    fallbackSrc="https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400"
-                    priority={index < 12}
-                  />
-                </div>
+              {/* Sneaker Image - GOAT.com exact style */}
+              <div className="relative w-full h-full bg-white rounded-lg overflow-hidden border border-gray-200/50 group-hover:border-gray-300 group-hover:shadow-lg transition-all duration-300">
+                <LazyImage
+                  src={sneaker.imageUrl || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=750&h=750"}
+                  alt={sneaker.name}
+                  className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                  fallbackSrc="https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=750&h=750"
+                  priority={index < 12}
+                />
                 
                 {/* Hover Overlay - GOAT style name reveal */}
                 <AnimatePresence>

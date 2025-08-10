@@ -360,7 +360,12 @@ export default function Home() {
                   style: 'currency',
                   currency: 'USD'
                 }).format(sneaker.retailPrice),
-                imageUrl: sneaker.images?.[0] || `https://images.unsplash.com/photo-${sneaker.id % 2 === 0 ? '1549298916-b41d501d3772' : '1551107696-a4b537c892cc'}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&bg=ffffff`,
+                imageUrl: sneaker.images?.[0] || `https://images.unsplash.com/photo-${
+                  sneaker.id % 4 === 0 ? '1551107696-a4b537c892cc' : 
+                  sneaker.id % 4 === 1 ? '1549298916-b41d501d3772' :
+                  sneaker.id % 4 === 2 ? '1606107688880-9c4e59a54c2c' :
+                  '1595348020900-30d62ad4b95b'
+                }?ixlib=rb-4.0.3&auto=format&fit=crop&w=750&h=750&bg=ffffff`,
                 slug: sneaker.slug,
                 brandName: sneaker.brandName,
                 retailPrice: sneaker.retailPrice,
