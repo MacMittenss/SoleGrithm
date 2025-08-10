@@ -296,6 +296,45 @@ export default function Home() {
 
 
 
+      {/* GOAT-Style Featured Sneakers Section */}
+      <motion.section 
+        className="py-16 sm:py-24"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {featuredLoading ? (
+            <div className="mb-6">
+              <div className="h-6 bg-muted rounded w-32 mb-6" />
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+                {Array.from({ length: 24 }).map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="aspect-square bg-muted rounded-lg" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <GoatStyleFeaturedGrid
+              sneakers={Array.isArray(featuredSneakers) ? featuredSneakers.map((sneaker: any) => ({
+                id: sneaker.id,
+                name: sneaker.name,
+                brand: sneaker.brandName || 'Unknown Brand',
+                price: new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(sneaker.retailPrice),
+                imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
+                slug: sneaker.slug,
+                brandName: sneaker.brandName,
+                retailPrice: sneaker.retailPrice,
+                colorway: sneaker.colorway
+              })) : []}
+              title="Just Dropped"
+            />
+          )}
+        </div>
+      </motion.section>
+
       {/* Pinterest-Style Blog Section */}
       <motion.section 
         className="py-16 sm:py-24 bg-muted/20"
@@ -399,38 +438,27 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* GOAT-Style Icon Sneaker Grid for Trending Now */}
-          <motion.div variants={itemVariants}>
-            {sneakersLoading ? (
-              <div className="mb-6">
-                <div className="h-6 bg-muted rounded w-32 mb-6" />
-                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
-                  {Array.from({ length: 24 }).map((_, i) => (
-                    <div key={i} className="animate-pulse">
-                      <div className="aspect-square bg-muted rounded-lg" />
-                    </div>
-                  ))}
+          <motion.div 
+            className="grid grid-cols-1 gap-6"
+            variants={containerVariants}
+          >
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <TrendingUp className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Trending Now</h3>
+                  <p className="text-muted-foreground">Discover what's hot in the sneaker world with real-time trend analysis</p>
+                  <Link href="/discover">
+                    <Button variant="outline" size="sm" data-testid="button-trending-now">
+                      Explore Trends
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
                 </div>
-              </div>
-            ) : (
-              <GoatStyleFeaturedGrid
-                sneakers={Array.isArray(sneakers) ? sneakers.map((sneaker: any) => ({
-                  id: sneaker.id,
-                  name: sneaker.name,
-                  brand: sneaker.brandName || 'Unknown Brand',
-                  price: new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD'
-                  }).format(sneaker.retailPrice),
-                  imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
-                  slug: sneaker.slug,
-                  brandName: sneaker.brandName,
-                  retailPrice: sneaker.retailPrice,
-                  colorway: sneaker.colorway
-                })) : []}
-                title="Trending Now"
-              />
-            )}
+              </Card>
+            </motion.div>
           </motion.div>
 
           <motion.div className="text-center mt-8" variants={itemVariants}>
