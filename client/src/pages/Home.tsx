@@ -339,53 +339,36 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Pinterest-Style Masonry Grid */}
+          {/* GOAT-Style Icon Grid */}
           {sneakersLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="bg-muted rounded-lg aspect-[3/4] mb-3" />
-                  <div className="space-y-2">
-                    <div className="h-3 bg-muted rounded w-3/4" />
-                    <div className="h-3 bg-muted rounded w-1/2" />
+            <div className="mb-6">
+              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+                {Array.from({ length: 24 }).map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="aspect-square bg-muted rounded-lg" />
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           ) : (
-            <MasonryGrid
-              columns={{ default: 2, sm: 3, md: 4, lg: 5, xl: 6 }}
-              gap="1rem"
-              className="max-w-7xl mx-auto"
-            >
-              {filteredSneakers?.slice(0, 12).map((sneaker: any, index: number) => (
-                <PinterestSneakerCard
-                  key={sneaker.id}
-                  sneaker={{
-                    id: sneaker.id,
-                    name: sneaker.name,
-                    brand: sneaker.brandName || 'Unknown Brand',
-                    price: new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD'
-                    }).format(sneaker.retailPrice),
-                    imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600",
-                    slug: sneaker.slug,
-                    isNew: new Date(sneaker.releaseDate) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-                    brandName: sneaker.brandName,
-                    retailPrice: sneaker.retailPrice,
-                    colorway: sneaker.colorway
-                  }}
-                  aspectRatio={index % 3 === 0 ? 'portrait' : 'square'}
-                  priority={index < 4}
-                  onSave={(sneakerId) => {
-                    // Handle save to collection functionality
-                    console.log('Save sneaker:', sneakerId);
-                  }}
-                  isSaved={false}
-                />
-              ))}
-            </MasonryGrid>
+            <GoatStyleFeaturedGrid
+              sneakers={Array.isArray(filteredSneakers) ? filteredSneakers.map((sneaker: any) => ({
+                id: sneaker.id,
+                name: sneaker.name,
+                brand: sneaker.brandName || 'Unknown Brand',
+                price: new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(sneaker.retailPrice),
+                imageUrl: sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
+                slug: sneaker.slug,
+                brandName: sneaker.brandName,
+                retailPrice: sneaker.retailPrice,
+                colorway: sneaker.colorway
+              })) : []}
+              title=""
+              showTitle={false}
+            />
           )}
 
           <motion.div 

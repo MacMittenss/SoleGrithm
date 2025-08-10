@@ -17,11 +17,13 @@ interface GoatStyleFeaturedGridProps {
     colorway?: string;
   }>;
   title?: string;
+  showTitle?: boolean;
 }
 
 export default function GoatStyleFeaturedGrid({ 
   sneakers, 
-  title = "Just Dropped" 
+  title = "Just Dropped",
+  showTitle = true
 }: GoatStyleFeaturedGridProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const { trackSneakerView } = useUserTracking();
@@ -33,11 +35,13 @@ export default function GoatStyleFeaturedGrid({
   return (
     <div className="w-full">
       {/* Section Title - GOAT style */}
-      <div className="mb-6">
-        <h3 className="text-xl font-semibold text-foreground tracking-tight">
-          {title}
-        </h3>
-      </div>
+      {showTitle && (
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-foreground tracking-tight">
+            {title}
+          </h3>
+        </div>
+      )}
 
       {/* Uniform Grid - GOAT style */}
       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
