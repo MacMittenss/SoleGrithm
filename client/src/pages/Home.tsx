@@ -557,7 +557,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 gap-6"
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
@@ -577,42 +577,6 @@ export default function Home() {
                 </div>
               </Card>
             </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <Sparkles className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold">Style Quiz</h3>
-                  <p className="text-muted-foreground">Take our AI-powered quiz to discover your perfect sneaker style</p>
-                  <Link href="/quiz">
-                    <Button variant="outline" size="sm" data-testid="button-style-quiz">
-                      Take Quiz
-                      <Sparkles className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow bg-card/80 backdrop-blur-sm">
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <MessageSquare className="w-8 h-8 text-green-600 dark:text-green-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold">AI Reviews</h3>
-                  <p className="text-muted-foreground">Get intelligent review summaries and insights from the community</p>
-                  <Link href="/review-summary">
-                    <Button variant="outline" size="sm" data-testid="button-ai-reviews">
-                      View Reviews
-                      <MessageSquare className="w-4 h-4 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            </motion.div>
           </motion.div>
 
           <motion.div className="text-center mt-8" variants={itemVariants}>
@@ -622,6 +586,187 @@ export default function Home() {
                 <Compass className="w-5 h-5 ml-2" />
               </Button>
             </Link>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Style Quiz Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    Style Quiz
+                  </h2>
+                  <p className="text-muted-foreground">Discover your perfect sneaker style</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Take our AI-powered style quiz to discover sneakers that match your personality, 
+                lifestyle, and aesthetic preferences. Get personalized recommendations based on 
+                your unique style profile.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                    <span className="text-sm font-medium text-purple-700 dark:text-purple-300">AI-Powered</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Smart recommendations based on your answers</p>
+                </div>
+                <div className="p-4 rounded-lg bg-pink-500/10 border border-pink-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Heart className="w-3 h-3 text-pink-600 dark:text-pink-400" />
+                    <span className="text-sm font-medium text-pink-700 dark:text-pink-300">Personalized</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Tailored to your unique style</p>
+                </div>
+              </div>
+              <Link href="/quiz">
+                <Button size="lg" className="mt-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600" data-testid="button-take-style-quiz">
+                  Take Style Quiz
+                  <Sparkles className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+
+            {/* Style Quiz Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10">
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-center mb-4">Quick Style Questions</h3>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-white/10 rounded-lg">
+                      <p className="text-sm font-medium mb-2">What's your daily style?</p>
+                      <div className="flex gap-2">
+                        <Badge variant="secondary" className="text-xs">Casual</Badge>
+                        <Badge variant="outline" className="text-xs">Athletic</Badge>
+                        <Badge variant="outline" className="text-xs">Streetwear</Badge>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-white/10 rounded-lg">
+                      <p className="text-sm font-medium mb-2">Preferred colors?</p>
+                      <div className="flex gap-2">
+                        <div className="w-4 h-4 bg-black rounded-full border-2 border-white" />
+                        <div className="w-4 h-4 bg-white rounded-full border-2 border-gray-300" />
+                        <div className="w-4 h-4 bg-red-500 rounded-full" />
+                        <div className="w-4 h-4 bg-blue-500 rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-center pt-2">
+                    <p className="text-xs text-muted-foreground">2 minutes • 8 questions</p>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* AI Reviews Section */}
+      <motion.section 
+        className="py-16 sm:py-24"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* AI Reviews Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-green-500/10 to-teal-500/10">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <h3 className="font-semibold">AI Review Summary</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-white/10 rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium">Nike Air Jordan 1</span>
+                        <div className="flex gap-1">
+                          {[1,2,3,4,5].map(star => (
+                            <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground">"Great build quality, comfortable fit, iconic design"</p>
+                    </div>
+                    <div className="p-3 bg-white/10 rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium">Yeezy Boost 350</span>
+                        <div className="flex gap-1">
+                          {[1,2,3,4].map(star => (
+                            <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          ))}
+                          <Star className="w-3 h-3 text-gray-300" />
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground">"Very comfortable, unique style, runs small"</p>
+                    </div>
+                  </div>
+                  <div className="text-center pt-2">
+                    <p className="text-xs text-muted-foreground">Based on 1,250+ community reviews</p>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-teal-500/20 rounded-xl flex items-center justify-center">
+                  <MessageSquare className="w-6 h-6 text-green-600 dark:text-green-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    AI Reviews
+                  </h2>
+                  <p className="text-muted-foreground">Intelligent review insights</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Get intelligent summaries of thousands of sneaker reviews. Our AI analyzes 
+                community feedback to give you the key insights about comfort, quality, 
+                sizing, and style for every sneaker.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <MessageSquare className="w-3 h-3 text-green-600 dark:text-green-400" />
+                    <span className="text-sm font-medium text-green-700 dark:text-green-300">Smart Summaries</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">AI-powered analysis of community reviews</p>
+                </div>
+                <div className="p-4 rounded-lg bg-teal-500/10 border border-teal-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="w-3 h-3 text-teal-600 dark:text-teal-400" />
+                    <span className="text-sm font-medium text-teal-700 dark:text-teal-300">Key Insights</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Comfort, quality, and sizing info</p>
+                </div>
+              </div>
+              <Link href="/review-summary">
+                <Button size="lg" className="mt-6 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600" data-testid="button-explore-ai-reviews">
+                  Explore AI Reviews
+                  <MessageSquare className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </motion.section>
