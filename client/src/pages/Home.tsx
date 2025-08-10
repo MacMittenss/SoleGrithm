@@ -730,7 +730,346 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Mobile-First Features Section */}
+      {/* Women in Sneakers Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
+                  <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    Women in Sneakers
+                  </h2>
+                  <p className="text-muted-foreground">Breaking barriers, setting trends</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Celebrating and elevating women in sneaker culture. Discover female-led brands, 
+                exclusive collections, and stories of women breaking barriers in the sneaker industry.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="secondary" className="bg-pink-500/10 text-pink-700 dark:text-pink-300">
+                  Female Founders
+                </Badge>
+                <Badge variant="secondary" className="bg-purple-500/10 text-purple-700 dark:text-purple-300">
+                  Exclusive Collections
+                </Badge>
+                <Badge variant="secondary" className="bg-blue-500/10 text-blue-700 dark:text-blue-300">
+                  Inspiring Stories
+                </Badge>
+              </div>
+              <Link href="/women-in-sneakers">
+                <Button size="lg" className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600" data-testid="button-explore-women-sneakers">
+                  Explore Women in Sneakers
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+
+            {/* Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-pink-500/10 to-purple-500/10">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-4">
+                    <div className="h-32 bg-gradient-to-br from-pink-400/20 to-pink-600/20 rounded-lg flex items-center justify-center">
+                      <Heart className="w-8 h-8 text-pink-600 dark:text-pink-400" />
+                    </div>
+                    <div className="h-20 bg-gradient-to-br from-purple-400/20 to-purple-600/20 rounded-lg flex items-center justify-center">
+                      <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="h-20 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-lg flex items-center justify-center">
+                      <Star className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="h-32 bg-gradient-to-br from-indigo-400/20 to-indigo-600/20 rounded-lg flex items-center justify-center">
+                      <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* SoleRadar Discovery Section */}
+      <motion.section 
+        className="py-16 sm:py-24"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                SoleRadar Discovery
+              </h2>
+            </div>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Personalized sneaker discovery powered by AI and community insights
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+          >
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <TrendingUp className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Trending Now</h3>
+                  <p className="text-muted-foreground">Discover what's hot in the sneaker world with real-time trend analysis</p>
+                </div>
+              </Card>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <Sparkles className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Style Quiz</h3>
+                  <p className="text-muted-foreground">Take our AI-powered quiz to discover your perfect sneaker style</p>
+                </div>
+              </Card>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-full flex items-center justify-center mx-auto">
+                    <MessageSquare className="w-8 h-8 text-green-600 dark:text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold">AI Reviews</h3>
+                  <p className="text-muted-foreground">Get intelligent review summaries and insights from the community</p>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+
+          <motion.div className="text-center mt-8" variants={itemVariants}>
+            <Link href="/discover">
+              <Button size="lg" data-testid="button-start-discovery">
+                Start Your Discovery
+                <Sparkles className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Sole Map - Global Trends Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 via-blue-500/5 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-green-500/10 to-blue-500/10">
+                <div className="relative h-64 sm:h-80">
+                  {/* Mock map visualization */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-lg">
+                    <div className="relative h-full flex items-center justify-center">
+                      <div className="grid grid-cols-3 gap-4 w-full h-full p-4">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                          <div key={i} className="bg-white/10 rounded-lg flex items-center justify-center">
+                            <div className={`w-2 h-2 rounded-full ${
+                              i % 3 === 0 ? 'bg-red-400' : i % 2 === 0 ? 'bg-blue-400' : 'bg-green-400'
+                            } animate-pulse`} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-muted-foreground">Live trend heatmap across major cities</p>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-xl flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    Sole Map
+                  </h2>
+                  <p className="text-muted-foreground">Global sneaker trends visualization</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Explore sneaker trends across the globe with our interactive heat map. 
+                See what's trending in major cities, discover regional preferences, and 
+                track the spread of sneaker culture worldwide.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 bg-red-400 rounded-full"></div>
+                  <span className="text-sm">High-heat trends</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 bg-blue-400 rounded-full"></div>
+                  <span className="text-sm">Emerging markets</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                  <span className="text-sm">Stable demand</span>
+                </div>
+              </div>
+              <Link href="/trend-map">
+                <Button size="lg" className="mt-6" data-testid="button-explore-sole-map">
+                  Explore Sole Map
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Live Market Section */}
+      <motion.section 
+        className="py-16 sm:py-24"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    Live Market
+                  </h2>
+                  <p className="text-muted-foreground">Real-time pricing and market data</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Track sneaker prices across all major platforms in real-time. Get alerts for 
+                price drops, monitor market trends, and make informed decisions with our 
+                comprehensive market analytics.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <span className="text-sm font-medium text-green-700 dark:text-green-300">Live Prices</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Real-time updates from StockX, GOAT, and more</p>
+                </div>
+                <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+                    <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Price Alerts</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Get notified when prices drop</p>
+                </div>
+              </div>
+              <Link href="/live-market">
+                <Button size="lg" className="mt-6 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600" data-testid="button-explore-live-market">
+                  Explore Live Market
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+
+            {/* Live Market Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-orange-500/10 to-red-500/10">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
+                    <span className="text-sm font-medium">Nike Air Jordan 1</span>
+                    <span className="text-green-600 font-bold">$420</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
+                    <span className="text-sm font-medium">Yeezy Boost 350</span>
+                    <span className="text-red-600 font-bold">$280</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
+                    <span className="text-sm font-medium">Nike Dunk Low</span>
+                    <span className="text-blue-600 font-bold">$150</span>
+                  </div>
+                  <div className="text-center pt-4">
+                    <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                      Last updated: 2 minutes ago
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Call to Action - Get Started */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-primary/5 via-orange-500/5 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+              Ready to Elevate Your Sneaker Game?
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Join thousands of sneaker enthusiasts discovering, collecting, and connecting 
+              through the power of AI and community.
+            </p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              variants={containerVariants}
+            >
+              <Link href="/auth">
+                <Button size="lg" className="h-14 px-8 text-lg bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90" data-testid="button-get-started-main">
+                  Get Started Free
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link href="/discover">
+                <Button variant="outline" size="lg" className="h-14 px-8 text-lg" data-testid="button-explore-features">
+                  Explore Features
+                  <Sparkles className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Final Features Section */}
       <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-muted/20 to-background"
         variants={itemVariants}
