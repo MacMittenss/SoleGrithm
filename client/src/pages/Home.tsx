@@ -28,7 +28,8 @@ import {
   ChevronDown,
   Play,
   Search,
-  Compass
+  Compass,
+  Camera
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
 
@@ -880,6 +881,184 @@ export default function Home() {
       </motion.section>
 
 
+
+      {/* Sole Search - Visual Search Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
+                  <Search className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    Sole Search
+                  </h2>
+                  <p className="text-muted-foreground">AI-powered visual sneaker identification</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Upload any sneaker image and get instant AI-powered identification. Our advanced 
+                visual recognition technology identifies brands, models, colorways, and provides 
+                market insights, styling suggestions, and purchase recommendations.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Eye className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
+                    <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">Visual AI</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Advanced image recognition technology</p>
+                </div>
+                <div className="p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                    <span className="text-sm font-medium text-purple-700 dark:text-purple-300">Instant Results</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Get identification and insights instantly</p>
+                </div>
+              </div>
+              <Link href="/visual-search">
+                <Button size="lg" className="mt-6 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600" data-testid="button-try-sole-search">
+                  Try Sole Search
+                  <Search className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+
+            {/* Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10">
+                <div className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="font-semibold mb-2">Visual Search Demo</h3>
+                    <p className="text-sm text-muted-foreground">Upload or camera • Instant AI analysis</p>
+                  </div>
+                  <div className="h-40 bg-gradient-to-br from-indigo-400/20 to-purple-400/20 rounded-lg flex items-center justify-center border-2 border-dashed border-indigo-300/50">
+                    <div className="text-center space-y-2">
+                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-full flex items-center justify-center mx-auto">
+                        <Search className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                      </div>
+                      <p className="text-sm text-muted-foreground">Drop image or click to upload</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="h-12 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 rounded flex items-center justify-center">
+                      <span className="text-xs font-medium">Brand</span>
+                    </div>
+                    <div className="h-12 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded flex items-center justify-center">
+                      <span className="text-xs font-medium">Model</span>
+                    </div>
+                    <div className="h-12 bg-gradient-to-br from-pink-400/10 to-indigo-400/10 rounded flex items-center justify-center">
+                      <span className="text-xs font-medium">Price</span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* AR Try-On Section */}
+      <motion.section 
+        className="py-16 sm:py-24"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
+            variants={containerVariants}
+          >
+            {/* Visual */}
+            <motion.div variants={itemVariants}>
+              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10">
+                <div className="relative h-64 sm:h-80 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 rounded-lg overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center space-y-4">
+                      <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/30 to-blue-500/30 rounded-full flex items-center justify-center mx-auto">
+                        <Eye className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium">AR Try-On Preview</p>
+                        <p className="text-xs text-muted-foreground">Experience sneakers in augmented reality</p>
+                      </div>
+                    </div>
+                  </div>
+                  {/* AR Interface Elements */}
+                  <div className="absolute top-4 right-4">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                      <Camera className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex justify-center">
+                      <div className="flex gap-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full" />
+                        <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                        <div className="w-2 h-2 bg-purple-400 rounded-full" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-muted-foreground">Real-time AR sneaker overlay</p>
+                </div>
+              </Card>
+            </motion.div>
+
+            {/* Content */}
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-xl flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
+                </div>
+                <div>
+                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                    AR Try-On
+                  </h2>
+                  <p className="text-muted-foreground">Virtual sneaker fitting experience</p>
+                </div>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Try on sneakers virtually using your device's camera and advanced AR technology. 
+                See how different sneakers look on your feet, compare styles side by side, and 
+                make confident purchase decisions from the comfort of your home.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-3 h-3 text-cyan-600 dark:text-cyan-400" />
+                    <span className="text-sm font-medium text-cyan-700 dark:text-cyan-300">Real-Time AR</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Live camera feed with AR overlay</p>
+                </div>
+                <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Camera className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+                    <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Try Any Style</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Thousands of sneakers available</p>
+                </div>
+              </div>
+              <Link href="/ar-tryon">
+                <Button size="lg" className="mt-6 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600" data-testid="button-try-ar-tryon">
+                  Try AR Experience
+                  <Eye className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* Sole Map - Global Trends Section */}
       <motion.section 
