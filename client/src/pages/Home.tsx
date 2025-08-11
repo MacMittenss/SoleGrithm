@@ -424,13 +424,17 @@ export default function Home() {
                     transition={{ duration: 0.2 }}
                   >
                     <PinterestBlogCard 
-                      title={post.title}
-                      excerpt={post.excerpt}
-                      slug={post.slug}
-                      image={post.featuredImage}
-                      readTime={post.readTime}
-                      author={post.author}
-                      publishedAt={post.publishedAt}
+                      post={{
+                        id: post.id,
+                        title: post.title,
+                        excerpt: post.excerpt,
+                        slug: post.slug,
+                        featuredImage: post.featuredImage,
+                        author: post.author,
+                        publishedAt: post.publishedAt,
+                        readTime: post.readTime,
+                        category: post.category || 'Sneakers'
+                      }}
                     />
                   </motion.div>
                 ))}
