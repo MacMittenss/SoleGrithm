@@ -1,27 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from "@tanstack/react-query";
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
+import Hero from "@/components/Hero";
+import HotRightNowSlider from "@/components/HotRightNowSlider";
+import PinterestSneakerCard from "@/components/PinterestSneakerCard";
+import PinterestBlogCard from "@/components/PinterestBlogCard";
+import GoatStyleFeaturedGrid from "@/components/GoatStyleFeaturedGrid";
+import { MasonryGrid } from "@/components/ui/masonry-grid";
+import VisualSearchDemo from "@/components/VisualSearchDemo";
+import CollectionsDemo from "@/components/CollectionsDemo";
+import ARDemo from "@/components/ARDemo";
+import DaisyUIShowcase from "@/components/DaisyUIShowcase";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { 
   TrendingUp, 
   Users, 
+  MessageSquare, 
   Star, 
   ArrowRight, 
+  Sparkles, 
   Eye, 
   Heart,
-  ShoppingCart,
+  ShoppingBag,
+  Zap,
+  ChevronDown,
   Play,
   Search,
+  Compass,
+  Camera
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
-import HotRightNowSlider from "@/components/HotRightNowSlider";
+import womenSneakersImage from "@assets/generated_images/Woman_in_stylish_sneakers_90ff70fb.png";
+import arTryonImage from "@assets/generated_images/AR_sneaker_try-on_technology_732da862.png";
 
 export default function Home() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
-  const [activeCategory, setActiveCategory] = useState<string>('trending');
   const { user, isAuthenticated } = useAuth();
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
 
-  // Data queries with our authentic data
+  // Transform values for parallax effects
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  
+  // Animation variants for mobile-first design
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    },
+    hover: {
+      scale: 1.02,
+      y: -5,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    },
+    tap: {
+      scale: 0.98,
+      transition: {
+        duration: 0.1
+      }
+    }
+  };
+
+  // Data queries
   const { data: sneakers, isLoading: sneakersLoading } = useQuery({
     queryKey: ["/api/sneakers/featured"],
   });
@@ -38,368 +116,439 @@ export default function Home() {
     queryKey: ["/api/blog"],
   });
 
-  const getCategorySneakers = () => {
-    switch(activeCategory) {
-      case 'trending':
-        return trendingSneakers?.slice(0, 6) || [];
-      case 'new':
-        return sneakers?.filter((s: any) => s.isNew)?.slice(0, 6) || [];
-      case 'popular':
-        return sneakers?.sort((a: any, b: any) => (b.reviews || 0) - (a.reviews || 0))?.slice(0, 6) || [];
-      default:
-        return sneakers?.slice(0, 6) || [];
-    }
-  };
+  // Filter sneakers by brand
+  const filteredSneakers = sneakers?.filter((sneaker: any) => 
+    selectedBrand === 'All' || sneaker.brandName === selectedBrand
+  );
 
   return (
-    <div className="min-h-screen bg-base-100">
-      {/* DaisyUI Hero Section with SoleGrithm branding */}
-      <div className="daisy-hero bg-gradient-to-br from-primary/10 via-accent/5 to-background min-h-screen">
-        <div className="daisy-hero-content text-center max-w-6xl">
-          <div className="max-w-4xl">
-            {/* Hero Badge */}
-            <motion.div 
-              className="daisy-badge daisy-badge-lg daisy-badge-primary mb-8"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              ✨ AI-Powered Sneaker Discovery
-            </motion.div>
+    <motion.div
+      ref={containerRef}
+      className="min-h-screen bg-background"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* Main Hero */}
+      <Hero />
+
+      {/* Nike-Style Connected Hero Sections */}
+      <section className="bg-white dark:bg-background">
+        <div className="w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             
-            {/* Hero Title */}
-            <motion.h1 
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+            {/* Women in Sneakers Hero - Full Width Left */}
+            <div 
+              className="relative h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden group cursor-pointer"
             >
-              SoleGrithm
-            </motion.h1>
-            
-            {/* Hero Subtitle */}
-            <motion.p 
-              className="text-xl md:text-2xl text-base-content/70 mb-12 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              <div 
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${womenSneakersImage})`
+                }}
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
+              
+              {/* Content Overlay */}
+              <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
+                <div className="max-w-lg">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
+                    Women in Sneakers
+                  </h3>
+                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
+                    Celebrating the powerful influence of women in sneaker culture and style
+                  </p>
+                  <Link href="/women">
+                    <Button 
+                      size="lg"
+                      className="bg-white text-black hover:bg-white/90 font-semibold"
+                      data-testid="button-women-sneakers"
+                    >
+                      Explore Collection
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* AR Try-On Hero - Full Width Right */}
+            <div 
+              className="relative h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden group cursor-pointer"
             >
-              Discover, collect, and trade sneakers with the power of AI. 
-              Connect with a community that shares your passion for exceptional footwear.
-            </motion.p>
-            
-            {/* Hero Actions */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Link href="/discover">
-                <button className="daisy-btn daisy-btn-primary daisy-btn-lg px-8" data-testid="button-start-discovering">
-                  <Search className="w-5 h-5 mr-2" />
-                  Start Discovering
-                </button>
-              </Link>
-              <Link href="/ar-demo">
-                <button className="daisy-btn daisy-btn-outline daisy-btn-lg px-8" data-testid="button-watch-demo">
-                  <Play className="w-5 h-5 mr-2" />
-                  Watch Demo
-                </button>
-              </Link>
-            </motion.div>
+              <div 
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${arTryonImage})`
+                }}
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
+              
+              {/* Content Overlay */}
+              <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
+                <div className="max-w-lg">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
+                    AR Try-On
+                  </h3>
+                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
+                    Experience the future of sneaker shopping with augmented reality technology
+                  </p>
+                  <Link href="/ar-tryeon">
+                    <Button 
+                      size="lg"
+                      className="bg-white text-black hover:bg-white/90 font-semibold"
+                      data-testid="button-ar-tryeon"
+                    >
+                      Try It Now
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* DaisyUI Stats Section with our real data */}
-      <div className="py-16 bg-base-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="daisy-stats shadow-xl bg-base-200 w-full">
-            <div className="daisy-stat place-items-center">
-              <div className="daisy-stat-title">Sneakers</div>
-              <div className="daisy-stat-value text-primary">50K+</div>
-              <div className="daisy-stat-desc">In our catalog</div>
-            </div>
-            <div className="daisy-stat place-items-center">
-              <div className="daisy-stat-title">Users</div>
-              <div className="daisy-stat-value text-secondary">15K+</div>
-              <div className="daisy-stat-desc">Active collectors</div>
-            </div>
-            <div className="daisy-stat place-items-center">
-              <div className="daisy-stat-title">Reviews</div>
-              <div className="daisy-stat-value text-accent">25K+</div>
-              <div className="daisy-stat-desc">Community reviews</div>
-            </div>
-          </div>
+      {/* What's Hot Right Now Slider */}
+      <motion.div variants={itemVariants}>
+        <HotRightNowSlider />
+      </motion.div>
+
+      {/* Quick Stats with Animated Counters */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-background via-muted/30 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
+            variants={containerVariants}
+          >
+            {[
+              { value: "50K+", label: "Sneakers Cataloged", delay: 0 },
+              { value: "15K+", label: "Active Collectors", delay: 0.1 },
+              { value: "25K+", label: "Community Reviews", delay: 0.2 },
+              { value: "98%", label: "Satisfaction Rate", delay: 0.3 }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                className="text-center group"
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.9 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: {
+                      duration: 0.6,
+                      delay: stat.delay,
+                      type: "spring",
+                      stiffness: 100
+                    }
+                  }
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border group-hover:border-primary/20 transition-colors duration-300">
+                  <motion.div 
+                    className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-2"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 200,
+                      delay: stat.delay + 0.2 
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    {stat.value}
+                  </motion.div>
+                  <p className="text-sm sm:text-base text-muted-foreground font-medium">
+                    {stat.label}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </div>
+      </motion.section>
 
-      {/* What's Hot Right Now - Keep our existing slider */}
-      <HotRightNowSlider />
-
-      {/* DaisyUI Featured Products with our authentic data */}
-      <div className="py-24 bg-base-200/50">
-        <div className="max-w-7xl mx-auto px-4">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Featured Sneakers</h2>
-            <p className="text-xl text-base-content/60 max-w-2xl mx-auto">
-              Curated by our AI and community experts
+      {/* Nike-Style Featured Sneakers Grid */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header with Brand Filter */}
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Featured Sneakers
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 sm:mb-12">
+              Curated selection of the latest and most sought-after sneakers
             </p>
-          </div>
+            
+            {/* Brand Filter Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
+              {['All', ...(brands?.map((brand: any) => brand.name) || [])].map((brand) => (
+                <motion.button
+                  key={brand}
+                  className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-200 ${
+                    selectedBrand === brand
+                      ? 'bg-foreground text-background'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                  onClick={() => setSelectedBrand(brand)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  data-testid={`filter-brand-${brand.toLowerCase()}`}
+                >
+                  {brand}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
 
-          {/* DaisyUI Tabs for Categories */}
-          <div className="daisy-tabs daisy-tabs-boxed justify-center mb-12">
-            <button 
-              className={`daisy-tab daisy-tab-lg ${activeCategory === 'trending' ? 'daisy-tab-active' : ''}`}
-              onClick={() => setActiveCategory('trending')}
-              data-testid="tab-trending"
-            >
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Trending
-            </button>
-            <button 
-              className={`daisy-tab daisy-tab-lg ${activeCategory === 'new' ? 'daisy-tab-active' : ''}`}
-              onClick={() => setActiveCategory('new')}
-              data-testid="tab-new"
-            >
-              <Star className="w-4 h-4 mr-2" />
-              New Arrivals
-            </button>
-            <button 
-              className={`daisy-tab daisy-tab-lg ${activeCategory === 'popular' ? 'daisy-tab-active' : ''}`}
-              onClick={() => setActiveCategory('popular')}
-              data-testid="tab-popular"
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Popular
-            </button>
-          </div>
-
-          {/* DaisyUI Product Grid with our real sneaker data */}
+          {/* Nike-style minimalist product grid */}
           {sneakersLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="daisy-card bg-base-100 shadow-xl">
-                  <figure className="animate-pulse">
-                    <div className="w-full h-64 bg-base-300" />
-                  </figure>
-                  <div className="daisy-card-body">
-                    <div className="animate-pulse space-y-3">
-                      <div className="h-4 bg-base-300 rounded w-3/4" />
-                      <div className="h-3 bg-base-300 rounded w-1/2" />
-                      <div className="h-6 bg-base-300 rounded w-1/4" />
-                    </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="aspect-square bg-muted rounded-lg mb-3" />
+                  <div className="space-y-1">
+                    <div className="h-3 bg-muted rounded w-16" />
+                    <div className="h-4 bg-muted rounded w-20" />
+                    <div className="h-4 bg-muted rounded w-12" />
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {getCategorySneakers().map((sneaker: any, index: number) => (
-                <motion.div
-                  key={sneaker.id}
-                  className="daisy-card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -8 }}
-                >
-                  <figure className="relative overflow-hidden">
-                    <img
-                      src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?w=600&h=400&fit=crop"}
-                      alt={sneaker.name}
-                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    
-                    {/* Quick Actions */}
-                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="flex flex-col gap-2">
-                        <button className="daisy-btn daisy-btn-circle daisy-btn-sm bg-base-100/90" data-testid={`button-favorite-${sneaker.id}`}>
-                          <Heart className="w-4 h-4" />
-                        </button>
-                        <button className="daisy-btn daisy-btn-circle daisy-btn-sm bg-base-100/90" data-testid={`button-quickview-${sneaker.id}`}>
-                          <Eye className="w-4 h-4" />
-                        </button>
-                      </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
+              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 12).map((sneaker: any) => (
+                <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
+                  <div className="group cursor-pointer">
+                    {/* Clean product image */}
+                    <div className="aspect-square mb-3 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+                      <img
+                        src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
+                        alt={sneaker.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                  </figure>
-
-                  <div className="daisy-card-body">
-                    <h2 className="daisy-card-title">
-                      {sneaker.name}
-                      {sneaker.isNew && (
-                        <div className="daisy-badge daisy-badge-secondary">NEW</div>
-                      )}
-                    </h2>
-                    <p className="text-base-content/60">{sneaker.brandName || 'Unknown Brand'}</p>
                     
-                    {/* Price */}
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-2xl font-bold">
+                    {/* Minimal text below - Nike style */}
+                    <div className="space-y-1">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                        {sneaker.brandName || 'Unknown Brand'}
+                      </p>
+                      <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+                        {sneaker.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-foreground">
                         {new Intl.NumberFormat('en-US', {
                           style: 'currency',
                           currency: 'USD'
-                        }).format(sneaker.retailPrice || 0)}
-                      </span>
-                    </div>
-
-                    <div className="daisy-card-actions justify-end">
-                      <Link href={`/sneaker/${sneaker.slug}`}>
-                        <button className="daisy-btn daisy-btn-primary" data-testid={`button-view-${sneaker.id}`}>
-                          View Details
-                        </button>
-                      </Link>
+                        }).format(sneaker.retailPrice)}
+                      </p>
                     </div>
                   </div>
-                </motion.div>
-              ))}
+                </Link>
+              )) : []}
             </div>
           )}
 
           {/* View All Button */}
-          <div className="text-center mt-12">
+          <motion.div 
+            className="text-center mt-8 sm:mt-12"
+            variants={itemVariants}
+          >
             <Link href="/live-market">
-              <button className="daisy-btn daisy-btn-outline daisy-btn-lg" data-testid="button-view-all-products">
-                View All Products
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
+              <motion.div
+                variants={cardVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <Button size="lg" className="h-12 px-8 text-base" data-testid="button-view-all-sneakers">
+                  View All Sneakers
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </motion.div>
             </Link>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.section>
 
-      {/* Blog Section with DaisyUI cards */}
-      <div className="py-24 bg-base-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Latest Stories</h2>
-            <p className="text-xl text-base-content/60">
+      {/* Pinterest-Style Blog Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-muted/20"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-12" variants={itemVariants}>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Latest Stories
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
               Discover sneaker culture and trends
             </p>
-          </div>
+          </motion.div>
 
           {blogLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="daisy-card bg-base-200 shadow-lg">
-                  <figure className="animate-pulse">
-                    <div className="w-full h-48 bg-base-300" />
-                  </figure>
-                  <div className="daisy-card-body">
-                    <div className="animate-pulse space-y-3">
-                      <div className="h-4 bg-base-300 rounded w-full" />
-                      <div className="h-3 bg-base-300 rounded w-3/4" />
-                    </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-muted rounded-lg aspect-[3/4] mb-3" />
+                  <div className="space-y-2">
+                    <div className="h-3 bg-muted rounded w-3/4" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {Array.isArray(blogPosts) && blogPosts.slice(0, 3).map((post: any, index: number) => (
-                <motion.div
-                  key={post.id}
-                  className="daisy-card bg-base-200 shadow-lg hover:shadow-xl transition-all duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <figure>
-                    <img
-                      src={post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400&h=300&fit=crop"}
-                      alt={post.title}
-                      className="w-full h-48 object-cover"
+            Array.isArray(blogPosts) && blogPosts.length > 0 ? (
+              <MasonryGrid
+                columns={{ default: 2, sm: 3, md: 4, lg: 4 }}
+                gap="1rem"
+                className="max-w-7xl mx-auto"
+              >
+                {blogPosts.slice(0, 8).map((post: any) => (
+                  <motion.div
+                    key={post.id}
+                    variants={itemVariants}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <PinterestBlogCard 
+                      title={post.title}
+                      excerpt={post.excerpt}
+                      slug={post.slug}
+                      image={post.featuredImage}
+                      readTime={post.readTime}
+                      author={post.author}
+                      publishedAt={post.publishedAt}
                     />
-                  </figure>
-                  <div className="daisy-card-body">
-                    <h2 className="daisy-card-title">{post.title}</h2>
-                    <p className="text-base-content/60">{post.excerpt}</p>
-                    <div className="daisy-card-actions justify-end">
-                      <Link href={`/blog/${post.slug}`}>
-                        <button className="daisy-btn daisy-btn-primary daisy-btn-sm">
-                          Read More
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  </motion.div>
+                ))}
+              </MasonryGrid>
+            ) : (
+              <p className="text-center text-muted-foreground">No blog posts available</p>
+            )
           )}
-        </div>
-      </div>
 
-      {/* Features Section */}
-      <div className="py-24 bg-base-200/50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">Why Choose SoleGrithm?</h2>
-            <p className="text-xl text-base-content/60">
-              Experience the future of sneaker discovery
+          <motion.div className="text-center mt-8 sm:mt-12" variants={itemVariants}>
+            <Link href="/blog">
+              <motion.div
+                variants={cardVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <Button variant="outline" size="lg" className="h-12 px-8" data-testid="button-view-all-stories">
+                  View All Stories
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </motion.div>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* DaisyUI Enhanced Components Showcase */}
+      <DaisyUIShowcase />
+
+      {/* SoleRadar Discovery Section */}
+      <motion.section 
+        className="py-24 bg-gradient-to-br from-background to-accent/5"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <Badge variant="outline" className="mb-4">
+              <Compass className="w-4 h-4 mr-2" />
+              SoleRadar Technology
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Discover Your Perfect Match
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Our AI-powered discovery engine learns your style and connects you with sneakers that match your taste
             </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            {/* Visual Search Demo */}
+            <motion.div variants={cardVariants} whileHover="hover" className="lg:col-span-1">
+              <VisualSearchDemo />
+            </motion.div>
+
+            {/* AI Collections Demo */}
+            <motion.div variants={cardVariants} whileHover="hover" className="lg:col-span-1">
+              <CollectionsDemo />
+            </motion.div>
+
+            {/* AR Demo */}
+            <motion.div variants={cardVariants} whileHover="hover" className="lg:col-span-1">
+              <ARDemo />
+            </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "🤖",
-                title: "AI-Powered Recommendations",
-                description: "Get personalized sneaker suggestions based on your style and preferences"
-              },
-              {
-                icon: "👥", 
-                title: "Community Driven",
-                description: "Connect with fellow sneakerheads and discover trending styles"
-              },
-              {
-                icon: "📱",
-                title: "AR Try-On",
-                description: "See how sneakers look on your feet before you buy"
-              }
-            ].map((feature, index) => (
+          <motion.div className="text-center" variants={itemVariants}>
+            <Link href="/discover">
               <motion.div
-                key={feature.title}
-                className="daisy-card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                variants={cardVariants}
+                whileHover="hover"
+                whileTap="tap"
               >
-                <div className="daisy-card-body items-center text-center">
-                  <div className="text-6xl mb-4">{feature.icon}</div>
-                  <h3 className="daisy-card-title text-xl mb-2">{feature.title}</h3>
-                  <p className="text-base-content/60">{feature.description}</p>
+                <Button size="lg" className="h-12 px-8" data-testid="button-explore-soleradar">
+                  Explore SoleRadar
+                  <Search className="w-5 h-5 ml-2" />
+                </Button>
+              </motion.div>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Community Stats */}
+      <motion.section className="py-16 bg-muted/50" variants={itemVariants}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { icon: Users, value: "15K+", label: "Active Users" },
+              { icon: Star, value: "4.9/5", label: "App Rating" },
+              { icon: MessageSquare, value: "50K+", label: "Reviews" },
+              { icon: TrendingUp, value: "98%", label: "Match Rate" }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                className="text-center"
+                variants={{
+                  hidden: { opacity: 0, scale: 0.8 },
+                  visible: {
+                    opacity: 1,
+                    scale: 1,
+                    transition: {
+                      delay: index * 0.1,
+                      duration: 0.5
+                    }
+                  }
+                }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-4">
+                  <stat.icon className="w-6 h-6 text-primary" />
                 </div>
+                <div className="text-2xl font-bold mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="py-24 bg-gradient-to-br from-primary/10 to-secondary/10">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Find Your Perfect Pair?
-          </h2>
-          <p className="text-xl text-base-content/60 mb-8">
-            Join thousands of sneaker enthusiasts discovering their next favorite kicks
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/signup">
-              <button className="daisy-btn daisy-btn-primary daisy-btn-lg px-8" data-testid="button-get-started">
-                Get Started Free
-              </button>
-            </Link>
-            <Link href="/about">
-              <button className="daisy-btn daisy-btn-outline daisy-btn-lg px-8" data-testid="button-learn-more">
-                Learn More
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 }
