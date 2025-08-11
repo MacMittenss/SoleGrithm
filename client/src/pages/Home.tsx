@@ -298,97 +298,105 @@ export default function Home() {
 
 
 
-      {/* Pinterest-Style Trending Sneakers Section */}
+      {/* Nike-Style Trending Sneakers Section */}
       <motion.section 
-        className="py-16 sm:py-24 bg-muted/20"
+        className="py-16 bg-white dark:bg-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-              Trending Now
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+          {/* Minimal Header - Nike Style */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <TrendingUp className="h-5 w-5 text-foreground" />
+              <h2 className="text-2xl font-medium tracking-tight text-foreground">
+                Trending Now
+              </h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
               Discover what's hot in the sneaker community
             </p>
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex justify-center mb-12">
-            <div className="flex space-x-1 bg-background/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
+          <div className="flex gap-2 mb-8">
+            <Button 
+              variant={selectedBrand === 'All' ? 'default' : 'outline'} 
+              size="sm" 
+              onClick={() => setSelectedBrand('All')}
+              data-testid="filter-all"
+            >
+              All
+            </Button>
+            {Array.isArray(brands) ? brands.map((brand: any) => (
               <Button 
-                variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
-                size="sm" 
-                className={selectedBrand === 'All' ? 'bg-background shadow-sm' : ''}
-                onClick={() => setSelectedBrand('All')}
-                data-testid="filter-all"
+                key={brand.id}
+                variant={selectedBrand === brand.name ? 'default' : 'outline'} 
+                size="sm"
+                onClick={() => setSelectedBrand(brand.name)}
+                data-testid={`filter-${brand.name.toLowerCase()}`}
               >
-                All
+                {brand.name}
               </Button>
-              {Array.isArray(brands) ? brands.map((brand: any) => (
-                <Button 
-                  key={brand.id}
-                  variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
-                  size="sm"
-                  className={selectedBrand === brand.name ? 'bg-background shadow-sm' : ''}
-                  onClick={() => setSelectedBrand(brand.name)}
-                  data-testid={`filter-${brand.name.toLowerCase()}`}
-                >
-                  {brand.name}
-                </Button>
-              )) : null}
-            </div>
+            )) : null}
           </div>
 
-          {/* GOAT-Style Icon Grid */}
+          {/* Nike-Style Minimal Grid */}
           {sneakersLoading ? (
-            <div className="mb-6">
-              <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="aspect-square bg-muted rounded-lg" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="aspect-square bg-muted rounded-lg mb-3" />
+                  <div className="space-y-1">
+                    <div className="h-3 bg-muted rounded w-16" />
+                    <div className="h-4 bg-muted rounded w-20" />
+                    <div className="h-4 bg-muted rounded w-12" />
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           ) : (
-            <GoatStyleFeaturedGrid
-              sneakers={Array.isArray(filteredSneakers) ? filteredSneakers.map((sneaker: any) => ({
-                id: sneaker.id,
-                name: sneaker.name,
-                brand: sneaker.brandName || 'Unknown Brand',
-                price: new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(sneaker.retailPrice),
-                imageUrl: sneaker.images?.[0]?.replace('w=800&h=600', 'w=750&h=750&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=750&h=750&bg=ffffff",
-                slug: sneaker.slug,
-                brandName: sneaker.brandName,
-                retailPrice: sneaker.retailPrice,
-                colorway: sneaker.colorway
-              })) : []}
-              title=""
-              showTitle={false}
-            />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
+              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 12).map((sneaker: any) => (
+                <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
+                  <div className="group cursor-pointer">
+                    {/* Clean product image */}
+                    <div className="aspect-square mb-3 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+                      <img
+                        src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
+                        alt={sneaker.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    
+                    {/* Minimal text below - Nike style */}
+                    <div className="space-y-1">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                        {sneaker.brandName || 'Unknown Brand'}
+                      </p>
+                      <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+                        {sneaker.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-foreground">
+                        {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD'
+                        }).format(sneaker.retailPrice)}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              )) : []}
+            </div>
           )}
 
-          <motion.div 
-            className="text-center mt-8 sm:mt-12"
-            variants={itemVariants}
-          >
+          {/* Simple View All Link */}
+          <div className="text-center">
             <Link href="/live-market">
-              <motion.div
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Button size="lg" className="h-12 px-8 text-base" data-testid="button-view-all-sneakers">
-                  View All Sneakers
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </motion.div>
+              <span className="text-sm font-medium text-foreground hover:text-muted-foreground underline transition-colors">
+                View All Sneakers
+              </span>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
