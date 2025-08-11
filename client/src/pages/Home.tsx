@@ -300,44 +300,45 @@ export default function Home() {
 
       {/* Nike-Style Trending Sneakers Section */}
       <motion.section 
-        className="py-16 bg-white dark:bg-background"
+        className="py-16 sm:py-24 bg-white dark:bg-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Minimal Header - Nike Style */}
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <TrendingUp className="h-5 w-5 text-foreground" />
-              <h2 className="text-2xl font-medium tracking-tight text-foreground">
-                Trending Now
-              </h2>
-            </div>
-            <p className="text-sm text-muted-foreground">
+          {/* Centered Header - Previous Style */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Trending Now
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
               Discover what's hot in the sneaker community
             </p>
           </div>
 
-          {/* Filter Tabs */}
-          <div className="flex gap-2 mb-8">
-            <Button 
-              variant={selectedBrand === 'All' ? 'default' : 'outline'} 
-              size="sm" 
-              onClick={() => setSelectedBrand('All')}
-              data-testid="filter-all"
-            >
-              All
-            </Button>
-            {Array.isArray(brands) ? brands.map((brand: any) => (
+          {/* Centered Filter Tabs - Previous Style */}
+          <div className="flex justify-center mb-12">
+            <div className="flex space-x-1 bg-background/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
               <Button 
-                key={brand.id}
-                variant={selectedBrand === brand.name ? 'default' : 'outline'} 
-                size="sm"
-                onClick={() => setSelectedBrand(brand.name)}
-                data-testid={`filter-${brand.name.toLowerCase()}`}
+                variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
+                size="sm" 
+                className={selectedBrand === 'All' ? 'bg-background shadow-sm' : ''}
+                onClick={() => setSelectedBrand('All')}
+                data-testid="filter-all"
               >
-                {brand.name}
+                All
               </Button>
-            )) : null}
+              {Array.isArray(brands) ? brands.map((brand: any) => (
+                <Button 
+                  key={brand.id}
+                  variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
+                  size="sm"
+                  className={selectedBrand === brand.name ? 'bg-background shadow-sm' : ''}
+                  onClick={() => setSelectedBrand(brand.name)}
+                  data-testid={`filter-${brand.name.toLowerCase()}`}
+                >
+                  {brand.name}
+                </Button>
+              )) : null}
+            </div>
           </div>
 
           {/* Nike-Style Minimal Grid */}
@@ -389,14 +390,24 @@ export default function Home() {
             </div>
           )}
 
-          {/* Simple View All Link */}
-          <div className="text-center">
+          {/* View All Button - Previous Style */}
+          <motion.div 
+            className="text-center mt-8 sm:mt-12"
+            variants={itemVariants}
+          >
             <Link href="/live-market">
-              <span className="text-sm font-medium text-foreground hover:text-muted-foreground underline transition-colors">
-                View All Sneakers
-              </span>
+              <motion.div
+                variants={cardVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <Button size="lg" className="h-12 px-8 text-base" data-testid="button-view-all-sneakers">
+                  View All Sneakers
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </motion.div>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </motion.section>
 
