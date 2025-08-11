@@ -134,28 +134,22 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      {/* Hero Section with Parallax */}
-      <motion.div style={{ y, opacity }}>
+      {/* Hero Section - Static Fixed Position */}
+      <div className="relative">
         <Hero />
-      </motion.div>
+      </div>
 
-      {/* Nike-Style Split Hero Sections */}
-      <motion.section 
-        className="py-8 lg:py-12 bg-white dark:bg-background"
-        variants={itemVariants}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+      {/* Nike-Style Split Hero Sections - Full Width Connected */}
+      <section className="bg-white dark:bg-background">
+        <div className="w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             
-            {/* Women in Sneakers Hero */}
-            <motion.div 
-              className="relative h-[350px] sm:h-[400px] lg:h-[450px] overflow-hidden rounded-lg group cursor-pointer"
-              variants={cardVariants}
-              whileHover="hover"
-              whileTap="tap"
+            {/* Women in Sneakers Hero - Full Width Left */}
+            <div 
+              className="relative h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden group cursor-pointer"
             >
               <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-110"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: `url(${womenSneakersImage})`
                 }}
@@ -163,41 +157,33 @@ export default function Home() {
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
               
               {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
+              <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
+                <div className="max-w-lg">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
                     Women in Sneakers
                   </h3>
-                  <p className="text-white/90 text-sm sm:text-base mb-4 sm:mb-6 max-w-md">
+                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
                     Celebrating the powerful influence of women in sneaker culture and style
                   </p>
                   <Link href="/women">
                     <Button 
-                      size="sm"
+                      size="lg"
                       className="bg-white text-black hover:bg-white/90 font-semibold"
                       data-testid="button-women-sneakers"
                     >
                       Explore Collection
                     </Button>
                   </Link>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* AR Try-On Hero */}
-            <motion.div 
-              className="relative h-[350px] sm:h-[400px] lg:h-[450px] overflow-hidden rounded-lg group cursor-pointer"
-              variants={cardVariants}
-              whileHover="hover"
-              whileTap="tap"
+            {/* AR Try-On Hero - Full Width Right */}
+            <div 
+              className="relative h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden group cursor-pointer"
             >
               <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 group-hover:scale-110"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: `url(${arTryonImage})`
                 }}
@@ -205,35 +191,30 @@ export default function Home() {
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
               
               {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
+              <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
+                <div className="max-w-lg">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
                     AR Try-On
                   </h3>
-                  <p className="text-white/90 text-sm sm:text-base mb-4 sm:mb-6 max-w-md">
+                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
                     Experience the future of sneaker shopping with augmented reality technology
                   </p>
                   <Link href="/ar-tryeon">
                     <Button 
-                      size="sm"
+                      size="lg"
                       className="bg-white text-black hover:bg-white/90 font-semibold"
                       data-testid="button-ar-tryeon"
                     >
                       Try It Now
                     </Button>
                   </Link>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
