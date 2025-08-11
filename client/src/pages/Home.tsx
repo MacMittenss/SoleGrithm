@@ -141,15 +141,15 @@ export default function Home() {
 
       {/* Nike-Style Split Hero Sections */}
       <motion.section 
-        className="py-0 bg-white dark:bg-background"
+        className="py-8 lg:py-12 bg-white dark:bg-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             
             {/* Women in Sneakers Hero */}
             <motion.div 
-              className="relative h-[400px] lg:h-[500px] overflow-hidden group cursor-pointer"
+              className="relative h-[350px] sm:h-[400px] lg:h-[450px] overflow-hidden rounded-lg group cursor-pointer"
               variants={cardVariants}
               whileHover="hover"
               whileTap="tap"
@@ -163,21 +163,22 @@ export default function Home() {
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
               
               {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
+              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
                     Women in Sneakers
                   </h3>
-                  <p className="text-white/90 text-sm lg:text-base mb-6 max-w-md">
+                  <p className="text-white/90 text-sm sm:text-base mb-4 sm:mb-6 max-w-md">
                     Celebrating the powerful influence of women in sneaker culture and style
                   </p>
                   <Link href="/women">
                     <Button 
+                      size="sm"
                       className="bg-white text-black hover:bg-white/90 font-semibold"
                       data-testid="button-women-sneakers"
                     >
@@ -190,7 +191,7 @@ export default function Home() {
 
             {/* AR Try-On Hero */}
             <motion.div 
-              className="relative h-[400px] lg:h-[500px] overflow-hidden group cursor-pointer"
+              className="relative h-[350px] sm:h-[400px] lg:h-[450px] overflow-hidden rounded-lg group cursor-pointer"
               variants={cardVariants}
               whileHover="hover"
               whileTap="tap"
@@ -204,21 +205,22 @@ export default function Home() {
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
               
               {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
+              <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 lg:p-10">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
                     AR Try-On
                   </h3>
-                  <p className="text-white/90 text-sm lg:text-base mb-6 max-w-md">
+                  <p className="text-white/90 text-sm sm:text-base mb-4 sm:mb-6 max-w-md">
                     Experience the future of sneaker shopping with augmented reality technology
                   </p>
                   <Link href="/ar-tryeon">
                     <Button 
+                      size="sm"
                       className="bg-white text-black hover:bg-white/90 font-semibold"
                       data-testid="button-ar-tryeon"
                     >
