@@ -15,8 +15,10 @@ import {
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
 import HotRightNowSlider from "@/components/HotRightNowSlider";
+import { MasonryGrid } from "@/components/ui/masonry-grid";
+import PinterestBlogCard from "@/components/PinterestBlogCard";
 
-export default function Home() {
+export default function HomeDaisyUI() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
   const [activeCategory, setActiveCategory] = useState<string>('trending');
   const { user, isAuthenticated } = useAuth();
