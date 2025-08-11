@@ -10,6 +10,7 @@ import { MasonryGrid } from "@/components/ui/masonry-grid";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
 import ARDemo from "@/components/ARDemo";
+import DaisyUIShowcase from "@/components/DaisyUIShowcase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -571,7 +572,8 @@ export default function Home() {
         </div>
       </motion.section>
 
-
+      {/* DaisyUI Enhanced Components Showcase */}
+      <DaisyUIShowcase />
 
       {/* SoleRadar Discovery Section - Using ARDemo styling */}
       <motion.section 
