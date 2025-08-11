@@ -135,99 +135,9 @@ export default function Home() {
       initial="hidden"
       animate="visible"
     >
-      {/* DaisyUI Hero Section - Step 1 */}
-      <div className="daisy-hero bg-gradient-to-br from-primary/5 via-accent/5 to-background min-h-screen">
-        <div className="daisy-hero-content text-center max-w-6xl">
-          <div className="max-w-4xl">
-            {/* Hero Badge */}
-            <motion.div 
-              className="daisy-badge daisy-badge-lg daisy-badge-primary mb-8"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              ✨ AI-Powered Sneaker Discovery
-            </motion.div>
-            
-            {/* Hero Title */}
-            <motion.h1 
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              SoleGrithm
-            </motion.h1>
-            
-            {/* Hero Subtitle */}
-            <motion.p 
-              className="text-xl md:text-2xl text-base-content/70 mb-12 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Discover, collect, and trade sneakers with the power of AI. 
-              Connect with a community that shares your passion for exceptional footwear.
-            </motion.p>
-            
-            {/* Hero Actions */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Link href="/discover">
-                <button className="daisy-btn daisy-btn-primary daisy-btn-lg px-8" data-testid="button-start-discovering">
-                  <Search className="w-5 h-5 mr-2" />
-                  Start Discovering
-                </button>
-              </Link>
-              <button className="daisy-btn daisy-btn-outline daisy-btn-lg px-8" data-testid="button-watch-demo">
-                <Play className="w-5 h-5 mr-2" />
-                Watch Demo
-              </button>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* DaisyUI Stats Section - Step 2 */}
-      <div className="py-16 bg-base-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <motion.div 
-            className="daisy-stats shadow-xl bg-base-200 w-full"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="daisy-stat place-items-center">
-              <div className="daisy-stat-figure text-primary">
-                <ShoppingBag size={32} />
-              </div>
-              <div className="daisy-stat-title">Sneakers</div>
-              <div className="daisy-stat-value text-primary">50K+</div>
-              <div className="daisy-stat-desc">In our catalog</div>
-            </div>
-            <div className="daisy-stat place-items-center">
-              <div className="daisy-stat-figure text-secondary">
-                <Users size={32} />
-              </div>
-              <div className="daisy-stat-title">Users</div>
-              <div className="daisy-stat-value text-secondary">15K+</div>
-              <div className="daisy-stat-desc">Active collectors</div>
-            </div>
-            <div className="daisy-stat place-items-center">
-              <div className="daisy-stat-figure text-accent">
-                <MessageSquare size={32} />
-              </div>
-              <div className="daisy-stat-title">Reviews</div>
-              <div className="daisy-stat-value text-accent">25K+</div>
-              <div className="daisy-stat-desc">Community reviews</div>
-            </div>
-          </motion.div>
-        </div>
+      {/* Hero Section - Static Fixed Position */}
+      <div className="relative">
+        <Hero />
       </div>
 
       {/* Nike-Style Split Hero Sections - Full Width Connected */}
@@ -468,38 +378,47 @@ export default function Home() {
 
 
 
-      {/* DaisyUI Enhanced Product Section - Step 3 */}
-      <div className="py-24 bg-base-200/50">
-        <div className="max-w-7xl mx-auto px-4">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Featured Sneakers</h2>
-            <p className="text-xl text-base-content/60 max-w-2xl mx-auto">
-              Curated by our AI and community experts
+      {/* Nike-Style Trending Sneakers Section */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-white dark:bg-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Centered Header - Previous Style */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+              Trending Now
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+              Discover what's hot in the sneaker community
             </p>
           </div>
 
-          {/* DaisyUI Tabs for Categories */}
-          <div className="daisy-tabs daisy-tabs-boxed justify-center mb-12">
-            <button 
-              className={`daisy-tab daisy-tab-lg ${selectedBrand === 'All' ? 'daisy-tab-active' : ''}`}
-              onClick={() => setSelectedBrand('All')}
-              data-testid="tab-all"
-            >
-              <TrendingUp className="w-4 h-4 mr-2" />
-              All Trending
-            </button>
-            {Array.isArray(brands) ? brands.slice(0, 3).map((brand: any) => (
-              <button 
-                key={brand.id}
-                className={`daisy-tab daisy-tab-lg ${selectedBrand === brand.name ? 'daisy-tab-active' : ''}`}
-                onClick={() => setSelectedBrand(brand.name)}
-                data-testid={`tab-${brand.name.toLowerCase()}`}
+          {/* Centered Filter Tabs - Previous Style */}
+          <div className="flex justify-center mb-12">
+            <div className="flex space-x-1 bg-background/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
+              <Button 
+                variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
+                size="sm" 
+                className={selectedBrand === 'All' ? 'bg-background shadow-sm' : ''}
+                onClick={() => setSelectedBrand('All')}
+                data-testid="filter-all"
               >
-                <Star className="w-4 h-4 mr-2" />
-                {brand.name}
-              </button>
-            )) : null}
+                All
+              </Button>
+              {Array.isArray(brands) ? brands.map((brand: any) => (
+                <Button 
+                  key={brand.id}
+                  variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
+                  size="sm"
+                  className={selectedBrand === brand.name ? 'bg-background shadow-sm' : ''}
+                  onClick={() => setSelectedBrand(brand.name)}
+                  data-testid={`filter-${brand.name.toLowerCase()}`}
+                >
+                  {brand.name}
+                </Button>
+              )) : null}
+            </div>
           </div>
 
           {/* Nike-Style Minimal Grid */}
@@ -570,7 +489,7 @@ export default function Home() {
             </Link>
           </motion.div>
         </div>
-      </div>
+      </motion.section>
 
       {/* Pinterest-Style Blog Section */}
       <motion.section 
