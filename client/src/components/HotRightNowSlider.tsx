@@ -116,24 +116,30 @@ export default function BrandShowcase() {
   }
 
   function getBrandLogo(brandName: string): string {
-    // High-quality brand logos
+    // Using reliable logo sources
     const logos: Record<string, string> = {
-      'Nike': 'https://logoeps.com/wp-content/uploads/2013/03/nike-vector-logo.png',
-      'Adidas': 'https://logoeps.com/wp-content/uploads/2014/04/adidas-vector-logo.png',
-      'Jordan': 'https://logos-world.net/wp-content/uploads/2020/06/Jordan-Logo.png',
-      'New Balance': 'https://logoeps.com/wp-content/uploads/2013/03/new-balance-vector-logo.png',
-      'Converse': 'https://logoeps.com/wp-content/uploads/2014/07/converse-vector-logo.png',
-      'Vans': 'https://logoeps.com/wp-content/uploads/2013/03/vans-vector-logo.png',
-      'Puma': 'https://logoeps.com/wp-content/uploads/2013/03/puma-vector-logo.png',
-      'Reebok': 'https://logoeps.com/wp-content/uploads/2013/03/reebok-vector-logo.png',
-      'ASICS': 'https://logoeps.com/wp-content/uploads/2013/03/asics-vector-logo.png',
-      'Balenciaga': 'https://logoeps.com/wp-content/uploads/2013/03/balenciaga-vector-logo.png',
-      'Off-White': 'https://logoeps.com/wp-content/uploads/2017/09/off-white-vector-logo.png',
-      'Gucci': 'https://logoeps.com/wp-content/uploads/2013/03/gucci-vector-logo.png',
-      'GOAT': 'https://brand.goat.com/web/v1/image/logo-black.svg',
-      'StockX': 'https://stockx.imgix.net/stockx-logo-black-no-wordmark.svg'
+      'Nike': 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg',
+      'Adidas': 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg',
+      'Jordan': 'https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg',
+      'New Balance': 'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg',
+      'Converse': 'https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg',
+      'Vans': 'https://upload.wikimedia.org/wikipedia/commons/9/91/Vans-logo.svg',
+      'Puma': 'https://upload.wikimedia.org/wikipedia/en/4/49/Puma_logo.svg',
+      'Reebok': 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Reebok_logo.svg',
+      'ASICS': 'https://upload.wikimedia.org/wikipedia/commons/1/1c/ASICS_Logo.svg',
+      'Balenciaga': 'https://cdn.worldvectorlogo.com/logos/balenciaga.svg',
+      'Golden Goose': 'https://cdn.worldvectorlogo.com/logos/golden-goose-deluxe-brand.svg',
+      'Off-White': 'https://cdn.worldvectorlogo.com/logos/off-white-logo.svg',
+      'Gucci': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Gucci_logo.svg/200px-Gucci_logo.svg.png',
+      'Saint Laurent': 'https://cdn.worldvectorlogo.com/logos/saint-laurent.svg',
+      'Common Projects': 'https://cdn.worldvectorlogo.com/logos/common-projects.svg',
+      'GOAT': 'https://cdn.worldvectorlogo.com/logos/goat-1.svg',
+      'StockX': 'https://cdn.worldvectorlogo.com/logos/stockx.svg',
+      'Flight Club': 'https://cdn.worldvectorlogo.com/logos/flight-club.svg',
+      'Stadium Goods': 'https://cdn.worldvectorlogo.com/logos/stadium-goods.svg',
+      'Grailed': 'https://cdn.worldvectorlogo.com/logos/grailed.svg'
     };
-    return logos[brandName] || `https://via.placeholder.com/120x60/666666/FFFFFF?text=${encodeURIComponent(brandName)}`;
+    return logos[brandName] || `https://via.placeholder.com/120x40/999999/FFFFFF?text=${encodeURIComponent(brandName)}`;
   }
 
   // Calculate logo spacing based on screen size
@@ -159,8 +165,8 @@ export default function BrandShowcase() {
     
     const animationFrame = requestAnimationFrame(() => {
       setTranslateX(prev => {
-        const maxTranslate = -(featuredBrands.length * (cardWidth + 24));
-        const newTranslate = prev - 0.2; // Even slower for brand showcase
+        const maxTranslate = -(featuredBrands.length * (cardWidth + 16));
+        const newTranslate = prev - 0.15; // Slower for clean logo display
         
         // Reset to beginning when reached the end
         if (newTranslate <= maxTranslate) {
@@ -265,10 +271,10 @@ export default function BrandShowcase() {
         <div className="relative overflow-hidden">
           {/* Continuous Scrolling Container */}
           <div 
-            className={`flex gap-6 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`flex gap-4 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{
               transform: `translateX(${translateX}px)`,
-              width: `${extendedBrands.length * (cardWidth + 24)}px`,
+              width: `${extendedBrands.length * (cardWidth + 16)}px`,
               userSelect: 'none'
             }}
             onMouseDown={handleMouseDown}
@@ -279,18 +285,27 @@ export default function BrandShowcase() {
             {extendedBrands.map((brand: any, index: number) => (
               <div 
                 key={`${brand.id}-${index}`} 
-                className="flex-shrink-0 w-32 sm:w-40"
+                className="flex-shrink-0 w-28 sm:w-32 lg:w-36"
               >
                 <Link href={`/catalog?brand=${brand.slug}`}>
                   <div 
-                    className="group cursor-pointer flex items-center justify-center h-16 hover:opacity-75 transition-opacity duration-200"
+                    className="group cursor-pointer flex items-center justify-center h-12 hover:opacity-75 transition-opacity duration-300"
                     onMouseDown={(e) => e.preventDefault()}
                   >
                     <img 
                       src={brand.logoUrl} 
                       alt={`${brand.name} logo`}
-                      className="h-10 w-auto max-w-full object-contain opacity-60 dark:opacity-50 filter grayscale hover:grayscale-0 transition-all duration-300"
+                      className="h-8 w-auto max-w-full object-contain opacity-70 dark:opacity-60 filter grayscale hover:grayscale-0 hover:opacity-90 transition-all duration-300"
                       loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `data:image/svg+xml,${encodeURIComponent(`
+                          <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
+                            <rect width="120" height="40" fill="#f5f5f5" stroke="#d1d5db"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle">${brand.name}</text>
+                          </svg>
+                        `)}`;
+                      }}
                     />
                   </div>
                 </Link>
