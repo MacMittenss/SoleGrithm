@@ -11,7 +11,6 @@ import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
 import ARDemo from "@/components/ARDemo";
 import DaisyUIShowcase from "@/components/DaisyUIShowcase";
-import DaisyUIStatsSection from "@/components/DaisyUIStatsSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -223,8 +222,60 @@ export default function Home() {
         <HotRightNowSlider />
       </motion.div>
 
-      {/* DaisyUI Enhanced Stats Section */}
-      <DaisyUIStatsSection />
+      {/* Quick Stats with Animated Counters */}
+      <motion.section 
+        className="py-16 sm:py-24 bg-gradient-to-br from-background via-muted/30 to-background"
+        variants={itemVariants}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
+            variants={containerVariants}
+          >
+            {[
+              { value: "50K+", label: "Sneakers Cataloged", delay: 0 },
+              { value: "15K+", label: "Active Collectors", delay: 0.1 },
+              { value: "25K+", label: "Community Reviews", delay: 0.2 },
+              { value: "98%", label: "Satisfaction Rate", delay: 0.3 }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                className="text-center group"
+                variants={{
+                  hidden: { opacity: 0, y: 30, scale: 0.9 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: {
+                      duration: 0.6,
+                      delay: stat.delay,
+                      ease: "easeOut"
+                    }
+                  }
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <motion.div 
+                  className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-2"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: stat.delay + 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  {stat.value}
+                </motion.div>
+                <div className="text-xs sm:text-sm text-muted-foreground font-medium group-hover:text-foreground transition-colors">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* Mobile-First Quick Actions */}
       {!isAuthenticated && (
