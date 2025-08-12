@@ -1031,15 +1031,9 @@ export default function Home() {
                       </div>
                     </div>
                     
-                    {/* Centered Button */}
+                    {/* Centered Text */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.div 
-                        className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg py-2 px-6 text-center"
-                        animate={{ scale: [1, 1.02, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <p className="text-white text-base">Join the Algorithm</p>
-                      </motion.div>
+                      <p className="text-white text-base">Join the Algorithm</p>
                     </div>
                   </div>
                 </div>
