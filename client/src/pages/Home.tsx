@@ -1019,23 +1019,9 @@ export default function Home() {
               >
                 <div className="mockup-phone-camera"></div> 
                 <div className="mockup-phone-display bg-gradient-to-b from-blue-500/10 to-purple-500/10 relative overflow-hidden">
-                  {/* Simplified App Interface */}
-                  <div className="absolute inset-0 flex flex-col justify-between p-8">
-                    {/* SoleGrithm Title */}
-                    <div className="text-center pt-8">
-                      <h3 className="text-white text-2xl font-bold">SoleGrithm</h3>
-                    </div>
-                    
-                    {/* Join Button */}
-                    <div className="pb-8">
-                      <motion.div 
-                        className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg py-4 px-6 text-center"
-                        animate={{ scale: [1, 1.02, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <p className="text-white text-lg font-semibold">Join the Algorithm</p>
-                      </motion.div>
-                    </div>
+                  {/* Centered Text */}
+                  <div className="absolute inset-0 flex items-center justify-center p-8">
+                    <h3 className="text-white text-xl font-bold text-center">Join the Algorithm</h3>
                   </div>
                 </div>
               </motion.div>
