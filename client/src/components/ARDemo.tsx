@@ -136,37 +136,97 @@ export default function ARDemo() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Mobile AR Interface */}
-          <motion.div className="space-y-6" variants={itemVariants}>
+          {/* Left Side - Content Over Phone */}
+          <motion.div className="relative space-y-6" variants={itemVariants}>
+            {/* Content positioned over the phone */}
             <motion.div
-              className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
+              className="relative z-10 bg-gradient-to-br from-background/95 to-muted/95 backdrop-blur-sm rounded-2xl p-8 sm:p-12 border shadow-lg"
               variants={cardVariants}
               whileHover="hover"
             >
-              <AnimatePresence mode="wait">
-                {isARActive ? (
+              <div className="text-center space-y-6">
+                <motion.div
+                  className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-2xl flex items-center justify-center mx-auto"
+                  whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Smartphone className="w-10 h-10 sm:w-12 sm:h-12 text-orange-500" />
+                </motion.div>
+                
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-semibold mb-2">Try On Virtually</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground mb-6">
+                    Point your camera at your feet and see how any sneaker looks
+                  </p>
+                  
                   <motion.div
-                    key="ar-active"
-                    className="text-center space-y-6"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
+                    variants={cardVariants}
+                    whileHover="hover"
+                    whileTap="tap"
                   >
-                    {/* DaisyUI iPhone Mockup with AR Camera View */}
-                    <motion.div 
-                      className="mockup-phone mx-auto"
-                      animate={{ 
-                        boxShadow: [
-                          "0 0 20px rgba(59, 130, 246, 0.3)",
-                          "0 0 40px rgba(147, 51, 234, 0.3)",
-                          "0 0 20px rgba(59, 130, 246, 0.3)"
-                        ]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
+                    <Button 
+                      size="lg" 
+                      className="h-12 px-8 text-base"
+                      onClick={startARTryOn}
+                      data-testid="button-start-ar"
                     >
-                      <div className="mockup-phone-camera"></div> 
-                      <div className="mockup-phone-display bg-gradient-to-b from-blue-500/20 to-purple-500/20 relative overflow-hidden">
+                      <Play className="w-5 h-5 mr-2" />
+                      Start AR Try-On
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Features */}
+                <motion.div 
+                  className="grid grid-cols-2 gap-4 pt-4"
+                  variants={containerVariants}
+                >
+                  {[
+                    { icon: Zap, label: "Instant Preview", color: "text-yellow-500" },
+                    { icon: Eye, label: "360° View", color: "text-blue-500" }
+                  ].map((feature, index) => (
+                    <motion.div
+                      key={feature.label}
+                      className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
+                      variants={itemVariants}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                    >
+                      <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
+                      <p className="text-xs font-medium">{feature.label}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* DaisyUI iPhone Mockup - Always Visible Behind */}
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              variants={itemVariants}
+            >
+              <motion.div 
+                className="mockup-phone"
+                animate={{ 
+                  boxShadow: isARActive ? [
+                    "0 0 20px rgba(59, 130, 246, 0.3)",
+                    "0 0 40px rgba(147, 51, 234, 0.3)",
+                    "0 0 20px rgba(59, 130, 246, 0.3)"
+                  ] : "0 0 0px rgba(0, 0, 0, 0)"
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <div className="mockup-phone-camera"></div> 
+                <div className="mockup-phone-display bg-gradient-to-b from-blue-500/20 to-purple-500/20 relative overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    {isARActive ? (
+                      <motion.div
+                        key="ar-active"
+                        className="absolute inset-0"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
                         {/* AR Camera Content */}
                         <div className="absolute inset-0 bg-black/10" />
                         
@@ -211,101 +271,73 @@ export default function ARDemo() {
                             Size: 9.5
                           </Badge>
                         </div>
-                      </div>
-                    </motion.div>
-
-                    {/* AR Controls */}
-                    <motion.div 
-                      className="flex justify-center gap-3"
-                      variants={containerVariants}
-                    >
-                      {[
-                        { icon: RotateCcw, label: "Rotate" },
-                        { icon: Eye, label: "View" },
-                        { icon: Volume2, label: "Sound" },
-                        { icon: Maximize2, label: "Full" }
-                      ].map((control, index) => (
-                        <motion.button
-                          key={control.label}
-                          className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
-                          variants={itemVariants}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          data-testid={`button-ar-${control.label.toLowerCase()}`}
-                        >
-                          <control.icon className="w-5 h-5 text-primary" />
-                        </motion.button>
-                      ))}
-                    </motion.div>
-
-                    <p className="text-sm text-muted-foreground">
-                      Move your phone to see different angles
-                    </p>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="ar-inactive"
-                    className="text-center space-y-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <motion.div
-                      className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-2xl flex items-center justify-center mx-auto"
-                      whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Smartphone className="w-10 h-10 sm:w-12 sm:h-12 text-orange-500" />
-                    </motion.div>
-                    
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-semibold mb-2">Try On Virtually</h3>
-                      <p className="text-sm sm:text-base text-muted-foreground mb-6">
-                        Point your camera at your feet and see how any sneaker looks
-                      </p>
-                      
-                      <motion.div
-                        variants={cardVariants}
-                        whileHover="hover"
-                        whileTap="tap"
-                      >
-                        <Button 
-                          size="lg" 
-                          className="h-12 px-8 text-base"
-                          onClick={startARTryOn}
-                          data-testid="button-start-ar"
-                        >
-                          <Play className="w-5 h-5 mr-2" />
-                          Start AR Try-On
-                        </Button>
                       </motion.div>
-                    </div>
-
-                    {/* Features */}
-                    <motion.div 
-                      className="grid grid-cols-2 gap-4 pt-4"
-                      variants={containerVariants}
-                    >
-                      {[
-                        { icon: Zap, label: "Instant Preview", color: "text-yellow-500" },
-                        { icon: Eye, label: "360° View", color: "text-blue-500" }
-                      ].map((feature, index) => (
-                        <motion.div
-                          key={feature.label}
-                          className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
-                          variants={itemVariants}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                        >
-                          <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
-                          <p className="text-xs font-medium">{feature.label}</p>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    ) : (
+                      <motion.div
+                        key="ar-inactive"
+                        className="absolute inset-0 flex items-center justify-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="text-center text-white/50">
+                          <Camera className="w-12 h-12 mx-auto mb-2" />
+                          <p className="text-sm">Camera Ready</p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
             </motion.div>
+
+            {/* AR Controls - Show when AR is active */}
+            <AnimatePresence>
+              {isARActive && (
+                <motion.div 
+                  className="flex justify-center gap-3 relative z-10"
+                  variants={containerVariants}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {[
+                    { icon: RotateCcw, label: "Rotate" },
+                    { icon: Eye, label: "View" },
+                    { icon: Volume2, label: "Sound" },
+                    { icon: Maximize2, label: "Full" }
+                  ].map((control, index) => (
+                    <motion.button
+                      key={control.label}
+                      className="w-12 h-12 bg-primary/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors border"
+                      variants={itemVariants}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      data-testid={`button-ar-${control.label.toLowerCase()}`}
+                    >
+                      <control.icon className="w-5 h-5 text-primary" />
+                    </motion.button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* AR Status Text */}
+            <AnimatePresence>
+              {isARActive && (
+                <motion.p 
+                  className="text-sm text-muted-foreground text-center relative z-10"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Move your phone to see different angles
+                </motion.p>
+              )}
+            </AnimatePresence>
           </motion.div>
 
           {/* Sneaker Selection */}
