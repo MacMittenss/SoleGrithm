@@ -377,91 +377,97 @@ export default function Home() {
 
 
 
-      {/* Nike-Style Trending Sneakers Section */}
+      {/* Minimalist Trending Sneakers Section */}
       <motion.section 
-        className="py-16 sm:py-24 bg-white dark:bg-background"
+        className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900"
         variants={itemVariants}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Centered Header - Previous Style */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          {/* Minimalist Header */}
+          <div className="mb-10">
+            <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
               Trending Now
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light">
               Discover what's hot in the sneaker community
             </p>
           </div>
 
-          {/* Centered Filter Tabs - Previous Style */}
-          <div className="flex justify-center mb-12">
-            <div className="flex space-x-1 bg-background/50 backdrop-blur-sm border border-border/50 p-1 rounded-lg">
-              <Button 
-                variant={selectedBrand === 'All' ? 'secondary' : 'ghost'} 
-                size="sm" 
-                className={selectedBrand === 'All' ? 'bg-background shadow-sm' : ''}
+          {/* Clean Filter Tabs */}
+          <div className="mb-10">
+            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-2">
+              <button
+                className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
+                  selectedBrand === 'All'
+                    ? 'text-neutral-900 dark:text-neutral-100 border-neutral-900 dark:border-neutral-100'
+                    : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-neutral-700 dark:hover:text-neutral-300'
+                }`}
                 onClick={() => setSelectedBrand('All')}
                 data-testid="filter-all"
               >
                 All
-              </Button>
+              </button>
               {Array.isArray(brands) ? brands.map((brand: any) => (
-                <Button 
+                <button
                   key={brand.id}
-                  variant={selectedBrand === brand.name ? 'secondary' : 'ghost'} 
-                  size="sm"
-                  className={selectedBrand === brand.name ? 'bg-background shadow-sm' : ''}
+                  className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
+                    selectedBrand === brand.name
+                      ? 'text-neutral-900 dark:text-neutral-100 border-neutral-900 dark:border-neutral-100'
+                      : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-neutral-700 dark:hover:text-neutral-300'
+                  }`}
                   onClick={() => setSelectedBrand(brand.name)}
                   data-testid={`filter-${brand.name.toLowerCase()}`}
                 >
                   {brand.name}
-                </Button>
+                </button>
               )) : null}
             </div>
           </div>
 
-          {/* Nike-Style Minimal Grid */}
+          {/* Clean Grid Layout */}
           {sneakersLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
-              {Array.from({ length: 12 }).map((_, i) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
+              {Array.from({ length: 10 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="aspect-square bg-muted rounded-lg mb-3" />
-                  <div className="space-y-1">
-                    <div className="h-3 bg-muted rounded w-16" />
-                    <div className="h-4 bg-muted rounded w-20" />
-                    <div className="h-4 bg-muted rounded w-12" />
+                  <div className="aspect-square bg-neutral-200 dark:bg-neutral-700 mb-4" />
+                  <div className="space-y-2">
+                    <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-full" />
+                    <div className="flex justify-between">
+                      <div className="h-3 bg-neutral-200 dark:bg-neutral-700 w-16" />
+                      <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-12" />
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
-              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 12).map((sneaker: any) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
+              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 10).map((sneaker: any) => (
                 <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
                   <div className="group cursor-pointer">
-                    {/* Clean product image */}
-                    <div className="aspect-square mb-3 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+                    {/* Ultra Clean Product Image */}
+                    <div className="aspect-square mb-4 bg-white dark:bg-neutral-800 overflow-hidden">
                       <img
                         src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
                         alt={sneaker.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-200"
+                        loading="lazy"
                       />
                     </div>
                     
-                    {/* Minimal text below - Nike style */}
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
-                        {sneaker.brandName || 'Unknown Brand'}
-                      </p>
-                      <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+                    {/* Minimal Product Info */}
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-normal text-neutral-900 dark:text-neutral-100 line-clamp-2 leading-5">
                         {sneaker.name}
                       </h3>
-                      <p className="text-sm font-semibold text-foreground">
-                        {new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD'
-                        }).format(sneaker.retailPrice)}
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider font-light">
+                          {sneaker.brandName || 'Unknown'}
+                        </p>
+                        <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                          ${sneaker.retailPrice || '0'}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -469,24 +475,14 @@ export default function Home() {
             </div>
           )}
 
-          {/* View All Button - Previous Style */}
-          <motion.div 
-            className="text-center mt-8 sm:mt-12"
-            variants={itemVariants}
-          >
+          {/* Subtle View All Link */}
+          <div className="flex justify-center">
             <Link href="/live-market">
-              <motion.div
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Button size="lg" className="h-12 px-8 text-base" data-testid="button-view-all-sneakers">
-                  View All Sneakers
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </motion.div>
+              <span className="text-sm font-light text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-neutral-300 dark:border-neutral-600 hover:border-neutral-900 dark:hover:border-neutral-100 pb-1" data-testid="button-view-all-sneakers">
+                View All Sneakers
+              </span>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
