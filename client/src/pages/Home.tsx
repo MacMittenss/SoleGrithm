@@ -1019,15 +1019,28 @@ export default function Home() {
               >
                 <div className="mockup-phone-camera"></div> 
                 <div className="mockup-phone-display bg-gradient-to-b from-blue-500/10 to-purple-500/10 relative overflow-hidden">
-                  {/* Centered Button */}
-                  <div className="absolute inset-0 flex items-center justify-center p-8">
-                    <motion.div 
-                      className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg py-3 px-6 text-center"
-                      animate={{ scale: [1, 1.02, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <p className="text-white text-base">Join the Algorithm</p>
-                    </motion.div>
+                  {/* Phone Interface */}
+                  <div className="absolute inset-0 p-4">
+                    {/* Status Bar */}
+                    <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-xs">
+                      <span>9:41</span>
+                      <div className="flex items-center gap-1">
+                        <div className="w-4 h-2 border border-white rounded-sm">
+                          <div className="w-full h-full bg-white rounded-sm"></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Centered Button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <motion.div 
+                        className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg py-2 px-6 text-center"
+                        animate={{ scale: [1, 1.02, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <p className="text-white text-base">Join the Algorithm</p>
+                      </motion.div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
