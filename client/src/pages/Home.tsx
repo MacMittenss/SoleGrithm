@@ -276,8 +276,8 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           {/* Minimalist Header */}
-          <div className="mb-10">
-            <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
+          <div className="mb-10 text-center">
+            <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
               Trending Now
             </h2>
             <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light">
@@ -287,7 +287,7 @@ export default function Home() {
 
           {/* Clean Filter Tabs */}
           <div className="mb-10">
-            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-2">
+            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-2 justify-center">
               <button
                 className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
                   selectedBrand === 'All'
