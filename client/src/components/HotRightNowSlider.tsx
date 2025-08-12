@@ -195,14 +195,32 @@ export default function BrandShowcase() {
     const deltaX = e.clientX - dragStart.x;
     const newTranslateX = dragStart.translateX + deltaX;
     
-    // Apply boundaries to prevent dragging too far
-    const maxTranslate = -(featuredBrands.length * cardWidth);
-    const boundedTranslate = Math.max(Math.min(newTranslateX, cardWidth), maxTranslate - cardWidth);
+    // Apply boundaries with some resistance at edges
+    const maxTranslate = -(featuredBrands.length * (cardWidth + 16) / 2);
+    const minTranslate = cardWidth;
+    
+    let boundedTranslate = newTranslateX;
+    if (boundedTranslate > minTranslate) {
+      boundedTranslate = minTranslate + (boundedTranslate - minTranslate) * 0.3;
+    } else if (boundedTranslate < maxTranslate) {
+      boundedTranslate = maxTranslate + (boundedTranslate - maxTranslate) * 0.3;
+    }
     
     setTranslateX(boundedTranslate);
   };
 
   const handleMouseUp = () => {
+    if (isDragging) {
+      // Snap back to bounds if dragged beyond limits
+      const maxTranslate = -(featuredBrands.length * (cardWidth + 16) / 2);
+      const minTranslate = cardWidth;
+      
+      if (translateX > minTranslate) {
+        setTranslateX(0);
+      } else if (translateX < maxTranslate) {
+        setTranslateX(maxTranslate + cardWidth);
+      }
+    }
     setIsDragging(false);
   };
 
@@ -230,14 +248,13 @@ export default function BrandShowcase() {
 
   if (isLoading) {
     return (
-      <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="mb-10">
-            <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-48 mb-2 animate-pulse" />
-            <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-64 animate-pulse" />
+      <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900 w-full">
+        <div className="w-full">
+          <div className="mb-8 text-center">
+            <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-48 mb-2 animate-pulse mx-auto" />
           </div>
-          <div className="flex gap-4 overflow-hidden">
-            {Array.from({ length: 8 }).map((_, i) => (
+          <div className="flex gap-4 overflow-hidden w-full justify-center">
+            {Array.from({ length: 12 }).map((_, i) => (
               <div key={i} className="flex-shrink-0 w-28 sm:w-32 lg:w-36 animate-pulse">
                 <div className="h-12 bg-neutral-200 dark:bg-neutral-700 rounded mb-2 flex items-center justify-center">
                   <div className="h-6 w-16 bg-neutral-300 dark:bg-neutral-600 rounded" />
@@ -256,17 +273,18 @@ export default function BrandShowcase() {
   const extendedBrands = [...featuredBrands, ...featuredBrands];
 
   return (
-    <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        {/* Minimalist Header */}
-        <div className="mb-8">
+    <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900 w-full">
+      {/* Full Width Container */}
+      <div className="w-full">
+        {/* Minimalist Header - Centered */}
+        <div className="mb-8 text-center">
           <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
             Featured Brands
           </h2>
         </div>
 
-        {/* Clean Brand Showcase */}
-        <div className="relative overflow-hidden">
+        {/* Full Width Brand Showcase */}
+        <div className="relative overflow-hidden w-full">
           {/* Continuous Scrolling Container */}
           <div 
             className={`flex gap-4 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
@@ -311,12 +329,10 @@ export default function BrandShowcase() {
             ))}
           </div>
 
-          {/* Subtle fade gradients on edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-neutral-50 to-transparent dark:from-neutral-900 pointer-events-none z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-neutral-50 to-transparent dark:from-neutral-900 pointer-events-none z-10" />
+          {/* Enhanced fade gradients on edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-neutral-50 via-neutral-50/80 to-transparent dark:from-neutral-900 dark:via-neutral-900/80 pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-neutral-50 via-neutral-50/80 to-transparent dark:from-neutral-900 dark:via-neutral-900/80 pointer-events-none z-10" />
         </div>
-
-
       </div>
     </section>
   );
