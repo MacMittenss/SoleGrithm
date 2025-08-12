@@ -276,62 +276,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Mobile-First Quick Actions */}
-      {!isAuthenticated && (
-        <motion.section 
-          className="py-12 sm:py-16 px-4"
-          variants={itemVariants}
-        >
-          <div className="max-w-sm mx-auto space-y-4">
-            <motion.div
-              className="text-center mb-6"
-              variants={itemVariants}
-            >
-              <h3 className="text-lg font-semibold mb-2">Join SoleGrithm</h3>
-              <p className="text-sm text-muted-foreground">Start your sneaker journey today</p>
-            </motion.div>
-            
-            <motion.div
-              className="space-y-3"
-              variants={containerVariants}
-            >
-              <Link href="/auth">
-                <motion.div
-                  variants={cardVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                >
-                  <Button 
-                    className="w-full h-12 text-base font-medium"
-                    data-testid="button-get-started"
-                  >
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Get Started
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </motion.div>
-              </Link>
-              
-              <Link href="/visual-search">
-                <motion.div
-                  variants={cardVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                >
-                  <Button 
-                    variant="outline" 
-                    className="w-full h-12 text-base"
-                    data-testid="button-try-search"
-                  >
-                    <Search className="w-4 h-4 mr-2" />
-                    Try Visual Search
-                  </Button>
-                </motion.div>
-              </Link>
-            </motion.div>
-          </div>
-        </motion.section>
-      )}
+
 
       {/* Personalized Quick Stats for Authenticated Users */}
       {isAuthenticated && (
