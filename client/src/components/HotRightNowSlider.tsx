@@ -43,7 +43,7 @@ export default function BrandShowcase() {
       { id: 7, name: 'Puma', slug: 'puma', type: 'brand', isPopular: false },
       { id: 8, name: 'Reebok', slug: 'reebok', type: 'brand', isPopular: false },
       { id: 9, name: 'ASICS', slug: 'asics', type: 'brand', isPopular: false },
-      
+
       // Luxury & High-Fashion
       { id: 10, name: 'Balenciaga', slug: 'balenciaga', type: 'luxury', isPopular: true },
       { id: 11, name: 'Golden Goose', slug: 'golden-goose', type: 'luxury', isPopular: false },
@@ -51,7 +51,7 @@ export default function BrandShowcase() {
       { id: 13, name: 'Gucci', slug: 'gucci', type: 'luxury', isPopular: false },
       { id: 14, name: 'Saint Laurent', slug: 'saint-laurent', type: 'luxury', isPopular: false },
       { id: 15, name: 'Common Projects', slug: 'common-projects', type: 'luxury', isPopular: false },
-      
+
       // Marketplaces
       { id: 16, name: 'GOAT', slug: 'goat', type: 'marketplace', isPopular: true },
       { id: 17, name: 'StockX', slug: 'stockx', type: 'marketplace', isPopular: true },
@@ -59,7 +59,7 @@ export default function BrandShowcase() {
       { id: 19, name: 'Stadium Goods', slug: 'stadium-goods', type: 'marketplace', isPopular: false },
       { id: 20, name: 'Grailed', slug: 'grailed', type: 'marketplace', isPopular: false }
     ];
-    
+
     return allBrands.map(brand => ({
       ...brand,
       description: getBrandDescription(brand.name, brand.type),
@@ -80,7 +80,7 @@ export default function BrandShowcase() {
       'Puma': 'Forever faster, forever bold',
       'Reebok': 'Sport and fitness innovation',
       'ASICS': 'Japanese precision and technology',
-      
+
       // Luxury
       'Balenciaga': 'Avant-garde luxury footwear',
       'Golden Goose': 'Italian luxury with vintage appeal',
@@ -88,7 +88,7 @@ export default function BrandShowcase() {
       'Gucci': 'Italian luxury and craftsmanship',
       'Saint Laurent': 'Parisian elegance and rock chic',
       'Common Projects': 'Minimalist luxury sneakers',
-      
+
       // Marketplaces
       'GOAT': 'Authentic sneaker marketplace',
       'StockX': 'Real-time sneaker trading',
@@ -104,13 +104,13 @@ export default function BrandShowcase() {
       // Major brands
       'Nike': 3500, 'Adidas': 2800, 'Jordan': 1200, 'New Balance': 950,
       'Converse': 500, 'Vans': 750, 'Puma': 680, 'Reebok': 420, 'ASICS': 580,
-      
+
       // Luxury
       'Balenciaga': 85, 'Golden Goose': 120, 'Off-White': 95, 'Gucci': 150,
       'Saint Laurent': 75, 'Common Projects': 60,
-      
+
       // Marketplaces (total items)
-      'GOAT': 50000, 'StockX': 75000, 'Flight Club': 15000, 
+      'GOAT': 50000, 'StockX': 75000, 'Flight Club': 15000,
       'Stadium Goods': 25000, 'Grailed': 35000
     };
     return counts[brandName] || 200;
@@ -140,7 +140,7 @@ export default function BrandShowcase() {
       'Stadium Goods': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#000">STADIUM GOODS</text></svg>')}`,
       'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#000">GRAILED</text></svg>')}`
     };
-    
+
     return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="#f9f9f9" stroke="#e5e5e5"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#666">${brandName}</text></svg>`)}`;
   }
 
@@ -164,12 +164,12 @@ export default function BrandShowcase() {
   // Auto-scroll only when not dragging
   useEffect(() => {
     if (!featuredBrands?.length || isDragging) return;
-    
+
     const interval = setInterval(() => {
       setTranslateX(prev => {
         const maxTranslate = -(featuredBrands.length * (cardWidth + 16));
         const newTranslate = prev - 0.5; // Smooth auto-scroll
-        
+
         // Reset to beginning when reached the end
         if (newTranslate <= maxTranslate) {
           return 0;
@@ -192,42 +192,16 @@ export default function BrandShowcase() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    
+
     const deltaX = e.clientX - dragStart.x;
     const newTranslateX = dragStart.translateX + deltaX;
-    
+
     // Direct 1:1 mapping for responsive dragging
     setTranslateX(newTranslateX);
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  // Global mouse up listener for when user releases outside the slider
-  useEffect(() => {
-    const handleGlobalMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      document.addEventListener('mouseup', handleGlobalMouseUp);
-      document.addEventListener('mouseleave', handleGlobalMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener('mouseup', handleGlobalMouseUp);
-      document.removeEventListener('mouseleave', handleGlobalMouseUp);
-    };
-  }, [isDragging]);
-
-
-  if (isLoading) {
-    return (
+    setIsDraggi<ctrl62>  return (
       <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900 w-full">
         <div className="w-full">
           <div className="mb-8 text-center">
@@ -266,7 +240,7 @@ export default function BrandShowcase() {
         {/* Full Width Brand Showcase */}
         <div className="relative overflow-hidden w-full">
           {/* Continuous Scrolling Container */}
-          <div 
+          <div
             className={`flex gap-4 will-change-transform ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{
               transform: `translate3d(${translateX}px, 0, 0)`,
@@ -279,17 +253,17 @@ export default function BrandShowcase() {
             onMouseLeave={handleMouseLeave}
           >
             {extendedBrands.map((brand: any, index: number) => (
-              <div 
-                key={`${brand.id}-${index}`} 
+              <div
+                key={`${brand.id}-${index}`}
                 className="flex-shrink-0 w-28 sm:w-32 lg:w-36"
               >
                 <Link href={`/catalog?brand=${brand.slug}`}>
-                  <div 
+                  <div
                     className="group cursor-pointer flex items-center justify-center h-12 hover:opacity-75 transition-opacity duration-300"
                     onMouseDown={(e) => e.preventDefault()}
                   >
-                    <img 
-                      src={brand.logoUrl} 
+                    <img
+                      src={brand.logoUrl}
                       alt={`${brand.name} logo`}
                       className={`w-auto max-w-full object-contain opacity-70 dark:opacity-60 filter grayscale hover:grayscale-0 hover:opacity-90 transition-all duration-300 ${brand.name === 'Jordan' ? 'h-12' : 'h-8'}`}
                       loading="lazy"
