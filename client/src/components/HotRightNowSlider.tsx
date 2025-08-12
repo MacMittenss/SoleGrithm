@@ -120,7 +120,7 @@ export default function BrandShowcase() {
     const logos: Record<string, string> = {
       'Nike': 'https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png',
       'Adidas': 'https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png',
-      'Jordan': 'https://logos-world.net/wp-content/uploads/2020/06/Jordan-Logo.png',
+      'Jordan': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><text x="20" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="bold" fill="#000">⛹</text></svg>')}`,
       'New Balance': 'https://logos-world.net/wp-content/uploads/2020/09/New-Balance-Logo.png',
       'Converse': 'https://logos-world.net/wp-content/uploads/2020/06/Converse-Logo.png',
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',
