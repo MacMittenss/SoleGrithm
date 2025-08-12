@@ -1004,39 +1004,106 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center"
             variants={containerVariants}
           >
-            {/* Community Stats */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-lg bg-gradient-to-br from-orange-500/5 to-red-500/5">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center">
-                      <Users className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+            {/* DaisyUI iPhone Mockup */}
+            <motion.div variants={itemVariants} className="flex justify-center">
+              <motion.div 
+                className="mockup-phone scale-75 sm:scale-90"
+                animate={{ 
+                  boxShadow: [
+                    "0 0 20px rgba(59, 130, 246, 0.2)",
+                    "0 0 30px rgba(147, 51, 234, 0.2)",
+                    "0 0 20px rgba(59, 130, 246, 0.2)"
+                  ]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <div className="mockup-phone-camera"></div> 
+                <div className="mockup-phone-display bg-gradient-to-b from-blue-500/10 to-purple-500/10 relative overflow-hidden">
+                  {/* Community App Interface */}
+                  <div className="absolute inset-0 p-4 space-y-4">
+                    {/* Status Bar */}
+                    <div className="flex justify-between items-center text-white text-xs">
+                      <span>9:41</span>
+                      <div className="flex items-center gap-1">
+                        <div className="w-4 h-2 border border-white rounded-sm">
+                          <div className="w-full h-full bg-white rounded-sm"></div>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold">50K+ Members</h3>
-                      <p className="text-muted-foreground">Active collectors & enthusiasts</p>
+                    
+                    {/* App Header */}
+                    <div className="text-center pt-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-2">
+                        <Users className="w-6 h-6 text-orange-500" />
+                      </div>
+                      <h3 className="text-white font-semibold">SoleGrithm</h3>
+                      <p className="text-white/70 text-xs">Community</p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
-                      <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    
+                    {/* Community Features */}
+                    <div className="space-y-3 pt-4">
+                      <motion.div 
+                        className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20"
+                        animate={{ x: [0, 2, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: 0 }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-orange-500/20 rounded-full flex items-center justify-center">
+                            <Users className="w-4 h-4 text-orange-400" />
+                          </div>
+                          <div>
+                            <p className="text-white text-sm font-medium">50K+ Members</p>
+                            <p className="text-white/60 text-xs">Active daily</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20"
+                        animate={{ x: [0, -2, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+                            <MessageSquare className="w-4 h-4 text-blue-400" />
+                          </div>
+                          <div>
+                            <p className="text-white text-sm font-medium">100K+ Reviews</p>
+                            <p className="text-white/60 text-xs">Authentic feedback</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20"
+                        animate={{ x: [0, 2, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
+                            <ShoppingBag className="w-4 h-4 text-green-400" />
+                          </div>
+                          <div>
+                            <p className="text-white text-sm font-medium">$2M+ Traded</p>
+                            <p className="text-white/60 text-xs">Monthly volume</p>
+                          </div>
+                        </div>
+                      </motion.div>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-bold">100K+ Reviews</h3>
-                      <p className="text-muted-foreground">Authentic community reviews</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-teal-500/20 rounded-xl flex items-center justify-center">
-                      <ShoppingBag className="w-6 h-6 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold">$2M+ Traded</h3>
-                      <p className="text-muted-foreground">Monthly marketplace volume</p>
+                    
+                    {/* Join Button */}
+                    <div className="pt-4">
+                      <motion.div 
+                        className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg py-2 px-4 text-center"
+                        animate={{ scale: [1, 1.02, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <p className="text-white text-sm font-medium">Join Community</p>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </motion.div>
             </motion.div>
 
             {/* Social Features */}
