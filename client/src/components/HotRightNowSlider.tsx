@@ -126,18 +126,18 @@ export default function BrandShowcase() {
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',
       'Puma': 'https://logos-world.net/wp-content/uploads/2020/04/Puma-Logo.png',
       'Reebok': 'https://logos-world.net/wp-content/uploads/2020/04/Reebok-Logo.png',
-      'ASICS': 'https://logos-world.net/wp-content/uploads/2020/04/Asics-Logo.png',
-      'Balenciaga': 'https://logos-world.net/wp-content/uploads/2020/04/Balenciaga-Logo.png',
-      'Golden Goose': 'https://logos-world.net/wp-content/uploads/2020/12/Golden-Goose-Deluxe-Brand-Logo.png',
-      'Off-White': 'https://logos-world.net/wp-content/uploads/2020/12/Off-White-Logo.png',
+      'ASICS': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#000">ASICS</text></svg>')}`,
+      'Balenciaga': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="normal" fill="#000">BALENCIAGA</text></svg>')}`,
+      'Golden Goose': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#000">GOLDEN GOOSE</text></svg>')}`,
+      'Off-White': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#000">OFF-WHITE</text></svg>')}`,
       'Gucci': 'https://logos-world.net/wp-content/uploads/2020/04/Gucci-Logo.png',
-      'Saint Laurent': 'https://logos-world.net/wp-content/uploads/2020/12/Saint-Laurent-Logo.png',
-      'Common Projects': 'https://logos-world.net/wp-content/uploads/2020/12/Common-Projects-Logo.png',
-      'GOAT': 'https://logos-world.net/wp-content/uploads/2020/11/GOAT-Logo.png',
-      'StockX': 'https://logos-world.net/wp-content/uploads/2020/11/StockX-Logo.png',
-      'Flight Club': 'https://logos-world.net/wp-content/uploads/2020/11/Flight-Club-Logo.png',
-      'Stadium Goods': 'https://logos-world.net/wp-content/uploads/2020/11/Stadium-Goods-Logo.png',
-      'Grailed': 'https://logos-world.net/wp-content/uploads/2020/11/Grailed-Logo.png'
+      'Saint Laurent': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#000">SAINT LAURENT</text></svg>')}`,
+      'Common Projects': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40"><text x="100" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#000">COMMON PROJECTS</text></svg>')}`,
+      'GOAT': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text x="50" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#000">GOAT</text></svg>')}`,
+      'StockX': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#00AC7C">StockX</text></svg>')}`,
+      'Flight Club': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#000">FLIGHT CLUB</text></svg>')}`,
+      'Stadium Goods': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#000">STADIUM GOODS</text></svg>')}`,
+      'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#000">GRAILED</text></svg>')}`
     };
     
     return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="#f9f9f9" stroke="#e5e5e5"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#666">${brandName}</text></svg>`)}`;
