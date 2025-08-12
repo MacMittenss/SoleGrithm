@@ -162,25 +162,25 @@ export default function HotRightNowSlider() {
 
   if (isLoading) {
     return (
-      <section className="py-16 bg-white dark:bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <div className="h-6 bg-muted rounded w-48 mb-2 animate-pulse" />
-            <div className="h-4 bg-muted rounded w-64 animate-pulse" />
+      <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="mb-10">
+            <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-48 mb-2 animate-pulse" />
+            <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-64 animate-pulse" />
           </div>
-          <div className="overflow-hidden">
-            <div className="flex gap-4">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-56 animate-pulse">
-                  <div className="aspect-square bg-muted rounded-lg mb-3" />
-                  <div className="space-y-1">
-                    <div className="h-3 bg-muted rounded w-16" />
-                    <div className="h-4 bg-muted rounded w-20" />
-                    <div className="h-4 bg-muted rounded w-12" />
+          <div className="flex gap-6 overflow-hidden">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-48 sm:w-56 animate-pulse">
+                <div className="aspect-square bg-neutral-200 dark:bg-neutral-700 mb-4" />
+                <div className="space-y-2">
+                  <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-full" />
+                  <div className="flex justify-between">
+                    <div className="h-3 bg-neutral-200 dark:bg-neutral-700 w-16" />
+                    <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-12" />
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -195,29 +195,25 @@ export default function HotRightNowSlider() {
   const IconComponent = dailyContent.icon;
 
   return (
-    <section className="py-16 bg-white dark:bg-background relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Minimal Header - Nike Style */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <IconComponent className="h-5 w-5 text-foreground" />
-            <h2 className="text-2xl font-medium tracking-tight text-foreground">
-              {dailyContent.title}
-            </h2>
-          </div>
-          <p className="text-sm text-muted-foreground">
+    <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        {/* Minimalist Header */}
+        <div className="mb-10">
+          <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
+            {dailyContent.title}
+          </h2>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light">
             {dailyContent.subtitle}
           </p>
         </div>
 
-        {/* Minimal Slider Container */}
-        <div className="relative overflow-hidden">
-          {/* Continuous Scrolling Container */}
+        {/* Clean Grid Layout */}
+        <div className="relative">
+          {/* Horizontal Scroll Container */}
           <div 
-            className={`flex gap-4 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`flex gap-6 overflow-x-auto scrollbar-hide pb-4 ${isDragging ? 'cursor-grabbing' : ''}`}
             style={{
-              transform: `translateX(${translateX}px)`,
-              width: `${extendedSneakers.length * cardWidth}px`,
+              scrollSnapType: 'x mandatory',
               userSelect: 'none'
             }}
             onMouseDown={handleMouseDown}
@@ -226,52 +222,52 @@ export default function HotRightNowSlider() {
             onMouseLeave={handleMouseLeave}
           >
             {extendedSneakers.map((sneaker: any, index: number) => (
-              <div key={`${sneaker.id}-${index}`} className="flex-shrink-0" style={{ width: `${cardWidth - 16}px` }}>
+              <div 
+                key={`${sneaker.id}-${index}`} 
+                className="flex-shrink-0 w-48 sm:w-56"
+                style={{ scrollSnapAlign: 'start' }}
+              >
                 <Link href={`/sneaker/${sneaker.slug}`}>
                   <div 
                     className="group cursor-pointer"
                     onMouseDown={(e) => e.preventDefault()}
                   >
-                    {/* Clean product image */}
-                    <div className="aspect-square mb-3 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+                    {/* Ultra Clean Product Image */}
+                    <div className="aspect-square mb-4 bg-white dark:bg-neutral-800 overflow-hidden">
                       <img
                         src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
                         alt={sneaker.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-200"
+                        loading="lazy"
                       />
                     </div>
                     
-                    {/* Minimal text below - Nike style */}
-                    <div className="space-y-1">
-                      <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
-                        {sneaker.brandName || 'Unknown Brand'}
-                      </p>
-                      <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+                    {/* Minimal Product Info */}
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-normal text-neutral-900 dark:text-neutral-100 line-clamp-2 leading-5">
                         {sneaker.name}
                       </h3>
-                      <p className="text-sm font-semibold text-foreground">
-                        {new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD'
-                        }).format(sneaker.retailPrice)}
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider font-light">
+                          {sneaker.brandName || 'Unknown'}
+                        </p>
+                        <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                          ${sneaker.retailPrice || '0'}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </Link>
               </div>
             ))}
           </div>
-
-          {/* Subtle fade gradients on edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent dark:from-background pointer-events-none z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent dark:from-background pointer-events-none z-10" />
         </div>
 
-        {/* Simple View All Link - Fixed text */}
-        <div className="text-center mt-8">
+        {/* Subtle View All Link */}
+        <div className="flex justify-center mt-10">
           <Link href="/discover">
-            <span className="text-sm font-medium text-foreground hover:text-muted-foreground underline transition-colors">
-              View All AI Picks
+            <span className="text-sm font-light text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-neutral-300 dark:border-neutral-600 hover:border-neutral-900 dark:hover:border-neutral-100 pb-1">
+              View All
             </span>
           </Link>
         </div>

@@ -3,6 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Minimalist utilities for clean design */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* DaisyUI custom animations and shimmer effect */
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
