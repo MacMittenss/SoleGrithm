@@ -165,53 +165,51 @@ export default function ARDemo() {
                       }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <div className="camera"></div> 
-                      <div className="display">
-                        <div className="artboard artboard-demo phone-1 bg-gradient-to-b from-blue-500/20 to-purple-500/20 relative overflow-hidden">
-                          {/* AR Camera Content */}
-                          <div className="absolute inset-0 bg-black/10" />
-                          
-                          {/* Status Bar */}
-                          <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-xs z-10">
-                            <span>9:41</span>
-                            <div className="flex items-center gap-1">
-                              <div className="w-4 h-2 border border-white rounded-sm">
-                                <div className="w-full h-full bg-white rounded-sm"></div>
-                              </div>
+                      <div className="mockup-phone-camera"></div> 
+                      <div className="mockup-phone-display bg-gradient-to-b from-blue-500/20 to-purple-500/20 relative overflow-hidden">
+                        {/* AR Camera Content */}
+                        <div className="absolute inset-0 bg-black/10" />
+                        
+                        {/* Status Bar */}
+                        <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-xs z-10">
+                          <span>9:41</span>
+                          <div className="flex items-center gap-1">
+                            <div className="w-4 h-2 border border-white rounded-sm">
+                              <div className="w-full h-full bg-white rounded-sm"></div>
                             </div>
                           </div>
-                          
-                          {/* Foot outline */}
-                          <motion.div 
-                            className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-32 h-20 border-2 border-primary/50 rounded-full"
-                            animate={{
-                              scale: [1, 1.05, 1],
-                              opacity: [0.5, 1, 0.5]
-                            }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                          />
-                          
-                          {/* Virtual Sneaker */}
-                          <motion.img
-                            src={sneakers[selectedSneaker].image}
-                            alt="AR Sneaker"
-                            className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-28 h-20 object-cover rounded-lg"
-                            animate={{
-                              y: [0, -5, 0],
-                              rotateY: [0, 10, 0]
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          />
-                          
-                          {/* AR UI Elements */}
-                          <div className="absolute top-12 left-4 right-4 flex justify-between">
-                            <Badge variant="secondary" className="text-xs bg-black/50 text-white">
-                              AR Active
-                            </Badge>
-                            <Badge variant="secondary" className="text-xs bg-black/50 text-white">
-                              Size: 9.5
-                            </Badge>
-                          </div>
+                        </div>
+                        
+                        {/* Foot outline */}
+                        <motion.div 
+                          className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-32 h-20 border-2 border-primary/50 rounded-full"
+                          animate={{
+                            scale: [1, 1.05, 1],
+                            opacity: [0.5, 1, 0.5]
+                          }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        />
+                        
+                        {/* Virtual Sneaker */}
+                        <motion.img
+                          src={sneakers[selectedSneaker].image}
+                          alt="AR Sneaker"
+                          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-28 h-20 object-cover rounded-lg"
+                          animate={{
+                            y: [0, -5, 0],
+                            rotateY: [0, 10, 0]
+                          }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                        
+                        {/* AR UI Elements */}
+                        <div className="absolute top-12 left-4 right-4 flex justify-between">
+                          <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                            AR Active
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                            Size: 9.5
+                          </Badge>
                         </div>
                       </div>
                     </motion.div>
