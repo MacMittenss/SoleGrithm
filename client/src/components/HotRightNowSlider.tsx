@@ -291,7 +291,7 @@ export default function BrandShowcase() {
                     <img 
                       src={brand.logoUrl} 
                       alt={`${brand.name} logo`}
-                      className="h-8 w-auto max-w-full object-contain opacity-70 dark:opacity-60 filter grayscale hover:grayscale-0 hover:opacity-90 transition-all duration-300"
+                      className={`w-auto max-w-full object-contain opacity-70 dark:opacity-60 filter grayscale hover:grayscale-0 hover:opacity-90 transition-all duration-300 ${brand.name === 'Jordan' ? 'h-12' : 'h-8'}`}
                       loading="lazy"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
