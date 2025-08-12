@@ -208,12 +208,13 @@ export default function HotRightNowSlider() {
         </div>
 
         {/* Clean Grid Layout */}
-        <div className="relative">
-          {/* Horizontal Scroll Container */}
+        <div className="relative overflow-hidden">
+          {/* Continuous Scrolling Container */}
           <div 
-            className={`flex gap-6 overflow-x-auto scrollbar-hide pb-4 ${isDragging ? 'cursor-grabbing' : ''}`}
+            className={`flex gap-6 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{
-              scrollSnapType: 'x mandatory',
+              transform: `translateX(${translateX}px)`,
+              width: `${extendedSneakers.length * (cardWidth + 24)}px`,
               userSelect: 'none'
             }}
             onMouseDown={handleMouseDown}
@@ -261,6 +262,10 @@ export default function HotRightNowSlider() {
               </div>
             ))}
           </div>
+
+          {/* Subtle fade gradients on edges for minimalist look */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-neutral-50 to-transparent dark:from-neutral-900 pointer-events-none z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-neutral-50 to-transparent dark:from-neutral-900 pointer-events-none z-10" />
         </div>
 
         {/* Subtle View All Link */}
