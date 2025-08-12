@@ -153,9 +153,9 @@ export default function ARDemo() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
                   >
-                    {/* AR Camera View Simulation */}
+                    {/* iPhone Mockup with AR Camera View */}
                     <motion.div 
-                      className="relative mx-auto w-64 h-80 bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-2xl border-2 border-primary/30 overflow-hidden"
+                      className="relative mx-auto w-64 h-80 bg-black rounded-[2.5rem] p-2 shadow-2xl"
                       animate={{ 
                         boxShadow: [
                           "0 0 20px rgba(59, 130, 246, 0.3)",
@@ -165,7 +165,22 @@ export default function ARDemo() {
                       }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <div className="absolute inset-0 bg-black/10" />
+                      {/* iPhone Screen */}
+                      <div className="relative w-full h-full bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-[2rem] overflow-hidden">
+                        {/* iPhone Notch */}
+                        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-black rounded-b-2xl z-10"></div>
+                        
+                        {/* Status Bar */}
+                        <div className="absolute top-2 left-4 right-4 flex justify-between items-center text-white text-xs z-10">
+                          <span>9:41</span>
+                          <div className="flex items-center gap-1">
+                            <div className="w-4 h-2 border border-white rounded-sm">
+                              <div className="w-full h-full bg-white rounded-sm"></div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="absolute inset-0 bg-black/10" />
                       
                       {/* Foot outline */}
                       <motion.div 
@@ -189,14 +204,15 @@ export default function ARDemo() {
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                       
-                      {/* AR UI Elements */}
-                      <div className="absolute top-4 left-4 right-4 flex justify-between">
-                        <Badge variant="secondary" className="text-xs bg-black/50 text-white">
-                          AR Active
-                        </Badge>
-                        <Badge variant="secondary" className="text-xs bg-black/50 text-white">
-                          Size: 9.5
-                        </Badge>
+                        {/* AR UI Elements */}
+                        <div className="absolute top-4 left-4 right-4 flex justify-between">
+                          <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                            AR Active
+                          </Badge>
+                          <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                            Size: 9.5
+                          </Badge>
+                        </div>
                       </div>
                     </motion.div>
 
