@@ -116,26 +116,35 @@ export default function BrandShowcase() {
   }
 
   function getBrandLogo(brandName: string): string {
-    // Using reliable logo CDN or brand assets
+    // High-quality brand logos
     const logos: Record<string, string> = {
       'Nike': 'https://logoeps.com/wp-content/uploads/2013/03/nike-vector-logo.png',
       'Adidas': 'https://logoeps.com/wp-content/uploads/2014/04/adidas-vector-logo.png',
       'Jordan': 'https://logos-world.net/wp-content/uploads/2020/06/Jordan-Logo.png',
+      'New Balance': 'https://logoeps.com/wp-content/uploads/2013/03/new-balance-vector-logo.png',
+      'Converse': 'https://logoeps.com/wp-content/uploads/2014/07/converse-vector-logo.png',
+      'Vans': 'https://logoeps.com/wp-content/uploads/2013/03/vans-vector-logo.png',
+      'Puma': 'https://logoeps.com/wp-content/uploads/2013/03/puma-vector-logo.png',
+      'Reebok': 'https://logoeps.com/wp-content/uploads/2013/03/reebok-vector-logo.png',
+      'ASICS': 'https://logoeps.com/wp-content/uploads/2013/03/asics-vector-logo.png',
+      'Balenciaga': 'https://logoeps.com/wp-content/uploads/2013/03/balenciaga-vector-logo.png',
+      'Off-White': 'https://logoeps.com/wp-content/uploads/2017/09/off-white-vector-logo.png',
+      'Gucci': 'https://logoeps.com/wp-content/uploads/2013/03/gucci-vector-logo.png',
       'GOAT': 'https://brand.goat.com/web/v1/image/logo-black.svg',
       'StockX': 'https://stockx.imgix.net/stockx-logo-black-no-wordmark.svg'
     };
-    return logos[brandName] || '';
+    return logos[brandName] || `https://via.placeholder.com/120x60/666666/FFFFFF?text=${encodeURIComponent(brandName)}`;
   }
 
-  // Calculate card width based on screen size
+  // Calculate logo spacing based on screen size
   useEffect(() => {
     const updateCardWidth = () => {
       if (window.innerWidth >= 1024) {
-        setCardWidth(280); // Larger cards for brand showcase
+        setCardWidth(160); // Compact logo spacing for desktop
       } else if (window.innerWidth >= 640) {
-        setCardWidth(320); // Medium screens
+        setCardWidth(128); // Medium screens
       } else {
-        setCardWidth(window.innerWidth - 48); // Small screens: 1 card per view
+        setCardWidth(120); // Small screens
       }
     };
 
@@ -246,13 +255,10 @@ export default function BrandShowcase() {
     <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         {/* Minimalist Header */}
-        <div className="mb-10">
+        <div className="mb-8">
           <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
             Featured Brands
           </h2>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light">
-            Discover premium sneaker brands available on our platform
-          </p>
         </div>
 
         {/* Clean Brand Showcase */}
@@ -273,69 +279,19 @@ export default function BrandShowcase() {
             {extendedBrands.map((brand: any, index: number) => (
               <div 
                 key={`${brand.id}-${index}`} 
-                className="flex-shrink-0 w-64 sm:w-72"
+                className="flex-shrink-0 w-32 sm:w-40"
               >
                 <Link href={`/catalog?brand=${brand.slug}`}>
                   <div 
-                    className="group cursor-pointer"
+                    className="group cursor-pointer flex items-center justify-center h-16 hover:opacity-75 transition-opacity duration-200"
                     onMouseDown={(e) => e.preventDefault()}
                   >
-                    {/* Transparent Grey Brand Card */}
-                    <div className="h-32 mb-4 bg-neutral-200/20 dark:bg-neutral-700/15 backdrop-blur-sm rounded-lg overflow-hidden relative border border-neutral-300/20 dark:border-neutral-600/20">
-                      {/* Brand Logo/Name Display */}
-                      <div className="absolute inset-0 flex items-center justify-center p-6">
-                        {brand.logoUrl ? (
-                          <div className="flex flex-col items-center space-y-2">
-                            <img 
-                              src={brand.logoUrl} 
-                              alt={`${brand.name} logo`}
-                              className="h-8 w-auto object-contain opacity-80 dark:opacity-70 filter grayscale"
-                              onError={(e) => {
-                                // Fallback to text if logo fails to load
-                                const target = e.target as HTMLElement;
-                                target.style.display = 'none';
-                                const parent = target.parentElement;
-                                if (parent) {
-                                  parent.innerHTML = `<h3 class="text-lg font-light text-neutral-700 dark:text-neutral-300 tracking-wide">${brand.name}</h3>`;
-                                }
-                              }}
-                            />
-                            <span className="text-sm font-light text-neutral-600 dark:text-neutral-400 tracking-wide">
-                              {brand.name}
-                            </span>
-                          </div>
-                        ) : (
-                          <h3 className="text-lg font-light text-neutral-700 dark:text-neutral-300 tracking-wide text-center">
-                            {brand.name}
-                          </h3>
-                        )}
-                      </div>
-                      
-                      {/* Type Badge */}
-                      <div className="absolute top-3 right-3">
-                        <span className={`text-xs px-2 py-1 rounded-full font-light ${
-                          brand.type === 'luxury' 
-                            ? 'bg-neutral-800/80 text-neutral-200' 
-                            : brand.type === 'marketplace'
-                            ? 'bg-neutral-600/80 text-neutral-200'
-                            : 'bg-neutral-500/80 text-neutral-100'
-                        }`}>
-                          {brand.type === 'luxury' ? 'Luxury' : 
-                           brand.type === 'marketplace' ? 'Market' : 
-                           brand.isPopular ? 'Popular' : 'Brand'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    {/* Brand Info */}
-                    <div className="space-y-2">
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light line-clamp-2">
-                        {brand.description}
-                      </p>
-                      <p className="text-xs text-neutral-500 dark:text-neutral-500 font-light">
-                        {brand.sneakerCount.toLocaleString()} sneakers available
-                      </p>
-                    </div>
+                    <img 
+                      src={brand.logoUrl} 
+                      alt={`${brand.name} logo`}
+                      className="h-10 w-auto max-w-full object-contain opacity-60 dark:opacity-50 filter grayscale hover:grayscale-0 transition-all duration-300"
+                      loading="lazy"
+                    />
                   </div>
                 </Link>
               </div>
@@ -347,14 +303,7 @@ export default function BrandShowcase() {
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-neutral-50 to-transparent dark:from-neutral-900 pointer-events-none z-10" />
         </div>
 
-        {/* Subtle View All Link */}
-        <div className="flex justify-center mt-10">
-          <Link href="/catalog">
-            <span className="text-sm font-light text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-neutral-300 dark:border-neutral-600 hover:border-neutral-900 dark:hover:border-neutral-100 pb-1">
-              Browse All Brands
-            </span>
-          </Link>
-        </div>
+
       </div>
     </section>
   );
