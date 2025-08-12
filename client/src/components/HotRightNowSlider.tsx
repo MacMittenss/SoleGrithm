@@ -120,7 +120,7 @@ export default function BrandShowcase() {
     const logos: Record<string, string> = {
       'Nike': 'https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png',
       'Adidas': 'https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png',
-      'Jordan': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M20 8c0.5-1 1.5-2 2.5-2s2 1 2 2c0 0.5-0.3 1-0.8 1.3L26 12l2 1.5c1 0.5 1.5 1.5 1.5 2.5 0 1-0.5 2-1.5 2.5L25 20l-1 4c-0.3 1.2-1.5 2-2.8 2h-2.4c-1.3 0-2.5-0.8-2.8-2l-1-4-3-1.5c-1-0.5-1.5-1.5-1.5-2.5 0-1 0.5-2 1.5-2.5L14 12l2.3-2.7C16.3 9 16 8.5 16 8c0-1 0.9-2 2-2s2 1 2.5 2z" fill="#000"/></svg>')}`,
+      'Jordan': 'https://logos-world.net/wp-content/uploads/2020/06/Jumpman-Logo.png',
       'New Balance': 'https://logos-world.net/wp-content/uploads/2020/09/New-Balance-Logo.png',
       'Converse': 'https://logos-world.net/wp-content/uploads/2020/06/Converse-Logo.png',
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',
