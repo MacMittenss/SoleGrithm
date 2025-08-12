@@ -116,30 +116,31 @@ export default function BrandShowcase() {
   }
 
   function getBrandLogo(brandName: string): string {
-    // Using reliable logo sources
+    // Using a mix of reliable CDNs and backup options
     const logos: Record<string, string> = {
-      'Nike': 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg',
-      'Adidas': 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg',
-      'Jordan': 'https://upload.wikimedia.org/wikipedia/en/3/37/Jumpman_logo.svg',
-      'New Balance': 'https://upload.wikimedia.org/wikipedia/commons/e/ea/New_Balance_logo.svg',
-      'Converse': 'https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg',
-      'Vans': 'https://upload.wikimedia.org/wikipedia/commons/9/91/Vans-logo.svg',
-      'Puma': 'https://upload.wikimedia.org/wikipedia/en/4/49/Puma_logo.svg',
-      'Reebok': 'https://upload.wikimedia.org/wikipedia/commons/b/b4/Reebok_logo.svg',
-      'ASICS': 'https://upload.wikimedia.org/wikipedia/commons/1/1c/ASICS_Logo.svg',
-      'Balenciaga': 'https://cdn.worldvectorlogo.com/logos/balenciaga.svg',
-      'Golden Goose': 'https://cdn.worldvectorlogo.com/logos/golden-goose-deluxe-brand.svg',
-      'Off-White': 'https://cdn.worldvectorlogo.com/logos/off-white-logo.svg',
-      'Gucci': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Gucci_logo.svg/200px-Gucci_logo.svg.png',
-      'Saint Laurent': 'https://cdn.worldvectorlogo.com/logos/saint-laurent.svg',
-      'Common Projects': 'https://cdn.worldvectorlogo.com/logos/common-projects.svg',
-      'GOAT': 'https://cdn.worldvectorlogo.com/logos/goat-1.svg',
-      'StockX': 'https://cdn.worldvectorlogo.com/logos/stockx.svg',
-      'Flight Club': 'https://cdn.worldvectorlogo.com/logos/flight-club.svg',
-      'Stadium Goods': 'https://cdn.worldvectorlogo.com/logos/stadium-goods.svg',
-      'Grailed': 'https://cdn.worldvectorlogo.com/logos/grailed.svg'
+      'Nike': 'https://logosvector.net/wp-content/uploads/2013/03/nike-inc-logo-vector.png',
+      'Adidas': 'https://logosvector.net/wp-content/uploads/2013/03/adidas-ag-logo-vector.png',
+      'Jordan': 'https://logosvector.net/wp-content/uploads/2014/07/nike-air-jordan-jumpman-logo-vector.png',
+      'New Balance': 'https://logosvector.net/wp-content/uploads/2014/07/new-balance-athletics-logo-vector.png',
+      'Converse': 'https://logosvector.net/wp-content/uploads/2013/03/converse-logo-vector.png',
+      'Vans': 'https://logosvector.net/wp-content/uploads/2013/03/vans-logo-vector.png',
+      'Puma': 'https://logosvector.net/wp-content/uploads/2013/03/puma-se-logo-vector.png',
+      'Reebok': 'https://logosvector.net/wp-content/uploads/2013/03/reebok-international-logo-vector.png',
+      'ASICS': 'https://logosvector.net/wp-content/uploads/2013/03/asics-logo-vector.png',
+      'Balenciaga': 'https://logos-world.net/wp-content/uploads/2020/12/Balenciaga-Logo.png',
+      'Golden Goose': 'https://logos-world.net/wp-content/uploads/2022/11/Golden-Goose-Logo.png',
+      'Off-White': 'https://logos-world.net/wp-content/uploads/2020/12/Off-White-Logo.png',
+      'Gucci': 'https://logos-world.net/wp-content/uploads/2020/04/Gucci-Logo.png',
+      'Saint Laurent': 'https://logos-world.net/wp-content/uploads/2020/12/Saint-Laurent-Logo.png',
+      'Common Projects': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40"><text x="100" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#333">COMMON PROJECTS</text></svg>')}`,
+      'GOAT': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text x="50" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="#000">GOAT</text></svg>')}`,
+      'StockX': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#00AC7C">StockX</text></svg>')}`,
+      'Flight Club': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#000">FLIGHT CLUB</text></svg>')}`,
+      'Stadium Goods': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#000">STADIUM GOODS</text></svg>')}`,
+      'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#000">GRAILED</text></svg>')}`
     };
-    return logos[brandName] || `https://via.placeholder.com/120x40/999999/FFFFFF?text=${encodeURIComponent(brandName)}`;
+    
+    return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="#f9f9f9" stroke="#e5e5e5"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#666">${brandName}</text></svg>`)}`;
   }
 
   // Calculate logo spacing based on screen size
@@ -195,7 +196,7 @@ export default function BrandShowcase() {
     const newTranslateX = dragStart.translateX + deltaX;
     
     // Apply boundaries to prevent dragging too far
-    const maxTranslate = -(sneakers.length * cardWidth);
+    const maxTranslate = -(featuredBrands.length * cardWidth);
     const boundedTranslate = Math.max(Math.min(newTranslateX, cardWidth), maxTranslate - cardWidth);
     
     setTranslateX(boundedTranslate);
@@ -235,14 +236,11 @@ export default function BrandShowcase() {
             <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-48 mb-2 animate-pulse" />
             <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-64 animate-pulse" />
           </div>
-          <div className="flex gap-6 overflow-hidden">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-64 animate-pulse">
-                <div className="h-32 bg-neutral-200 dark:bg-neutral-700 rounded-lg mb-4" />
-                <div className="space-y-2">
-                  <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-full" />
-                  <div className="h-3 bg-neutral-200 dark:bg-neutral-700 w-32" />
-                  <div className="h-3 bg-neutral-200 dark:bg-neutral-700 w-20" />
+          <div className="flex gap-4 overflow-hidden">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-28 sm:w-32 lg:w-36 animate-pulse">
+                <div className="h-12 bg-neutral-200 dark:bg-neutral-700 rounded mb-2 flex items-center justify-center">
+                  <div className="h-6 w-16 bg-neutral-300 dark:bg-neutral-600 rounded" />
                 </div>
               </div>
             ))}
