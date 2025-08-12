@@ -258,7 +258,7 @@ export default function BrandShowcase() {
       <div className="w-full">
         {/* Minimalist Header - Centered */}
         <div className="mb-8 text-center">
-          <h2 className="text-xl font-light text-neutral-900 dark:text-neutral-100 mb-2">
+          <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
             Featured Brands
           </h2>
         </div>
