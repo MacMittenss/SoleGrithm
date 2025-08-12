@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
+import jordanLogo from '@assets/image_1755038304265.png';
 
 type DailyContent = {
   title: string;
@@ -120,7 +121,7 @@ export default function BrandShowcase() {
     const logos: Record<string, string> = {
       'Nike': 'https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png',
       'Adidas': 'https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png',
-      'Jordan': '/attached_assets/image_1755038304265.png',
+      'Jordan': jordanLogo,
       'New Balance': 'https://logos-world.net/wp-content/uploads/2020/09/New-Balance-Logo.png',
       'Converse': 'https://logos-world.net/wp-content/uploads/2020/06/Converse-Logo.png',
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',
