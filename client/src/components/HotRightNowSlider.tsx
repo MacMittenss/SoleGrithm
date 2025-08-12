@@ -160,14 +160,14 @@ export default function BrandShowcase() {
     return () => window.removeEventListener('resize', updateCardWidth);
   }, []);
 
-  // Smooth continuous scrolling for brands
+  // Auto-scroll only when not dragging
   useEffect(() => {
     if (!featuredBrands?.length || isDragging) return;
     
-    const animationFrame = requestAnimationFrame(() => {
+    const interval = setInterval(() => {
       setTranslateX(prev => {
         const maxTranslate = -(featuredBrands.length * (cardWidth + 16));
-        const newTranslate = prev - 0.15; // Slower for clean logo display
+        const newTranslate = prev - 0.5; // Smooth auto-scroll
         
         // Reset to beginning when reached the end
         if (newTranslate <= maxTranslate) {
@@ -175,10 +175,10 @@ export default function BrandShowcase() {
         }
         return newTranslate;
       });
-    });
+    }, 16); // 60fps
 
-    return () => cancelAnimationFrame(animationFrame);
-  }, [featuredBrands?.length, cardWidth, isDragging, translateX]);
+    return () => clearInterval(interval);
+  }, [featuredBrands?.length, cardWidth, isDragging]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -195,32 +195,11 @@ export default function BrandShowcase() {
     const deltaX = e.clientX - dragStart.x;
     const newTranslateX = dragStart.translateX + deltaX;
     
-    // Apply boundaries with some resistance at edges
-    const maxTranslate = -(featuredBrands.length * (cardWidth + 16) / 2);
-    const minTranslate = cardWidth;
-    
-    let boundedTranslate = newTranslateX;
-    if (boundedTranslate > minTranslate) {
-      boundedTranslate = minTranslate + (boundedTranslate - minTranslate) * 0.3;
-    } else if (boundedTranslate < maxTranslate) {
-      boundedTranslate = maxTranslate + (boundedTranslate - maxTranslate) * 0.3;
-    }
-    
-    setTranslateX(boundedTranslate);
+    // Direct 1:1 mapping for responsive dragging
+    setTranslateX(newTranslateX);
   };
 
   const handleMouseUp = () => {
-    if (isDragging) {
-      // Snap back to bounds if dragged beyond limits
-      const maxTranslate = -(featuredBrands.length * (cardWidth + 16) / 2);
-      const minTranslate = cardWidth;
-      
-      if (translateX > minTranslate) {
-        setTranslateX(0);
-      } else if (translateX < maxTranslate) {
-        setTranslateX(maxTranslate + cardWidth);
-      }
-    }
     setIsDragging(false);
   };
 
@@ -287,9 +266,9 @@ export default function BrandShowcase() {
         <div className="relative overflow-hidden w-full">
           {/* Continuous Scrolling Container */}
           <div 
-            className={`flex gap-4 transition-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+            className={`flex gap-4 will-change-transform ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{
-              transform: `translateX(${translateX}px)`,
+              transform: `translate3d(${translateX}px, 0, 0)`,
               width: `${extendedBrands.length * (cardWidth + 16)}px`,
               userSelect: 'none'
             }}
