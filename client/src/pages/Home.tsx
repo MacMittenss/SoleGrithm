@@ -423,182 +423,49 @@ export default function Home() {
 
           {/* Nike-Style Minimal Grid */}
           {sneakersLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
               {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="daisy-card bg-white dark:bg-base-200 shadow-lg overflow-hidden animate-pulse">
-                  {/* Image Skeleton */}
-                  <div className="aspect-square bg-muted" />
-                  
-                  {/* Card Body Skeleton */}
-                  <div className="p-4 space-y-3">
-                    {/* Badge Skeleton */}
-                    <div className="flex items-center justify-between">
-                      <div className="h-4 bg-muted rounded-full w-16" />
-                      <div className="h-3 bg-muted rounded w-8" />
-                    </div>
-                    
-                    {/* Title Skeleton */}
-                    <div className="space-y-2">
-                      <div className="h-4 bg-muted rounded w-full" />
-                      <div className="h-4 bg-muted rounded w-3/4" />
-                    </div>
-                    
-                    {/* Price Skeleton */}
-                    <div className="flex items-center justify-between">
-                      <div className="h-5 bg-muted rounded w-20" />
-                      <div className="h-4 bg-muted rounded-full w-8" />
-                    </div>
-                    
-                    {/* Button Skeleton */}
-                    <div className="h-8 bg-muted rounded w-full" />
+                <div key={i} className="animate-pulse">
+                  <div className="aspect-square bg-muted rounded-lg mb-3" />
+                  <div className="space-y-1">
+                    <div className="h-3 bg-muted rounded w-16" />
+                    <div className="h-4 bg-muted rounded w-20" />
+                    <div className="h-4 bg-muted rounded w-12" />
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
-              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 12).map((sneaker: any, index: number) => (
-                <motion.div
-                  key={sneaker.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  whileHover={{ y: -8 }}
-                  className="group"
-                >
-                  <Link href={`/sneaker/${sneaker.slug}`}>
-                    <div className="daisy-card bg-white dark:bg-base-200 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer h-full">
-                      {/* Product Image with Badges */}
-                      <div className="relative bg-gray-50 dark:bg-base-300 aspect-square overflow-hidden">
-                        <img
-                          src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
-                          alt={sneaker.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          data-testid={`img-sneaker-${sneaker.id}`}
-                        />
-                        
-                        {/* Status Badges */}
-                        <div className="absolute top-3 left-3 flex flex-col gap-2">
-                          {sneaker.isNew && (
-                            <span className="daisy-badge daisy-badge-primary bg-blue-500 text-white text-xs font-medium px-2 py-1">
-                              NEW
-                            </span>
-                          )}
-                          {sneaker.isTrending && (
-                            <span className="daisy-badge daisy-badge-secondary bg-orange-500 text-white text-xs font-medium px-2 py-1">
-                              🔥 TRENDING
-                            </span>
-                          )}
-                          {sneaker.isLimited && (
-                            <span className="daisy-badge daisy-badge-accent bg-purple-500 text-white text-xs font-medium px-2 py-1">
-                              LIMITED
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Quick Actions on Hover */}
-                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="flex flex-col gap-2">
-                            <button 
-                              className="daisy-btn daisy-btn-circle daisy-btn-sm bg-white hover:bg-gray-100 text-gray-700 shadow-lg"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                // Add to favorites logic
-                              }}
-                              data-testid={`button-favorite-${sneaker.id}`}
-                            >
-                              <Heart size={14} />
-                            </button>
-                            <button 
-                              className="daisy-btn daisy-btn-circle daisy-btn-sm bg-white hover:bg-gray-100 text-gray-700 shadow-lg"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                // Quick view logic
-                              }}
-                              data-testid={`button-quickview-${sneaker.id}`}
-                            >
-                              <Eye size={14} />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Card Body */}
-                      <div className="daisy-card-body p-4">
-                        {/* Brand Badge */}
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="daisy-badge daisy-badge-outline text-xs font-medium">
-                            {sneaker.brandName || 'Unknown Brand'}
-                          </span>
-                          {sneaker.rating && (
-                            <div className="flex items-center gap-1">
-                              <Star size={12} className="fill-yellow-400 text-yellow-400" />
-                              <span className="text-xs text-muted-foreground">{sneaker.rating}</span>
-                            </div>
-                          )}
-                        </div>
-                        
-                        {/* Product Name */}
-                        <h3 
-                          className="daisy-card-title text-sm font-semibold text-foreground line-clamp-2 leading-tight mb-3"
-                          data-testid={`text-name-${sneaker.id}`}
-                        >
-                          {sneaker.name}
-                        </h3>
-                        
-                        {/* Price Section */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span 
-                              className="text-lg font-bold text-foreground"
-                              data-testid={`text-price-${sneaker.id}`}
-                            >
-                              {new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'USD'
-                              }).format(sneaker.retailPrice)}
-                            </span>
-                            {sneaker.originalPrice && sneaker.originalPrice > sneaker.retailPrice && (
-                              <span className="text-xs text-muted-foreground line-through">
-                                ${sneaker.originalPrice}
-                              </span>
-                            )}
-                          </div>
-                          
-                          {/* Market Status */}
-                          <span className={`daisy-badge daisy-badge-sm ${
-                            sneaker.marketValue > sneaker.retailPrice 
-                              ? 'daisy-badge-success bg-green-500 text-white' 
-                              : 'daisy-badge-error bg-red-500 text-white'
-                          }`}>
-                            {sneaker.marketValue > sneaker.retailPrice ? '📈' : '📉'}
-                          </span>
-                        </div>
-
-                        {/* Action Button */}
-                        <div className="daisy-card-actions justify-end mt-3">
-                          <button 
-                            className="daisy-btn daisy-btn-primary daisy-btn-sm w-full flex items-center justify-center gap-2"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              // Add to cart logic
-                            }}
-                            data-testid={`button-addcart-${sneaker.id}`}
-                          >
-                            <ShoppingBag size={14} />
-                            Quick Add
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Shimmer Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
+              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 12).map((sneaker: any) => (
+                <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
+                  <div className="group cursor-pointer">
+                    {/* Clean product image */}
+                    <div className="aspect-square mb-3 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+                      <img
+                        src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
+                        alt={sneaker.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                  </Link>
-                </motion.div>
+                    
+                    {/* Minimal text below - Nike style */}
+                    <div className="space-y-1">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">
+                        {sneaker.brandName || 'Unknown Brand'}
+                      </p>
+                      <h3 className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+                        {sneaker.name}
+                      </h3>
+                      <p className="text-sm font-semibold text-foreground">
+                        {new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD'
+                        }).format(sneaker.retailPrice)}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
               )) : []}
             </div>
           )}
