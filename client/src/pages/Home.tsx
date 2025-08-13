@@ -944,49 +944,79 @@ export default function Home() {
                       <h3 className="text-white text-sm font-semibold text-center mb-3">Community</h3>
                     </div>
                     
-                    {/* Image Gallery */}
-                    <div className="absolute top-16 left-3 right-3 bottom-3">
-                      <div className="grid grid-cols-3 gap-1 h-full">
-                        <div className="grid gap-1">
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
-                            alt="Community post"
-                          />
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
-                            alt="Community post"
-                          />
-                        </div>
-                        <div className="grid gap-1">
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
-                            alt="Community post"
-                          />
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
-                            alt="Community post"
-                          />
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
-                            alt="Community post"
-                          />
-                        </div>
-                        <div className="grid gap-1">
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
-                            alt="Community post"
-                          />
-                          <img 
-                            className="w-full h-full object-cover rounded-sm" 
-                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
-                            alt="Community post"
-                          />
+                    {/* Image Gallery - Centered with spacing */}
+                    <div className="absolute top-20 left-6 right-6 bottom-12 flex items-center justify-center">
+                      <div className="w-full h-full max-h-48">
+                        <div className="grid grid-cols-3 gap-1 h-full">
+                          <div className="grid gap-1">
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.1 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.2 }}
+                            />
+                          </div>
+                          <div className="grid gap-1">
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.3 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.4 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.5 }}
+                            />
+                          </div>
+                          <div className="grid gap-1">
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.6 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.7 }}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
