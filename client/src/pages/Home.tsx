@@ -945,8 +945,8 @@ export default function Home() {
                     </div>
                     
                     {/* Image Gallery - Centered with spacing */}
-                    <div className="absolute top-20 left-6 right-6 bottom-12 flex items-center justify-center">
-                      <div className="w-full h-full max-h-48">
+                    <div className="absolute top-16 left-6 right-6 bottom-8 flex items-center justify-center">
+                      <div className="w-full h-full max-h-56">
                         <div className="grid grid-cols-3 gap-1 h-full">
                           <div className="grid gap-1">
                             <motion.img 
