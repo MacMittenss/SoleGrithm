@@ -201,7 +201,15 @@ export default function BrandShowcase() {
   };
 
   const handleMouseUp = () => {
-    setIsDraggi<ctrl62>  return (
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  if (isLoading) {
+    return (
       <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900 w-full">
         <div className="w-full">
           <div className="mb-8 text-center">
