@@ -461,132 +461,152 @@ export default function Home() {
 
 
 
-      {/* SoleRadar Discovery Section - Using ARDemo styling */}
+      {/* Personalized Discovery Section - Template Design */}
       <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-background"
+        className="py-20 sm:py-32 bg-white dark:bg-neutral-900"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-            <motion.div
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Compass className="w-4 h-4" />
-              SoleRadar Discovery
-            </motion.div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
-              Personalized Discovery Experience
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-neutral-900 dark:text-white mb-6">
+              Personalized Discovery
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              AI-powered sneaker discovery tailored to your style, preferences, and community insights. 
-              Find your next perfect pair with intelligent recommendations.
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto font-light">
+              Discover sneakers tailored to your unique style through AI-powered recommendations
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Discovery Interface */}
-            <motion.div className="space-y-6" variants={itemVariants}>
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-12 gap-6 lg:gap-8">
+            {/* Left Column - Main Feature */}
+            <motion.div 
+              className="col-span-12 lg:col-span-8"
+              variants={itemVariants}
+            >
               <motion.div
-                className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
+                className="relative h-96 lg:h-[500px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 rounded-3xl overflow-hidden group cursor-pointer"
                 variants={cardVariants}
                 whileHover="hover"
+                data-testid="main-discovery-card"
               >
-                <div className="text-center space-y-6">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500 rounded-full blur-xl"></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-500 rounded-full blur-xl"></div>
+                </div>
+                
+                {/* Content */}
+                <div className="relative z-10 h-full flex flex-col justify-center items-center text-center p-8 lg:p-12">
                   <motion.div
-                    className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-2xl flex items-center justify-center mx-auto"
+                    className="w-20 h-20 bg-white dark:bg-neutral-800 rounded-2xl flex items-center justify-center mb-8 shadow-lg"
                     whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
                     transition={{ duration: 0.5 }}
                   >
-                    <Compass className="w-10 h-10 sm:w-12 sm:h-12 text-blue-500" />
+                    <Compass className="w-10 h-10 text-blue-500" />
                   </motion.div>
                   
-                  <div>
-                    <h3 className="text-xl sm:text-2xl font-semibold mb-2">Smart Recommendations</h3>
-                    <p className="text-sm sm:text-base text-muted-foreground mb-6">
-                      Get personalized sneaker suggestions based on your style and preferences
-                    </p>
-                    
+                  <h3 className="text-2xl lg:text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+                    AI Style Matching
+                  </h3>
+                  <p className="text-neutral-600 dark:text-neutral-400 text-lg mb-8 max-w-md">
+                    Advanced algorithms analyze your preferences to suggest perfect sneaker matches
+                  </p>
+                  
+                  <Link href="/discover">
                     <motion.div
                       variants={cardVariants}
                       whileHover="hover"
                       whileTap="tap"
                     >
-                      <Link href="/discover">
-                        <Button 
-                          size="lg" 
-                          className="h-12 px-8 text-base bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
-                          data-testid="button-start-discovery"
-                        >
-                          <Compass className="w-5 h-5 mr-2" />
-                          Start Discovery
-                        </Button>
-                      </Link>
-                    </motion.div>
-                  </div>
-
-                  {/* Features */}
-                  <motion.div 
-                    className="grid grid-cols-2 gap-4 pt-4"
-                    variants={containerVariants}
-                  >
-                    {[
-                      { icon: TrendingUp, label: "Trending Now", color: "text-blue-500" },
-                      { icon: Sparkles, label: "AI Powered", color: "text-cyan-500" }
-                    ].map((feature, index) => (
-                      <motion.div
-                        key={feature.label}
-                        className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.05, y: -2 }}
+                      <Button 
+                        size="lg" 
+                        className="h-14 px-8 text-base bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100 rounded-full"
+                        data-testid="button-start-discovery"
                       >
-                        <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
-                        <p className="text-xs font-medium">{feature.label}</p>
-                      </motion.div>
-                    ))}
-                  </motion.div>
+                        Start Discovery
+                        <ArrowRight className="w-5 h-5 ml-2" />
+                      </Button>
+                    </motion.div>
+                  </Link>
                 </div>
+
+                {/* Floating Elements */}
+                <motion.div
+                  className="absolute top-8 right-8 w-12 h-12 bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm rounded-xl flex items-center justify-center"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <Sparkles className="w-6 h-6 text-yellow-500" />
+                </motion.div>
               </motion.div>
             </motion.div>
 
-            {/* Discovery Categories */}
-            <motion.div className="space-y-6" variants={itemVariants}>
-              <h3 className="text-xl sm:text-2xl font-semibold text-center">
-                Discover By Category
-              </h3>
-              
-              <motion.div className="space-y-4" variants={containerVariants}>
-                {[
-                  { category: "Trending Now", description: "What's hot in sneaker culture", icon: TrendingUp },
-                  { category: "Your Style", description: "Matched to your preferences", icon: Heart },
-                  { category: "New Releases", description: "Latest drops and releases", icon: Sparkles }
-                ].map((item, index) => (
-                  <motion.div
-                    key={item.category}
-                    className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
-                    variants={cardVariants}
-                    whileHover="hover"
-                    whileTap="tap"
-                    data-testid={`category-${item.category.toLowerCase().replace(' ', '-')}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl flex items-center justify-center">
-                        <item.icon className="w-6 h-6 text-blue-500" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-base">{item.category}</h4>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                      </div>
+            {/* Right Column - Features */}
+            <motion.div 
+              className="col-span-12 lg:col-span-4 space-y-6"
+              variants={containerVariants}
+            >
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Trending Styles",
+                  description: "Stay ahead with the latest sneaker trends",
+                  color: "from-red-500 to-orange-500"
+                },
+                {
+                  icon: Heart,
+                  title: "Personal Taste",
+                  description: "Recommendations based on your preferences",
+                  color: "from-pink-500 to-rose-500"
+                },
+                {
+                  icon: Users,
+                  title: "Community Picks",
+                  description: "Popular choices from sneaker enthusiasts",
+                  color: "from-blue-500 to-cyan-500"
+                }
+              ].map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  className="bg-white dark:bg-neutral-800 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-700 group hover:border-neutral-300 dark:hover:border-neutral-600 transition-all cursor-pointer"
+                  variants={cardVariants}
+                  whileHover="hover"
+                  data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center text-white shadow-lg`}>
+                      <feature.icon className="w-6 h-6" />
                     </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                    <div className="flex-1">
+                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">
+                        {feature.title}
+                      </h4>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
+
+          {/* Bottom CTA Section */}
+          <motion.div 
+            className="mt-16 text-center"
+            variants={itemVariants}
+          >
+            <div className="inline-flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm text-neutral-600 dark:text-neutral-400 mb-6">
+              <Sparkles className="w-4 h-4" />
+              Powered by AI
+            </div>
+            <p className="text-neutral-500 dark:text-neutral-500 text-sm">
+              Join thousands of sneaker enthusiasts discovering their perfect matches
+            </p>
+          </motion.div>
         </div>
       </motion.section>
 
