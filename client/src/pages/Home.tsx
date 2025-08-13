@@ -461,58 +461,144 @@ export default function Home() {
 
 
 
-      {/* Personalized Discovery Section - Template Design */}
+      {/* Discovery • Community Section - Figma Template Style */}
       <motion.section 
-        className="py-20 sm:py-32 bg-white dark:bg-neutral-900"
+        className="py-24 sm:py-32 bg-neutral-50 dark:bg-neutral-900"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-neutral-900 dark:text-white mb-6">
-              Personalized Discovery
+          {/* Section Header */}
+          <motion.div className="text-center mb-20" variants={itemVariants}>
+            <motion.div
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Users className="w-4 h-4" />
+              Discovery • Community
+            </motion.div>
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-thin tracking-tight text-neutral-900 dark:text-white mb-8">
+              Find Your
+              <span className="block font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Perfect Match
+              </span>
             </h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto font-light">
-              Discover sneakers tailored to your unique style through AI-powered recommendations
+            <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+              Connect with a community of sneaker enthusiasts and discover your next favorite pair through personalized AI recommendations
             </p>
           </motion.div>
 
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-12 gap-6 lg:gap-8">
-            {/* Left Column - Main Feature */}
-            <motion.div 
-              className="col-span-12 lg:col-span-8"
-              variants={itemVariants}
-            >
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Left Side - Community Feed */}
+            <motion.div className="space-y-8" variants={itemVariants}>
+              <div className="text-center lg:text-left">
+                <h3 className="text-2xl font-semibold text-neutral-900 dark:text-white mb-4">
+                  Community Discoveries
+                </h3>
+                <p className="text-neutral-600 dark:text-neutral-400 mb-8">
+                  See what fellow sneakerheads are discovering and sharing
+                </p>
+              </div>
+
+              {/* Community Cards */}
+              <motion.div className="space-y-6" variants={containerVariants}>
+                {[
+                  {
+                    user: "Alex Chen",
+                    avatar: "AC",
+                    discovery: "Just found the perfect Jordan 1 Retro High for my collection!",
+                    sneaker: "Air Jordan 1 Retro High",
+                    time: "2 hours ago",
+                    likes: 24,
+                    color: "from-red-500 to-orange-500"
+                  },
+                  {
+                    user: "Sarah Kim",
+                    avatar: "SK", 
+                    discovery: "AI recommended these Yeezys and they're exactly my style ✨",
+                    sneaker: "Yeezy Boost 350 V2",
+                    time: "5 hours ago",
+                    likes: 18,
+                    color: "from-purple-500 to-pink-500"
+                  },
+                  {
+                    user: "Mike Torres",
+                    avatar: "MT",
+                    discovery: "Finally found my grail through the community marketplace!",
+                    sneaker: "Travis Scott x Nike",
+                    time: "1 day ago",
+                    likes: 42,
+                    color: "from-green-500 to-blue-500"
+                  }
+                ].map((post, index) => (
+                  <motion.div
+                    key={post.user}
+                    className="bg-white dark:bg-neutral-800 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-all group cursor-pointer"
+                    variants={cardVariants}
+                    whileHover="hover"
+                    data-testid={`community-post-${index}`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`w-12 h-12 bg-gradient-to-br ${post.color} rounded-full flex items-center justify-center text-white font-semibold text-sm`}>
+                        {post.avatar}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="font-semibold text-neutral-900 dark:text-white">{post.user}</span>
+                          <span className="text-neutral-500 text-sm">•</span>
+                          <span className="text-neutral-500 text-sm">{post.time}</span>
+                        </div>
+                        <p className="text-neutral-700 dark:text-neutral-300 mb-3">{post.discovery}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">{post.sneaker}</span>
+                          <div className="flex items-center gap-1 text-neutral-500">
+                            <Heart className="w-4 h-4" />
+                            <span className="text-sm">{post.likes}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.div className="text-center" variants={itemVariants}>
+                <Link href="/community">
+                  <Button variant="outline" className="h-12 px-8 rounded-full border-2" data-testid="button-view-community">
+                    Join the Community
+                    <Users className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Side - Discovery Engine */}
+            <motion.div className="space-y-8" variants={itemVariants}>
               <motion.div
-                className="relative h-96 lg:h-[500px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 rounded-3xl overflow-hidden group cursor-pointer"
+                className="relative bg-gradient-to-br from-white to-neutral-100 dark:from-neutral-800 dark:to-neutral-900 rounded-3xl p-8 lg:p-12 border border-neutral-200 dark:border-neutral-700 overflow-hidden"
                 variants={cardVariants}
                 whileHover="hover"
-                data-testid="main-discovery-card"
               >
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500 rounded-full blur-xl"></div>
-                  <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-500 rounded-full blur-xl"></div>
-                </div>
+                {/* Background Elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-2xl"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-xl"></div>
                 
-                {/* Content */}
-                <div className="relative z-10 h-full flex flex-col justify-center items-center text-center p-8 lg:p-12">
+                <div className="relative z-10 text-center">
                   <motion.div
-                    className="w-20 h-20 bg-white dark:bg-neutral-800 rounded-2xl flex items-center justify-center mb-8 shadow-lg"
+                    className="w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl"
                     whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.6 }}
                   >
-                    <Compass className="w-10 h-10 text-blue-500" />
+                    <Compass className="w-12 h-12 text-white" />
                   </motion.div>
                   
-                  <h3 className="text-2xl lg:text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
-                    AI Style Matching
+                  <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mb-4">
+                    AI Discovery Engine
                   </h3>
-                  <p className="text-neutral-600 dark:text-neutral-400 text-lg mb-8 max-w-md">
-                    Advanced algorithms analyze your preferences to suggest perfect sneaker matches
+                  <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
+                    Our advanced AI analyzes your style preferences, browsing history, and community trends to recommend sneakers you'll love
                   </p>
                   
                   <Link href="/discover">
@@ -523,90 +609,66 @@ export default function Home() {
                     >
                       <Button 
                         size="lg" 
-                        className="h-14 px-8 text-base bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100 rounded-full"
-                        data-testid="button-start-discovery"
+                        className="h-14 px-10 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-full shadow-lg"
+                        data-testid="button-start-ai-discovery"
                       >
                         Start Discovery
-                        <ArrowRight className="w-5 h-5 ml-2" />
+                        <Sparkles className="w-5 h-5 ml-2" />
                       </Button>
                     </motion.div>
                   </Link>
-                </div>
 
-                {/* Floating Elements */}
-                <motion.div
-                  className="absolute top-8 right-8 w-12 h-12 bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm rounded-xl flex items-center justify-center"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  <Sparkles className="w-6 h-6 text-yellow-500" />
-                </motion.div>
+                  {/* Feature Pills */}
+                  <motion.div 
+                    className="flex flex-wrap justify-center gap-3 mt-8"
+                    variants={containerVariants}
+                  >
+                    {[
+                      { label: "Style Analysis", icon: Eye },
+                      { label: "Trend Tracking", icon: TrendingUp },
+                      { label: "Community Input", icon: Users }
+                    ].map((feature, index) => (
+                      <motion.div
+                        key={feature.label}
+                        className="flex items-center gap-2 bg-white/60 dark:bg-neutral-800/60 backdrop-blur-sm px-4 py-2 rounded-full border border-neutral-200/50 dark:border-neutral-700/50"
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <feature.icon className="w-4 h-4 text-blue-600" />
+                        <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{feature.label}</span>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Stats */}
+              <motion.div 
+                className="grid grid-cols-3 gap-4"
+                variants={containerVariants}
+              >
+                {[
+                  { value: "10K+", label: "Discoveries", color: "from-blue-500 to-cyan-500" },
+                  { value: "95%", label: "Match Rate", color: "from-purple-500 to-pink-500" },
+                  { value: "5K+", label: "Community", color: "from-green-500 to-teal-500" }
+                ].map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    className="text-center p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700"
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
+                      {stat.value}
+                    </div>
+                    <div className="text-xs text-neutral-600 dark:text-neutral-400 font-medium">
+                      {stat.label}
+                    </div>
+                  </motion.div>
+                ))}
               </motion.div>
             </motion.div>
-
-            {/* Right Column - Features */}
-            <motion.div 
-              className="col-span-12 lg:col-span-4 space-y-6"
-              variants={containerVariants}
-            >
-              {[
-                {
-                  icon: TrendingUp,
-                  title: "Trending Styles",
-                  description: "Stay ahead with the latest sneaker trends",
-                  color: "from-red-500 to-orange-500"
-                },
-                {
-                  icon: Heart,
-                  title: "Personal Taste",
-                  description: "Recommendations based on your preferences",
-                  color: "from-pink-500 to-rose-500"
-                },
-                {
-                  icon: Users,
-                  title: "Community Picks",
-                  description: "Popular choices from sneaker enthusiasts",
-                  color: "from-blue-500 to-cyan-500"
-                }
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  className="bg-white dark:bg-neutral-800 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-700 group hover:border-neutral-300 dark:hover:border-neutral-600 transition-all cursor-pointer"
-                  variants={cardVariants}
-                  whileHover="hover"
-                  data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center text-white shadow-lg`}>
-                      <feature.icon className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">
-                        {feature.title}
-                      </h4>
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
-
-          {/* Bottom CTA Section */}
-          <motion.div 
-            className="mt-16 text-center"
-            variants={itemVariants}
-          >
-            <div className="inline-flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm text-neutral-600 dark:text-neutral-400 mb-6">
-              <Sparkles className="w-4 h-4" />
-              Powered by AI
-            </div>
-            <p className="text-neutral-500 dark:text-neutral-500 text-sm">
-              Join thousands of sneaker enthusiasts discovering their perfect matches
-            </p>
-          </motion.div>
         </div>
       </motion.section>
 
