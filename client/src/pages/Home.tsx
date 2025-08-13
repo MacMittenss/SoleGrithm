@@ -34,6 +34,7 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import womenSneakersImage from "@assets/generated_images/Woman_in_stylish_sneakers_90ff70fb.png";
 import arTryonImage from "@assets/generated_images/AR_sneaker_try-on_technology_732da862.png";
+import StyleQuizSection from "@/components/StyleQuizSection";
 
 export default function Home() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
@@ -215,6 +216,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Style Quiz Section */}
+      <motion.div variants={itemVariants}>
+        <StyleQuizSection />
+      </motion.div>
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
