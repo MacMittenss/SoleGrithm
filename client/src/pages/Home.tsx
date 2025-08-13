@@ -928,9 +928,9 @@ export default function Home() {
                 <div className="mockup-phone-camera"></div> 
                 <div className="mockup-phone-display bg-gradient-to-b from-blue-500/10 to-purple-500/10 relative overflow-hidden">
                   {/* Phone Interface */}
-                  <div className="absolute inset-0 p-4">
+                  <div className="absolute inset-0 p-3">
                     {/* Status Bar */}
-                    <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-xs">
+                    <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-white text-xs">
                       <span>9:41</span>
                       <div className="flex items-center gap-1">
                         <div className="w-4 h-2 border border-white rounded-sm">
@@ -939,9 +939,56 @@ export default function Home() {
                       </div>
                     </div>
                     
-                    {/* Centered Text */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <p className="text-white text-base">Join the Algorithm</p>
+                    {/* App Header */}
+                    <div className="absolute top-8 left-3 right-3">
+                      <h3 className="text-white text-sm font-semibold text-center mb-3">Community</h3>
+                    </div>
+                    
+                    {/* Image Gallery */}
+                    <div className="absolute top-16 left-3 right-3 bottom-3">
+                      <div className="grid grid-cols-3 gap-1 h-full">
+                        <div className="grid gap-1">
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
+                            alt="Community post"
+                          />
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
+                            alt="Community post"
+                          />
+                        </div>
+                        <div className="grid gap-1">
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
+                            alt="Community post"
+                          />
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
+                            alt="Community post"
+                          />
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
+                            alt="Community post"
+                          />
+                        </div>
+                        <div className="grid gap-1">
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
+                            alt="Community post"
+                          />
+                          <img 
+                            className="w-full h-full object-cover rounded-sm" 
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
+                            alt="Community post"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
