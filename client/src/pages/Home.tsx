@@ -480,151 +480,117 @@ export default function Home() {
 
 
 
-      {/* Personalized Discovery Section - Template Design */}
+      {/* Personalized Discovery Section - Clean Grid Design */}
       <motion.section 
-        className="py-20 sm:py-32 bg-white dark:bg-neutral-900"
+        className="py-20 bg-muted/20"
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
         variants={containerVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <motion.div className="text-center mb-16" variants={itemVariants}>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-neutral-900 dark:text-white mb-6">
-              Personalized Discovery
+          <motion.div 
+            className="text-center mb-16" 
+            variants={itemVariants}
+          >
+            <h2 className="text-2xl font-bold lg:text-5xl pb-8">
+              Why use <span className="font-['Nothing_You_Could_Do'] text-primary">SoleGrithm</span>?
             </h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto font-light">
-              Discover sneakers tailored to your unique style through AI-powered recommendations
+            <p className="mb-16 text-xl text-muted-foreground max-w-3xl mx-auto">
+              Discover sneakers tailored to your unique style through AI-powered recommendations and personalized discovery features.
             </p>
           </motion.div>
 
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-12 gap-6 lg:gap-8">
-            {/* Left Column - Main Feature */}
-            <motion.div 
-              className="col-span-12 lg:col-span-8"
-              variants={itemVariants}
-            >
-              <motion.div
-                className="relative h-96 lg:h-[500px] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 rounded-3xl overflow-hidden group cursor-pointer"
-                variants={cardVariants}
-                whileHover="hover"
-                data-testid="main-discovery-card"
-              >
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500 rounded-full blur-xl"></div>
-                  <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-500 rounded-full blur-xl"></div>
-                </div>
-                
-                {/* Content */}
-                <div className="relative z-10 h-full flex flex-col justify-center items-center text-center p-8 lg:p-12">
-                  <motion.div
-                    className="w-20 h-20 bg-white dark:bg-neutral-800 rounded-2xl flex items-center justify-center mb-8 shadow-lg"
-                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Compass className="w-10 h-10 text-blue-500" />
-                  </motion.div>
-                  
-                  <h3 className="text-2xl lg:text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
-                    AI Style Matching
-                  </h3>
-                  <p className="text-neutral-600 dark:text-neutral-400 text-lg mb-8 max-w-md">
-                    Advanced algorithms analyze your preferences to suggest perfect sneaker matches
-                  </p>
-                  
-                  <Link href="/discover">
-                    <motion.div
-                      variants={cardVariants}
-                      whileHover="hover"
-                      whileTap="tap"
-                    >
-                      <Button 
-                        size="lg" 
-                        className="h-14 px-8 text-base bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-100 rounded-full"
-                        data-testid="button-start-discovery"
-                      >
-                        Start Discovery
-                        <ArrowRight className="w-5 h-5 ml-2" />
-                      </Button>
-                    </motion.div>
-                  </Link>
-                </div>
-
-                {/* Floating Elements */}
-                <motion.div
-                  className="absolute top-8 right-8 w-12 h-12 bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm rounded-xl flex items-center justify-center"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  <Sparkles className="w-6 h-6 text-yellow-500" />
-                </motion.div>
-              </motion.div>
-            </motion.div>
-
-            {/* Right Column - Features */}
-            <motion.div 
-              className="col-span-12 lg:col-span-4 space-y-6"
-              variants={containerVariants}
-            >
-              {[
-                {
-                  icon: TrendingUp,
-                  title: "Trending Styles",
-                  description: "Stay ahead with the latest sneaker trends",
-                  color: "from-red-500 to-orange-500"
-                },
-                {
-                  icon: Heart,
-                  title: "Personal Taste",
-                  description: "Recommendations based on your preferences",
-                  color: "from-pink-500 to-rose-500"
-                },
-                {
-                  icon: Users,
-                  title: "Community Picks",
-                  description: "Popular choices from sneaker enthusiasts",
-                  color: "from-blue-500 to-cyan-500"
-                }
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  className="bg-white dark:bg-neutral-800 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-700 group hover:border-neutral-300 dark:hover:border-neutral-600 transition-all cursor-pointer"
-                  variants={cardVariants}
-                  whileHover="hover"
-                  data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center text-white shadow-lg`}>
-                      <feature.icon className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">
-                        {feature.title}
-                      </h4>
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Bottom CTA Section */}
+          {/* Features Grid */}
           <motion.div 
-            className="mt-16 text-center"
-            variants={itemVariants}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-16 lg:gap-x-24 gap-y-20"
+            variants={containerVariants}
           >
-            <div className="inline-flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm text-neutral-600 dark:text-neutral-400 mb-6">
-              <Sparkles className="w-4 h-4" />
-              Powered by AI
-            </div>
-            <p className="text-neutral-500 dark:text-neutral-500 text-sm">
-              Join thousands of sneaker enthusiasts discovering their perfect matches
-            </p>
+            {[
+              {
+                icon: Compass,
+                title: "AI Style Matching",
+                description: "Our AI analyzes your preferences and suggests sneakers that match your unique style perfectly."
+              },
+              {
+                icon: Target,
+                title: "Smart Recommendations",
+                description: "Get personalized sneaker suggestions based on your browsing history and style preferences."
+              },
+              {
+                icon: Zap,
+                title: "Instant Discovery",
+                description: "Find your perfect sneakers in seconds with our lightning-fast AI algorithm and search."
+              },
+              {
+                icon: Heart,
+                title: "Style Evolution",
+                description: "Track your style journey and discover new trends that align with your evolving taste."
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ 
+                  opacity: 0, 
+                  y: 50,
+                  scale: 0.9 
+                }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                  scale: 1 
+                }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.15,
+                  ease: "easeOut"
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -5
+                }}
+                data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
+              >
+                <motion.div 
+                  className="flex items-center justify-center w-8 h-8 mb-4 text-white bg-foreground rounded-full"
+                  whileHover={{ 
+                    scale: 1.1, 
+                    rotate: [0, -5, 5, 0] 
+                  }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <feature.icon className="w-5 h-5" />
+                </motion.div>
+                <h3 className="mb-2 text-base font-semibold leading-tight">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Bottom CTA */}
+          <motion.div 
+            className="text-center mt-16" 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <Link href="/discover">
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90 px-8 py-3 text-lg font-medium rounded-xl"
+                data-testid="button-start-discovery"
+              >
+                Start Your Discovery Journey
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </motion.section>
