@@ -496,7 +496,7 @@ export default function Home() {
             variants={itemVariants}
           >
             <h2 className="text-2xl font-bold lg:text-5xl pb-8">
-              Why use <span className="font-['Nothing_You_Could_Do'] text-primary">SoleGrithm</span>?
+              <span className="font-['Nothing_You_Could_Do'] text-primary">Sole Radar</span>
             </h2>
             <p className="mb-16 text-xl text-muted-foreground max-w-3xl mx-auto">
               Discover sneakers tailored to your unique style through AI-powered recommendations and personalized discovery features.
