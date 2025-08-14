@@ -29,7 +29,8 @@ import {
   Play,
   Search,
   Compass,
-  Camera
+  Camera,
+  Target
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
 import womenSneakersImage from "@assets/generated_images/Woman_in_stylish_sneakers_90ff70fb.png";
