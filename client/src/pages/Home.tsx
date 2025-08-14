@@ -413,26 +413,45 @@ export default function Home() {
                 className="max-w-6xl mx-auto"
               >
                 {blogPosts.slice(0, 6).map((post: any, index: number) => (
-                <PinterestBlogCard
+                <motion.div
                   key={post.id}
-                  post={{
-                    id: post.id,
-                    title: post.title,
-                    excerpt: post.excerpt || 'Discover the latest in sneaker culture and trends.',
-                    slug: post.slug,
-                    featuredImage: post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800",
-                    author: post.author || 'SoleGrithm Team',
-                    publishedAt: post.publishedAt || new Date().toISOString(),
-                    readTime: post.readTime || Math.floor(Math.random() * 8) + 3,
-                    category: post.category || 'Sneaker Culture'
+                  initial={{ 
+                    opacity: 0, 
+                    x: index % 2 === 0 ? -100 : 100,
+                    scale: 0.9 
                   }}
-                  priority={index < 2}
-                  onSave={(postId) => {
-                    // Handle save to reading list functionality
-                    console.log('Save post:', postId);
+                  whileInView={{ 
+                    opacity: 1, 
+                    x: 0,
+                    scale: 1 
                   }}
-                  isSaved={false}
-                />
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: index * 0.15,
+                    ease: "easeOut"
+                  }}
+                >
+                  <PinterestBlogCard
+                    post={{
+                      id: post.id,
+                      title: post.title,
+                      excerpt: post.excerpt || 'Discover the latest in sneaker culture and trends.',
+                      slug: post.slug,
+                      featuredImage: post.featuredImage || "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800",
+                      author: post.author || 'SoleGrithm Team',
+                      publishedAt: post.publishedAt || new Date().toISOString(),
+                      readTime: post.readTime || Math.floor(Math.random() * 8) + 3,
+                      category: post.category || 'Sneaker Culture'
+                    }}
+                    priority={index < 2}
+                    onSave={(postId) => {
+                      // Handle save to reading list functionality
+                      console.log('Save post:', postId);
+                    }}
+                    isSaved={false}
+                  />
+                </motion.div>
                 ))}
               </MasonryGrid>
             ) : (
