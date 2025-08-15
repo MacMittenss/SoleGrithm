@@ -660,13 +660,16 @@ export default function Home() {
             variants={itemVariants}
           >
             <motion.div
-              className="mx-auto w-full md:w-4/5 transform -rotate-6 transition duration-700 ease-in-out hover:rotate-6 cursor-pointer"
+              className="mx-auto w-full md:w-4/5 cursor-pointer"
+              initial={{ rotate: -6 }}
               whileHover={{ 
                 scale: 1.05, 
                 rotate: 6,
-                transition: { duration: 0.7 }
+                transition: { duration: 0 }
               }}
               whileTap={{ scale: 0.95 }}
+              animate={{ rotate: -6 }}
+              transition={{ duration: 0 }}
               data-testid="interactive-sneaker-image"
             >
               {/* Sneaker SVG - Interactive Design */}
