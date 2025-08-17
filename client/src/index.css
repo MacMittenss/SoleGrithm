@@ -3,6 +3,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Lenis Smooth Scrolling - VITURE Style */
+html.lenis, 
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+.lenis.lenis-autoToggle {
+  transition-behavior: allow-discrete;
+  transition-property: overflow;
+  transition-duration: 1ms;
+}
+
+/* VITURE-style CSS Custom Properties */
+:root {
+  --color-primary: #000000;
+  --color-dark: #141414;
+  --color-white: #ffffff;
+  --color-white-08: rgba(255, 255, 255, 0.08);
+  --color-white-20: rgba(255, 255, 255, 0.2);
+  --color-white-40: rgba(255, 255, 255, 0.4);
+  --color-white-50: rgba(255, 255, 255, 0.5);
+  --color-orange: #ff2900;
+  --color-gold: #ffd700;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --spacing-safe: clamp(1.25rem, 5vw, 3.125rem);
+  --spacing-vert-safe: clamp(1.875rem, 5vh, 4.6875rem);
+  --vw: 1vw;
+  --vh: 1vh;
+  --svh: 1svh;
+  --dvh: 1dvh;
+  --lvh: 1lvh;
+}
+
+/* Advanced scrolling and perspective */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+
 /* Minimalist utilities for clean design */
 @layer utilities {
   .scrollbar-hide {

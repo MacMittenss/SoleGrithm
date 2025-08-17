@@ -1,7 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
-import Hero from "@/components/Hero";
+
+// Advanced components with VITURE-style animations
+import AdvancedHero from "@/components/advanced/AdvancedHero";
+import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
+import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
+import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
+import AdvancedCollections from "@/components/advanced/AdvancedCollections";
+import SectionWrapper from "@/components/SectionWrapper";
+
+// Legacy components (will be gradually replaced)
 import HotRightNowSlider from "@/components/HotRightNowSlider";
 import PinterestSneakerCard from "@/components/PinterestSneakerCard";
 import PinterestBlogCard from "@/components/PinterestBlogCard";
@@ -10,7 +19,7 @@ import { MasonryGrid } from "@/components/ui/masonry-grid";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
 import ARDemo from "@/components/ARDemo";
-import LiveMarketSection from "@/components/LiveMarketSection";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +43,7 @@ import {
   Target
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
+import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import womenSneakersImage from "@assets/generated_images/Woman_in_stylish_sneakers_90ff70fb.png";
 import arTryonImage from "@assets/generated_images/AR_sneaker_try-on_technology_732da862.png";
 
@@ -41,6 +51,10 @@ export default function Home() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
+  
+  // Initialize smooth scrolling
+  useSmoothScroll();
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -131,15 +145,23 @@ export default function Home() {
   return (
     <motion.div 
       ref={containerRef}
-      className="min-h-screen"
+      className="min-h-screen bg-black overflow-x-hidden"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
+      style={{
+        background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+      }}
     >
-      {/* Hero Section - Static Fixed Position */}
-      <div className="relative">
-        <Hero />
-      </div>
+      {/* Hero Section - Advanced VITURE-style */}
+      <SectionWrapper
+        id="hero"
+        sticky={true}
+        maskTransition={true}
+        className="relative z-50"
+      >
+        <AdvancedHero />
+      </SectionWrapper>
 
       {/* Nike-Style Split Hero Sections - Full Width Connected */}
       <section className="bg-white dark:bg-background">
@@ -1395,8 +1417,45 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Live Market Section */}
-      <LiveMarketSection />
+      {/* Live Market Section - Advanced */}
+      <SectionWrapper
+        id="live-market" 
+        sticky={true}
+        maskTransition={true}
+        className="relative z-40"
+      >
+        <AdvancedLiveMarket />
+      </SectionWrapper>
+
+      {/* Sole Map Section - Advanced */}
+      <SectionWrapper
+        id="sole-map"
+        sticky={true} 
+        maskTransition={true}
+        className="relative z-30"
+      >
+        <AdvancedSoleMap />
+      </SectionWrapper>
+
+      {/* Visual Search Section - Advanced */}
+      <SectionWrapper
+        id="visual-search"
+        sticky={true}
+        maskTransition={true}
+        className="relative z-20"
+      >
+        <AdvancedVisualSearch />
+      </SectionWrapper>
+
+      {/* Collections Section - Advanced */}
+      <SectionWrapper
+        id="collections"
+        sticky={true}
+        maskTransition={true}
+        className="relative z-10"
+      >
+        <AdvancedCollections />
+      </SectionWrapper>
 
       {/* Quick Stats with Animated Counters */}
       <motion.section 
