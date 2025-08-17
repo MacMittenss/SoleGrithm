@@ -40,14 +40,24 @@ export default function SectionWrapper({
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 1.05]);
 
-  // Mask transition effect (VITURE-style)
+  // VITURE-style horizontal wipe transition - overlay slides in from right during scroll
+  const wipeProgress = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
+  
   const maskClipPath = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
+    wipeProgress,
+    [0, 1],
     [
-      'polygon(0 100%, 0 100%, 100% 100%)',
-      'polygon(0 0%, 0 100%, 100% 100%)',
-      'polygon(0 0%, 0 0%, 100% 0%)'
+      'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)', // Hidden on right
+      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)'        // Slides in to cover
+    ]
+  );
+
+  const contentClipPath = useTransform(
+    wipeProgress,
+    [0, 1],
+    [
+      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)', // Fully visible
+      'polygon(0 0, 0% 0, 0% 100%, 0% 100%)'      // Hidden on left
     ]
   );
 
@@ -111,13 +121,15 @@ export default function SectionWrapper({
       data-testid={`section-${id}`}
     >
       {/* Mask transition for VITURE-style section transitions */}
-      {maskTransition && (
+      {maskTransition && wipeProgress && (
         <motion.div
           ref={maskRef}
-          className="absolute inset-0 z-10 pointer-events-none"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundColor: 'var(--color-primary, #000)',
+            backgroundColor: '#000000',
             clipPath: maskClipPath,
+            zIndex: 100,
+            opacity: useTransform(wipeProgress, [0, 0.1, 0.9, 1], [0, 0, 0.8, 1]),
           }}
         />
       )}
@@ -125,11 +137,12 @@ export default function SectionWrapper({
       <div style={stickyStyle} className={sticky ? 'flex flex-col' : ''}>
         <motion.div
           ref={contentRef}
-          className="relative z-20 h-full"
+          className="relative h-full"
           style={{
             y: sticky ? 0 : y,
             opacity: sticky ? 1 : opacity,
             scale: sticky ? 1 : scale,
+            zIndex: maskTransition ? 10 : 20,
           }}
           initial={{
             opacity: sticky ? 1 : 0,

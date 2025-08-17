@@ -120,7 +120,10 @@ function App() {
               
               <Toaster />
               <ToastContainer 
-                toasts={notifications} 
+                toasts={notifications.map(notification => ({
+                  ...notification,
+                  onClose: () => removeNotification(notification.id)
+                }))} 
                 position="top-right" 
               />
             </div>

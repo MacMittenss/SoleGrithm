@@ -151,14 +151,16 @@ export default function Home() {
       animate="visible"
       style={{
         background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+        minHeight: '100vh',
       }}
     >
       {/* Hero Section - Advanced VITURE-style */}
       <SectionWrapper
         id="hero"
         sticky={true}
-        maskTransition={true}
-        className="relative z-50"
+        maskTransition={false}
+        className="relative"
+        height="100vh"
       >
         <AdvancedHero />
       </SectionWrapper>
@@ -1422,7 +1424,8 @@ export default function Home() {
         id="live-market" 
         sticky={true}
         maskTransition={true}
-        className="relative z-40"
+        className="relative"
+        height="100vh"
       >
         <AdvancedLiveMarket />
       </SectionWrapper>
@@ -1432,7 +1435,8 @@ export default function Home() {
         id="sole-map"
         sticky={true} 
         maskTransition={true}
-        className="relative z-30"
+        className="relative"
+        height="100vh"
       >
         <AdvancedSoleMap />
       </SectionWrapper>
@@ -1442,7 +1446,8 @@ export default function Home() {
         id="visual-search"
         sticky={true}
         maskTransition={true}
-        className="relative z-20"
+        className="relative"
+        height="100vh"
       >
         <AdvancedVisualSearch />
       </SectionWrapper>
@@ -1452,7 +1457,8 @@ export default function Home() {
         id="collections"
         sticky={true}
         maskTransition={true}
-        className="relative z-10"
+        className="relative"
+        height="100vh"
       >
         <AdvancedCollections />
       </SectionWrapper>
