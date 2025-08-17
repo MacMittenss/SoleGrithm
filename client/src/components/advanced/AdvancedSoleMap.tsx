@@ -73,7 +73,7 @@ export default function AdvancedSoleMap() {
       const points = mapRef.current?.querySelectorAll('.map-point');
       const pulses = mapRef.current?.querySelectorAll('.map-pulse');
       
-      if (points) {
+      if (points && points.length > 0) {
         gsap.fromTo(points,
           { scale: 0, opacity: 0 },
           {
@@ -87,7 +87,7 @@ export default function AdvancedSoleMap() {
         );
       }
 
-      if (pulses) {
+      if (pulses && pulses.length > 0) {
         gsap.to(pulses, {
           scale: 2,
           opacity: 0,

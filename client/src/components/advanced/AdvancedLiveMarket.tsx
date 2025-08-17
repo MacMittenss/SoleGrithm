@@ -70,7 +70,7 @@ export default function AdvancedLiveMarket() {
     const ctx = gsap.context(() => {
       // Animate chart lines
       const lines = chartRef.current?.querySelectorAll('.chart-line');
-      if (lines) {
+      if (lines && lines.length > 0) {
         gsap.fromTo(lines, 
           { scaleX: 0, opacity: 0 },
           { 
@@ -86,7 +86,7 @@ export default function AdvancedLiveMarket() {
 
       // Animate chart points
       const points = chartRef.current?.querySelectorAll('.chart-point');
-      if (points) {
+      if (points && points.length > 0) {
         gsap.fromTo(points,
           { scale: 0, opacity: 0 },
           {

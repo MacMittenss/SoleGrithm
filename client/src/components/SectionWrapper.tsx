@@ -61,11 +61,11 @@ export default function SectionWrapper({
 
   // GSAP-style section reveal animation
   useEffect(() => {
-    if (!contentRef.current) return;
+    if (!contentRef.current || !isInView) return;
 
     const ctx = gsap.context(() => {
       const elements = contentRef.current?.querySelectorAll('[data-animate]');
-      if (!elements) return;
+      if (!elements || elements.length === 0) return;
 
       gsap.set(elements, {
         y: 100,
@@ -73,17 +73,15 @@ export default function SectionWrapper({
         scale: 0.95,
       });
 
-      if (isInView) {
-        gsap.to(elements, {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          stagger: 0.1,
-          delay: 0.1,
-        });
-      }
+      gsap.to(elements, {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        stagger: 0.1,
+        delay: 0.1,
+      });
     }, contentRef);
 
     return () => ctx.revert();
@@ -132,6 +130,11 @@ export default function SectionWrapper({
             y: sticky ? 0 : y,
             opacity: sticky ? 1 : opacity,
             scale: sticky ? 1 : scale,
+          }}
+          initial={{
+            opacity: sticky ? 1 : 0,
+            y: sticky ? 0 : 50,
+            scale: sticky ? 1 : 0.95,
           }}
         >
           {children}

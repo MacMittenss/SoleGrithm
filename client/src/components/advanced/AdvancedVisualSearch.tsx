@@ -33,7 +33,7 @@ export default function AdvancedVisualSearch() {
 
     const ctx = gsap.context(() => {
       const scanLines = demoRef.current?.querySelectorAll('.scan-line');
-      if (scanLines) {
+      if (scanLines && scanLines.length > 0) {
         gsap.fromTo(scanLines,
           { scaleY: 0, opacity: 0 },
           {

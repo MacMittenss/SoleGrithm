@@ -58,6 +58,40 @@ body {
   margin: 0;
   padding: 0;
   overscroll-behavior: none;
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Prevent flash of unstyled content */
+#root {
+  min-height: 100vh;
+  background: #000000;
+}
+
+/* Enhanced smooth scrolling performance */
+.lenis.lenis-smooth {
+  scroll-behavior: unset;
+}
+
+/* VITURE-style glassmorphism utilities */
+.glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Advanced gradient text utilities */
+.gradient-text-primary {
+  background: linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Minimalist utilities for clean design */

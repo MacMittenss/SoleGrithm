@@ -75,7 +75,7 @@ export default function AdvancedCollections() {
 
     const ctx = gsap.context(() => {
       const cards = gridRef.current?.querySelectorAll('.collection-card');
-      if (cards) {
+      if (cards && cards.length > 0) {
         gsap.fromTo(cards,
           { 
             y: 100, 
