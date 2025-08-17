@@ -41,24 +41,20 @@ export default function SectionWrapper({
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 1.05]);
 
   // VITURE-style horizontal wipe transition - overlay slides in from right during scroll
-  const wipeProgress = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
+  const wipeProgress = useTransform(scrollYProgress, [0.7, 1], [0, 1]);
   
-  const maskClipPath = useTransform(
+  // Black overlay that slides in from right to cover the current section
+  const overlayTransform = useTransform(
     wipeProgress,
-    [0, 1],
-    [
-      'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)', // Hidden on right
-      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)'        // Slides in to cover
-    ]
+    [0, 0.5, 1],
+    ['translateX(100%)', 'translateX(0%)', 'translateX(-100%)']
   );
 
-  const contentClipPath = useTransform(
+  // Content that gets masked out by the overlay
+  const contentOpacity = useTransform(
     wipeProgress,
-    [0, 1],
-    [
-      'polygon(0 0, 100% 0, 100% 100%, 0% 100%)', // Fully visible
-      'polygon(0 0, 0% 0, 0% 100%, 0% 100%)'      // Hidden on left
-    ]
+    [0, 0.3, 0.7, 1],
+    [1, 1, 0.3, 0]
   );
 
   useEffect(() => {
@@ -120,16 +116,15 @@ export default function SectionWrapper({
       style={sectionStyle}
       data-testid={`section-${id}`}
     >
-      {/* Mask transition for VITURE-style section transitions */}
-      {maskTransition && wipeProgress && (
+      {/* VITURE-style horizontal overlay transition */}
+      {maskTransition && (
         <motion.div
           ref={maskRef}
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundColor: '#000000',
-            clipPath: maskClipPath,
+            transform: overlayTransform,
             zIndex: 100,
-            opacity: useTransform(wipeProgress, [0, 0.1, 0.9, 1], [0, 0, 0.8, 1]),
           }}
         />
       )}
@@ -140,7 +135,7 @@ export default function SectionWrapper({
           className="relative h-full"
           style={{
             y: sticky ? 0 : y,
-            opacity: sticky ? 1 : opacity,
+            opacity: maskTransition ? contentOpacity : (sticky ? 1 : opacity),
             scale: sticky ? 1 : scale,
             zIndex: maskTransition ? 10 : 20,
           }}

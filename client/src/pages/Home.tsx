@@ -158,7 +158,7 @@ export default function Home() {
       <SectionWrapper
         id="hero"
         sticky={true}
-        maskTransition={false}
+        maskTransition={true}
         className="relative"
         height="100vh"
       >
