@@ -73,12 +73,56 @@ export default function AdvancedHero() {
       ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
       style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(10, 10, 10, 0.99))',
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 20, 0.98))',
       }}
       data-testid="hero-section"
     >
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute inset-0 opacity-20"
+        style={{ scale: useTransform(scrollYProgress, [0, 1], [1, 1.1]) }}
+      >
+        {/* Gradient orbs */}
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
+          style={{
+            background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+            filter: 'blur(100px)',
+          }}
+          data-float
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full"
+          style={{
+            background: 'linear-gradient(to right, #581dff 0%, #fe7a60 61%, #ff2900 100%)',
+            filter: 'blur(80px)',
+          }}
+          data-float
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 2,
+          }}
+        />
+      </motion.div>
+
       {/* VITURE-style layout: Text left, Image right */}
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
         
         {/* Left side - Text Content */}
         <motion.div
