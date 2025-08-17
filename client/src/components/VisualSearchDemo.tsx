@@ -143,28 +143,6 @@ export default function VisualSearchDemo() {
           >
             Upload any sneaker photo and let our AI instantly identify it with market data and pricing.
           </motion.p>
-          
-          {/* Visual Search Rating */}
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 items-center bg-slate-100 rounded p-4 mx-auto max-w-[300px] sm:max-w-[400px] w-full"
-            variants={itemVariants}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <div className="flex items-center gap-2">
-              <Camera className="w-6 h-6 text-primary" />
-              <span className="font-semibold text-slate-700">Visual Search</span>
-            </div>
-            <div className="flex gap-1">
-              {[1,2,3,4,5].map(star => (
-                <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <span className="text-xs text-gray-600">
-              99.2% accuracy (12k+ searches)
-            </span>
-          </motion.div>
         </motion.div>
 
         {/* Clean Demo Interface */}
