@@ -157,23 +157,22 @@ export default function AdvancedHero() {
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE style */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-none tracking-tight text-white">
-              Welcome
+              Welcome To
             </h1>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-none tracking-tight text-white">
-              to
-            </h1>
-            <h1 
-              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-none tracking-tight"
-              style={{
-                background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-              }}
-            >
-              SoleGrithm
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-none tracking-tight">
+              <span 
+                style={{
+                  background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                }}
+              >
+                Sole
+              </span>
+              <span className="text-white">Grithm</span>
             </h1>
           </div>
 
