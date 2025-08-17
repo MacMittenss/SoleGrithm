@@ -10,6 +10,7 @@ import { MasonryGrid } from "@/components/ui/masonry-grid";
 import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
 import ARDemo from "@/components/ARDemo";
+import LiveMarketSection from "@/components/LiveMarketSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -1395,85 +1396,7 @@ export default function Home() {
       </motion.section>
 
       {/* Live Market Section */}
-      <motion.section 
-        className="py-16 sm:py-24"
-        variants={itemVariants}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
-            variants={containerVariants}
-          >
-            {/* Content */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-                </div>
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                    Live Market
-                  </h2>
-                  <p className="text-muted-foreground">Real-time pricing and market data</p>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Track sneaker prices across all major platforms in real-time. Get alerts for 
-                price drops, monitor market trends, and make informed decisions with our 
-                comprehensive market analytics.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm font-medium text-green-700 dark:text-green-300">Live Prices</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Real-time updates from StockX, GOAT, and more</p>
-                </div>
-                <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" />
-                    <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Price Alerts</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Get notified when prices drop</p>
-                </div>
-              </div>
-              <Link href="/live-market">
-                <Button size="lg" className="mt-6 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600" data-testid="button-explore-live-market">
-                  Explore Live Market
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Live Market Visual */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-orange-500/10 to-red-500/10">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
-                    <span className="text-sm font-medium">Nike Air Jordan 1</span>
-                    <span className="text-green-600 font-bold">$420</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
-                    <span className="text-sm font-medium">Yeezy Boost 350</span>
-                    <span className="text-red-600 font-bold">$280</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg">
-                    <span className="text-sm font-medium">Nike Dunk Low</span>
-                    <span className="text-blue-600 font-bold">$150</span>
-                  </div>
-                  <div className="text-center pt-4">
-                    <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                      Last updated: 2 minutes ago
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
+      <LiveMarketSection />
 
       {/* Quick Stats with Animated Counters */}
       <motion.section 
