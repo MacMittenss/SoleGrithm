@@ -270,358 +270,112 @@ export default function Home() {
 
 
 
-      {/* Live Market Section - Modern XR Style */}
+      {/* Minimalist Trending Sneakers Section */}
       <motion.section 
-        className="py-20 sm:py-32 bg-white dark:bg-black relative overflow-hidden"
+        className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900"
         variants={itemVariants}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* Modern Header with Character Animation */}
-          <div className="mb-16 text-center">
-            <motion.h2 
-              className="text-4xl md:text-7xl font-bold mb-6"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              <motion.span 
-                className="inline-block text-black dark:text-white"
-                variants={{
-                  hidden: {},
-                  visible: {
-                    transition: {
-                      staggerChildren: 0.05
-                    }
-                  }
-                }}
-              >
-                {"Live Market".split("").map((char, index) => (
-                  <motion.span
-                    key={index}
-                    className="inline-block"
-                    style={{
-                      '--char-index': index,
-                      '--total-chars': "Live Market".length
-                    } as React.CSSProperties}
-                    variants={{
-                      hidden: { 
-                        opacity: 0,
-                        y: 50,
-                        rotateX: -90
-                      },
-                      visible: { 
-                        opacity: 1,
-                        y: 0,
-                        rotateX: 0,
-                        transition: {
-                          duration: 0.8,
-                          ease: "easeOut"
-                        }
-                      }
-                    }}
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </motion.span>
-                ))}
-              </motion.span>
-              <br />
-              <motion.span 
-                className="inline-block bg-gradient-to-r from-orange-500 via-red-500 to-purple-600 bg-clip-text text-transparent font-bold"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              >
-                Real-Time Data
-              </motion.span>
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-            >
-              Experience the future of sneaker trading with live market data, AI-powered insights, and real-time price tracking.
-            </motion.p>
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          {/* Minimalist Header */}
+          <div className="mb-10 text-center">
+            <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+              Trending Now
+            </h2>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light">
+              Discover what's hot in the sneaker community
+            </p>
           </div>
 
-          {/* Modern Filter Interface */}
-          <motion.div 
-            className="mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 1.2 }}
-          >
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-4 justify-center">
-              <motion.button
-                className={`relative px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+          {/* Clean Filter Tabs */}
+          <div className="mb-10">
+            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-2 justify-center">
+              <button
+                className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
                   selectedBrand === 'All'
-                    ? 'text-white bg-gradient-to-r from-orange-500 to-red-500 shadow-lg'
-                    : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? 'text-neutral-900 dark:text-neutral-100 border-neutral-900 dark:border-neutral-100'
+                    : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-neutral-700 dark:hover:text-neutral-300'
                 }`}
                 onClick={() => setSelectedBrand('All')}
                 data-testid="filter-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 All
-                {selectedBrand === 'All' && (
-                  <motion.div
-                    className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500 to-red-500"
-                    layoutId="activeFilter"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-10">All</span>
-              </motion.button>
-              {Array.isArray(brands) ? brands.map((brand: any, index: number) => (
-                <motion.button
+              </button>
+              {Array.isArray(brands) ? brands.map((brand: any) => (
+                <button
                   key={brand.id}
-                  className={`relative px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                  className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
                     selectedBrand === brand.name
-                      ? 'text-white bg-gradient-to-r from-orange-500 to-red-500 shadow-lg'
-                      : 'text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      ? 'text-neutral-900 dark:text-neutral-100 border-neutral-900 dark:border-neutral-100'
+                      : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-neutral-700 dark:hover:text-neutral-300'
                   }`}
                   onClick={() => setSelectedBrand(brand.name)}
                   data-testid={`filter-${brand.name.toLowerCase()}`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 1.4 + (index * 0.1) }}
                 >
-                  {selectedBrand === brand.name && (
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500 to-red-500"
-                      layoutId="activeFilter"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  <span className="relative z-10">{brand.name}</span>
-                </motion.button>
+                  {brand.name}
+                </button>
               )) : null}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Modern Grid with Advanced Animations */}
+          {/* Clean Grid Layout */}
           {sneakersLoading ? (
-            <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
               {Array.from({ length: 10 }).map((_, i) => (
-                <motion.div 
-                  key={i} 
-                  className="group"
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                >
-                  <div className="relative aspect-square mb-4 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl overflow-hidden">
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                      animate={{ x: [-100, 400] }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
-                    />
-                  </div>
-                  <div className="space-y-3">
-                    <div className="h-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded animate-pulse" />
+                <div key={i} className="animate-pulse">
+                  <div className="aspect-square bg-neutral-200 dark:bg-neutral-700 mb-4" />
+                  <div className="space-y-2">
+                    <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-full" />
                     <div className="flex justify-between">
-                      <div className="h-3 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded w-16 animate-pulse" />
-                      <div className="h-4 bg-gradient-to-r from-orange-200 to-red-200 dark:from-orange-800 dark:to-red-800 rounded w-12 animate-pulse" />
+                      <div className="h-3 bg-neutral-200 dark:bg-neutral-700 w-16" />
+                      <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-12" />
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           ) : (
-            <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-16"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.6 }}
-            >
-              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 10).map((sneaker: any, index: number) => (
-                <motion.div
-                  key={sneaker.id}
-                  initial={{ opacity: 0, y: 60, rotateX: -15 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ 
-                    duration: 0.8, 
-                    delay: index * 0.1,
-                    ease: "easeOut"
-                  }}
-                  whileHover={{ 
-                    y: -8,
-                    scale: 1.02,
-                    transition: { duration: 0.3 }
-                  }}
-                  className="group"
-                >
-                  <Link href={`/sneaker/${sneaker.slug}`}>
-                    <div className="cursor-pointer">
-                      {/* Modern Product Card */}
-                      <motion.div 
-                        className="relative aspect-square mb-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300"
-                        whileHover={{ 
-                          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" 
-                        }}
-                      >
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        
-                        {/* Live Badge */}
-                        <motion.div
-                          className="absolute top-3 left-3 z-10"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: 1.8 + (index * 0.1), type: "spring", bounce: 0.5 }}
-                        >
-                          <div className="flex items-center gap-1 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                            <motion.div
-                              className="w-2 h-2 bg-white rounded-full"
-                              animate={{ scale: [1, 1.2, 1] }}
-                              transition={{ duration: 1, repeat: Infinity }}
-                            />
-                            LIVE
-                          </div>
-                        </motion.div>
-                        
-                        {/* Product Image with Hover Effect */}
-                        <motion.img
-                          src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
-                          alt={sneaker.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          loading="lazy"
-                          whileHover={{ rotate: [0, 2, -1, 0] }}
-                          transition={{ duration: 0.5 }}
-                        />
-                        
-                        {/* Shimmer Effect */}
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100"
-                          animate={{ x: [-100, 300] }}
-                          transition={{ duration: 0.8, delay: 0.2 }}
-                        />
-                      </motion.div>
-                      
-                      {/* Enhanced Product Info */}
-                      <motion.div 
-                        className="space-y-3"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ delay: 1.9 + (index * 0.1) }}
-                      >
-                        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 leading-5 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
-                          {sneaker.name}
-                        </h3>
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-medium">
-                            {sneaker.brandName || 'Unknown'}
-                          </p>
-                          <motion.p 
-                            className="text-sm font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent"
-                            whileHover={{ scale: 1.1 }}
-                          >
-                            ${sneaker.retailPrice || '0'}
-                          </motion.p>
-                        </div>
-                        
-                        {/* Market Data Indicator */}
-                        <motion.div 
-                          className="flex items-center gap-1 text-xs"
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 2.0 + (index * 0.1) }}
-                        >
-                          <TrendingUp className="w-3 h-3 text-green-500" />
-                          <span className="text-green-500 font-medium">+12.5%</span>
-                          <span className="text-gray-400">24h</span>
-                        </motion.div>
-                      </motion.div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
+              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 10).map((sneaker: any) => (
+                <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
+                  <div className="group cursor-pointer">
+                    {/* Ultra Clean Product Image */}
+                    <div className="aspect-square mb-4 bg-white dark:bg-neutral-800 overflow-hidden">
+                      <img
+                        src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
+                        alt={sneaker.name}
+                        className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-200"
+                        loading="lazy"
+                      />
                     </div>
-                  </Link>
-                </motion.div>
+                    
+                    {/* Minimal Product Info */}
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-normal text-neutral-900 dark:text-neutral-100 line-clamp-2 leading-5">
+                        {sneaker.name}
+                      </h3>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider font-light">
+                          {sneaker.brandName || 'Unknown'}
+                        </p>
+                        <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                          ${sneaker.retailPrice || '0'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               )) : []}
-            </motion.div>
+            </div>
           )}
 
-          {/* Modern CTA Section */}
-          <motion.div 
-            className="flex flex-col items-center gap-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 2.2 }}
-          >
+          {/* Subtle View All Link */}
+          <div className="flex justify-center">
             <Link href="/live-market">
-              <motion.div
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-semibold text-lg shadow-lg overflow-hidden"
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px -12px rgba(251, 146, 60, 0.4)"
-                }}
-                whileTap={{ scale: 0.98 }}
-                data-testid="button-view-all-sneakers"
-              >
-                {/* Animated Background */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-red-500 to-purple-600"
-                  initial={{ x: "100%" }}
-                  whileHover={{ x: "0%" }}
-                  transition={{ duration: 0.4 }}
-                />
-                
-                <span className="relative z-10">Explore Live Market</span>
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="relative z-10"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                </motion.div>
-                
-                {/* Shimmer Effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                  animate={{ x: [-100, 200] }}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                />
-              </motion.div>
+              <span className="text-sm font-light text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-neutral-300 dark:border-neutral-600 hover:border-neutral-900 dark:hover:border-neutral-100 pb-1" data-testid="button-view-all-sneakers">
+                View All Sneakers
+              </span>
             </Link>
-            
-            {/* Live Stats */}
-            <motion.div 
-              className="flex items-center gap-8 text-sm text-gray-600 dark:text-gray-400"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 2.4 }}
-            >
-              <div className="flex items-center gap-2">
-                <motion.div
-                  className="w-2 h-2 bg-green-500 rounded-full"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                />
-                <span>Live Updates</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-blue-500" />
-                <span>Real-time Prices</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-yellow-500" />
-                <span>AI Insights</span>
-              </div>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
 
