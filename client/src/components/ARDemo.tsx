@@ -1,19 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Smartphone, 
-  ArrowRight, 
-  Star,
-  Camera,
-  Sparkles,
-  Zap,
-  Eye,
-  RotateCcw,
-  Volume2,
+  Camera, 
+  RotateCcw, 
+  Eye, 
+  Volume2, 
   Maximize2,
+  Smartphone,
+  ArrowRight,
   Play
 } from 'lucide-react';
 
@@ -110,308 +106,328 @@ export default function ARDemo() {
   return (
     <motion.section 
       ref={sectionRef}
-      className="py-16 sm:py-24 bg-gradient-to-br from-orange-500/5 to-red-500/5"
+      className="py-20 sm:py-36 bg-gray-50"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto sm:px-7 px-4 max-w-screen-xl">
         {/* Header */}
-        <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-          <motion.div
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <motion.div 
+          className="text-center mb-12 sm:mb-20 flex flex-col"
+          variants={itemVariants}
+        >
+          <motion.h2 
+            className="pb-2 text-3xl md:text-6xl font-bold max-w-[900px] mx-auto text-slate-700"
+            variants={itemVariants}
           >
-            <Camera className="w-4 h-4" />
-            AR Try-On
-          </motion.div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
-            Virtual Try-On Experience
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            See how any sneaker looks on your feet with our advanced AR technology. 
-            Mobile-optimized for the perfect fit preview.
-          </p>
+            Try Before You 
+            <span className="text-primary"> Buy</span>
+          </motion.h2>
+          <motion.p 
+            className="pb-10 text-lg text-gray-600 max-w-[600px] mx-auto"
+            variants={itemVariants}
+          >
+            Experience sneakers on your feet with advanced AR technology. See the perfect fit instantly.
+          </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Mobile AR Interface */}
-          <motion.div className="space-y-6" variants={itemVariants}>
-            <motion.div
-              className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
-              variants={cardVariants}
-              whileHover="hover"
-            >
-              <AnimatePresence mode="wait">
-                {isARActive ? (
-                  <motion.div
-                    key="ar-active"
-                    className="text-center space-y-6"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {/* DaisyUI iPhone Mockup with AR Camera View */}
+        {/* Features Layout - Template Style */}
+        <motion.div 
+          className="relative flex items-center"
+          variants={itemVariants}
+        >
+          <motion.div 
+            className="mx-auto w-full max-w-[1000px] rounded-2xl shadow-2xl bg-white overflow-hidden"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <div className="grid grid-cols-6 md:grid-cols-12 gap-10 items-center p-8 lg:p-12">
+              {/* Left Side - Features */}
+              <div className="col-span-6 md:col-span-4 text-right">
+                <motion.div 
+                  className="mb-10"
+                  variants={itemVariants}
+                  whileHover={{ x: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                    <span className="ml-auto">Real-Time Tracking</span>
                     <motion.div 
-                      className="mockup-phone mx-auto"
-                      animate={{ 
-                        boxShadow: [
-                          "0 0 20px rgba(59, 130, 246, 0.3)",
-                          "0 0 40px rgba(147, 51, 234, 0.3)",
-                          "0 0 20px rgba(59, 130, 246, 0.3)"
-                        ]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
+                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
                     >
-                      <div className="mockup-phone-camera"></div> 
-                      <div className="mockup-phone-display bg-gradient-to-b from-blue-500/20 to-purple-500/20 relative overflow-hidden">
-                        {/* AR Camera Content */}
-                        <div className="absolute inset-0 bg-black/10" />
-                        
-                        {/* Status Bar */}
-                        <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-xs z-10">
-                          <span>9:41</span>
-                          <div className="flex items-center gap-1">
-                            <div className="w-4 h-2 border border-white rounded-sm">
-                              <div className="w-full h-full bg-white rounded-sm"></div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Foot outline */}
+                      1
+                    </motion.div>
+                  </h3>
+                  <p className="text-sm text-gray-500">Advanced foot tracking technology provides precise sneaker placement and realistic fit visualization.</p>
+                </motion.div>
+                
+                <motion.div 
+                  className="mb-10"
+                  variants={itemVariants}
+                  whileHover={{ x: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                    <span className="ml-auto">Size Prediction</span>
+                    <motion.div 
+                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      2
+                    </motion.div>
+                  </h3>
+                  <p className="text-sm text-gray-500">AI-powered size recommendations based on your foot measurements and preferred fit style.</p>
+                </motion.div>
+                
+                <motion.div
+                  variants={itemVariants}
+                  whileHover={{ x: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                    <span className="ml-auto">Style Comparison</span>
+                    <motion.div 
+                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                    >
+                      3
+                    </motion.div>
+                  </h3>
+                  <p className="text-sm text-gray-500">Compare multiple sneaker styles side-by-side to find your perfect match.</p>
+                </motion.div>
+              </div>
+
+              {/* Center - Phone Mockup */}
+              <div className="hidden relative md:block col-span-4">
+                <motion.div 
+                  className="relative"
+                  variants={itemVariants}
+                >
+                  <AnimatePresence mode="wait">
+                    {isARActive ? (
+                      <motion.div
+                        key="ar-active"
+                        className="text-center space-y-6"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {/* Phone Mockup with AR Camera View */}
                         <motion.div 
-                          className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-32 h-20 border-2 border-primary/50 rounded-full"
-                          animate={{
-                            scale: [1, 1.05, 1],
-                            opacity: [0.5, 1, 0.5]
-                          }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        />
-                        
-                        {/* Virtual Sneaker */}
-                        <motion.img
-                          src={sneakers[selectedSneaker].image}
-                          alt="AR Sneaker"
-                          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-28 h-20 object-cover rounded-lg"
-                          animate={{
-                            y: [0, -5, 0],
-                            rotateY: [0, 10, 0]
+                          className="w-64 h-[480px] bg-black rounded-[3rem] p-3 mx-auto relative"
+                          animate={{ 
+                            boxShadow: [
+                              "0 0 20px rgba(59, 130, 246, 0.3)",
+                              "0 0 40px rgba(147, 51, 234, 0.3)",
+                              "0 0 20px rgba(59, 130, 246, 0.3)"
+                            ]
                           }}
                           transition={{ duration: 2, repeat: Infinity }}
-                        />
-                        
-                        {/* AR UI Elements */}
-                        <div className="absolute top-12 left-4 right-4 flex justify-between">
-                          <Badge variant="secondary" className="text-xs bg-black/50 text-white">
-                            AR Active
-                          </Badge>
-                          <Badge variant="secondary" className="text-xs bg-black/50 text-white">
-                            Size: 9.5
-                          </Badge>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* AR Controls */}
-                    <motion.div 
-                      className="flex justify-center gap-3"
-                      variants={containerVariants}
-                    >
-                      {[
-                        { icon: RotateCcw, label: "Rotate" },
-                        { icon: Eye, label: "View" },
-                        { icon: Volume2, label: "Sound" },
-                        { icon: Maximize2, label: "Full" }
-                      ].map((control, index) => (
-                        <motion.button
-                          key={control.label}
-                          className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
-                          variants={itemVariants}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          data-testid={`button-ar-${control.label.toLowerCase()}`}
                         >
-                          <control.icon className="w-5 h-5 text-primary" />
-                        </motion.button>
-                      ))}
-                    </motion.div>
-
-                    <p className="text-sm text-muted-foreground">
-                      Move your phone to see different angles
-                    </p>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="ar-inactive"
-                    className="text-center space-y-6"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <motion.div
-                      className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-2xl flex items-center justify-center mx-auto"
-                      whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Smartphone className="w-10 h-10 sm:w-12 sm:h-12 text-orange-500" />
-                    </motion.div>
-                    
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-semibold mb-2">Try On Virtually</h3>
-                      <p className="text-sm sm:text-base text-muted-foreground mb-6">
-                        Point your camera at your feet and see how any sneaker looks
-                      </p>
-                      
-                      <motion.div
-                        variants={cardVariants}
-                        whileHover="hover"
-                        whileTap="tap"
-                      >
-                        <Button 
-                          size="lg" 
-                          className="h-12 px-8 text-base"
-                          onClick={startARTryOn}
-                          data-testid="button-start-ar"
-                        >
-                          <Play className="w-5 h-5 mr-2" />
-                          Start AR Try-On
-                        </Button>
-                      </motion.div>
-                    </div>
-
-                    {/* Features */}
-                    <motion.div 
-                      className="grid grid-cols-2 gap-4 pt-4"
-                      variants={containerVariants}
-                    >
-                      {[
-                        { icon: Zap, label: "Instant Preview", color: "text-yellow-500" },
-                        { icon: Eye, label: "360° View", color: "text-blue-500" }
-                      ].map((feature, index) => (
-                        <motion.div
-                          key={feature.label}
-                          className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
-                          variants={itemVariants}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                        >
-                          <feature.icon className={`w-5 h-5 ${feature.color} mx-auto mb-2`} />
-                          <p className="text-xs font-medium">{feature.label}</p>
+                          {/* Screen */}
+                          <div className="w-full h-full bg-gradient-to-b from-blue-500/20 to-purple-500/20 rounded-[2.5rem] relative overflow-hidden">
+                            {/* Status Bar */}
+                            <div className="absolute top-4 left-4 right-4 flex justify-between items-center text-white text-xs z-10">
+                              <span>9:41</span>
+                              <div className="flex items-center gap-1">
+                                <div className="w-4 h-2 border border-white rounded-sm">
+                                  <div className="w-full h-full bg-white rounded-sm"></div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* Foot outline */}
+                            <motion.div 
+                              className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-32 h-20 border-2 border-primary/50 rounded-full"
+                              animate={{
+                                scale: [1, 1.05, 1],
+                                opacity: [0.5, 1, 0.5]
+                              }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            />
+                            
+                            {/* Virtual Sneaker */}
+                            <motion.img
+                              src={sneakers[selectedSneaker].image}
+                              alt="AR Sneaker"
+                              className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-28 h-20 object-cover rounded-lg"
+                              animate={{
+                                y: [0, -5, 0],
+                                rotateY: [0, 10, 0]
+                              }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                            
+                            {/* AR UI Elements */}
+                            <div className="absolute top-12 left-4 right-4 flex justify-between">
+                              <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                                AR Active
+                              </Badge>
+                              <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                                Size: 9.5
+                              </Badge>
+                            </div>
+                          </div>
                         </motion.div>
-                      ))}
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          </motion.div>
 
-          {/* Sneaker Selection */}
-          <motion.div className="space-y-6" variants={itemVariants}>
-            <h3 className="text-xl sm:text-2xl font-semibold text-center">
-              Choose a Sneaker to Try
-            </h3>
-            
-            <motion.div className="space-y-4" variants={containerVariants}>
-              {sneakers.map((sneaker, index) => (
-                <motion.div
-                  key={sneaker.id}
-                  className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                    selectedSneaker === index
-                      ? 'border-primary bg-primary/5 shadow-lg'
-                      : 'border-muted bg-card hover:border-primary/50'
-                  }`}
-                  onClick={() => setSelectedSneaker(index)}
-                  variants={cardVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  data-testid={`button-sneaker-${sneaker.id}`}
-                >
-                  <div className="flex gap-4">
-                    <img
-                      src={sneaker.image}
-                      alt={sneaker.name}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-base line-clamp-1">
-                        {sneaker.name}
-                      </h4>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {sneaker.brand}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-primary">
-                          {sneaker.price}
-                        </span>
-                        <Badge variant="outline" className="text-xs">
-                          {sneaker.colors.length} colors
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {selectedSneaker === index && (
-                    <motion.div
-                      className="mt-4 pt-4 border-t border-primary/20"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <p className="text-xs text-muted-foreground mb-2">Available Colors:</p>
-                      <div className="flex gap-2">
-                        {sneaker.colors.map((color, colorIndex) => (
-                          <Badge key={colorIndex} variant="secondary" className="text-xs">
-                            {color}
-                          </Badge>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
+                        {/* AR Controls */}
+                        <motion.div 
+                          className="flex justify-center gap-3"
+                          variants={containerVariants}
+                        >
+                          {[
+                            { icon: RotateCcw, label: "Rotate" },
+                            { icon: Eye, label: "View" },
+                            { icon: Volume2, label: "Sound" },
+                            { icon: Maximize2, label: "Full" }
+                          ].map((control, index) => (
+                            <motion.button
+                              key={control.label}
+                              className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
+                              variants={itemVariants}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              data-testid={`button-ar-${control.label.toLowerCase()}`}
+                            >
+                              <control.icon className="w-5 h-5 text-primary" />
+                            </motion.button>
+                          ))}
+                        </motion.div>
+
+                        <p className="text-sm text-gray-600">
+                          Move your phone to see different angles
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="ar-preview"
+                        className="text-center space-y-6"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {/* Phone Mockup - Preview */}
+                        <motion.div 
+                          className="w-64 h-[480px] bg-black rounded-[3rem] p-3 mx-auto relative cursor-pointer"
+                          whileHover={{ scale: 1.05 }}
+                          onClick={startARTryOn}
+                        >
+                          <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 rounded-[2.5rem] relative overflow-hidden">
+                            {/* Preview Content */}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center">
+                              <motion.div
+                                className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4"
+                                whileHover={{ scale: 1.1 }}
+                              >
+                                <Play className="w-8 h-8 text-white ml-1" />
+                              </motion.div>
+                              <h4 className="text-lg font-semibold text-slate-700 mb-2">Start AR Try-On</h4>
+                              <p className="text-sm text-gray-600 px-4 text-center">
+                                Point your camera at your feet to begin
+                              </p>
+                            </div>
+                            
+                            {/* Preview sneaker */}
+                            <motion.img
+                              src={sneakers[selectedSneaker].image}
+                              alt="Preview sneaker"
+                              className="absolute bottom-4 right-4 w-16 h-12 object-cover rounded-lg opacity-30"
+                              animate={{ rotate: [0, 5, 0] }}
+                              transition={{ duration: 3, repeat: Infinity }}
+                            />
+                          </div>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
-              ))}
-            </motion.div>
+              </div>
 
-            {/* Additional Features */}
-            <motion.div 
-              className="grid grid-cols-2 gap-4 pt-4"
-              variants={containerVariants}
-            >
-              {[
-                { icon: Star, label: "Size Matching", desc: "Perfect fit AI" },
-                { icon: Sparkles, label: "Style Tips", desc: "AI suggestions" }
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.label}
-                  className="text-center p-4 rounded-xl bg-card/50 backdrop-blur-sm border hover:shadow-lg transition-shadow"
+              {/* Right Side - Features */}
+              <div className="col-span-6 md:col-span-4">
+                <motion.div 
+                  className="mb-10"
                   variants={itemVariants}
-                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <feature.icon className="w-6 h-6 text-primary mx-auto mb-2" />
-                  <h4 className="font-medium text-sm">{feature.label}</h4>
-                  <p className="text-xs text-muted-foreground">{feature.desc}</p>
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                    <motion.div 
+                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      whileHover={{ scale: 1.1, rotate: -5 }}
+                    >
+                      4
+                    </motion.div>
+                    <span>HD Rendering</span>
+                  </h3>
+                  <p className="text-sm text-gray-500">Ultra-high quality 3D models with realistic materials and lighting for authentic visualization.</p>
                 </motion.div>
-              ))}
-            </motion.div>
+                
+                <motion.div 
+                  className="mb-10"
+                  variants={itemVariants}
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                    <motion.div 
+                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      whileHover={{ scale: 1.1, rotate: -5 }}
+                    >
+                      5
+                    </motion.div>
+                    <span>Social Sharing</span>
+                  </h3>
+                  <p className="text-sm text-gray-500">Share your virtual try-on experiences with friends and get feedback before making a purchase.</p>
+                </motion.div>
+                
+                <motion.div
+                  variants={itemVariants}
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                    <motion.div 
+                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      whileHover={{ scale: 1.1, rotate: -5 }}
+                    >
+                      6
+                    </motion.div>
+                    <span>Save Favorites</span>
+                  </h3>
+                  <p className="text-sm text-gray-500">Bookmark your favorite combinations and create personalized collections for future reference.</p>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Call to Action */}
-        <motion.div className="text-center mt-12 sm:mt-16" variants={itemVariants}>
+        <motion.div 
+          className="text-center mt-12 sm:mt-16"
+          variants={itemVariants}
+        >
           <motion.div
             variants={cardVariants}
             whileHover="hover"
             whileTap="tap"
           >
-            <Button size="lg" className="h-12 px-8 text-base" data-testid="button-download-app">
-              <Smartphone className="w-5 h-5 mr-2" />
-              Download Mobile App
+            <Button 
+              size="lg" 
+              className="h-12 px-8 text-base" 
+              onClick={startARTryOn}
+              data-testid="button-start-ar-tryon"
+            >
+              <Camera className="w-5 h-5 mr-2" />
+              Start AR Try-On
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </motion.div>
-          <p className="text-sm text-muted-foreground mt-3">
+          <p className="text-sm text-gray-600 mt-3">
             Full AR experience available on mobile devices
           </p>
         </motion.div>
