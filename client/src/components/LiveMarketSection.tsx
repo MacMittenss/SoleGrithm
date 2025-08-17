@@ -106,19 +106,57 @@ const LiveMarketSection = () => {
   return (
     <motion.section 
       ref={sectionRef}
-      className="relative py-16 sm:py-24 overflow-hidden"
+      className="relative py-20 sm:py-32 overflow-hidden"
       style={{
         opacity,
         scale,
         y: translateY,
+        background: "linear-gradient(135deg, rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.05))"
       }}
       data-testid="section-live-market"
     >
-      {/* Background gradient with scroll animation */}
+      {/* Background gradient effects from uploaded file */}
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-red-500/3 to-orange-500/5"
+        className="absolute inset-0"
         style={{
-          opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.8, 0])
+          background: "radial-gradient(ellipse at center, rgba(255, 41, 0, 0.1) 0%, rgba(254, 122, 96, 0.05) 35%, rgba(88, 29, 255, 0.1) 100%)",
+          opacity: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
+        }}
+      />
+      
+      {/* Animated background elements */}
+      <motion.div 
+        className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full opacity-10"
+        style={{
+          background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+          filter: "blur(60px)"
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <motion.div 
+        className="absolute bottom-1/4 left-1/4 w-48 h-48 rounded-full opacity-10"
+        style={{
+          background: "linear-gradient(to right, #581dff 0%, #fe7a60 61%, #ff2900 100%)",
+          filter: "blur(40px)"
+        }}
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.1, 0.15, 0.1]
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
         }}
       />
       
@@ -139,27 +177,49 @@ const LiveMarketSection = () => {
             }}
             variants={itemVariants}
           >
-            {/* Header with icon */}
+            {/* Header with gradient text styling from uploaded file */}
             <motion.div 
-              className="flex items-center gap-3 mb-6"
+              className="mb-8 sm:mb-12"
               variants={itemVariants}
             >
-              <motion.div 
-                className="w-12 h-12 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl flex items-center justify-center"
-                whileHover={{ 
-                  scale: 1.1, 
-                  rotate: [0, -5, 5, 0],
-                  background: "linear-gradient(135deg, rgba(251, 146, 60, 0.3), rgba(239, 68, 68, 0.3))"
-                }}
-                transition={{ duration: 0.5 }}
+              <motion.div
+                className="inline-flex items-center gap-2 mb-4"
+                variants={itemVariants}
               >
-                <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                <motion.div 
+                  className="w-6 h-6 rounded-full"
+                  style={{
+                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)"
+                  }}
+                  whileHover={{ 
+                    scale: 1.2, 
+                    rotate: [0, 180, 360]
+                  }}
+                  transition={{ duration: 0.8 }}
+                />
+                <span className="text-sm font-medium tracking-wide uppercase">Live Market</span>
               </motion.div>
+              
               <motion.div variants={itemVariants}>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                  Live Market
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-4">
+                  <span>Real-time Market&nbsp;</span>
+                  <span 
+                    className="font-bold"
+                    style={{
+                      fontWeight: 700,
+                      color: "transparent",
+                      backgroundImage: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                      backgroundClip: "text",
+                      WebkitBackgroundClip: "text"
+                    }}
+                  >
+                    Intelligence
+                  </span>
                 </h2>
-                <p className="text-muted-foreground">Real-time pricing and market data</p>
+                <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                  Advanced pricing analytics and market intelligence powered by real-time data 
+                  from all major sneaker platforms worldwide.
+                </p>
               </motion.div>
             </motion.div>
 
@@ -173,70 +233,95 @@ const LiveMarketSection = () => {
               comprehensive market analytics.
             </motion.p>
 
-            {/* Feature Cards */}
+            {/* Feature Stats */}
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              className="grid grid-cols-3 gap-6 sm:gap-8 mb-8"
               variants={containerVariants}
             >
               <motion.div 
-                className="p-4 rounded-lg bg-green-500/10 border border-green-500/20 backdrop-blur-sm"
+                className="text-center"
                 variants={cardVariants}
                 whileHover="hover"
-                data-testid="feature-live-prices"
+                data-testid="stat-platforms"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <motion.div 
-                    className="w-2 h-2 bg-green-500 rounded-full"
-                    animate={{ 
-                      scale: [1, 1.2, 1],
-                      opacity: [1, 0.7, 1]
-                    }}
-                    transition={{ 
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                  <span className="text-sm font-medium text-green-700 dark:text-green-300">Live Prices</span>
-                </div>
-                <p className="text-xs text-muted-foreground">Real-time updates from StockX, GOAT, and more</p>
+                <motion.div 
+                  className="text-2xl sm:text-3xl font-bold mb-1"
+                  style={{
+                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    color: "transparent"
+                  }}
+                >
+                  15+
+                </motion.div>
+                <p className="text-xs sm:text-sm text-muted-foreground font-medium">Platforms</p>
               </motion.div>
-
+              
               <motion.div 
-                className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20 backdrop-blur-sm"
+                className="text-center"
                 variants={cardVariants}
                 whileHover="hover"
-                data-testid="feature-price-alerts"
+                data-testid="stat-updates"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Price Alerts</span>
-                </div>
-                <p className="text-xs text-muted-foreground">Get notified when prices drop</p>
+                <motion.div 
+                  className="text-2xl sm:text-3xl font-bold mb-1"
+                  style={{
+                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    color: "transparent"
+                  }}
+                >
+                  24/7
+                </motion.div>
+                <p className="text-xs sm:text-sm text-muted-foreground font-medium">Live Updates</p>
+              </motion.div>
+              
+              <motion.div 
+                className="text-center"
+                variants={cardVariants}
+                whileHover="hover"
+                data-testid="stat-accuracy"
+              >
+                <motion.div 
+                  className="text-2xl sm:text-3xl font-bold mb-1"
+                  style={{
+                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    color: "transparent"
+                  }}
+                >
+                  99%
+                </motion.div>
+                <p className="text-xs sm:text-sm text-muted-foreground font-medium">Accuracy</p>
               </motion.div>
             </motion.div>
 
-            {/* CTA Button */}
+            {/* CTA Button with gradient styling */}
             <motion.div variants={itemVariants}>
               <Link href="/live-market">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
+                <motion.button
+                  className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white rounded-full transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95"
+                  style={{
+                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                    border: "none"
+                  }}
+                  whileHover={{ 
+                    boxShadow: "0 20px 40px rgba(255, 41, 0, 0.3)"
+                  }}
                   whileTap={{ scale: 0.95 }}
+                  data-testid="button-explore-live-market"
                 >
-                  <Button 
-                    size="lg" 
-                    className="mt-6 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-lg hover:shadow-xl transition-shadow" 
-                    data-testid="button-explore-live-market"
-                  >
-                    Explore Live Market
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </motion.div>
+                  <span className="mr-2">Explore Live Market</span>
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
               </Link>
             </motion.div>
           </motion.div>
 
-          {/* Live Market Visual */}
+          {/* Live Market Visual - Modern Dashboard */}
           <motion.div 
             ref={visualRef}
             style={{
@@ -244,82 +329,164 @@ const LiveMarketSection = () => {
               y: visualTranslateY,
             }}
             variants={itemVariants}
+            className="relative"
           >
+            {/* Background blur effect */}
             <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 dark:from-white/5 dark:to-white/10 rounded-3xl backdrop-blur-3xl border border-white/10"
+              variants={cardVariants}
+              whileHover="hover"
+            />
+            
+            {/* Main content */}
+            <motion.div
+              className="relative p-8 sm:p-12 rounded-3xl"
               variants={cardVariants}
               whileHover="hover"
             >
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-orange-500/10 to-red-500/10 backdrop-blur-sm">
+              {/* Header */}
+              <motion.div 
+                className="mb-8 text-center"
+                variants={itemVariants}
+              >
                 <motion.div 
-                  className="space-y-4"
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate={isInView ? "visible" : "hidden"}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
+                  style={{
+                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                    opacity: 0.1
+                  }}
                 >
-                  {/* Price Rows */}
+                  <motion.div 
+                    className="w-2 h-2 rounded-full"
+                    style={{
+                      background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)"
+                    }}
+                    animate={{ 
+                      scale: [1, 1.3, 1],
+                      opacity: [1, 0.5, 1]
+                    }}
+                    transition={{ 
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  <span className="text-xs font-medium">LIVE DATA</span>
+                </motion.div>
+                <h3 className="text-xl font-semibold">Market Dashboard</h3>
+              </motion.div>
+
+              <motion.div 
+                className="space-y-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              >
+                {/* Price Grid */}
+                <motion.div className="grid grid-cols-1 gap-4">
                   {[
-                    { name: "Nike Air Jordan 1", price: "$420", color: "text-green-600", trend: "up" },
-                    { name: "Yeezy Boost 350", price: "$280", color: "text-red-600", trend: "down" },
-                    { name: "Nike Dunk Low", price: "$150", color: "text-blue-600", trend: "stable" }
+                    { 
+                      name: "Air Jordan 1 Retro High", 
+                      price: "$420", 
+                      change: "+12.5%", 
+                      trend: "up",
+                      volume: "2.1K sales"
+                    },
+                    { 
+                      name: "Yeezy Boost 350 V2", 
+                      price: "$280", 
+                      change: "-8.2%", 
+                      trend: "down",
+                      volume: "1.8K sales"
+                    },
+                    { 
+                      name: "Nike Dunk Low Panda", 
+                      price: "$150", 
+                      change: "+2.1%", 
+                      trend: "up",
+                      volume: "3.2K sales"
+                    }
                   ].map((item, index) => (
                     <motion.div 
                       key={item.name}
-                      className="flex items-center justify-between p-3 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all"
+                      className="p-4 rounded-2xl border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all group"
+                      style={{
+                        background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))"
+                      }}
                       variants={priceRowVariants}
                       custom={index}
                       whileHover={{ 
                         scale: 1.02,
-                        x: 5,
+                        y: -2,
                         transition: { duration: 0.2 }
                       }}
                       data-testid={`price-row-${index}`}
                     >
-                      <span className="text-sm font-medium">{item.name}</span>
-                      <motion.span 
-                        className={`font-bold ${item.color}`}
-                        initial={{ scale: 1 }}
-                        animate={{ 
-                          scale: item.trend === "up" ? [1, 1.1, 1] : item.trend === "down" ? [1, 0.9, 1] : 1
-                        }}
-                        transition={{ 
-                          duration: 1.5,
-                          repeat: Infinity,
-                          repeatDelay: 2
-                        }}
-                      >
-                        {item.price}
-                      </motion.span>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-foreground truncate">{item.name}</span>
+                        <motion.span 
+                          className="text-lg font-bold"
+                          style={{
+                            background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
+                            backgroundClip: "text",
+                            WebkitBackgroundClip: "text",
+                            color: "transparent"
+                          }}
+                          initial={{ scale: 1 }}
+                          animate={{ 
+                            scale: item.trend === "up" ? [1, 1.05, 1] : [1, 0.95, 1]
+                          }}
+                          transition={{ 
+                            duration: 2,
+                            repeat: Infinity,
+                            repeatDelay: 3
+                          }}
+                        >
+                          {item.price}
+                        </motion.span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-muted-foreground">{item.volume}</span>
+                        <span className={`font-medium ${
+                          item.trend === "up" ? "text-green-500" : "text-red-500"
+                        }`}>
+                          {item.change}
+                        </span>
+                      </div>
                     </motion.div>
                   ))}
+                </motion.div>
 
-                  {/* Last Updated */}
+                {/* Live Status */}
+                <motion.div 
+                  className="text-center pt-4 border-t border-white/10"
+                  variants={itemVariants}
+                >
                   <motion.div 
-                    className="text-center pt-4"
-                    variants={itemVariants}
+                    className="inline-flex items-center gap-2 text-xs text-muted-foreground"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
                   >
                     <motion.div 
-                      className="inline-flex items-center gap-2 text-xs text-muted-foreground"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1 }}
-                    >
-                      <motion.div 
-                        className="w-2 h-2 bg-green-500 rounded-full"
-                        animate={{ 
-                          scale: [1, 1.3, 1],
-                          opacity: [1, 0.5, 1]
-                        }}
-                        transition={{ 
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
-                      Last updated: 2 minutes ago
-                    </motion.div>
+                      className="w-2 h-2 rounded-full"
+                      style={{
+                        background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)"
+                      }}
+                      animate={{ 
+                        scale: [1, 1.3, 1],
+                        opacity: [1, 0.5, 1]
+                      }}
+                      transition={{ 
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                    Real-time updates • Last sync: 30s ago
                   </motion.div>
                 </motion.div>
-              </Card>
+              </motion.div>
             </motion.div>
           </motion.div>
         </motion.div>
