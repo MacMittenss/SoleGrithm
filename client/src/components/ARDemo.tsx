@@ -121,8 +121,21 @@ export default function ARDemo() {
             className="pb-2 text-3xl md:text-6xl font-bold max-w-[900px] mx-auto text-slate-700"
             variants={itemVariants}
           >
-            Try Before You 
-            <span className="text-primary"> Buy</span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Try Before You 
+            </motion.span>
+            <motion.span 
+              className="bg-gradient-to-r from-orange-500 via-red-500 to-purple-600 bg-clip-text text-transparent font-bold"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              Buy
+            </motion.span>
           </motion.h2>
           <motion.p 
             className="pb-10 text-lg text-gray-600 max-w-[600px] mx-auto"
