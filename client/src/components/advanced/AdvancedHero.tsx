@@ -22,46 +22,72 @@ export default function AdvancedHero() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  // VITURE-style entrance animations
+  // Background gradient animation and entrance animations
   useEffect(() => {
-    if (!isInView) return;
+    if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animate text entrance
-      if (textRef.current) {
-        gsap.fromTo(textRef.current.children, 
-          { 
-            y: 100, 
-            opacity: 0 
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power3.out',
-            stagger: 0.2,
-            delay: 0.3
-          }
-        );
+      // Animate gradient background - pulsating effect
+      gsap.to(containerRef.current, {
+        background: 'radial-gradient(ellipse at center, rgba(255, 41, 0, 0.15) 0%, rgba(254, 122, 96, 0.08) 35%, rgba(88, 29, 255, 0.15) 100%)',
+        duration: 3,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+
+      // Floating elements animation
+      const floatingElements = containerRef.current?.querySelectorAll('[data-float]');
+      if (floatingElements) {
+        gsap.to(floatingElements, {
+          y: 'random(-20, 20)',
+          rotation: 'random(-5, 5)',
+          duration: 'random(3, 5)',
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+          stagger: 0.5,
+        });
       }
 
-      // Animate sneaker image
-      if (imageRef.current) {
-        gsap.fromTo(imageRef.current, 
-          { 
-            x: 200, 
-            opacity: 0,
-            scale: 0.8
-          },
-          {
-            x: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1.5,
-            ease: 'power3.out',
-            delay: 0.6
-          }
-        );
+      // Entrance animations when in view
+      if (isInView) {
+        // Animate text entrance
+        if (textRef.current) {
+          gsap.fromTo(textRef.current.children, 
+            { 
+              y: 100, 
+              opacity: 0 
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power3.out',
+              stagger: 0.2,
+              delay: 0.3
+            }
+          );
+        }
+
+        // Animate sneaker image
+        if (imageRef.current) {
+          gsap.fromTo(imageRef.current, 
+            { 
+              x: 200, 
+              opacity: 0,
+              scale: 0.8
+            },
+            {
+              x: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 1.5,
+              ease: 'power3.out',
+              delay: 0.6
+            }
+          );
+        }
       }
     }, containerRef);
 
