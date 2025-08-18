@@ -158,10 +158,8 @@ export default function AdvancedHero() {
         >
           {/* Main heading - VITURE style */}
           <div className="space-y-6">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-none tracking-tight text-white">
-              Welcome To
-            </h1>
             <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-none tracking-tight">
+              <span className="text-white">Welcome To </span>
               <span 
                 style={{
                   background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
