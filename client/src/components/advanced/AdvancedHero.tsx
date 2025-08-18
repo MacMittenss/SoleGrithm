@@ -148,12 +148,12 @@ export default function AdvancedHero() {
       </motion.div>
 
       {/* VITURE-style layout: Text left, Image right */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-end gap-16 pb-32">
         
         {/* Left side - Text Content */}
         <motion.div
           ref={textRef}
-          className="flex flex-col justify-center space-y-8 lg:pl-0 xl:pr-16"
+          className="flex flex-col justify-end space-y-8 pl-8 lg:pl-12"
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE style */}
