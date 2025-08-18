@@ -153,7 +153,7 @@ export default function AdvancedHero() {
         {/* Left side - Text Content */}
         <motion.div
           ref={textRef}
-          className="flex flex-col justify-center space-y-8"
+          className="flex flex-col justify-center space-y-8 lg:pl-0 xl:pr-16"
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE style */}
