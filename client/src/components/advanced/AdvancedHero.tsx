@@ -178,11 +178,9 @@ export default function AdvancedHero() {
 
           {/* AI Discovery Message */}
           <div className="pt-8">
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-4 max-w-lg">
-              <p className="text-white text-lg font-medium leading-relaxed">
-                Hey you. Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
-              </p>
-            </div>
+            <p className="text-white text-lg font-medium leading-relaxed max-w-lg">
+              Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
+            </p>
           </div>
         </motion.div>
 
