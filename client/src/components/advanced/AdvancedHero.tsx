@@ -197,7 +197,7 @@ export default function AdvancedHero() {
               style={{ 
                 fontFamily: '"SF Pro Text", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
                 fontWeight: 450,
-                letterSpacing: '0.03em',
+                letterSpacing: '0.02em',
                 lineHeight: 1.6
               }}
             >
