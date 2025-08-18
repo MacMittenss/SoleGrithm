@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
-import heroSneakerImage from '@assets/generated_images/Premium_hero_sneaker_product_b50a2183.png';
+import futuristicSneakerImage from '@assets/close-up-futuristic-sneakers (1)_1755555541238.jpg';
 
 export default function AdvancedHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -153,7 +153,7 @@ export default function AdvancedHero() {
         {/* Left side - Text Content */}
         <motion.div
           ref={textRef}
-          className="flex flex-col justify-end space-y-8 pl-8 lg:pl-16 max-w-2xl"
+          className="flex flex-col justify-end space-y-8 pl-8 lg:pl-16 max-w-2xl relative z-10"
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE style */}
@@ -184,6 +184,18 @@ export default function AdvancedHero() {
           </div>
         </motion.div>
 
+        {/* Background Sneaker Image - Behind text, on top of gradient */}
+        <motion.div
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-50 z-0"
+          style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "10%"]) }}
+        >
+          <img
+            src={futuristicSneakerImage}
+            alt="Futuristic sneaker background"
+            className="w-auto h-screen max-h-[80vh] object-contain"
+            style={{ filter: 'brightness(0.8)' }}
+          />
+        </motion.div>
 
       </div>
     </motion.div>
