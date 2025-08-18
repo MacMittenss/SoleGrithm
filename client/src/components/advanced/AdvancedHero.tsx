@@ -184,44 +184,7 @@ export default function AdvancedHero() {
           </div>
         </motion.div>
 
-        {/* Right side - Hero Sneaker Image */}
-        <motion.div
-          ref={imageRef}
-          className="absolute right-8 lg:right-16 top-1/2 transform -translate-y-1/2 flex justify-center items-center"
-          style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "10%"]) }}
-        >
-          <div className="relative">
-            {/* Hero sneaker image */}
-            <motion.img
-              src={heroSneakerImage}
-              alt="Premium sneaker"
-              className="w-full max-w-lg lg:max-w-xl xl:max-w-2xl h-auto object-contain"
-              whileHover={{ 
-                scale: 1.05,
-                rotateY: 5,
-                transition: { duration: 0.6, ease: "easeOut" }
-              }}
-            />
-            
-            {/* Subtle glow effect */}
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: 'radial-gradient(ellipse at center, rgba(255, 41, 0, 0.1) 0%, transparent 70%)',
-                filter: 'blur(40px)',
-              }}
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-          </div>
-        </motion.div>
+
       </div>
     </motion.div>
   );
