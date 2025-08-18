@@ -186,13 +186,13 @@ export default function AdvancedHero() {
 
         {/* Background Sneaker Image - Behind text, on top of gradient */}
         <motion.div
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-50 z-0"
+          className="absolute right-8 lg:right-16 top-1/2 transform -translate-y-1/2 opacity-50 z-0"
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "10%"]) }}
         >
           <img
             src={futuristicSneakerImage}
             alt="Futuristic sneaker background"
-            className="w-auto h-screen max-h-[80vh] object-contain"
+            className="w-auto h-[60vh] lg:h-[70vh] object-contain"
             style={{ filter: 'brightness(0.8)' }}
           />
         </motion.div>
