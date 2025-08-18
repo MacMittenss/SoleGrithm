@@ -176,18 +176,13 @@ export default function AdvancedHero() {
             </h1>
           </div>
 
-          {/* CTA Button - minimal VITURE style */}
+          {/* AI Discovery Message */}
           <div className="pt-8">
-            <Link href="/discover">
-              <Button
-                size="lg" 
-                className="bg-white text-black hover:bg-gray-100 rounded-full px-8 py-6 text-lg font-medium transition-all duration-300 hover:scale-105"
-                data-testid="hero-cta-button"
-              >
-                Explore Collection
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-4 max-w-lg">
+              <p className="text-white text-lg font-medium leading-relaxed">
+                Hey you. Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
+              </p>
+            </div>
           </div>
         </motion.div>
 
