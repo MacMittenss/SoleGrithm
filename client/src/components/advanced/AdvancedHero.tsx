@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
-import futuristicSneakerImage from '@assets/close-up-futuristic-sneakers (1)_1755555541238.jpg';
+import futuristicSneakerImage from '@assets/transparent-Photoroom_1755556579483.png';
 
 export default function AdvancedHero() {
   const containerRef = useRef<HTMLDivElement>(null);
