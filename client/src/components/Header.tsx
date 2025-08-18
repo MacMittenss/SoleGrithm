@@ -151,21 +151,18 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             ))}
           </nav>
 
-          {/* Search Bar - Hidden on mobile for cleaner mobile experience */}
-          <div className="hidden md:flex items-center space-x-4 flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 transition-colors ${
-                isHomePage && !isScrolled ? "text-white/70" : "text-gray-500"
-              }`} />
-              <Input
-                type="text"
-                placeholder="Search sneakers..."
-                className={`pl-10 w-full text-sm transition-colors ${
-                  isHomePage && !isScrolled
-                    ? "bg-white/10 border-white/20 text-white placeholder:text-white/70 backdrop-blur-sm"
-                    : "bg-gray-100 border-gray-300 text-black placeholder:text-gray-500"
-                }`}
-              />
+          {/* AI Discovery Message - Replaces search bar */}
+          <div className="hidden md:flex items-center justify-center flex-1 max-w-2xl mx-8">
+            <div className={`text-center px-4 py-2 rounded-full transition-all duration-300 ${
+              isHomePage && !isScrolled
+                ? "bg-white/10 backdrop-blur-sm border border-white/20"
+                : "bg-gray-50 border border-gray-200"
+            }`}>
+              <p className={`text-sm font-medium transition-colors ${
+                isHomePage && !isScrolled ? "text-white" : "text-gray-800"
+              }`}>
+                Hey you. Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
+              </p>
             </div>
           </div>
 
