@@ -156,12 +156,26 @@ export default function AdvancedHero() {
           className="flex flex-col justify-end space-y-8 pl-8 lg:pl-16 max-w-2xl relative z-10"
           style={{ y, opacity }}
         >
-          {/* Main heading - VITURE style */}
-          <div className="text-left space-y-2">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-none tracking-tight text-white">
+          {/* Main heading - VITURE Season Sans style */}
+          <div className="text-left space-y-3">
+            <h1 
+              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight leading-[0.85] tracking-[-0.02em] text-white"
+              style={{ 
+                fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                fontWeight: 200,
+                letterSpacing: '-0.02em'
+              }}
+            >
               Welcome&nbsp;To
             </h1>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-none tracking-tight">
+            <h1 
+              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extralight leading-[0.85] tracking-[-0.02em]"
+              style={{ 
+                fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                fontWeight: 200,
+                letterSpacing: '-0.02em'
+              }}
+            >
               <span 
                 style={{
                   background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
@@ -177,8 +191,16 @@ export default function AdvancedHero() {
           </div>
 
           {/* AI Discovery Message */}
-          <div className="pt-8">
-            <p className="text-white text-xl font-medium leading-relaxed max-w-lg">
+          <div className="pt-12">
+            <p 
+              className="text-white/90 text-lg font-light leading-relaxed max-w-lg tracking-wide"
+              style={{ 
+                fontFamily: '"SF Pro Text", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                fontWeight: 300,
+                letterSpacing: '0.01em',
+                lineHeight: 1.6
+              }}
+            >
               Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
             </p>
           </div>
