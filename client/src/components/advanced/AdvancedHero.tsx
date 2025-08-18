@@ -187,7 +187,7 @@ export default function AdvancedHero() {
         {/* Right side - Hero Sneaker Image */}
         <motion.div
           ref={imageRef}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 flex justify-end items-center"
+          className="absolute right-8 lg:right-16 top-1/2 transform -translate-y-1/2 flex justify-center items-center"
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "10%"]) }}
         >
           <div className="relative">
