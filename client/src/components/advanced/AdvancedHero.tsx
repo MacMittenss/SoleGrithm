@@ -158,10 +158,10 @@ export default function AdvancedHero() {
         >
           {/* Main heading - VITURE style */}
           <div className="space-y-6">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-none tracking-tight text-white">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-none tracking-tight text-white">
               Welcome To
             </h1>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-none tracking-tight">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light leading-none tracking-tight">
               <span 
                 style={{
                   background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
@@ -178,7 +178,7 @@ export default function AdvancedHero() {
 
           {/* AI Discovery Message */}
           <div className="pt-8">
-            <p className="text-white text-lg font-medium leading-relaxed max-w-lg">
+            <p className="text-white text-xl font-medium leading-relaxed max-w-lg">
               Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
             </p>
           </div>
