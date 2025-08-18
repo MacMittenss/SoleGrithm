@@ -159,21 +159,21 @@ export default function AdvancedHero() {
           {/* Main heading - VITURE Season Sans style */}
           <div className="text-left space-y-3">
             <h1 
-              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-normal leading-[0.85] tracking-[-0.02em] text-white"
+              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85] text-white"
               style={{ 
                 fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                fontWeight: 400,
-                letterSpacing: '-0.02em'
+                fontWeight: 450,
+                letterSpacing: '0.02em'
               }}
             >
               Welcome&nbsp;To
             </h1>
             <h1 
-              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-normal leading-[0.85] tracking-[-0.02em]"
+              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85]"
               style={{ 
                 fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                fontWeight: 400,
-                letterSpacing: '-0.02em'
+                fontWeight: 450,
+                letterSpacing: '0.02em'
               }}
             >
               <span 
@@ -193,11 +193,11 @@ export default function AdvancedHero() {
           {/* AI Discovery Message */}
           <div className="pt-12">
             <p 
-              className="text-white/90 text-lg font-semibold leading-relaxed max-w-lg tracking-wide"
+              className="text-white/90 text-lg leading-relaxed max-w-lg"
               style={{ 
                 fontFamily: '"SF Pro Text", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                fontWeight: 600,
-                letterSpacing: '0.01em',
+                fontWeight: 450,
+                letterSpacing: '0.03em',
                 lineHeight: 1.6
               }}
             >
