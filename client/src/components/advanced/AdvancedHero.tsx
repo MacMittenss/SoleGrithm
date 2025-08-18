@@ -148,12 +148,12 @@ export default function AdvancedHero() {
       </motion.div>
 
       {/* VITURE-style layout: Text left, Image right */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-end gap-16 pb-32">
+      <div className="relative z-10 w-full h-full flex items-end pb-32">
         
         {/* Left side - Text Content */}
         <motion.div
           ref={textRef}
-          className="flex flex-col justify-end space-y-8 pl-8 lg:pl-12"
+          className="flex flex-col justify-end space-y-8 pl-8 lg:pl-16 max-w-2xl"
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE style */}
@@ -187,7 +187,7 @@ export default function AdvancedHero() {
         {/* Right side - Hero Sneaker Image */}
         <motion.div
           ref={imageRef}
-          className="flex justify-center lg:justify-end items-center"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 flex justify-end items-center"
           style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "10%"]) }}
         >
           <div className="relative">
