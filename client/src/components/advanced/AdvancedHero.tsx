@@ -161,20 +161,25 @@ export default function AdvancedHero() {
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE Season Sans style */}
-          <div className="text-left space-y-4">
+          <div className="text-left space-y-3">
             {/* Welcome To - First Line */}
             <div>
               <SplitText
-                className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-white"
+                className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85] text-white"
                 type="chars"
                 stagger={0.05}
                 delay={0.5}
+                style={{ 
+                  fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+                  fontWeight: 450,
+                  letterSpacing: '0.02em'
+                }}
               >
                 Welcome To
               </SplitText>
             </div>
             
-            {/* SoleGrithm - Second Line */}
+            {/* SoleGrithm - Same Line */}
             <div 
               className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85]"
               style={{ 
