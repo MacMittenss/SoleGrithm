@@ -29,16 +29,16 @@ export default function HeroScrollOverlay({ children, nextSection }: HeroScrollO
   const heroY = useTransform(smoothProgress, [0, 0.5, 1], [0, -20, -100]);
   const heroOpacity = useTransform(smoothProgress, [0, 0.6, 0.9, 1], [1, 0.8, 0.3, 0]);
 
-  // Clockwise rotating overlay from bottom-right that disappears
-  const overlayScale = useTransform(smoothProgress, [0, 0.2, 0.6, 0.8, 1], [0, 0.1, 1.2, 1.5, 0]);
-  const overlayRotate = useTransform(smoothProgress, [0, 0.3, 0.6, 0.8, 1], [45, 25, 5, 0, -45]);
-  const overlayX = useTransform(smoothProgress, [0, 0.4, 0.7, 1], [100, 50, 0, -100]);
-  const overlayY = useTransform(smoothProgress, [0, 0.4, 0.7, 1], [100, 50, 0, -100]);
-  const overlayOpacity = useTransform(smoothProgress, [0, 0.1, 0.4, 0.7, 0.9, 1], [0, 0.3, 0.8, 1, 0.3, 0]);
+  // Clockwise rotating overlay from bottom-right that disappears quickly
+  const overlayScale = useTransform(smoothProgress, [0, 0.2, 0.5, 0.7, 0.9], [0, 0.1, 1.2, 1.5, 0]);
+  const overlayRotate = useTransform(smoothProgress, [0, 0.3, 0.5, 0.7, 0.9], [45, 25, 5, 0, -45]);
+  const overlayX = useTransform(smoothProgress, [0, 0.4, 0.6, 0.8], [100, 50, 0, -100]);
+  const overlayY = useTransform(smoothProgress, [0, 0.4, 0.6, 0.8], [100, 50, 0, -100]);
+  const overlayOpacity = useTransform(smoothProgress, [0, 0.1, 0.4, 0.6, 0.8], [0, 0.3, 0.8, 0.3, 0]);
 
-  // Next section reveal - starts appearing as overlay peaks and continues as overlay fades
-  const nextSectionY = useTransform(smoothProgress, [0, 0.3, 0.6, 0.8, 1], [200, 100, 50, 10, 0]);
-  const nextSectionOpacity = useTransform(smoothProgress, [0, 0.2, 0.5, 0.8, 1], [0, 0, 0.3, 0.8, 1]);
+  // Next section reveal - appears right as overlay reaches peak
+  const nextSectionY = useTransform(smoothProgress, [0, 0.4, 0.7, 1], [150, 50, 10, 0]);
+  const nextSectionOpacity = useTransform(smoothProgress, [0, 0.4, 0.6, 0.8], [0, 0.5, 0.9, 1]);
 
   return (
     <div ref={containerRef} className="relative">
@@ -83,7 +83,7 @@ export default function HeroScrollOverlay({ children, nextSection }: HeroScrollO
           rotate: overlayRotate,
           x: overlayX,
           y: overlayY,
-          opacity: useTransform(overlayOpacity, [0, 0.5, 1], [0, 0.3, 0]),
+          opacity: useTransform(overlayOpacity, [0, 0.8], [0, 0.3]),
           transformOrigin: 'bottom right',
         }}
       />
@@ -100,7 +100,7 @@ export default function HeroScrollOverlay({ children, nextSection }: HeroScrollO
       </motion.div>
 
       {/* Spacer to create scroll distance */}
-      <div className="h-[150vh]" />
+      <div className="h-[120vh]" />
     </div>
   );
 }
