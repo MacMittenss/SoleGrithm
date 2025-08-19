@@ -161,15 +161,20 @@ export default function AdvancedHero() {
           style={{ y, opacity }}
         >
           {/* Main heading - VITURE Season Sans style */}
-          <div className="text-left space-y-3">
-            <SplitText
-              className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85] text-white"
-              type="chars"
-              stagger={0.05}
-              delay={0.5}
-            >
-              Welcome To
-            </SplitText>
+          <div className="text-left space-y-4">
+            {/* Welcome To - First Line */}
+            <div>
+              <SplitText
+                className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-white"
+                type="chars"
+                stagger={0.05}
+                delay={0.5}
+              >
+                Welcome To
+              </SplitText>
+            </div>
+            
+            {/* SoleGrithm - Second Line */}
             <div 
               className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85]"
               style={{ 
@@ -188,7 +193,7 @@ export default function AdvancedHero() {
                 Sole
               </GradientText>
               <SplitText
-                className="text-white inline-block ml-2"
+                className="text-white inline-block"
                 type="chars"
                 stagger={0.03}
                 delay={1.2}
