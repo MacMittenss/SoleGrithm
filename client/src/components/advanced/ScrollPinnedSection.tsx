@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, ReactNode } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { useScrollPin } from '@/hooks/useScrollPin';
+import { motion, useInView } from 'framer-motion';
 
 interface ScrollPinnedSectionProps {
   children: ReactNode;
@@ -24,65 +23,44 @@ export default function ScrollPinnedSection({
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const {
-    containerRef,
-    isPinned,
-    animationProgress,
-    isAnimationComplete,
-  } = useScrollPin({
-    threshold: 0.1,
-    duration: 2000,
-    onAnimationComplete,
-  });
-
   const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
 
-  // Staggered animation effect
+  // Simple staggered animation effect on scroll into view
   useEffect(() => {
-    if (!contentRef.current || !isPinned) return;
+    if (!contentRef.current || !isInView) return;
 
     const elements = contentRef.current.querySelectorAll('[data-scroll-animate]');
     if (!elements || elements.length === 0) return;
 
     elements.forEach((element, index) => {
-      const delay = index * staggerDelay;
-      const startProgress = delay / 2; // Start animation based on delay
-      const endProgress = startProgress + 0.5; // Animation duration in progress terms
-      
-      const elementProgress = Math.max(0, Math.min(1, 
-        (animationProgress - startProgress) / (endProgress - startProgress)
-      ));
-
       const htmlElement = element as HTMLElement;
+      const delay = index * staggerDelay * 1000; // Convert to milliseconds
       
-      // Apply transforms based on progress
-      const translateY = (1 - elementProgress) * 60;
-      const opacity = elementProgress;
-      const scale = 0.9 + (elementProgress * 0.1);
-
-      htmlElement.style.transform = `translateY(${translateY}px) scale(${scale})`;
-      htmlElement.style.opacity = opacity.toString();
+      // Reset styles first
+      htmlElement.style.transform = `translateY(60px) scale(0.9)`;
+      htmlElement.style.opacity = '0';
+      
+      // Animate with delay
+      setTimeout(() => {
+        htmlElement.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        htmlElement.style.transform = `translateY(0px) scale(1)`;
+        htmlElement.style.opacity = '1';
+      }, delay);
     });
-  }, [isPinned, animationProgress, staggerDelay]);
 
-  // Set containerRef to be the same as sectionRef
-  useEffect(() => {
-    if (sectionRef.current && containerRef) {
-      (containerRef as any).current = sectionRef.current;
+    // Call onAnimationComplete after all animations
+    if (onAnimationComplete) {
+      const totalDuration = elements.length * staggerDelay * 1000 + 800; // 800ms for last animation
+      setTimeout(onAnimationComplete, totalDuration);
     }
-  }, []);
+  }, [isInView, staggerDelay, onAnimationComplete]);
 
   return (
     <motion.section
       ref={sectionRef}
       id={id}
       className={`relative ${className}`}
-      style={{
-        height,
-        position: isPinned ? 'sticky' : 'relative',
-        top: isPinned ? 0 : 'auto',
-        zIndex: isPinned ? 10 : 1,
-      }}
+      style={{ height }}
       data-testid={`section-${id}`}
     >
       <motion.div
@@ -92,30 +70,9 @@ export default function ScrollPinnedSection({
         animate={{ 
           opacity: isInView ? 1 : 0,
         }}
-        style={{
-          backgroundColor: isPinned ? 'rgba(0,0,0,0.02)' : 'rgba(0,0,0,0)',
-        }}
         transition={{ duration: 0.6 }}
       >
         {children}
-        
-        {/* Progress indicator when pinned */}
-        {isPinned && !isAnimationComplete && (
-          <motion.div
-            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <div className="bg-white/10 backdrop-blur-md rounded-full px-4 py-2">
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                <span className="text-white text-sm font-medium">
-                  Loading {Math.round(animationProgress * 100)}%
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        )}
       </motion.div>
     </motion.section>
   );
