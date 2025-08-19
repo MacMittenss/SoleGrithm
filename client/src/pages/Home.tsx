@@ -11,6 +11,7 @@ import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
 import Minimap from "@/components/advanced/Minimap";
 import SectionWrapper from "@/components/SectionWrapper";
+import ScrollPinnedSection from "@/components/advanced/ScrollPinnedSection";
 
 // Legacy components (will be gradually replaced)
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -195,82 +196,106 @@ export default function Home() {
         <AdvancedHero />
       </SectionWrapper>
 
-      {/* Nike-Style Split Hero Sections - Full Width Connected */}
-      <section className="bg-white dark:bg-background">
-        <div className="w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+      {/* Scroll Pinned Sub Hero Sections */}
+      <ScrollPinnedSection
+        id="sub-heroes"
+        height="100vh"
+        className="bg-white dark:bg-background"
+        staggerDelay={0.3}
+        onAnimationComplete={() => console.log('Sub heroes animation complete')}
+      >
+        <div className="w-full h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 h-full">
             
             {/* Women in Sneakers Hero - Full Width Left */}
             <div 
-              className="relative h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden group cursor-pointer"
+              className="relative h-full overflow-hidden group cursor-pointer"
+              data-scroll-animate
             >
               <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105"
                 style={{
                   backgroundImage: `url(${womenSneakersImage})`
                 }}
               />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-500" />
               
               {/* Content Overlay */}
               <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
-                <div className="max-w-lg">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
+                <div className="max-w-lg" data-scroll-animate>
+                  <h3 
+                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4"
+                    data-scroll-animate
+                  >
                     Women in Sneakers
                   </h3>
-                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
+                  <p 
+                    className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8"
+                    data-scroll-animate
+                  >
                     Celebrating the powerful influence of women in sneaker culture and style
                   </p>
-                  <Link href="/women">
-                    <Button 
-                      size="lg"
-                      className="bg-white text-black hover:bg-white/90 font-semibold"
-                      data-testid="button-women-sneakers"
-                    >
-                      Explore Collection
-                    </Button>
-                  </Link>
+                  <div data-scroll-animate>
+                    <Link href="/women">
+                      <Button 
+                        size="lg"
+                        className="bg-white text-black hover:bg-white/90 font-semibold transform hover:scale-105 transition-all duration-200"
+                        data-testid="button-women-sneakers"
+                      >
+                        Explore Collection
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* AR Try-On Hero - Full Width Right */}
             <div 
-              className="relative h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden group cursor-pointer"
+              className="relative h-full overflow-hidden group cursor-pointer"
+              data-scroll-animate
             >
               <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105"
                 style={{
                   backgroundImage: `url(${arTryonImage})`
                 }}
               />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-500" />
               
               {/* Content Overlay */}
               <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
-                <div className="max-w-lg">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
+                <div className="max-w-lg" data-scroll-animate>
+                  <h3 
+                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4"
+                    data-scroll-animate
+                  >
                     AR Try-On
                   </h3>
-                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
+                  <p 
+                    className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8"
+                    data-scroll-animate
+                  >
                     Experience the future of sneaker shopping with augmented reality technology
                   </p>
-                  <Link href="/ar-tryeon">
-                    <Button 
-                      size="lg"
-                      className="bg-white text-black hover:bg-white/90 font-semibold"
-                      data-testid="button-ar-tryeon"
-                    >
-                      Try It Now
-                    </Button>
-                  </Link>
+                  <div data-scroll-animate>
+                    <Link href="/ar-tryeon">
+                      <Button 
+                        size="lg"
+                        className="bg-white text-black hover:bg-white/90 font-semibold transform hover:scale-105 transition-all duration-200"
+                        data-testid="button-ar-tryeon"
+                      >
+                        Try It Now
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
           </div>
         </div>
-      </section>
+      </ScrollPinnedSection>
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
