@@ -5,6 +5,10 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
 import futuristicSneakerImage from '@assets/transparent-Photoroom_1755556579483.png';
+import SplitText from './SplitText';
+import GradientText from './GradientText';
+import BlurryGradient from './BlurryGradient';
+import MarqueeText from './MarqueeText';
 
 export default function AdvancedHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -158,17 +162,15 @@ export default function AdvancedHero() {
         >
           {/* Main heading - VITURE Season Sans style */}
           <div className="text-left space-y-3">
-            <h1 
+            <SplitText
               className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85] text-white"
-              style={{ 
-                fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                fontWeight: 450,
-                letterSpacing: '0.02em'
-              }}
+              type="chars"
+              stagger={0.05}
+              delay={0.5}
             >
-              Welcome&nbsp;To
-            </h1>
-            <h1 
+              Welcome To
+            </SplitText>
+            <div 
               className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.85]"
               style={{ 
                 fontFamily: '"SF Pro Display", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
@@ -176,33 +178,46 @@ export default function AdvancedHero() {
                 letterSpacing: '0.02em'
               }}
             >
-              <span 
-                style={{
-                  background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  color: 'transparent',
-                }}
+              <GradientText
+                gradientFrom="#ff2900"
+                gradientTo="#581dff"
+                illuminateEffect={true}
+                blurIntensity={25}
+                className="inline-block"
               >
                 Sole
-              </span>
-              <span className="text-white">Grithm</span>
-            </h1>
+              </GradientText>
+              <SplitText
+                className="text-white inline-block ml-2"
+                type="chars"
+                stagger={0.03}
+                delay={1.2}
+              >
+                Grithm
+              </SplitText>
+            </div>
           </div>
 
-          {/* AI Discovery Message */}
+          {/* AI Discovery Message with Split Animation */}
           <div className="pt-12">
-            <p 
+            <SplitText
               className="text-white/90 text-lg leading-relaxed max-w-lg"
-              style={{ 
-                fontFamily: '"SF Pro Text", "Helvetica Neue", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-                fontWeight: 450,
-                letterSpacing: '0.02em',
-                lineHeight: 1.6
-              }}
+              type="words"
+              stagger={0.08}
+              delay={2.0}
             >
               Meet the AI-powered sneaker discovery engine. Feed the Sole. Fuel the Algorithm.
-            </p>
+            </SplitText>
+          </div>
+
+          {/* Marquee Text - Bottom */}
+          <div className="pt-8 opacity-60">
+            <MarqueeText
+              text="DISCOVER • COLLECT • ANALYZE • TRADE"
+              className="text-sm text-white/60 uppercase tracking-wider"
+              speed={0.8}
+              direction="left"
+            />
           </div>
         </motion.div>
 
@@ -220,6 +235,17 @@ export default function AdvancedHero() {
         </motion.div>
 
       </div>
+
+      {/* Blurry Gradient Background Effects */}
+      <BlurryGradient
+        position="bottom"
+        size="xl"
+        colors={['rgba(255, 41, 0, 0.4)', 'rgba(254, 122, 96, 0.3)', 'rgba(88, 29, 255, 0.4)']}
+        intensity={120}
+        animated={true}
+        lowFade={true}
+      />
+      
     </motion.div>
   );
 }

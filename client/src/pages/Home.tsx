@@ -8,6 +8,8 @@ import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
+import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
+import Minimap from "@/components/advanced/Minimap";
 import SectionWrapper from "@/components/SectionWrapper";
 
 // Legacy components (will be gradually replaced)
@@ -49,6 +51,7 @@ import arTryonImage from "@assets/generated_images/AR_sneaker_try-on_technology_
 
 export default function Home() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
+  const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
   
@@ -142,18 +145,45 @@ export default function Home() {
 
 
 
+  // Minimap sections configuration
+  const minimapSections = [
+    { id: 'hero', title: 'Hero', progress: 0 },
+    { id: 'trending', title: 'Trending', progress: 0 },
+    { id: 'blog', title: 'Stories', progress: 0 },
+    { id: 'visual-search', title: 'Visual Search', progress: 0 },
+    { id: 'collections', title: 'Collections', progress: 0 },
+    { id: 'live-market', title: 'Live Market', progress: 0 },
+    { id: 'discover', title: 'Discover', progress: 0 }
+  ];
+
   return (
-    <motion.div 
-      ref={containerRef}
-      className="min-h-screen bg-black overflow-x-hidden"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      style={{
-        background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
-        minHeight: '100vh',
-      }}
-    >
+    <>
+      {/* Advanced Preloader */}
+      <AdvancedPreloader
+        onComplete={() => setIsLoading(false)}
+        duration={2800}
+        brandText="SoleGrithm"
+      />
+
+      {/* Minimap Navigation */}
+      {!isLoading && (
+        <Minimap
+          sections={minimapSections}
+          className="hidden lg:block"
+        />
+      )}
+
+      <motion.div 
+        ref={containerRef}
+        className="min-h-screen bg-black overflow-x-hidden"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        style={{
+          background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+          minHeight: '100vh',
+        }}
+      >
       {/* Hero Section - Advanced VITURE-style */}
       <SectionWrapper
         id="hero"
@@ -1641,6 +1671,7 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
-    </motion.div>
+      </motion.div>
+    </>
   );
 }
