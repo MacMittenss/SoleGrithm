@@ -91,7 +91,9 @@ export default function ScrollPinnedSection({
         initial={{ opacity: 0 }}
         animate={{ 
           opacity: isInView ? 1 : 0,
-          backgroundColor: isPinned ? 'rgba(0,0,0,0.02)' : 'transparent'
+        }}
+        style={{
+          backgroundColor: isPinned ? 'rgba(0,0,0,0.02)' : 'rgba(0,0,0,0)',
         }}
         transition={{ duration: 0.6 }}
       >

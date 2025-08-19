@@ -12,6 +12,7 @@ import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
 import Minimap from "@/components/advanced/Minimap";
 import SectionWrapper from "@/components/SectionWrapper";
 import ScrollPinnedSection from "@/components/advanced/ScrollPinnedSection";
+import HeroScrollOverlay from "@/components/advanced/HeroScrollOverlay";
 
 // Legacy components (will be gradually replaced)
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -185,25 +186,16 @@ export default function Home() {
           minHeight: '100vh',
         }}
       >
-      {/* Hero Section - Advanced VITURE-style */}
-      <SectionWrapper
-        id="hero"
-        sticky={true}
-        maskTransition={true}
-        className="relative"
-        height="100vh"
-      >
-        <AdvancedHero />
-      </SectionWrapper>
-
-      {/* Scroll Pinned Sub Hero Sections */}
-      <ScrollPinnedSection
-        id="sub-heroes"
-        height="100vh"
-        className="bg-white dark:bg-background"
-        staggerDelay={0.3}
-        onAnimationComplete={() => console.log('Sub heroes animation complete')}
-      >
+      {/* Hero Section with Scroll Overlay Effect */}
+      <HeroScrollOverlay
+        nextSection={
+          <ScrollPinnedSection
+            id="sub-heroes"
+            height="100vh"
+            className="bg-white dark:bg-background"
+            staggerDelay={0.3}
+            onAnimationComplete={() => console.log('Sub heroes animation complete')}
+          >
         <div className="w-full h-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 h-full">
             
@@ -295,7 +287,19 @@ export default function Home() {
 
           </div>
         </div>
-      </ScrollPinnedSection>
+          </ScrollPinnedSection>
+        }
+      >
+        <SectionWrapper
+          id="hero"
+          sticky={true}
+          maskTransition={false}
+          className="relative"
+          height="100vh"
+        >
+          <AdvancedHero />
+        </SectionWrapper>
+      </HeroScrollOverlay>
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
