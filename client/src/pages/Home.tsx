@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'fra
 
 // Advanced components with VITURE-style animations
 import AdvancedHero from "@/components/advanced/AdvancedHero";
+import AdvancedSubHero from "@/components/advanced/AdvancedSubHero";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
@@ -163,6 +164,17 @@ export default function Home() {
         height="100vh"
       >
         <AdvancedHero />
+      </SectionWrapper>
+
+      {/* Sub Hero Sections - VITURE-style side by side */}
+      <SectionWrapper
+        id="sub-hero"
+        sticky={false}
+        maskTransition={true}
+        className="relative"
+        height="100vh"
+      >
+        <AdvancedSubHero />
       </SectionWrapper>
 
       {/* Nike-Style Split Hero Sections - Full Width Connected */}
