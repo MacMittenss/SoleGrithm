@@ -1771,16 +1771,7 @@ export default function Home() {
         <AdvancedSoleMap />
       </SectionWrapper>
 
-      {/* Visual Search Section - Advanced */}
-      <SectionWrapper
-        id="visual-search"
-        sticky={true}
-        maskTransition={false}
-        className="relative"
-        height="100vh"
-      >
-        <AdvancedVisualSearch />
-      </SectionWrapper>
+
 
       {/* Collections Section - Advanced */}
       <SectionWrapper
