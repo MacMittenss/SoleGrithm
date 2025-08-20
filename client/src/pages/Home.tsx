@@ -873,7 +873,7 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-              {/* Interactive Dashboard Column */}
+              {/* Features Grid Column */}
               <motion.div
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
@@ -881,117 +881,84 @@ export default function Home() {
                 viewport={{ once: false, amount: 0.3 }}
                 transition={{ duration: 1, delay: 0.4 }}
               >
-                {/* Glassmorphism container */}
-                <div
-                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
-                  }}
+                {/* Features Grid */}
+                <motion.div 
+                  className="grid grid-cols-2 gap-8"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
                 >
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <Compass className="w-6 h-6 text-green-500" />
-                      <h3 className="text-xl font-semibold">AI Discovery</h3>
-                    </div>
+                  {[
+                    {
+                      icon: Compass,
+                      title: "AI Style Matching",
+                      description: "Our AI analyzes your preferences and suggests sneakers that match your unique style perfectly."
+                    },
+                    {
+                      icon: Target,
+                      title: "Smart Recommendations",
+                      description: "Get personalized sneaker suggestions based on your browsing history and style preferences."
+                    },
+                    {
+                      icon: Zap,
+                      title: "Instant Discovery",
+                      description: "Find your perfect sneakers in seconds with our lightning-fast AI algorithm and search."
+                    },
+                    {
+                      icon: Heart,
+                      title: "Style Evolution",
+                      description: "Track your style journey and discover new trends that align with your evolving taste."
+                    }
+                  ].map((feature, index) => (
                     <motion.div
-                      className="w-3 h-3 rounded-full bg-green-500"
-                      animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [1, 0.7, 1],
+                      key={feature.title}
+                      className="text-center space-y-4"
+                      initial={{ 
+                        opacity: 0, 
+                        y: 50,
+                        scale: 0.9 
                       }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </div>
-
-                  {/* Style matching visualization */}
-                  <div className="space-y-4 mb-6">
-                    <div className="text-sm text-gray-400 mb-3">Your Style Profile</div>
-                    {[
-                      { label: 'Athletic', match: 92, color: 'bg-green-500' },
-                      { label: 'Retro', match: 78, color: 'bg-blue-500' },
-                      { label: 'Streetwear', match: 85, color: 'bg-orange-500' },
-                      { label: 'Luxury', match: 65, color: 'bg-purple-500' }
-                    ].map((style, index) => (
-                      <motion.div
-                        key={style.label}
-                        className="flex items-center justify-between p-3 rounded-xl border border-white/10"
+                      whileInView={{ 
+                        opacity: 1, 
+                        y: 0,
+                        scale: 1 
+                      }}
+                      viewport={{ once: false, amount: 0.3 }}
+                      transition={{ 
+                        duration: 0.6, 
+                        delay: 0.8 + index * 0.15,
+                        ease: "easeOut"
+                      }}
+                      whileHover={{ 
+                        scale: 1.05,
+                        y: -5
+                      }}
+                      data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
+                    >
+                      <motion.div 
+                        className="flex items-center justify-center w-16 h-16 mx-auto rounded-xl"
                         style={{
-                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          background: 'linear-gradient(135deg, rgba(0, 255, 150, 0.1), rgba(50, 255, 100, 0.1))',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
                         }}
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: false, amount: 0.3 }}
-                        transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                        whileHover={{ 
+                          scale: 1.1, 
+                          rotate: [0, -5, 5, 0] 
+                        }}
+                        transition={{ duration: 0.5 }}
                       >
-                        <div className="flex items-center gap-3">
-                          <div className={`w-3 h-3 rounded-full ${style.color}`} />
-                          <span className="text-sm font-medium">{style.label}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-16 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <motion.div
-                              className={`h-full ${style.color}`}
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${style.match}%` }}
-                              viewport={{ once: false, amount: 0.3 }}
-                              transition={{ duration: 1, delay: 1 + index * 0.1 }}
-                            />
-                          </div>
-                          <span className="text-xs text-gray-400 w-8">{style.match}%</span>
-                        </div>
+                        <feature.icon className="w-8 h-8 text-green-500" />
                       </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Recommendation preview */}
-                  <div className="space-y-3 mb-6">
-                    <div className="text-sm text-gray-400">Today's Recommendations</div>
-                    {[
-                      { name: 'Nike Air Max 90', match: '95% Match', price: '$120' },
-                      { name: 'Adidas Ultraboost 22', match: '89% Match', price: '$180' }
-                    ].map((sneaker, index) => (
-                      <motion.div
-                        key={sneaker.name}
-                        className="p-3 rounded-xl border border-white/10 hover:border-white/20 transition-all"
-                        style={{
-                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false, amount: 0.3 }}
-                        transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
-                        whileHover={{ scale: 1.02, y: -2 }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="font-medium text-sm">{sneaker.name}</div>
-                            <div className="text-xs text-green-400">{sneaker.match}</div>
-                          </div>
-                          <div className="text-sm font-bold">{sneaker.price}</div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Live status */}
-                  <div className="text-center pt-4 border-t border-white/10">
-                    <div className="inline-flex items-center gap-2 text-xs text-gray-400">
-                      <motion.div
-                        className="w-2 h-2 rounded-full"
-                        style={{
-                          background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
-                        }}
-                        animate={{
-                          scale: [1, 1.3, 1],
-                          opacity: [1, 0.5, 1],
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      AI learning your preferences • Updated now
-                    </div>
-                  </div>
-                </div>
+                      <h3 className="text-lg font-semibold text-white">
+                        {feature.title}
+                      </h3>
+                      <p className="text-sm text-gray-400 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </motion.div>
             </div>
           </div>
