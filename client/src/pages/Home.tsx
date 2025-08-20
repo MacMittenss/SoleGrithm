@@ -169,15 +169,7 @@ export default function Home() {
         }}
       >
       {/* Hero Section - Advanced VITURE-style */}
-      <SectionWrapper
-        id="hero"
-        sticky={true}
-        maskTransition={false}
-        className="relative"
-        height="100vh"
-      >
-        <AdvancedHero />
-      </SectionWrapper>
+      <AdvancedHero />
 
       {/* Clean Sub Hero Sections - No Scroll Overlay */}
       <section className="bg-white dark:bg-background">

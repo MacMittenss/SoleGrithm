@@ -183,7 +183,8 @@ export default function AdvancedHero() {
                 </h2>
                 <p 
                   ref={displayParaRef}
-                  className="text-lg md:text-xl text-gray-300 max-w-xl opacity-0"
+                  className="text-lg md:text-xl text-gray-300 max-w-xl"
+                  style={{ opacity: 0 }}
                 >
                   Experience the future of sneaker discovery with AI-powered recommendations, 
                   visual search, and immersive AR try-on technology.
@@ -216,7 +217,8 @@ export default function AdvancedHero() {
             {/* Right Side - Image */}
             <div 
               ref={displayImageRef}
-              className="display-img relative flex items-center justify-center opacity-0 scale-75"
+              className="display-img relative flex items-center justify-center"
+              style={{ opacity: 0, transform: 'scale(0.75)' }}
             >
               <div className="relative">
                 <img
