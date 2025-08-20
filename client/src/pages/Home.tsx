@@ -178,7 +178,7 @@ export default function Home() {
 
       <motion.div 
         ref={containerRef}
-        className="min-h-screen bg-black overflow-x-hidden"
+        className="min-h-screen bg-black"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -198,22 +198,13 @@ export default function Home() {
         <AdvancedHero />
       </SectionWrapper>
 
-      {/* Scroll Pinned Sub Hero Sections */}
-      <ScrollPinnedSection
-        id="sub-heroes"
-        height="100vh"
-        className="bg-white dark:bg-background"
-        staggerDelay={0.3}
-        onAnimationComplete={() => console.log('Sub heroes animation complete')}
-      >
-        <div className="w-full h-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 h-full">
+      {/* Clean Sub Hero Sections - No Scroll Overlay */}
+      <section className="bg-white dark:bg-background">
+        <div className="w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             
             {/* Women in Sneakers Hero - Full Width Left */}
-            <div 
-              className="relative h-full overflow-hidden group cursor-pointer"
-              data-scroll-animate
-            >
+            <div className="relative h-screen overflow-hidden group cursor-pointer">
               <div 
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105"
                 style={{
@@ -224,20 +215,14 @@ export default function Home() {
               
               {/* Content Overlay */}
               <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
-                <div className="max-w-lg" data-scroll-animate>
-                  <h3 
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4"
-                    data-scroll-animate
-                  >
+                <div className="max-w-lg">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
                     Women in Sneakers
                   </h3>
-                  <p 
-                    className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8"
-                    data-scroll-animate
-                  >
+                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
                     Celebrating the powerful influence of women in sneaker culture and style
                   </p>
-                  <div data-scroll-animate>
+                  <div>
                     <Link href="/women">
                       <Button 
                         size="lg"
@@ -253,10 +238,7 @@ export default function Home() {
             </div>
 
             {/* AR Try-On Hero - Full Width Right */}
-            <div 
-              className="relative h-full overflow-hidden group cursor-pointer"
-              data-scroll-animate
-            >
+            <div className="relative h-screen overflow-hidden group cursor-pointer">
               <div 
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105"
                 style={{
@@ -267,20 +249,14 @@ export default function Home() {
               
               {/* Content Overlay */}
               <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-16">
-                <div className="max-w-lg" data-scroll-animate>
-                  <h3 
-                    className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4"
-                    data-scroll-animate
-                  >
+                <div className="max-w-lg">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
                     AR Try-On
                   </h3>
-                  <p 
-                    className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8"
-                    data-scroll-animate
-                  >
+                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
                     Experience the future of sneaker shopping with augmented reality technology
                   </p>
-                  <div data-scroll-animate>
+                  <div>
                     <Link href="/ar-tryeon">
                       <Button 
                         size="lg"
@@ -297,7 +273,7 @@ export default function Home() {
 
           </div>
         </div>
-      </ScrollPinnedSection>
+      </section>
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
@@ -423,7 +399,7 @@ export default function Home() {
                 {/* Main Title */}
                 <div>
                   <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                    <SplitText type="words" delay={0.3} staggerDelay={0.08}>
+                    <SplitText type="words" delay={0.3}>
                       What's Hot in
                     </SplitText>
                     <br />
