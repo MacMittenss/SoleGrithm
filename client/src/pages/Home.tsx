@@ -1601,8 +1601,16 @@ export default function Home() {
 
 
 
-      {/* Sole Search - Visual Search Section */}
-      <VisualSearchDemo />
+      {/* Sole Search - Visual Search Section - Advanced */}
+      <SectionWrapper
+        id="sole-search"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
+        <AdvancedVisualSearch />
+      </SectionWrapper>
 
       {/* AR Try-On Section */}
       <ARDemo />
