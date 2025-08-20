@@ -10,6 +10,8 @@ import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
 import Minimap from "@/components/advanced/Minimap";
+import SplitText from "@/components/advanced/SplitText";
+import GradientText from "@/components/advanced/GradientText";
 import SectionWrapper from "@/components/SectionWrapper";
 import ScrollPinnedSection from "@/components/advanced/ScrollPinnedSection";
 
@@ -350,114 +352,302 @@ export default function Home() {
 
 
 
-      {/* Minimalist Trending Sneakers Section */}
-      <motion.section 
-        className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900"
-        variants={itemVariants}
+      {/* Trending Now Section - Live Market Style */}
+      <SectionWrapper
+        id="trending-now" 
+        sticky={true}
+        maskTransition={true}
+        className="relative"
+        height="100vh"
       >
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          {/* Minimalist Header */}
-          <div className="mb-10 text-center">
-            <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              Trending Now
-            </h2>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400 font-light">
-              Discover what's hot in the sneaker community
-            </p>
-          </div>
+        <motion.section
+          className="relative py-32 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(30, 30, 30, 0.95))',
+          }}
+          data-testid="section-trending-now"
+        >
+          {/* Background gradient effects */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 41, 0, 0.08) 0%, rgba(254, 122, 96, 0.04) 35%, rgba(88, 29, 255, 0.08) 100%)',
+            }}
+          />
 
-          {/* Clean Filter Tabs */}
-          <div className="mb-10">
-            <div className="flex gap-6 overflow-x-auto scrollbar-hide pb-2 justify-center">
-              <button
-                className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
-                  selectedBrand === 'All'
-                    ? 'text-neutral-900 dark:text-neutral-100 border-neutral-900 dark:border-neutral-100'
-                    : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-neutral-700 dark:hover:text-neutral-300'
-                }`}
-                onClick={() => setSelectedBrand('All')}
-                data-testid="filter-all"
+          {/* Floating geometric shapes */}
+          <motion.div
+            className="absolute top-20 left-20 w-32 h-32 rounded-full border border-orange-500/20"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-purple-500/20"
+            animate={{ rotate: [45, 135, 45] }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Content Column */}
+              <motion.div
+                className="space-y-8"
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.2 }}
               >
-                All
-              </button>
-              {Array.isArray(brands) ? brands.map((brand: any) => (
-                <button
-                  key={brand.id}
-                  className={`text-sm font-light whitespace-nowrap transition-colors pb-2 border-b-2 ${
-                    selectedBrand === brand.name
-                      ? 'text-neutral-900 dark:text-neutral-100 border-neutral-900 dark:border-neutral-100'
-                      : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-neutral-700 dark:hover:text-neutral-300'
-                  }`}
-                  onClick={() => setSelectedBrand(brand.name)}
-                  data-testid={`filter-${brand.name.toLowerCase()}`}
+                {/* Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{
+                    background: 'rgba(255, 41, 0, 0.1)',
+                    border: '1px solid rgba(255, 41, 0, 0.2)',
+                  }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  {brand.name}
-                </button>
-              )) : null}
-            </div>
-          </div>
+                  <motion.div
+                    className="w-2 h-2 rounded-full"
+                    style={{
+                      background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                    }}
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [1, 0.7, 1],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <span className="text-sm font-medium">TRENDING NOW</span>
+                </motion.div>
 
-          {/* Clean Grid Layout */}
-          {sneakersLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="aspect-square bg-neutral-200 dark:bg-neutral-700 mb-4" />
-                  <div className="space-y-2">
-                    <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-full" />
-                    <div className="flex justify-between">
-                      <div className="h-3 bg-neutral-200 dark:bg-neutral-700 w-16" />
-                      <div className="h-4 bg-neutral-200 dark:bg-neutral-700 w-12" />
+                {/* Main Title */}
+                <div>
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    <SplitText type="words" delay={0.3} staggerDelay={0.08}>
+                      What's Hot in
+                    </SplitText>
+                    <br />
+                    <GradientText className="block">
+                      Sneaker Culture
+                    </GradientText>
+                  </h2>
+                  
+                  <motion.p
+                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  >
+                    Discover the most sought-after sneakers trending across our community. 
+                    Real-time insights from sneakerheads worldwide.
+                  </motion.p>
+                </div>
+
+                {/* Stats Grid */}
+                <motion.div
+                  className="grid grid-cols-3 gap-6"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                >
+                  {[
+                    { number: filteredSneakers?.length || 25, label: 'Trending Items', suffix: '+' },
+                    { number: Array.isArray(brands) ? brands.length : 8, label: 'Top Brands', suffix: '+' },
+                    { number: 98, label: 'Community Score', suffix: '%' }
+                  ].map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      className="text-center"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <div className="text-2xl sm:text-3xl font-bold mb-2">
+                        <span
+                          style={{
+                            background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                            WebkitBackgroundClip: 'text',
+                            backgroundClip: 'text',
+                            color: 'transparent',
+                          }}
+                        >
+                          {stat.number}
+                        </span>
+                        <span
+                          style={{
+                            background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                            WebkitBackgroundClip: 'text',
+                            backgroundClip: 'text',
+                            color: 'transparent',
+                          }}
+                        >
+                          {stat.suffix}
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-400 font-medium">{stat.label}</div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1.2 }}
+                >
+                  <Link href="/trending">
+                    <motion.button
+                      className="group relative px-8 py-4 rounded-full font-semibold text-white overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      data-testid="button-explore-trending"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        Explore Trending
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </motion.button>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              {/* Interactive Dashboard Column */}
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.4 }}
+              >
+                {/* Glassmorphism container */}
+                <div
+                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}
+                >
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <TrendingUp className="w-6 h-6 text-orange-500" />
+                      <h3 className="text-xl font-semibold">Trending Dashboard</h3>
+                    </div>
+                    <motion.div
+                      className="w-3 h-3 rounded-full bg-green-500"
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [1, 0.7, 1],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  </div>
+
+                  {/* Filter Tabs */}
+                  <div className="flex gap-2 mb-6 overflow-x-auto">
+                    <button
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                        selectedBrand === 'All'
+                          ? 'bg-white/20 text-white'
+                          : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                      }`}
+                      onClick={() => setSelectedBrand('All')}
+                      data-testid="filter-all"
+                    >
+                      All
+                    </button>
+                    {Array.isArray(brands) ? brands.slice(0, 4).map((brand: any) => (
+                      <button
+                        key={brand.id}
+                        className={`px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+                          selectedBrand === brand.name
+                            ? 'bg-white/20 text-white'
+                            : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                        onClick={() => setSelectedBrand(brand.name)}
+                        data-testid={`filter-${brand.name.toLowerCase()}`}
+                      >
+                        {brand.name}
+                      </button>
+                    )) : null}
+                  </div>
+
+                  {/* Trending sneakers list */}
+                  <div className="space-y-4 mb-6">
+                    {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 4).map((sneaker: any, index: number) => (
+                      <motion.div
+                        key={sneaker.id}
+                        className="p-4 rounded-2xl border border-white/10 hover:border-white/20 transition-all cursor-pointer"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                        }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                        whileHover={{ scale: 1.02, y: -2 }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-white/10 rounded-lg overflow-hidden">
+                            <img
+                              src={sneaker.images?.[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100"}
+                              alt={sneaker.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-medium text-sm truncate">{sneaker.name}</span>
+                              <motion.span
+                                className="text-lg font-bold"
+                                style={{
+                                  background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                                  WebkitBackgroundClip: 'text',
+                                  backgroundClip: 'text',
+                                  color: 'transparent',
+                                }}
+                              >
+                                ${sneaker.retailPrice || '0'}
+                              </motion.span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="text-gray-400">{sneaker.brandName}</span>
+                              <span className="text-green-500 font-medium">
+                                #{index + 1} Trending
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )) : null}
+                  </div>
+
+                  {/* Live status */}
+                  <div className="text-center pt-4 border-t border-white/10">
+                    <div className="inline-flex items-center gap-2 text-xs text-gray-400">
+                      <motion.div
+                        className="w-2 h-2 rounded-full"
+                        style={{
+                          background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                        }}
+                        animate={{
+                          scale: [1, 1.3, 1],
+                          opacity: [1, 0.5, 1],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      Live trending data • Updated 2m ago
                     </div>
                   </div>
                 </div>
-              ))}
+              </motion.div>
             </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
-              {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 10).map((sneaker: any) => (
-                <Link key={sneaker.id} href={`/sneaker/${sneaker.slug}`}>
-                  <div className="group cursor-pointer">
-                    {/* Ultra Clean Product Image */}
-                    <div className="aspect-square mb-4 bg-white dark:bg-neutral-800 overflow-hidden">
-                      <img
-                        src={sneaker.images?.[0]?.replace('w=800&h=600', 'w=400&h=400&bg=ffffff') || "https://images.unsplash.com/photo-1551107696-a4b537c892cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&bg=ffffff"}
-                        alt={sneaker.name}
-                        className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-200"
-                        loading="lazy"
-                      />
-                    </div>
-                    
-                    {/* Minimal Product Info */}
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-normal text-neutral-900 dark:text-neutral-100 line-clamp-2 leading-5">
-                        {sneaker.name}
-                      </h3>
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider font-light">
-                          {sneaker.brandName || 'Unknown'}
-                        </p>
-                        <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                          ${sneaker.retailPrice || '0'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              )) : []}
-            </div>
-          )}
-
-          {/* Subtle View All Link */}
-          <div className="flex justify-center">
-            <Link href="/live-market">
-              <span className="text-sm font-light text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors border-b border-neutral-300 dark:border-neutral-600 hover:border-neutral-900 dark:hover:border-neutral-100 pb-1" data-testid="button-view-all-sneakers">
-                View All Sneakers
-              </span>
-            </Link>
           </div>
-        </div>
-      </motion.section>
+        </motion.section>
+      </SectionWrapper>
 
       {/* Pinterest-Style Blog Section */}
       <motion.section 
