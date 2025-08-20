@@ -1379,78 +1379,225 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Women in Sneakers Section */}
-      <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-background"
-        variants={itemVariants}
+      {/* Women in Sneakers Section - Advanced Visual AI Search Style */}
+      <SectionWrapper
+        id="women-in-sneakers"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center"
-            variants={containerVariants}
-          >
-            {/* Content */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl flex items-center justify-center">
-                  <Heart className="w-6 h-6 text-pink-600 dark:text-pink-400" />
-                </div>
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                    Women in Sneakers
-                  </h2>
-                  <p className="text-muted-foreground">Breaking barriers, setting trends</p>
-                </div>
-              </div>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Celebrating and elevating women in sneaker culture. Discover female-led brands, 
-                exclusive collections, and stories of women breaking barriers in the sneaker industry.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Badge variant="secondary" className="bg-pink-500/10 text-pink-700 dark:text-pink-300">
-                  Female Founders
-                </Badge>
-                <Badge variant="secondary" className="bg-purple-500/10 text-purple-700 dark:text-purple-300">
-                  Exclusive Collections
-                </Badge>
-                <Badge variant="secondary" className="bg-blue-500/10 text-blue-700 dark:text-blue-300">
-                  Inspiring Stories
-                </Badge>
-              </div>
-              <Link href="/women-in-sneakers">
-                <Button size="lg" className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600" data-testid="button-explore-women-sneakers">
-                  Explore Women in Sneakers
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-            </motion.div>
+        <motion.section
+          className="relative py-32 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(50, 20, 40, 0.98), rgba(30, 10, 50, 0.95))',
+          }}
+          data-testid="section-women-sneakers"
+        >
+          {/* Background effects */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 100, 150, 0.08) 0%, rgba(150, 50, 255, 0.04) 35%, rgba(255, 150, 200, 0.06) 100%)',
+            }}
+          />
 
-            {/* Visual */}
-            <motion.div variants={itemVariants}>
-              <Card className="p-6 sm:p-8 border-0 shadow-xl bg-gradient-to-br from-pink-500/10 to-purple-500/10">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-4">
-                    <div className="h-32 bg-gradient-to-br from-pink-400/20 to-pink-600/20 rounded-lg flex items-center justify-center">
-                      <Heart className="w-8 h-8 text-pink-600 dark:text-pink-400" />
+          {/* Floating geometric shapes */}
+          <motion.div
+            className="absolute top-20 right-20 w-32 h-32 rounded-full border border-pink-500/20"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-purple-500/20"
+            animate={{ rotate: [45, 135, 45] }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Content Column */}
+              <motion.div
+                className="space-y-8"
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
+                {/* Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{
+                    background: 'rgba(255, 100, 150, 0.1)',
+                    border: '1px solid rgba(255, 100, 150, 0.2)',
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Heart className="w-4 h-4 text-pink-500" />
+                  <span className="text-sm font-medium">WOMEN IN SNEAKERS</span>
+                </motion.div>
+
+                {/* Main Title */}
+                <div>
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    <SplitText type="words" delay={0.3}>
+                      Breaking Barriers,
+                    </SplitText>
+                    <br />
+                    <GradientText className="block">
+                      Setting Trends
+                    </GradientText>
+                  </h2>
+                  
+                  <motion.p
+                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  >
+                    Celebrating and elevating women in sneaker culture. Discover female-led brands, 
+                    exclusive collections, and stories of women breaking barriers in the industry.
+                  </motion.p>
+                </div>
+
+                {/* Feature badges */}
+                <motion.div
+                  className="flex flex-wrap gap-3"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                >
+                  {[
+                    { label: 'Female Founders', color: 'rgba(255, 100, 150, 0.1)' },
+                    { label: 'Exclusive Collections', color: 'rgba(150, 50, 255, 0.1)' },
+                    { label: 'Inspiring Stories', color: 'rgba(100, 150, 255, 0.1)' }
+                  ].map((badge, index) => (
+                    <motion.div
+                      key={badge.label}
+                      className="px-4 py-2 rounded-full border border-white/20 text-sm font-medium text-white"
+                      style={{ background: badge.color }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: false, amount: 0.3 }}
+                      transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {badge.label}
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1.5 }}
+                >
+                  <Link href="/women-in-sneakers">
+                    <motion.button
+                      className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
+                      style={{
+                        background: 'linear-gradient(to right, #ff6496 0%, #9650ff 61%, #ff9650 100%)',
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      data-testid="button-explore-women-sneakers"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        Explore Women in Sneakers
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </motion.button>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              {/* Visual Grid Column */}
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.4 }}
+              >
+                {/* Enhanced Visual Grid */}
+                <div
+                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}
+                >
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-4">
+                      <motion.div
+                        className="h-32 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255, 100, 150, 0.1), rgba(255, 150, 200, 0.1))',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                        whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                      >
+                        <Heart className="w-8 h-8 text-pink-500" />
+                      </motion.div>
+                      <motion.div
+                        className="h-20 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(150, 50, 255, 0.1), rgba(200, 100, 255, 0.1))',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.8 }}
+                        whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
+                      >
+                        <Users className="w-6 h-6 text-purple-500" />
+                      </motion.div>
                     </div>
-                    <div className="h-20 bg-gradient-to-br from-purple-400/20 to-purple-600/20 rounded-lg flex items-center justify-center">
-                      <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="h-20 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-lg flex items-center justify-center">
-                      <Star className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div className="h-32 bg-gradient-to-br from-indigo-400/20 to-indigo-600/20 rounded-lg flex items-center justify-center">
-                      <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+                    <div className="space-y-4">
+                      <motion.div
+                        className="h-20 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(100, 150, 255, 0.1), rgba(150, 200, 255, 0.1))',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.7 }}
+                        whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
+                      >
+                        <Star className="w-6 h-6 text-blue-500" />
+                      </motion.div>
+                      <motion.div
+                        className="h-32 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(200, 100, 255, 0.1), rgba(255, 150, 255, 0.1))',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.9 }}
+                        whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
+                      >
+                        <Sparkles className="w-8 h-8 text-purple-500" />
+                      </motion.div>
                     </div>
                   </div>
                 </div>
-              </Card>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
+              </motion.div>
+            </div>
+          </div>
+        </motion.section>
+      </SectionWrapper>
 
 
 
