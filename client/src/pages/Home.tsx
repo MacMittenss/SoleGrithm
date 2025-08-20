@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'fra
 // Advanced components with VITURE-style animations
 import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
-import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
+
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
@@ -1836,29 +1836,7 @@ export default function Home() {
         <AdvancedLiveMarket />
       </SectionWrapper>
 
-      {/* Sole Map Section - Advanced */}
-      <SectionWrapper
-        id="sole-map"
-        sticky={true} 
-        maskTransition={false}
-        className="relative"
-        height="100vh"
-      >
-        <AdvancedSoleMap />
-      </SectionWrapper>
 
-
-
-      {/* Collections Section - Advanced */}
-      <SectionWrapper
-        id="collections"
-        sticky={true}
-        maskTransition={false}
-        className="relative"
-        height="100vh"
-      >
-        <AdvancedCollections />
-      </SectionWrapper>
 
       {/* Quick Stats with Animated Counters */}
       <motion.section 
