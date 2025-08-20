@@ -45,7 +45,8 @@ import {
   Search,
   Compass,
   Camera,
-  Target
+  Target,
+  BookOpen
 } from "lucide-react";
 import { useAuth } from '@/hooks/useAuth';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
@@ -625,20 +626,83 @@ export default function Home() {
         </motion.section>
       </SectionWrapper>
 
-      {/* Pinterest-Style Blog Section */}
-      <motion.section 
-        className="py-16 sm:py-24 bg-muted/20"
-        variants={itemVariants}
+      {/* Pinterest-Style Blog Section - Advanced Visual AI Search Style */}
+      <SectionWrapper
+        id="latest-stories"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="text-center mb-12" variants={itemVariants}>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-              Latest Stories
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Discover sneaker culture and trends
-            </p>
-          </motion.div>
+        <motion.section
+          className="relative py-32 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(20, 30, 40, 0.98), rgba(40, 20, 30, 0.95))',
+          }}
+          data-testid="section-latest-stories"
+        >
+          {/* Background effects */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at 40% 60%, rgba(100, 150, 255, 0.08) 0%, rgba(255, 100, 150, 0.04) 35%, rgba(150, 255, 200, 0.06) 100%)',
+            }}
+          />
+
+          {/* Floating geometric shapes */}
+          <motion.div
+            className="absolute top-20 left-20 w-32 h-32 rounded-full border border-blue-500/20"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
+            animate={{ rotate: [45, 135, 45] }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+            {/* Header Section */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: -50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1, delay: 0.2 }}
+            >
+              {/* Badge */}
+              <motion.div
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+                style={{
+                  background: 'rgba(100, 150, 255, 0.1)',
+                  border: '1px solid rgba(100, 150, 255, 0.2)',
+                }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <BookOpen className="w-4 h-4 text-blue-500" />
+                <span className="text-sm font-medium">LATEST STORIES</span>
+              </motion.div>
+
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                <SplitText type="words" delay={0.3}>
+                  Discover Culture &
+                </SplitText>
+                <br />
+                <GradientText className="block">
+                  Trends
+                </GradientText>
+              </h2>
+              
+              <motion.p
+                className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                Explore the latest in sneaker culture with curated stories from our community
+              </motion.p>
+            </motion.div>
 
           {blogLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -708,22 +772,34 @@ export default function Home() {
             )
           )}
 
-          <motion.div className="text-center mt-8 sm:mt-12" variants={itemVariants}>
-            <Link href="/blog">
-              <motion.div
-                variants={cardVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Button variant="outline" size="lg" className="h-12 px-8" data-testid="button-view-all-stories">
-                  View All Stories
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-        </div>
-      </motion.section>
+            {/* CTA Button */}
+            <motion.div
+              className="text-center mt-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+            >
+              <Link href="/blog">
+                <motion.button
+                  className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
+                  style={{
+                    background: 'linear-gradient(to right, #6496ff 0%, #ff6496 61%, #96ff64 100%)',
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  data-testid="button-view-all-stories"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    View All Stories
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </motion.button>
+              </Link>
+            </motion.div>
+          </div>
+        </motion.section>
+      </SectionWrapper>
 
 
 
