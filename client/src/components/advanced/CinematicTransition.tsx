@@ -22,9 +22,6 @@ export default function CinematicTransition({
   className = ""
 }: CinematicTransitionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLHeadingElement>(null);
-  const subHeaderRef = useRef<HTMLParagraphElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -32,22 +29,7 @@ export default function CinematicTransition({
     if (!sectionRef.current) return;
 
     const section = sectionRef.current;
-    const overlay = overlayRef.current;
-    const header = headerRef.current;
-    const subHeader = subHeaderRef.current;
     const content = contentRef.current;
-
-    // Split header text into words for animation
-    if (header && headerText) {
-      const words = headerText.split(' ');
-      header.innerHTML = words.map(word => `<span class="word opacity-0">${word}</span>`).join(' ');
-    }
-
-    // Split subheader text into words if exists
-    if (subHeader && subHeaderText) {
-      const words = subHeaderText.split(' ');
-      subHeader.innerHTML = words.map(word => `<span class="word opacity-0">${word}</span>`).join(' ');
-    }
 
     const ctx = gsap.context(() => {
       // Create timeline for cinematic transition
@@ -84,74 +66,36 @@ export default function CinematicTransition({
           }
         });
 
-        // Step 1: Fade in black overlay
-        masterTl.to(overlay, {
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.inOut"
-        })
-
-        // Step 2: Animate header words in sequence
-        .fromTo(header?.querySelectorAll('.word') || [], {
-          opacity: 0,
-          y: 50,
-          rotationX: -90
-        }, {
-          opacity: 1,
-          y: 0,
-          rotationX: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: "back.out(1.7)"
-        }, "+=0.3")
-
-        // Step 3: Animate subheader if exists
-        if (subHeader) {
-          masterTl.fromTo(subHeader.querySelectorAll('.word'), {
-            opacity: 0,
-            y: 30
-          }, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.05,
-            ease: "power2.out"
-          }, "+=0.2");
-        }
-
-        // Step 4: Animate content elements sequentially
+        // Animate content elements with smooth scroll entrance
         const contentElements = content?.children || [];
         if (contentElements.length > 0) {
           masterTl.fromTo(contentElements, {
             opacity: 0,
-            y: 60,
-            scale: 0.9
+            y: 40,
+            scale: 0.95
           }, {
             opacity: 1,
             y: 0,
             scale: 1,
             duration: 0.8,
-            stagger: 0.2,
+            stagger: 0.1,
             ease: "power2.out"
-          }, "+=0.3");
+          });
         }
-
-        // Step 5: Fade out overlay to reveal section
-        masterTl.to(overlay, {
-          opacity: 0,
-          duration: 1,
-          ease: "power2.inOut"
-        }, "+=0.5");
 
         return masterTl;
       }
 
       function performExitTransition() {
-        gsap.to(overlay, {
-          opacity: 0.3,
-          duration: 0.5,
-          ease: "power2.inOut"
-        });
+        // Simple fade effect for exit
+        const contentElements = content?.children || [];
+        if (contentElements.length > 0) {
+          gsap.to(contentElements, {
+            opacity: 0.7,
+            duration: 0.3,
+            ease: "power2.inOut"
+          });
+        }
       }
 
     }, section);
@@ -162,41 +106,12 @@ export default function CinematicTransition({
   return (
     <div
       ref={sectionRef}
-      className={`relative min-h-screen ${className}`}
+      className={`relative ${className}`}
       data-section-id={sectionId}
     >
-      {/* Black Overlay for Transitions */}
-      <div
-        ref={overlayRef}
-        className="fixed inset-0 bg-black pointer-events-none z-50 opacity-0"
-        style={{ mixBlendMode: 'normal' }}
-      />
-
       {/* Section Content */}
-      <div className="relative z-10">
-        {/* Header Area */}
-        <div className="text-center py-16 px-8">
-          <h2
-            ref={headerRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
-            style={{ perspective: '1000px' }}
-          >
-            {headerText}
-          </h2>
-          {subHeaderText && (
-            <p
-              ref={subHeaderRef}
-              className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto"
-            >
-              {subHeaderText}
-            </p>
-          )}
-        </div>
-
-        {/* Main Content */}
-        <div ref={contentRef} className="opacity-0">
-          {children}
-        </div>
+      <div ref={contentRef} className="relative z-10">
+        {children}
       </div>
     </div>
   );
