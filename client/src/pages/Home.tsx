@@ -727,120 +727,276 @@ export default function Home() {
 
 
 
-      {/* Personalized Discovery Section - Clean Grid Design */}
-      <motion.section 
-        className="py-20 bg-muted/20"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={containerVariants}
+      {/* Sole Radar Section - Advanced Visual AI Search Style */}
+      <SectionWrapper
+        id="sole-radar"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <motion.div 
-            className="text-center mb-16" 
-            variants={itemVariants}
-          >
-            <h2 className="text-2xl font-bold lg:text-5xl pb-8">
-              Sole Radar
-            </h2>
-            <p className="mb-16 text-xl text-muted-foreground max-w-3xl mx-auto">
-              Discover sneakers tailored to your unique style through AI-powered recommendations and personalized discovery features.
-            </p>
-          </motion.div>
+        <motion.section
+          className="relative py-32 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(30, 30, 30, 0.98), rgba(10, 20, 40, 0.95))',
+          }}
+          data-testid="section-sole-radar"
+        >
+          {/* Background effects */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at 50% 30%, rgba(0, 255, 150, 0.08) 0%, rgba(50, 255, 100, 0.04) 35%, rgba(255, 150, 100, 0.06) 100%)',
+            }}
+          />
 
-          {/* Features Grid */}
-          <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-16 lg:gap-x-24 gap-y-20"
-            variants={containerVariants}
-          >
-            {[
-              {
-                icon: Compass,
-                title: "AI Style Matching",
-                description: "Our AI analyzes your preferences and suggests sneakers that match your unique style perfectly."
-              },
-              {
-                icon: Target,
-                title: "Smart Recommendations",
-                description: "Get personalized sneaker suggestions based on your browsing history and style preferences."
-              },
-              {
-                icon: Zap,
-                title: "Instant Discovery",
-                description: "Find your perfect sneakers in seconds with our lightning-fast AI algorithm and search."
-              },
-              {
-                icon: Heart,
-                title: "Style Evolution",
-                description: "Track your style journey and discover new trends that align with your evolving taste."
-              }
-            ].map((feature, index) => (
+          {/* Floating geometric shapes */}
+          <motion.div
+            className="absolute top-20 right-20 w-32 h-32 rounded-full border border-green-500/20"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-orange-500/20"
+            animate={{ rotate: [45, 135, 45] }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Content Column */}
               <motion.div
-                key={feature.title}
-                initial={{ 
-                  opacity: 0, 
-                  y: 50,
-                  scale: 0.9 
-                }}
-                whileInView={{ 
-                  opacity: 1, 
-                  y: 0,
-                  scale: 1 
-                }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: index * 0.15,
-                  ease: "easeOut"
-                }}
-                whileHover={{ 
-                  scale: 1.05,
-                  y: -5
-                }}
-                data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
+                className="space-y-8"
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.2 }}
               >
-                <motion.div 
-                  className="flex items-center justify-center w-8 h-8 mb-4 text-white bg-foreground rounded-full"
-                  whileHover={{ 
-                    scale: 1.1, 
-                    rotate: [0, -5, 5, 0] 
+                {/* Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{
+                    background: 'rgba(0, 255, 150, 0.1)',
+                    border: '1px solid rgba(0, 255, 150, 0.2)',
                   }}
-                  transition={{ duration: 0.5 }}
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <feature.icon className="w-5 h-5" />
+                  <Compass className="w-4 h-4 text-green-500" />
+                  <span className="text-sm font-medium">SOLE RADAR AI</span>
                 </motion.div>
-                <h3 className="mb-2 text-base font-semibold leading-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
 
-          {/* Bottom CTA */}
-          <motion.div 
-            className="text-center mt-16" 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <Link href="/discover">
-              <Button 
-                size="lg" 
-                className="bg-primary hover:bg-primary/90 px-8 py-3 text-lg font-medium rounded-xl"
-                data-testid="button-start-discovery"
+                {/* Main Title */}
+                <div>
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    <SplitText type="words" delay={0.3}>
+                      Smart Style
+                    </SplitText>
+                    <br />
+                    <GradientText className="block">
+                      Discovery
+                    </GradientText>
+                  </h2>
+                  
+                  <motion.p
+                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  >
+                    AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
+                    preferences, and trends to deliver perfectly curated recommendations.
+                  </motion.p>
+                </div>
+
+                {/* Feature list */}
+                <motion.div
+                  className="space-y-4"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                >
+                  {[
+                    { icon: Compass, title: 'AI Style Matching', desc: 'Advanced analysis of your unique style preferences' },
+                    { icon: Target, title: 'Smart Recommendations', desc: 'Personalized suggestions based on your history' },
+                    { icon: Zap, title: 'Instant Discovery', desc: 'Lightning-fast results in under 1 second' }
+                  ].map((feature, index) => (
+                    <motion.div
+                      key={feature.title}
+                      className="flex items-start gap-4"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: false, amount: 0.3 }}
+                      transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                    >
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center mt-1"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(0, 255, 150, 0.1), rgba(50, 255, 100, 0.1))',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                      >
+                        <feature.icon className="w-6 h-6 text-green-500" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-lg mb-1">{feature.title}</h4>
+                        <p className="text-gray-400">{feature.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1.5 }}
+                >
+                  <Link href="/discover">
+                    <motion.button
+                      className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
+                      style={{
+                        background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      data-testid="button-start-discovery"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        Start Discovery
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </motion.button>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              {/* Interactive Dashboard Column */}
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.4 }}
               >
-                Start Your Discovery Journey
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
-      </motion.section>
+                {/* Glassmorphism container */}
+                <div
+                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}
+                >
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <Compass className="w-6 h-6 text-green-500" />
+                      <h3 className="text-xl font-semibold">AI Discovery</h3>
+                    </div>
+                    <motion.div
+                      className="w-3 h-3 rounded-full bg-green-500"
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [1, 0.7, 1],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  </div>
+
+                  {/* Style matching visualization */}
+                  <div className="space-y-4 mb-6">
+                    <div className="text-sm text-gray-400 mb-3">Your Style Profile</div>
+                    {[
+                      { label: 'Athletic', match: 92, color: 'bg-green-500' },
+                      { label: 'Retro', match: 78, color: 'bg-blue-500' },
+                      { label: 'Streetwear', match: 85, color: 'bg-orange-500' },
+                      { label: 'Luxury', match: 65, color: 'bg-purple-500' }
+                    ].map((style, index) => (
+                      <motion.div
+                        key={style.label}
+                        className="flex items-center justify-between p-3 rounded-xl border border-white/10"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                        }}
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`w-3 h-3 rounded-full ${style.color}`} />
+                          <span className="text-sm font-medium">{style.label}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-2 bg-white/10 rounded-full overflow-hidden">
+                            <motion.div
+                              className={`h-full ${style.color}`}
+                              initial={{ width: 0 }}
+                              whileInView={{ width: `${style.match}%` }}
+                              viewport={{ once: false, amount: 0.3 }}
+                              transition={{ duration: 1, delay: 1 + index * 0.1 }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-400 w-8">{style.match}%</span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Recommendation preview */}
+                  <div className="space-y-3 mb-6">
+                    <div className="text-sm text-gray-400">Today's Recommendations</div>
+                    {[
+                      { name: 'Nike Air Max 90', match: '95% Match', price: '$120' },
+                      { name: 'Adidas Ultraboost 22', match: '89% Match', price: '$180' }
+                    ].map((sneaker, index) => (
+                      <motion.div
+                        key={sneaker.name}
+                        className="p-3 rounded-xl border border-white/10 hover:border-white/20 transition-all"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                        }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.3 }}
+                        transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                        whileHover={{ scale: 1.02, y: -2 }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-medium text-sm">{sneaker.name}</div>
+                            <div className="text-xs text-green-400">{sneaker.match}</div>
+                          </div>
+                          <div className="text-sm font-bold">{sneaker.price}</div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Live status */}
+                  <div className="text-center pt-4 border-t border-white/10">
+                    <div className="inline-flex items-center gap-2 text-xs text-gray-400">
+                      <motion.div
+                        className="w-2 h-2 rounded-full"
+                        style={{
+                          background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
+                        }}
+                        animate={{
+                          scale: [1, 1.3, 1],
+                          opacity: [1, 0.5, 1],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      AI learning your preferences • Updated now
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.section>
+      </SectionWrapper>
 
       {/* Style Quiz Section - Minimalistic Design */}
       <motion.section 
