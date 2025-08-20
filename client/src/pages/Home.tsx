@@ -965,187 +965,242 @@ export default function Home() {
         </motion.section>
       </SectionWrapper>
 
-      {/* Style Quiz Section - Minimalistic Design */}
-      <motion.section 
-        className="py-24 md:py-36"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
+      {/* Style Quiz Section - Advanced Visual AI Search Style */}
+      <SectionWrapper
+        id="style-quiz"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
       >
-        <div className="container mx-auto flex flex-wrap flex-col md:flex-row items-center px-6">
-          {/* Left Col - Content */}
-          <div className="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
-            <motion.h1 
-              className="my-4 text-3xl md:text-5xl font-bold leading-tight text-center md:text-left"
-              variants={itemVariants}
-            >
-              Discover Your
-              <span className="text-primary block">
-                Perfect Style
-              </span>
-              with AI!
-            </motion.h1>
-            <motion.p 
-              className="leading-normal text-base md:text-2xl mb-8 text-center md:text-left text-muted-foreground"
-              variants={itemVariants}
-            >
-              Take our quick style quiz and get personalized sneaker recommendations tailored just for you.
-            </motion.p>
+        <motion.section
+          className="relative py-32 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(40, 10, 30, 0.98), rgba(20, 10, 40, 0.95))',
+          }}
+          data-testid="section-style-quiz"
+        >
+          {/* Background effects */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
+            }}
+          />
 
-            <motion.form 
-              className="bg-card shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-full"
-              variants={itemVariants}
-            >
-              <div className="mb-4">
-                <label className="block text-foreground py-2 font-bold mb-2" htmlFor="stylequiz">
-                  Ready to find your style?
-                </label>
-                <input
-                  className="shadow appearance-none border rounded w-full p-3 text-foreground leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out bg-background"
-                  id="stylequiz"
-                  type="text"
-                  placeholder="Enter your name to get started..."
-                  data-testid="input-style-quiz-name"
-                />
-              </div>
+          {/* Floating geometric shapes */}
+          <motion.div
+            className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
+            animate={{ rotate: [45, 135, 45] }}
+            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          />
 
-              <div className="flex items-center justify-between pt-4">
-                <Link href="/quiz">
-                  <Button
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                    type="button"
-                    data-testid="button-start-style-quiz"
-                  >
-                    Start Style Quiz
-                  </Button>
-                </Link>
-              </div>
-            </motion.form>
-          </div>
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Content Column */}
+              <motion.div
+                className="space-y-8"
+                initial={{ opacity: 0, x: -100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
+                {/* Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{
+                    background: 'rgba(150, 0, 255, 0.1)',
+                    border: '1px solid rgba(150, 0, 255, 0.2)',
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Sparkles className="w-4 h-4 text-purple-500" />
+                  <span className="text-sm font-medium">STYLE QUIZ AI</span>
+                </motion.div>
 
-          {/* Right Col - Interactive Sneaker */}
-          <motion.div 
-            className="w-full xl:w-3/5 p-12 overflow-hidden"
-            variants={itemVariants}
-          >
-            <motion.div
-              className="mx-auto w-full md:w-4/5 cursor-pointer"
-              initial={{ rotate: -6 }}
-              whileHover={{ 
-                scale: 1.05, 
-                rotate: 6,
-                transition: { duration: 0 }
-              }}
-              whileTap={{ scale: 0.95 }}
-              animate={{ rotate: -6 }}
-              transition={{ duration: 0 }}
-              data-testid="interactive-sneaker-image"
-            >
-              {/* Sneaker SVG - Interactive Design */}
-              <div className="relative bg-card rounded-2xl p-8 shadow-xl border">
-                <div className="text-center space-y-6">
-                  {/* Sneaker Icon Placeholder */}
-                  <motion.div
-                    className="w-32 h-32 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center"
-                    whileHover={{ 
-                      scale: 1.1, 
-                      rotate: [0, -5, 5, 0] 
-                    }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <ShoppingBag className="w-16 h-16 text-primary" />
-                  </motion.div>
+                {/* Main Title */}
+                <div>
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    <SplitText type="words" delay={0.3}>
+                      Discover Your
+                    </SplitText>
+                    <br />
+                    <GradientText className="block">
+                      Perfect Style
+                    </GradientText>
+                  </h2>
                   
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">AI Style Matching</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Click to explore interactive style preferences
-                    </p>
+                  <motion.p
+                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  >
+                    Take our quick style quiz and get personalized sneaker recommendations 
+                    tailored just for you with AI-powered precision.
+                  </motion.p>
+                </div>
+
+                {/* Enhanced Form */}
+                <motion.form 
+                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                >
+                  <div className="mb-6">
+                    <label className="block text-white py-2 font-semibold mb-3" htmlFor="stylequiz">
+                      Ready to find your style?
+                    </label>
+                    <motion.input
+                      className="w-full p-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-400 leading-tight focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      id="stylequiz"
+                      type="text"
+                      placeholder="Enter your name to get started..."
+                      data-testid="input-style-quiz-name"
+                      whileFocus={{ scale: 1.02 }}
+                    />
+                  </div>
+
+                  <div className="pt-4">
+                    <Link href="/quiz">
+                      <motion.button
+                        className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full w-full"
+                        style={{
+                          background: 'linear-gradient(to right, #9600ff 0%, #6450ff 61%, #ff6496 100%)',
+                        }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        data-testid="button-start-style-quiz"
+                      >
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          Start Style Quiz
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </motion.button>
+                    </Link>
+                  </div>
+                </motion.form>
+              </motion.div>
+
+              {/* Interactive Sneaker Column */}
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, x: 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 0.4 }}
+              >
+                {/* Enhanced Interactive Card */}
+                <motion.div
+                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}
+                  initial={{ rotate: -3 }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    rotate: 3,
+                    transition: { duration: 0.3 }
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  data-testid="interactive-sneaker-image"
+                >
+                  <div className="text-center space-y-6">
+                    {/* Enhanced Sneaker Icon */}
+                    <motion.div
+                      className="w-32 h-32 mx-auto rounded-2xl flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(150, 0, 255, 0.1), rgba(100, 50, 255, 0.1))',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                      }}
+                      whileHover={{ 
+                        scale: 1.1, 
+                        rotate: [0, -5, 5, 0] 
+                      }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <ShoppingBag className="w-16 h-16 text-purple-500" />
+                    </motion.div>
                     
-                    {/* Interactive Elements */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <motion.div
-                        className="p-3 rounded-lg bg-background border cursor-pointer"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        data-testid="style-option-casual"
-                      >
-                        <Heart className="w-5 h-5 text-primary mx-auto mb-1" />
-                        <p className="text-xs font-medium">Casual</p>
-                      </motion.div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 text-white">AI Style Matching</h3>
+                      <p className="text-gray-400 mb-6">
+                        Click to explore interactive style preferences
+                      </p>
                       
-                      <motion.div
-                        className="p-3 rounded-lg bg-background border cursor-pointer"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        data-testid="style-option-athletic"
-                      >
-                        <Zap className="w-5 h-5 text-primary mx-auto mb-1" />
-                        <p className="text-xs font-medium">Athletic</p>
-                      </motion.div>
-                      
-                      <motion.div
-                        className="p-3 rounded-lg bg-background border cursor-pointer"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        data-testid="style-option-streetwear"
-                      >
-                        <Star className="w-5 h-5 text-primary mx-auto mb-1" />
-                        <p className="text-xs font-medium">Street</p>
-                      </motion.div>
-                      
-                      <motion.div
-                        className="p-3 rounded-lg bg-background border cursor-pointer"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                        data-testid="style-option-formal"
-                      >
-                        <Sparkles className="w-5 h-5 text-primary mx-auto mb-1" />
-                        <p className="text-xs font-medium">Formal</p>
-                      </motion.div>
+                      {/* Enhanced Interactive Elements */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <motion.div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          data-testid="style-option-casual"
+                        >
+                          <Heart className="w-6 h-6 text-pink-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Casual</p>
+                        </motion.div>
+                        
+                        <motion.div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          data-testid="style-option-athletic"
+                        >
+                          <Zap className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Athletic</p>
+                        </motion.div>
+                        
+                        <motion.div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          data-testid="style-option-streetwear"
+                        >
+                          <Star className="w-6 h-6 text-blue-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Street</p>
+                        </motion.div>
+                        
+                        <motion.div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          data-testid="style-option-formal"
+                        >
+                          <Sparkles className="w-6 h-6 text-purple-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Formal</p>
+                        </motion.div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Bottom CTA */}
-          <motion.div 
-            className="mx-auto md:pt-16 text-center"
-            variants={itemVariants}
-          >
-            <p className="text-muted-foreground font-bold pb-8 lg:pb-6">
-              Get personalized recommendations:
-            </p>
-            <div className="flex w-full justify-center md:justify-start pb-24 lg:pb-0 gap-4">
-              <motion.div
-                className="text-center transform hover:scale-125 duration-300 ease-in-out cursor-pointer"
-                whileHover={{ scale: 1.25 }}
-                whileTap={{ scale: 0.95 }}
-                data-testid="feature-ai-matching"
-              >
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Sparkles className="w-6 h-6 text-primary" />
-                </div>
-                <p className="text-xs font-medium">AI Matching</p>
-              </motion.div>
-              
-              <motion.div
-                className="text-center transform hover:scale-125 duration-300 ease-in-out cursor-pointer"
-                whileHover={{ scale: 1.25 }}
-                whileTap={{ scale: 0.95 }}
-                data-testid="feature-quick-results"
-              >
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Zap className="w-6 h-6 text-primary" />
-                </div>
-                <p className="text-xs font-medium">Quick Results</p>
+                </motion.div>
               </motion.div>
             </div>
-          </motion.div>
-        </div>
-      </motion.section>
+          </div>
+        </motion.section>
+      </SectionWrapper>
 
       {/* AI Reviews Section - Minimalistic Design */}
       <motion.section 
