@@ -9,7 +9,6 @@ import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
-import Minimap from "@/components/advanced/Minimap";
 import SplitText from "@/components/advanced/SplitText";
 import GradientText from "@/components/advanced/GradientText";
 import SectionWrapper from "@/components/SectionWrapper";
@@ -149,17 +148,6 @@ export default function Home() {
 
 
 
-  // Minimap sections configuration
-  const minimapSections = [
-    { id: 'hero', title: 'Hero', progress: 0 },
-    { id: 'trending', title: 'Trending', progress: 0 },
-    { id: 'blog', title: 'Stories', progress: 0 },
-    { id: 'visual-search', title: 'Visual Search', progress: 0 },
-    { id: 'collections', title: 'Collections', progress: 0 },
-    { id: 'live-market', title: 'Live Market', progress: 0 },
-    { id: 'discover', title: 'Discover', progress: 0 }
-  ];
-
   return (
     <>
       {/* Advanced Preloader */}
@@ -168,14 +156,6 @@ export default function Home() {
         duration={2800}
         brandText="SoleGrithm"
       />
-
-      {/* Minimap Navigation */}
-      {!isLoading && (
-        <Minimap
-          sections={minimapSections}
-          className="hidden lg:block"
-        />
-      )}
 
       <motion.div 
         ref={containerRef}
