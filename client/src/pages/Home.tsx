@@ -191,7 +191,7 @@ export default function Home() {
       <SectionWrapper
         id="hero"
         sticky={true}
-        maskTransition={true}
+        maskTransition={false}
         className="relative"
         height="100vh"
       >
@@ -332,7 +332,7 @@ export default function Home() {
       <SectionWrapper
         id="trending-now" 
         sticky={true}
-        maskTransition={true}
+        maskTransition={false}
         className="relative"
         height="100vh"
       >
@@ -1644,7 +1644,7 @@ export default function Home() {
       <SectionWrapper
         id="live-market" 
         sticky={true}
-        maskTransition={true}
+        maskTransition={false}
         className="relative"
         height="100vh"
       >
@@ -1655,7 +1655,7 @@ export default function Home() {
       <SectionWrapper
         id="sole-map"
         sticky={true} 
-        maskTransition={true}
+        maskTransition={false}
         className="relative"
         height="100vh"
       >
@@ -1666,7 +1666,7 @@ export default function Home() {
       <SectionWrapper
         id="visual-search"
         sticky={true}
-        maskTransition={true}
+        maskTransition={false}
         className="relative"
         height="100vh"
       >
@@ -1677,7 +1677,7 @@ export default function Home() {
       <SectionWrapper
         id="collections"
         sticky={true}
-        maskTransition={true}
+        maskTransition={false}
         className="relative"
         height="100vh"
       >
