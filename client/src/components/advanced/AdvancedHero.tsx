@@ -43,14 +43,26 @@ export default function AdvancedHero() {
       const backgroundOrbs = heroRef.current?.querySelectorAll('[data-shimmer]');
       if (backgroundOrbs) {
         gsap.to(backgroundOrbs, {
-          opacity: 'random(0.15, 0.25)',
-          duration: 'random(4, 6)',
+          opacity: 'random(0.15, 0.35)',
+          duration: 'random(3, 5)',
           ease: 'sine.inOut',
           repeat: -1,
           yoyo: true,
-          stagger: 2,
+          stagger: 1.5,
         });
       }
+
+      // Animated background gradient shift
+      const gradientAnimation = gsap.timeline({ repeat: -1, yoyo: true });
+      gradientAnimation.to(heroRef.current, {
+        background: 'linear-gradient(135deg, rgba(25, 10, 35, 0.95), rgba(35, 15, 25, 0.98), rgba(15, 25, 40, 0.95))',
+        duration: 12,
+        ease: 'sine.inOut',
+      }).to(heroRef.current, {
+        background: 'linear-gradient(135deg, rgba(20, 15, 30, 0.95), rgba(30, 20, 20, 0.98), rgba(20, 30, 35, 0.95))',
+        duration: 10,
+        ease: 'sine.inOut',
+      });
 
       // Soft floating elements animation
       const floatingElements = heroRef.current?.querySelectorAll('[data-float]');
@@ -76,7 +88,7 @@ export default function AdvancedHero() {
       ref={heroRef}
       className="hero relative min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
       style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 20, 0.98))',
+        background: 'linear-gradient(135deg, rgba(15, 5, 25, 0.95), rgba(25, 10, 15, 0.98), rgba(10, 15, 30, 0.95))',
       }}
       data-testid="hero-section"
     >
@@ -122,6 +134,7 @@ export default function AdvancedHero() {
             filter: 'blur(60px)',
           }}
           data-shimmer
+          data-float
         />
         
         <div
@@ -131,6 +144,28 @@ export default function AdvancedHero() {
             filter: 'blur(40px)',
           }}
           data-shimmer
+          data-float
+        />
+
+        {/* Dynamic color accent orbs */}
+        <div
+          className="absolute top-3/4 left-1/4 w-20 h-20 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #ff6b35 0%, transparent 80%)',
+            filter: 'blur(35px)',
+          }}
+          data-shimmer
+          data-float
+        />
+        
+        <div
+          className="absolute top-1/3 right-1/2 w-16 h-16 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #a855f7 0%, transparent 80%)',
+            filter: 'blur(30px)',
+          }}
+          data-shimmer
+          data-float
         />
       </div>
 
