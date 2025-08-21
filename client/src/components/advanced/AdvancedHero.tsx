@@ -104,7 +104,7 @@ export default function AdvancedHero() {
       >
         <div className="text-left space-y-6 max-w-5xl">
           {/* Main heading */}
-          <div>
+          <div className="pb-4 pl-2">
             <h1 className="text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold leading-[0.8] text-white">
               Welcome To
             </h1>
@@ -114,7 +114,7 @@ export default function AdvancedHero() {
           </div>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-300 max-w-4xl font-light">
+          <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-300 max-w-4xl font-light pb-6 pl-2">
             Discover, Collect, and Connect Through AI-Powered Sneaker Intelligence
           </p>
         </div>
