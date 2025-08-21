@@ -118,29 +118,7 @@ export default function AdvancedHero() {
             Discover, Collect, and Connect Through AI-Powered Sneaker Intelligence
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <Link href="/discover">
-              <Button 
-                size="lg"
-                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold transform hover:scale-105 transition-all duration-200"
-                data-testid="button-discover"
-              >
-                Start Discovering
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/visual-search">
-              <Button 
-                variant="outline"
-                size="lg"
-                className="border-white/30 text-white hover:bg-white/10 transform hover:scale-105 transition-all duration-200"
-                data-testid="button-visual-search"
-              >
-                Try Visual Search
-              </Button>
-            </Link>
-          </div>
+
         </div>
       </div>
     </div>
