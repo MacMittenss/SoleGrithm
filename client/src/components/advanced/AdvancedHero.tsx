@@ -39,14 +39,18 @@ export default function AdvancedHero() {
 
 
 
-      // Soft background gradient animation (independent)
-      gsap.to(heroRef.current, {
-        background: 'radial-gradient(ellipse at center, rgba(255, 41, 0, 0.08) 0%, rgba(254, 122, 96, 0.04) 35%, rgba(88, 29, 255, 0.08) 100%)',
-        duration: 8,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
+      // Subtle shimmer effect on background orbs
+      const backgroundOrbs = heroRef.current?.querySelectorAll('[data-shimmer]');
+      if (backgroundOrbs) {
+        gsap.to(backgroundOrbs, {
+          opacity: 'random(0.15, 0.25)',
+          duration: 'random(4, 6)',
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+          stagger: 2,
+        });
+      }
 
       // Soft floating elements animation
       const floatingElements = heroRef.current?.querySelectorAll('[data-float]');
@@ -78,7 +82,7 @@ export default function AdvancedHero() {
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20">
-        {/* Gradient orbs */}
+        {/* Gradient orbs with subtle shimmer */}
         <div
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
           style={{
@@ -86,6 +90,7 @@ export default function AdvancedHero() {
             filter: 'blur(100px)',
           }}
           data-float
+          data-shimmer
         />
         
         <div
@@ -95,6 +100,26 @@ export default function AdvancedHero() {
             filter: 'blur(80px)',
           }}
           data-float
+          data-shimmer
+        />
+        
+        {/* Additional subtle accent orbs */}
+        <div
+          className="absolute top-1/2 right-1/3 w-32 h-32 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #fe7a60 0%, transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+          data-shimmer
+        />
+        
+        <div
+          className="absolute bottom-1/3 left-1/2 w-24 h-24 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #581dff 0%, transparent 70%)',
+            filter: 'blur(40px)',
+          }}
+          data-shimmer
         />
       </div>
 
