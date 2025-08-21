@@ -103,7 +103,7 @@ export default function BrandShowcase() {
         },
       });
 
-      // Brand logos staggered reveal animation (They Trust Us style)
+      // Brand logos staggered reveal animation with delayed start
       const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
       if (logoItems) {
         gsap.fromTo(logoItems,
@@ -116,12 +116,13 @@ export default function BrandShowcase() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.8,
-            stagger: 0.1, // Sequential fade-in like "They Trust Us"
-            ease: "power3.out",
+            duration: 0.6,
+            stagger: 0.15, // Slightly slower stagger for better visibility
+            ease: "back.out(1.7)",
+            delay: 1.5, // Delay to let header/subheader animations complete first
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top center",
+              start: "top 60%", // Start animation when section is 60% in view
               end: "bottom center",
               toggleActions: "play none none reverse",
             },
@@ -204,18 +205,18 @@ export default function BrandShowcase() {
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',
       'Puma': 'https://logos-world.net/wp-content/uploads/2020/04/Puma-Logo.png',
       'Reebok': 'https://logos-world.net/wp-content/uploads/2020/04/Reebok-Logo.png',
-      'ASICS': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#000">ASICS</text></svg>')}`,
-      'Balenciaga': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="normal" fill="#000">BALENCIAGA</text></svg>')}`,
-      'Golden Goose': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#000">GOLDEN GOOSE</text></svg>')}`,
-      'Off-White': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#000">OFF-WHITE</text></svg>')}`,
+      'ASICS': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff">ASICS</text></svg>')}`,
+      'Balenciaga': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="normal" fill="#ffffff">BALENCIAGA</text></svg>')}`,
+      'Golden Goose': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#ffffff">GOLDEN GOOSE</text></svg>')}`,
+      'Off-White': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#ffffff">OFF-WHITE</text></svg>')}`,
       'Gucci': 'https://logos-world.net/wp-content/uploads/2020/04/Gucci-Logo.png',
-      'Saint Laurent': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#000">SAINT LAURENT</text></svg>')}`,
-      'Common Projects': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40"><text x="100" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#000">COMMON PROJECTS</text></svg>')}`,
-      'GOAT': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text x="50" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#000">GOAT</text></svg>')}`,
+      'Saint Laurent': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#ffffff">SAINT LAURENT</text></svg>')}`,
+      'Common Projects': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40"><text x="100" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#ffffff">COMMON PROJECTS</text></svg>')}`,
+      'GOAT': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text x="50" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">GOAT</text></svg>')}`,
       'StockX': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#00AC7C">StockX</text></svg>')}`,
-      'Flight Club': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#000">FLIGHT CLUB</text></svg>')}`,
-      'Stadium Goods': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#000">STADIUM GOODS</text></svg>')}`,
-      'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#000">GRAILED</text></svg>')}`
+      'Flight Club': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#ffffff">FLIGHT CLUB</text></svg>')}`,
+      'Stadium Goods': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#ffffff">STADIUM GOODS</text></svg>')}`,
+      'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff">GRAILED</text></svg>')}`
     };
 
     return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="#f9f9f9" stroke="#e5e5e5"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#666">${brandName}</text></svg>`)}`;
@@ -322,7 +323,7 @@ export default function BrandShowcase() {
                   <img
                     src={brand.logoUrl}
                     alt={`${brand.name} logo`}
-                    className="w-auto max-w-full h-8 md:h-12 object-contain opacity-60 filter grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 hover:scale-110"
+                    className="w-auto max-w-full h-8 md:h-12 object-contain opacity-80 brightness-150 hover:brightness-200 hover:opacity-100 transition-all duration-500 hover:scale-110"
                     loading="lazy"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
