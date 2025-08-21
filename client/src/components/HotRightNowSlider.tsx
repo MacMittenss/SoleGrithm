@@ -288,16 +288,7 @@ export default function BrandShowcase() {
             ref={headingRef}
             className="text-center mb-16"
           >
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8"
-              style={{
-                background: 'rgba(254, 122, 96, 0.1)',
-                border: '1px solid rgba(254, 122, 96, 0.2)',
-              }}
-            >
-              <Star className="w-4 h-4 text-orange-400" />
-              <span className="text-sm font-medium text-orange-400">THEY TRUST US</span>
-            </div>
+
 
             <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.8] mb-6 text-white">
               <SplitText type="words" delay={0.2}>
