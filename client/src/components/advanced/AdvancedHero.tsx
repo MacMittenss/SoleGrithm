@@ -100,21 +100,21 @@ export default function AdvancedHero() {
       {/* Hero Text Content */}
       <div
         ref={heroTextRef}
-        className="relative z-10 w-full h-full flex items-end justify-start pb-24 pl-12"
+        className="relative z-10 w-full h-full flex items-end justify-start pb-32 pl-12"
       >
-        <div className="text-left space-y-8 max-w-5xl">
+        <div className="text-left space-y-6 max-w-5xl">
           {/* Main heading */}
           <div>
-            <h1 className="text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-bold leading-[0.8] text-white">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-[0.8] text-white">
               Welcome To
             </h1>
-            <h1 className="text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-bold leading-[0.8] bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-[0.8] bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
               SoleGrithm
             </h1>
           </div>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-300 max-w-4xl font-light">
+          <p className="text-lg md:text-xl lg:text-2xl xl:text-3xl text-gray-300 max-w-4xl font-light">
             Discover, Collect, and Connect Through AI-Powered Sneaker Intelligence
           </p>
         </div>
