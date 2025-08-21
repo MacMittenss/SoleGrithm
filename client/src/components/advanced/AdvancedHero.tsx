@@ -108,7 +108,7 @@ export default function AdvancedHero() {
             <h1 className="text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold leading-[0.8] text-white">
               Welcome To
             </h1>
-            <h1 className="text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold leading-[0.8] bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+            <h1 className="text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-bold leading-[0.8] bg-gradient-to-r from-orange-400 via-red-500 to-purple-600 bg-clip-text text-transparent">
               SoleGrithm
             </h1>
           </div>
