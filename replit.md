@@ -8,6 +8,8 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (Phase 12 - Advanced Homepage Redesign - IN PROGRESS)
 - **VITURE-Style Visual Design**: Transformed homepage sections with advanced styling patterns including dark gradients, glassmorphism effects, and sophisticated animations
+- **Flagship Features GSAP Animation**: Added ScrollTrigger animations to "Our Flagship Features" section with section pinning, word-by-word reveals, and staggered card animations matching hero section behavior
+- **SeasonSans Typography Integration**: Applied "seasonSans", "seasonSans Fallback" font family across entire website with custom @font-face definitions and Tailwind configuration
 - **SoleRadar Section Enhancement**: Applied Visual AI Search styling while preserving original feature grid component structure with green/orange color scheme
 - **Style Quiz Section Redesign**: Implemented advanced styling with purple/pink gradients while maintaining original form and interactive sneaker components
 - **SplitText & GradientText Typography**: Consistently applied advanced typography animations across all redesigned sections
