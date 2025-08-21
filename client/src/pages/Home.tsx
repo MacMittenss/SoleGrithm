@@ -9,8 +9,6 @@ import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import AdvancedPreloader from "@/components/advanced/AdvancedPreloader";
-import CinematicTransition from "@/components/advanced/CinematicTransition";
-import CinematicScrollController from "@/components/advanced/CinematicScrollController";
 import SplitText from "@/components/advanced/SplitText";
 import GradientText from "@/components/advanced/GradientText";
 import SectionWrapper from "@/components/SectionWrapper";
@@ -150,9 +148,6 @@ export default function Home() {
 
 
 
-  // Define sections for cinematic transitions
-  const cinematicSections = ['hero', 'trending', 'visual-search', 'live-market', 'collections', 'sole-map'];
-
   return (
     <>
       {/* Advanced Preloader */}
@@ -162,20 +157,19 @@ export default function Home() {
         brandText="SoleGrithm"
       />
 
-      <CinematicScrollController sections={cinematicSections}>
-        <motion.div 
-          ref={containerRef}
-          className="min-h-screen bg-black"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          style={{
-            background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
-            minHeight: '100vh',
-          }}
-        >
-          {/* Hero Section - Advanced VITURE-style */}
-          <AdvancedHero />
+      <motion.div 
+        ref={containerRef}
+        className="min-h-screen bg-black"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        style={{
+          background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+          minHeight: '100vh',
+        }}
+      >
+      {/* Hero Section - Advanced VITURE-style */}
+      <AdvancedHero />
 
       {/* Clean Sub Hero Sections - No Scroll Overlay */}
       <section className="bg-white dark:bg-background">
@@ -308,21 +302,20 @@ export default function Home() {
 
 
       {/* Trending Now Section - Live Market Style */}
-      <CinematicTransition sectionId="trending">
-        <SectionWrapper
-          id="trending-now" 
-          sticky={true}
-          maskTransition={false}
-          className="relative"
-          height="100vh"
+      <SectionWrapper
+        id="trending-now" 
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
+        <motion.section
+          className="relative py-32 overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(30, 30, 30, 0.95))',
+          }}
+          data-testid="section-trending-now"
         >
-          <motion.section
-            className="relative py-32 overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(30, 30, 30, 0.95))',
-            }}
-            data-testid="section-trending-now"
-          >
           {/* Background gradient effects */}
           <motion.div
             className="absolute inset-0"
@@ -779,17 +772,17 @@ export default function Home() {
           </div>
         </motion.section>
       </SectionWrapper>
-      </CinematicTransition>
+
+
 
       {/* Sole Radar Section - Advanced Visual AI Search Style */}
-      <CinematicTransition sectionId="visual-search">
-        <SectionWrapper
-          id="sole-radar"
-          sticky={true}
-          maskTransition={false}
-          className="relative"
-          height="100vh"
-        >
+      <SectionWrapper
+        id="sole-radar"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
@@ -1019,17 +1012,15 @@ export default function Home() {
           </div>
         </motion.section>
       </SectionWrapper>
-      </CinematicTransition>
 
       {/* Style Quiz Section - Advanced Visual AI Search Style */}
-      <CinematicTransition sectionId="style-quiz">
-        <SectionWrapper
-          id="style-quiz"
-          sticky={true}
-          maskTransition={false}
-          className="relative"
-          height="100vh"
-        >
+      <SectionWrapper
+        id="style-quiz"
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
@@ -1805,33 +1796,28 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
-      </CinematicTransition>
 
       {/* Live Market Section - Advanced */}
-      <CinematicTransition sectionId="live-market">
-        <SectionWrapper
-          id="live-market" 
-          sticky={true}
-          maskTransition={false}
-          className="relative"
-          height="100vh"
-        >
-          <AdvancedLiveMarket />
-        </SectionWrapper>
-      </CinematicTransition>
+      <SectionWrapper
+        id="live-market" 
+        sticky={true}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
+        <AdvancedLiveMarket />
+      </SectionWrapper>
 
       {/* Sole Map Section - Advanced */}
-      <CinematicTransition sectionId="sole-map">
-        <SectionWrapper
-          id="sole-map-advanced"
-          sticky={true} 
-          maskTransition={false}
-          className="relative"
-          height="100vh"
-        >
-          <AdvancedSoleMap />
-        </SectionWrapper>
-      </CinematicTransition>
+      <SectionWrapper
+        id="sole-map-advanced"
+        sticky={true} 
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
+        <AdvancedSoleMap />
+      </SectionWrapper>
 
       {/* Quick Stats with Animated Counters */}
       <motion.section 
@@ -2012,7 +1998,6 @@ export default function Home() {
         </div>
       </motion.section>
       </motion.div>
-      </CinematicScrollController>
     </>
   );
 }
