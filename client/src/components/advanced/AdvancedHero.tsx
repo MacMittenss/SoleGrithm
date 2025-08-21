@@ -39,26 +39,27 @@ export default function AdvancedHero() {
 
 
 
-      // Background gradient animation (independent)
+      // Soft background gradient animation (independent)
       gsap.to(heroRef.current, {
-        background: 'radial-gradient(ellipse at center, rgba(255, 41, 0, 0.15) 0%, rgba(254, 122, 96, 0.08) 35%, rgba(88, 29, 255, 0.15) 100%)',
-        duration: 3,
-        ease: 'power2.inOut',
+        background: 'radial-gradient(ellipse at center, rgba(255, 41, 0, 0.08) 0%, rgba(254, 122, 96, 0.04) 35%, rgba(88, 29, 255, 0.08) 100%)',
+        duration: 8,
+        ease: 'sine.inOut',
         repeat: -1,
         yoyo: true,
       });
 
-      // Floating elements animation
+      // Soft floating elements animation
       const floatingElements = heroRef.current?.querySelectorAll('[data-float]');
       if (floatingElements) {
         gsap.to(floatingElements, {
-          y: 'random(-20, 20)',
-          rotation: 'random(-5, 5)',
-          duration: 'random(3, 5)',
+          x: 'random(-8, 8)',
+          y: 'random(-8, 8)',
+          rotation: 'random(-2, 2)',
+          duration: 'random(6, 8)',
           ease: 'sine.inOut',
           repeat: -1,
           yoyo: true,
-          stagger: 0.5,
+          stagger: 1.2,
         });
       }
     });
