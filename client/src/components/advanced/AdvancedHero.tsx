@@ -100,7 +100,7 @@ export default function AdvancedHero() {
       {/* Hero Text Content */}
       <div
         ref={heroTextRef}
-        className="relative z-10 w-full h-full flex items-end justify-start pb-64 pr-24 pl-12"
+        className="relative z-10 w-full h-full flex items-end justify-start pb-64 pl-24"
       >
         <div className="text-left space-y-6 max-w-5xl">
           {/* Main heading */}
