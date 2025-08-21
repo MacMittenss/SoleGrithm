@@ -172,8 +172,9 @@ export default function AdvancedHero() {
       {/* Hero Text Content */}
       <div
         ref={heroTextRef}
-        className="relative z-10 w-full h-full flex items-end justify-start pb-64 pl-24"
+        className="relative z-10 w-full h-full flex items-end justify-between pb-64 pl-24 pr-16"
       >
+        {/* Left - Text Content */}
         <div className="text-left space-y-6 max-w-5xl">
           {/* Main heading */}
           <div className="pb-4 pl-2">
@@ -189,6 +190,54 @@ export default function AdvancedHero() {
           <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-300 max-w-4xl font-light pb-6 pl-2">
             Discover, Collect, and Connect Through AI-Powered Sneaker Intelligence
           </p>
+        </div>
+
+        {/* Right - Gradient Design Elements */}
+        <div className="relative flex-shrink-0 w-80 h-96 hidden lg:block">
+          {/* Main gradient form */}
+          <div 
+            className="absolute inset-0 opacity-60"
+            style={{
+              background: 'conic-gradient(from 45deg, #ff2900 0%, #fe7a60 25%, #581dff 50%, #ff6b35 75%, #ff2900 100%)',
+              borderRadius: '40% 60% 70% 30% / 50% 30% 70% 50%',
+              filter: 'blur(30px)',
+            }}
+            data-shimmer
+          />
+          
+          {/* Secondary accent form */}
+          <div 
+            className="absolute top-16 right-8 w-48 h-64 opacity-40"
+            style={{
+              background: 'linear-gradient(135deg, #a855f7, #ec4899, #f97316)',
+              borderRadius: '60% 40% 30% 70% / 30% 70% 50% 50%',
+              filter: 'blur(25px)',
+            }}
+            data-shimmer
+            data-float
+          />
+
+          {/* Geometric accent lines */}
+          <div className="absolute top-24 left-12 w-32 h-0.5 bg-gradient-to-r from-orange-400 to-purple-500 opacity-60" 
+               style={{ transform: 'rotate(25deg)' }}
+          />
+          <div className="absolute bottom-32 right-16 w-24 h-0.5 bg-gradient-to-r from-purple-400 to-red-500 opacity-50" 
+               style={{ transform: 'rotate(-15deg)' }}
+          />
+          
+          {/* Small floating accent dots */}
+          <div 
+            className="absolute top-8 left-8 w-3 h-3 rounded-full bg-orange-400 opacity-70"
+            data-float
+          />
+          <div 
+            className="absolute bottom-16 left-24 w-2 h-2 rounded-full bg-purple-500 opacity-60"
+            data-float
+          />
+          <div 
+            className="absolute top-32 right-4 w-2.5 h-2.5 rounded-full bg-red-400 opacity-65"
+            data-float
+          />
         </div>
       </div>
     </div>
