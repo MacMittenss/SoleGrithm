@@ -80,6 +80,17 @@ export default function AdvancedHero() {
       }}
       data-testid="hero-section"
     >
+      {/* Dotted Grid Background */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+        }}
+      />
+
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20">
         {/* Gradient orbs with subtle shimmer */}
