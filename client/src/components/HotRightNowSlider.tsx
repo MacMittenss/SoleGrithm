@@ -308,22 +308,22 @@ export default function BrandShowcase() {
             </p>
           </div>
 
-          {/* Brands Grid - "They Trust Us" Style */}
+          {/* Brands Grid - All Brands */}
           <div
             ref={gridRef}
-            className="grid grid-cols-4 md:grid-cols-8 gap-8 max-w-6xl mx-auto items-center"
+            className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-6 max-w-7xl mx-auto items-center"
           >
-            {featuredBrands.slice(0, 8).map((brand: any, index: number) => (
+            {featuredBrands.map((brand: any, index: number) => (
               <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
                 <div
                   data-brand-logo
-                  className="group cursor-pointer flex items-center justify-center h-16 md:h-20 col-span-2"
+                  className="group cursor-pointer flex items-center justify-center h-12 md:h-16"
                   data-testid={`brand-logo-${brand.slug}`}
                 >
                   <img
                     src={brand.logoUrl}
                     alt={`${brand.name} logo`}
-                    className="w-auto max-w-full h-8 md:h-12 object-contain opacity-90 brightness-200 contrast-125 saturate-75 hover:brightness-250 hover:opacity-100 transition-all duration-500 hover:scale-110"
+                    className="w-auto max-w-full h-6 md:h-8 object-contain opacity-80 filter brightness-0 invert hover:opacity-100 transition-all duration-500 hover:scale-110"
                     loading="lazy"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
