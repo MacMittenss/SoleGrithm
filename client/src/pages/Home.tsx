@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'fra
 
 // Advanced components with VITURE-style animations
 import AdvancedHero from "@/components/advanced/AdvancedHero";
+import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
@@ -171,96 +172,8 @@ export default function Home() {
       {/* Hero Section - Advanced VITURE-style */}
       <AdvancedHero />
 
-      {/* VITURE-Style Card Sections */}
-      <section className="bg-black py-16 px-8 lg:px-16">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Title */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Our Flagship Features
-            </h2>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Discover the cutting-edge technologies and exclusive experiences that make SoleGrithm the future of sneaker culture
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Women in Sneakers Card */}
-            <div className="group cursor-pointer">
-              <div className="relative h-[600px] overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-white/10">
-                <div 
-                  className="absolute inset-4 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105 rounded-2xl"
-                  style={{
-                    backgroundImage: `url(${womenSneakersImage})`
-                  }}
-                />
-                <div className="absolute inset-4 bg-black/20 group-hover:bg-black/30 transition-all duration-500 rounded-2xl" />
-                
-                {/* Content Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
-                  <div className="max-w-lg">
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
-                      Women in Sneakers
-                    </h3>
-                    <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
-                      Celebrating the powerful influence of women in sneaker culture and style
-                    </p>
-                    <div>
-                      <Link href="/women">
-                        <Button 
-                          size="lg"
-                          className="bg-white text-black hover:bg-white/90 font-semibold transform hover:scale-105 transition-all duration-200"
-                          data-testid="button-women-sneakers"
-                        >
-                          Explore Collection
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* AR Try-On Card */}
-            <div className="group cursor-pointer">
-              <div className="relative h-[600px] overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm border border-white/10">
-                <div 
-                  className="absolute inset-4 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105 rounded-2xl"
-                  style={{
-                    backgroundImage: `url(${arTryonImage})`
-                  }}
-                />
-                <div className="absolute inset-4 bg-black/20 group-hover:bg-black/30 transition-all duration-500 rounded-2xl" />
-                
-                {/* Content Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
-                  <div className="max-w-lg">
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
-                      AR Try-On
-                    </h3>
-                    <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
-                      Experience the future of sneaker shopping with augmented reality technology
-                    </p>
-                    <div>
-                      <Link href="/ar-tryeon">
-                        <Button 
-                          size="lg"
-                          className="bg-white text-black hover:bg-white/90 font-semibold transform hover:scale-105 transition-all duration-200"
-                          data-testid="button-ar-tryeon"
-                        >
-                          Try It Now
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      {/* Advanced Flagship Features with GSAP Scroll Animation */}
+      <AdvancedFlagshipFeatures />
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
