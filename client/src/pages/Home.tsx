@@ -5,7 +5,6 @@ import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'fra
 // Advanced components with VITURE-style animations
 import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
-import AdvancedFeaturedBrands from "@/components/advanced/AdvancedFeaturedBrands";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
@@ -175,9 +174,6 @@ export default function Home() {
 
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
       <AdvancedFlagshipFeatures />
-
-      {/* Advanced Featured Brands with GSAP Scroll Animation */}
-      <AdvancedFeaturedBrands />
 
       {/* What's Hot Right Now Slider */}
       <motion.div variants={itemVariants}>
