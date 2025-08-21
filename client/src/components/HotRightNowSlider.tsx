@@ -219,7 +219,7 @@ export default function BrandShowcase() {
       'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff">GRAILED</text></svg>')}`
     };
 
-    return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="#f9f9f9" stroke="#e5e5e5"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#666">${brandName}</text></svg>`)}`;
+    return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="transparent"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#ffffff">${brandName}</text></svg>`)}`;
   }
 
   // Loading state
@@ -323,7 +323,7 @@ export default function BrandShowcase() {
                   <img
                     src={brand.logoUrl}
                     alt={`${brand.name} logo`}
-                    className="w-auto max-w-full h-8 md:h-12 object-contain opacity-80 brightness-150 hover:brightness-200 hover:opacity-100 transition-all duration-500 hover:scale-110"
+                    className="w-auto max-w-full h-8 md:h-12 object-contain opacity-90 brightness-200 contrast-125 saturate-75 hover:brightness-250 hover:opacity-100 transition-all duration-500 hover:scale-110"
                     loading="lazy"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
