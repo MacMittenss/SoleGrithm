@@ -174,6 +174,16 @@ export default function Home() {
       {/* VITURE-Style Card Sections */}
       <section className="bg-black py-16 px-8 lg:px-16">
         <div className="max-w-7xl mx-auto">
+          {/* Section Title */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+              Our Flagship Features
+            </h2>
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+              Discover the cutting-edge technologies and exclusive experiences that make SoleGrithm the future of sneaker culture
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Women in Sneakers Card */}
