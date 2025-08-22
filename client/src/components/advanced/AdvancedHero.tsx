@@ -52,7 +52,7 @@ export default function AdvancedHero() {
         });
       }
 
-      // Background gradient animation - match flagship features
+      // Background gradient animation - exact match flagship features
       gsap.to(heroRef.current, {
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
         duration: 3,
