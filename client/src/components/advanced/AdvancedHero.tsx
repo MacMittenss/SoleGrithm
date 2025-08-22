@@ -52,16 +52,13 @@ export default function AdvancedHero() {
         });
       }
 
-      // Animated background gradient shift
-      const gradientAnimation = gsap.timeline({ repeat: -1, yoyo: true });
-      gradientAnimation.to(heroRef.current, {
-        background: 'linear-gradient(135deg, rgba(25, 10, 35, 0.95), rgba(35, 15, 25, 0.98), rgba(15, 25, 40, 0.95))',
-        duration: 12,
-        ease: 'sine.inOut',
-      }).to(heroRef.current, {
-        background: 'linear-gradient(135deg, rgba(20, 15, 30, 0.95), rgba(30, 20, 20, 0.98), rgba(20, 30, 35, 0.95))',
-        duration: 10,
-        ease: 'sine.inOut',
+      // Background gradient animation - match flagship features
+      gsap.to(heroRef.current, {
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
+        duration: 3,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
       });
 
       // Soft floating elements animation
@@ -88,7 +85,7 @@ export default function AdvancedHero() {
       ref={heroRef}
       className="hero relative min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
       style={{
-        background: 'linear-gradient(135deg, rgba(15, 5, 25, 0.95), rgba(25, 10, 15, 0.98), rgba(10, 15, 30, 0.95))',
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
       }}
       data-testid="hero-section"
     >
