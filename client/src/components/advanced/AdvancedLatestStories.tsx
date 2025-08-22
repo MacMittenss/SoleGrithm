@@ -45,51 +45,61 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Timeline for section reveal
-      let tl = gsap.timeline({
+      // Header animation timeline (non-scrubbed, plays once)
+      let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top center",
-          end: "bottom center",
-          scrub: true,
+          end: "+=200",
+          toggleActions: "play none none none"
         }
       });
 
       // Set initial states
-      gsap.set(badgeRef.current, { opacity: 0, y: 50 });
       gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
 
-      // Animate badge
-      tl.to(badgeRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out"
-      })
-      // Animate title words
-      .from(".latest-stories .word", {
-        opacity: 0,
-        y: 50,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.4")
-      // Animate subtitle
-      .to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1
-      }, "-=0.3")
-      // Animate cards
-      .to(cardsRef.current?.children || [], {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        stagger: 0.2,
-        duration: 1,
-        ease: "power2.out"
-      }, "-=0.5");
+      // Header animation sequence
+      headerTl
+        // Animate title words first
+        .from(".latest-stories .word", {
+          opacity: 0,
+          y: 50,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "power2.out"
+        })
+        // Then animate subtitle
+        .to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 1
+        }, "-=0.3");
+
+      // Cards animation timeline (separate, scroll-triggered after header)
+      let cardsTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: cardsRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: 1,
+          onUpdate: (self) => {
+            // Animate cards one by one based on scroll progress
+            const cards = cardsRef.current?.children || [];
+            const progress = self.progress;
+            const cardCount = cards.length;
+            
+            Array.from(cards).forEach((card: any, index) => {
+              const cardProgress = Math.max(0, Math.min(1, (progress * cardCount) - index));
+              gsap.set(card, {
+                opacity: cardProgress,
+                y: 60 * (1 - cardProgress),
+                scale: 0.8 + (0.2 * cardProgress)
+              });
+            });
+          }
+        }
+      });
 
       // Background gradient animation (independent)
       gsap.to(sectionRef.current, {
@@ -139,19 +149,6 @@ export default function AdvancedLatestStories() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 w-full">
         {/* Header Section */}
         <div className="text-center mb-16">
-          {/* Badge */}
-          <div
-            ref={badgeRef}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-            style={{
-              background: 'rgba(100, 150, 255, 0.1)',
-              border: '1px solid rgba(100, 150, 255, 0.2)',
-            }}
-          >
-            <BookOpen className="w-4 h-4 text-blue-500" />
-            <span className="text-sm font-medium">LATEST STORIES</span>
-          </div>
-
           <h2 
             ref={titleRef}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
@@ -159,7 +156,14 @@ export default function AdvancedLatestStories() {
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
             }}
           >
-            Discover Culture & Trends
+            Discover Culture & <span
+              style={{
+                background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent',
+              }}
+            >Trends</span>
           </h2>
           
           <p
