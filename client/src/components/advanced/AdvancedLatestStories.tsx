@@ -101,14 +101,7 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Background gradient animation (independent) - match flagship features
-      gsap.to(sectionRef.current, {
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
-        duration: 3,
-        ease: 'power2.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
+      // Background animation removed - now using static homepage background
 
     }, sectionRef);
 
@@ -120,7 +113,7 @@ export default function AdvancedLatestStories() {
       ref={sectionRef}
       className="latest-stories min-h-screen relative flex items-center py-32 overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+        background: 'transparent',
       }}
       data-testid="section-latest-stories"
     >

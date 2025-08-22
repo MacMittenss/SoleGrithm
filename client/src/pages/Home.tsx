@@ -161,7 +161,7 @@ export default function Home() {
 
       <motion.div 
         ref={containerRef}
-        className="min-h-screen bg-black"
+        className="min-h-screen"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -240,7 +240,7 @@ export default function Home() {
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+            background: 'transparent',
           }}
           data-testid="section-trending-now"
         >
@@ -537,7 +537,7 @@ export default function Home() {
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+            background: 'transparent',
           }}
           data-testid="section-sole-radar"
         >
@@ -775,7 +775,7 @@ export default function Home() {
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+            background: 'transparent',
           }}
           data-testid="section-style-quiz"
         >

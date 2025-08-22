@@ -130,14 +130,7 @@ export default function BrandShowcase() {
         );
       }
 
-      // Background gradient animation - match flagship features
-      gsap.to(sectionRef.current, {
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
-        duration: 3,
-        ease: 'power2.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
+      // Background animation removed - now using static homepage background
 
       // Floating elements animation
       const backgroundElements = sectionRef.current?.querySelectorAll('[data-bg-animate]');
@@ -267,7 +260,7 @@ export default function BrandShowcase() {
         ref={sectionRef}
         className="min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
         style={{
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+          background: 'transparent',
         }}
         data-testid="featured-brands-section"
       >
