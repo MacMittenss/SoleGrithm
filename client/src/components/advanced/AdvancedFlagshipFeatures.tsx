@@ -110,7 +110,14 @@ export default function AdvancedFlagshipFeatures() {
           duration: 1
         }, "-=0.5");
 
-      // Remove background animation to maintain uniform homepage background
+      // Background gradient animation (independent)
+      gsap.to(sectionRef.current, {
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
+        duration: 3,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
 
     }, sectionRef);
 
@@ -122,7 +129,7 @@ export default function AdvancedFlagshipFeatures() {
       ref={sectionRef}
       className="flagship-features relative min-h-screen bg-black py-16 px-8 lg:px-16 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
       }}
     >
       {/* Rotating Overlay for Hero Transition */}
@@ -130,7 +137,7 @@ export default function AdvancedFlagshipFeatures() {
         ref={overlayRef}
         className="absolute inset-0 z-50 pointer-events-none"
         style={{
-          background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
         }}
       />
       {/* Animated background elements */}
