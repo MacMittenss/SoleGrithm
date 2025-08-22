@@ -159,24 +159,93 @@ export default function Home() {
         brandText="SoleGrithm"
       />
 
+      {/* Static Hero-style Background */}
+      <div 
+        className="fixed inset-0 w-full h-full"
+        style={{
+          background: 'linear-gradient(135deg, rgba(15, 5, 25, 0.95), rgba(25, 10, 15, 0.98), rgba(10, 15, 30, 0.95))',
+          zIndex: -1,
+        }}
+      >
+        {/* Dotted Grid Background */}
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
+            backgroundSize: '50px 50px',
+            maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+          }}
+        />
+
+        {/* Animated background elements */}
+        <div className="absolute inset-0 opacity-20">
+          {/* Gradient orbs with subtle shimmer */}
+          <div
+            className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full animate-pulse"
+            style={{
+              background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              filter: 'blur(100px)',
+              animation: 'float 8s ease-in-out infinite',
+            }}
+          />
+          
+          <div
+            className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full animate-pulse"
+            style={{
+              background: 'linear-gradient(to right, #581dff 0%, #fe7a60 61%, #ff2900 100%)',
+              filter: 'blur(80px)',
+              animation: 'float 6s ease-in-out infinite reverse',
+            }}
+          />
+          
+          {/* Additional subtle accent orbs */}
+          <div
+            className="absolute top-1/2 right-1/3 w-32 h-32 rounded-full animate-pulse"
+            style={{
+              background: 'radial-gradient(circle, #fe7a60 0%, transparent 70%)',
+              filter: 'blur(60px)',
+              animation: 'float 7s ease-in-out infinite',
+            }}
+          />
+          
+          <div
+            className="absolute bottom-1/3 left-1/2 w-24 h-24 rounded-full animate-pulse"
+            style={{
+              background: 'radial-gradient(circle, #581dff 0%, transparent 70%)',
+              filter: 'blur(40px)',
+              animation: 'float 5s ease-in-out infinite reverse',
+            }}
+          />
+
+          {/* Dynamic color accent orbs */}
+          <div
+            className="absolute top-3/4 left-1/4 w-20 h-20 rounded-full animate-pulse"
+            style={{
+              background: 'radial-gradient(circle, #ff6b35 0%, transparent 80%)',
+              filter: 'blur(35px)',
+              animation: 'float 9s ease-in-out infinite',
+            }}
+          />
+          
+          <div
+            className="absolute top-1/3 right-1/2 w-16 h-16 rounded-full animate-pulse"
+            style={{
+              background: 'radial-gradient(circle, #a855f7 0%, transparent 80%)',
+              filter: 'blur(30px)',
+              animation: 'float 4s ease-in-out infinite reverse',
+            }}
+          />
+        </div>
+      </div>
+      
       <motion.div 
         ref={containerRef}
-        className="min-h-screen"
+        className="relative z-10 min-h-screen"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        style={{
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
-          minHeight: '100vh',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: -1,
-        }}
-      />
-      <div className="relative z-10">
+      >
         {/* Hero Section - Advanced VITURE-style */}
       <AdvancedHero />
 
@@ -1756,8 +1825,7 @@ export default function Home() {
         </div>
       </motion.section>
       
-      </div> {/* Close relative z-10 div */}
-      </motion.div>
+      </motion.div> {/* Close containerRef motion.div */}
     </>
   );
 }
