@@ -35,11 +35,12 @@ export default function AdvancedFlagshipFeatures() {
       const title = titleRef.current;
       if (title) {
         const words = title.innerText.split(" ");
-        title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
+        title.innerHTML = words.map(w => `<span class="word inline-block">${w}</span>`).join(" ");
       }
 
-      // Set initial states - content hidden, overlay positioned for rotation
-      gsap.set([titleRef.current, subtitleRef.current], { opacity: 0 });
+      // Set initial states - title words hidden, subtitle hidden
+      gsap.set(".flagship-features .word", { opacity: 0 });
+      gsap.set(subtitleRef.current, { opacity: 0 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
       
       if (overlayRef.current) {
@@ -165,6 +166,9 @@ export default function AdvancedFlagshipFeatures() {
           <h2 
             ref={titleRef}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
+            style={{ 
+              fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
+            }}
           >
             Our Flagship Features
           </h2>
