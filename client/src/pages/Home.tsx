@@ -161,16 +161,23 @@ export default function Home() {
 
       <motion.div 
         ref={containerRef}
-        className="min-h-screen bg-black"
+        className="min-h-screen"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         style={{
           background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           minHeight: '100vh',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -1,
         }}
-      >
-      {/* Hero Section - Advanced VITURE-style */}
+      />
+      <div className="relative z-10">
+        {/* Hero Section - Advanced VITURE-style */}
       <AdvancedHero />
 
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
@@ -1748,6 +1755,8 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
+      
+      </div> {/* Close relative z-10 div */}
       </motion.div>
     </>
   );

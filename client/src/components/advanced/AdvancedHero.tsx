@@ -52,14 +52,7 @@ export default function AdvancedHero() {
         });
       }
 
-      // Background gradient animation - match flagship features
-      gsap.to(heroRef.current, {
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
-        duration: 3,
-        ease: 'power2.inOut',
-        repeat: -1,
-        yoyo: true,
-      });
+      // Background is now handled by the static homepage background
 
       // Soft floating elements animation
       const floatingElements = heroRef.current?.querySelectorAll('[data-float]');
@@ -84,9 +77,6 @@ export default function AdvancedHero() {
     <div
       ref={heroRef}
       className="hero relative min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
-      style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
-      }}
       data-testid="hero-section"
     >
       {/* Dotted Grid Background */}
