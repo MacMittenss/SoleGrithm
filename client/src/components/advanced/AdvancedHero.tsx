@@ -52,7 +52,16 @@ export default function AdvancedHero() {
         });
       }
 
-      // Soft floating elements animation (background effects now handled by static homepage background)
+      // Background gradient animation - match flagship features
+      gsap.to(heroRef.current, {
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
+        duration: 3,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+
+      // Soft floating elements animation
       const floatingElements = heroRef.current?.querySelectorAll('[data-float]');
       if (floatingElements) {
         gsap.to(floatingElements, {
@@ -75,8 +84,87 @@ export default function AdvancedHero() {
     <div
       ref={heroRef}
       className="hero relative min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
+      style={{
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+      }}
       data-testid="hero-section"
     >
+      {/* Dotted Grid Background */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+        }}
+      />
+
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-20">
+        {/* Gradient orbs with subtle shimmer */}
+        <div
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
+          style={{
+            background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+            filter: 'blur(100px)',
+          }}
+          data-float
+          data-shimmer
+        />
+        
+        <div
+          className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full"
+          style={{
+            background: 'linear-gradient(to right, #581dff 0%, #fe7a60 61%, #ff2900 100%)',
+            filter: 'blur(80px)',
+          }}
+          data-float
+          data-shimmer
+        />
+        
+        {/* Additional subtle accent orbs */}
+        <div
+          className="absolute top-1/2 right-1/3 w-32 h-32 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #fe7a60 0%, transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+          data-shimmer
+          data-float
+        />
+        
+        <div
+          className="absolute bottom-1/3 left-1/2 w-24 h-24 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #581dff 0%, transparent 70%)',
+            filter: 'blur(40px)',
+          }}
+          data-shimmer
+          data-float
+        />
+
+        {/* Dynamic color accent orbs */}
+        <div
+          className="absolute top-3/4 left-1/4 w-20 h-20 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #ff6b35 0%, transparent 80%)',
+            filter: 'blur(35px)',
+          }}
+          data-shimmer
+          data-float
+        />
+        
+        <div
+          className="absolute top-1/3 right-1/2 w-16 h-16 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, #a855f7 0%, transparent 80%)',
+            filter: 'blur(30px)',
+          }}
+          data-shimmer
+          data-float
+        />
+      </div>
 
       {/* Hero Text Content */}
       <div

@@ -152,13 +152,6 @@ button, input, textarea, select {
   100% { transform: translateX(100%); }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-  25% { transform: translateY(-10px) translateX(5px) rotate(1deg); }
-  50% { transform: translateY(-5px) translateX(-8px) rotate(-1deg); }
-  75% { transform: translateY(-15px) translateX(3px) rotate(0.5deg); }
-}
-
 .animate-shimmer {
   animation: shimmer 1s ease-in-out;
 }
