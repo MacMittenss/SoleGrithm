@@ -130,7 +130,16 @@ export default function BrandShowcase() {
         );
       }
 
-      // Background gradient animation
+      // Background gradient animation - match flagship features
+      gsap.to(sectionRef.current, {
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 50%, rgba(0, 0, 0, 0.95) 100%)',
+        duration: 3,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+      });
+
+      // Floating elements animation
       const backgroundElements = sectionRef.current?.querySelectorAll('[data-bg-animate]');
       if (backgroundElements) {
         gsap.to(backgroundElements, {
