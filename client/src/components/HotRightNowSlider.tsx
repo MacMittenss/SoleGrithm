@@ -258,7 +258,7 @@ export default function BrandShowcase() {
         ref={sectionRef}
         className="min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
         style={{
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(15, 15, 15, 0.95))',
+          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
         }}
         data-testid="featured-brands-section"
       >

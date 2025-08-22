@@ -166,7 +166,7 @@ export default function Home() {
         initial="hidden"
         animate="visible"
         style={{
-          background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%)',
+          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           minHeight: '100vh',
         }}
       >
@@ -240,7 +240,7 @@ export default function Home() {
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(30, 30, 30, 0.95))',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           }}
           data-testid="section-trending-now"
         >
@@ -537,7 +537,7 @@ export default function Home() {
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(30, 30, 30, 0.98), rgba(10, 20, 40, 0.95))',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           }}
           data-testid="section-sole-radar"
         >
@@ -775,7 +775,7 @@ export default function Home() {
         <motion.section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(40, 10, 30, 0.98), rgba(20, 10, 40, 0.95))',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           }}
           data-testid="section-style-quiz"
         >
