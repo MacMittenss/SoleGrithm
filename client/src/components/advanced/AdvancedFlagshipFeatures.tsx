@@ -16,6 +16,7 @@ export default function AdvancedFlagshipFeatures() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -37,38 +38,76 @@ export default function AdvancedFlagshipFeatures() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Timeline for section reveal
-      let tl = gsap.timeline({
+      // Set initial states - content hidden, overlay positioned for rotation
+      gsap.set([titleRef.current, subtitleRef.current], { opacity: 0 });
+      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
+      
+      if (overlayRef.current) {
+        gsap.set(overlayRef.current, {
+          scaleX: 0,
+          scaleY: 0,
+          rotation: -45,
+          transformOrigin: "bottom left",
+        });
+      }
+
+      // Hero-to-flagship transition timeline
+      let transitionTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top center",
+          start: "top 50%",
+          end: "top top",
+          scrub: 1,
+        }
+      });
+
+      // Rotating overlay animation from bottom corner
+      if (overlayRef.current) {
+        transitionTl
+          .to(overlayRef.current, {
+            scaleX: 2,
+            scaleY: 2,
+            rotation: 0,
+            duration: 0.6,
+            ease: "power2.out"
+          })
+          .to(overlayRef.current, {
+            opacity: 0,
+            duration: 0.2
+          }, "+=0.1");
+      }
+
+      // Content reveal timeline (after overlay)
+      let contentTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
           end: "bottom center",
           scrub: true,
         }
       });
 
-      // Animate title words
-      tl.from(".flagship-features .word", {
-        opacity: 0,
-        y: 50,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power2.out"
-      })
-      // Animate subtitle
-      .to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1
-      })
-      // Animate cards
-      .to(cardsRef.current?.children || [], {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        stagger: 0.3,
-        duration: 1
-      });
+      // Animate title words at their final position
+      contentTl
+        .to(".flagship-features .word", {
+          opacity: 1,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "power2.out"
+        })
+        // Animate subtitle
+        .to(subtitleRef.current, {
+          opacity: 1,
+          duration: 1
+        }, "-=0.3")
+        // Animate cards
+        .to(cardsRef.current?.children || [], {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.2,
+          duration: 1
+        }, "-=0.5");
 
       // Background gradient animation (independent)
       gsap.to(sectionRef.current, {
@@ -92,6 +131,14 @@ export default function AdvancedFlagshipFeatures() {
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
       }}
     >
+      {/* Rotating Overlay for Hero Transition */}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 z-50 pointer-events-none"
+        style={{
+          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+        }}
+      />
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20">
         {/* Gradient orbs */}
