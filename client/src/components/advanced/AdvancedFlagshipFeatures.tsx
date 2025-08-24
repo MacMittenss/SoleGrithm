@@ -103,7 +103,7 @@ export default function AdvancedFlagshipFeatures() {
         <div className="text-center mb-8">
           <h2 
             ref={titleRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
+            className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4"
             style={{ 
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
             }}
