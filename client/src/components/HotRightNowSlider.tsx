@@ -87,10 +87,9 @@ export default function BrandShowcase() {
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center", 
+          start: "top 80%",
+          end: "bottom 20%", 
           scrub: true, // Backwards progress scrolling like first two sections
-          pin: true,
         }
       });
 
