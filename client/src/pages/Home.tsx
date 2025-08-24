@@ -294,13 +294,24 @@ export default function Home() {
           }}
           data-testid="section-trending-now"
         >
-          {/* Background gradient effects */}
-          <motion.div
-            className="absolute inset-0"
-            style={{
-              background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 41, 0, 0.08) 0%, rgba(254, 122, 96, 0.04) 35%, rgba(88, 29, 255, 0.08) 100%)',
-            }}
-          />
+          {/* Background gradient effects - Same as flagship */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Purple/Pink/Blue gradient orbs like flagship */}
+            <div 
+              className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-30"
+              style={{
+                background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
+                filter: 'blur(100px)',
+              }}
+            />
+            <div 
+              className="absolute -bottom-40 -right-40 w-80 h-80 rounded-full opacity-25"
+              style={{
+                background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
+                filter: 'blur(80px)',
+              }}
+            />
+          </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             {/* Header Section */}
