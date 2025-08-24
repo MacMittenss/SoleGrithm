@@ -99,10 +99,10 @@ export default function SplitText({
   }, [isReady, isInView, animateOnView, delay, duration, stagger, ease]);
 
   return (
-    <div 
+    <span 
       ref={containerRef}
       className={`split-text ${className}`}
-      style={{ position: 'relative' }}
+      style={{ position: 'relative', display: 'inline-block' }}
     />
   );
 }

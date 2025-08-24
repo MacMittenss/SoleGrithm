@@ -17,24 +17,11 @@ export default function ScrollSnapContainer({ children, className }: ScrollSnapC
     if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Grab all sections
-      let sections = gsap.utils.toArray("section");
+      // For now, just handle the animate-in elements without conflicting scroll triggers
+      let sections = gsap.utils.toArray(containerRef.current?.children || []);
 
-      // Loop through sections and apply snapping + pinning
       sections.forEach((section: any, i) => {
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          pin: true,           // Keeps section fixed until scroll passes it
-          pinSpacing: false,   // Prevents extra space being added
-          snap: 1,             // Snaps to the nearest section (1 = whole section)
-          markers: false       // Turn on for debugging: true
-        });
-      });
-
-      // Animate elements inside each section when it becomes active
-      sections.forEach((section: any) => {
-        let elements = section.querySelectorAll(".animate-in"); // Add this class in your HTML
+        let elements = section.querySelectorAll(".animate-in");
         if (elements.length > 0) {
           gsap.from(elements, {
             y: 50,
@@ -43,8 +30,9 @@ export default function ScrollSnapContainer({ children, className }: ScrollSnapC
             stagger: 0.2,
             scrollTrigger: {
               trigger: section,
-              start: "top center",
-              toggleActions: "play none none reverse"
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+              id: `animate-${i}`
             }
           });
         }
