@@ -22,8 +22,8 @@ export default function AdvancedHero() {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Hero fade/scale out animation with pin
-      gsap.to([heroTextRef.current], {
+      // Hero fade/scale out animation - target h1 and p elements directly
+      gsap.to(".hero h1, .hero p", {
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",

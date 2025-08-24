@@ -21,59 +21,47 @@ export default function AdvancedFlagshipFeatures() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Pin the section during scroll
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "bottom top",
-        pin: true,
-        pinSpacing: false,
-      });
+      // Set initial states for elements
+      gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
+      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Split title into words for word-by-word reveal
-      const title = titleRef.current;
-      if (title) {
-        const words = title.innerText.split(" ");
-        title.innerHTML = words.map(w => `<span class="word inline-block">${w}</span>`).join(" ");
+      // Split heading into words (manual splitter like reference)
+      const heading = titleRef.current;
+      if (heading) {
+        const words = heading.innerText.split(" ");
+        heading.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Set initial states - title words hidden, subtitle hidden
-      gsap.set(".flagship-features .word", { opacity: 0 });
-      gsap.set(subtitleRef.current, { opacity: 0 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
-
-
-      // Content reveal timeline (after overlay)
-      let contentTl = gsap.timeline({
+      // Timeline for display section reveal (like reference)
+      let tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
+          start: "top center",
           end: "bottom center",
           scrub: true,
+          pin: true,
         }
       });
 
-      // Animate title words at their final position
-      contentTl
-        .to(".flagship-features .word", {
-          opacity: 1,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power2.out"
-        })
-        // Animate subtitle
-        .to(subtitleRef.current, {
-          opacity: 1,
-          duration: 1
-        }, "-=0.3")
-        // Animate cards
-        .to(cardsRef.current?.children || [], {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.2,
-          duration: 1
-        }, "-=0.5");
+      tl.from(".flagship-features .word", {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        duration: 0.8,
+        ease: "power2.out"
+      })
+      .to(subtitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1
+      })
+      .to(cardsRef.current?.children || [], {
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        stagger: 0.2,
+        y: 0
+      });
 
       // Background animation removed - now using static homepage background
 
@@ -125,7 +113,6 @@ export default function AdvancedFlagshipFeatures() {
           <p 
             ref={subtitleRef}
             className="text-lg text-gray-300 max-w-3xl mx-auto"
-            style={{ opacity: 0 }}
           >
             Discover the cutting-edge technologies and exclusive experiences that make SoleGrithm the future of sneaker culture
           </p>
@@ -139,7 +126,7 @@ export default function AdvancedFlagshipFeatures() {
           {/* Women in Sneakers Card */}
           <div 
             className="group cursor-pointer"
-            style={{ opacity: 0, transform: 'translateY(50px) scale(0.9)' }}
+
           >
             <div className="relative h-[600px] overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-white/10">
               <div 
@@ -178,7 +165,7 @@ export default function AdvancedFlagshipFeatures() {
           {/* AR Try-On Card */}
           <div 
             className="group cursor-pointer"
-            style={{ opacity: 0, transform: 'translateY(50px) scale(0.9)' }}
+
           >
             <div className="relative h-[600px] overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm border border-white/10">
               <div 
