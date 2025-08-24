@@ -117,34 +117,27 @@ export default function BrandShowcase() {
       // Stage 3: Brand logos animation (delayed, only after significant scroll progress)
       const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
       if (logoItems) {
-        gsap.to(logoItems, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top", // Start when section is pinned
-            end: "+=100vh",
-            scrub: 1,
-            onUpdate: (self) => {
-              // Only animate brands after 40% scroll progress (much later)
-              if (self.progress > 0.4) {
-                gsap.to(logoItems, {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  duration: 0.6,
-                  stagger: 0.12,
-                  ease: "power2.out",
-                  overwrite: true
-                });
-              }
-            }
+        gsap.fromTo(logoItems,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
           },
-        });
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1,
+            stagger: 0.15,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top+=40%", // Start after 40% of the pinned scroll
+              end: "top top+=80%",
+              scrub: true,
+            },
+          }
+        );
       }
 
       // Background animation removed - now using static homepage background
