@@ -80,57 +80,37 @@ export default function BrandShowcase() {
     if (!sectionRef.current || !gridRef.current || !headingRef.current || isLoading || !featuredBrands.length) return;
 
     const ctx = gsap.context(() => {
-      // Set initial state - hide brand logos
-      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
-      if (logoItems) {
-        gsap.set(logoItems, {
-          opacity: 0,
-          y: 50,
-          scale: 0.8,
-        });
-      }
+      // Set initial states for elements
+      gsap.set(gridRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Pin the header to top of viewport first
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=100vh", // Pin for additional 100vh of scrolling
-        pin: headingRef.current,
-        pinSpacing: false,
-        anticipatePin: 1,
+      // Timeline for backwards progress scrolling (like hero and flagship)
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom center", 
+          scrub: true, // Backwards progress scrolling like first two sections
+          pin: true,
+        }
       });
 
-      // Brand logos reveal animation - only after header is pinned and additional scrolling begins
-      if (logoItems) {
-        gsap.to(logoItems, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top", // Start after header is pinned
-            end: "+=100vh",
-            scrub: 1, // Tied to scroll progress
-            onUpdate: (self) => {
-              // Only start animating logos after 20% of scroll progress
-              if (self.progress > 0.2) {
-                gsap.to(logoItems, {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  duration: 0.6,
-                  stagger: 0.15,
-                  ease: "power2.out",
-                  overwrite: true
-                });
-              }
-            }
-          },
-        });
-      }
+      // Header animation - comes in first and pins
+      tl.from(headingRef.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.8,
+        duration: 0.5,
+        ease: "power2.out"
+      })
+      // Brand logos staggered reveal after header
+      .to(gridRef.current?.children || [], {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1,
+        stagger: 0.15,
+        ease: "back.out(1.7)"
+      }, "+=0.3"); // Small delay after header animation
 
       // Background animation removed - now using static homepage background
 
