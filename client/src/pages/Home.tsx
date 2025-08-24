@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Advanced components with VITURE-style animations
 import AdvancedHero from "@/components/advanced/AdvancedHero";
@@ -59,6 +61,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
+  const trendingSectionRef = useRef<HTMLDivElement>(null);
+  const trendingHeaderRef = useRef<HTMLHeadingElement>(null);
+  const trendingContentRef = useRef<HTMLDivElement>(null);
   
   // Initialize smooth scrolling
   useSmoothScroll();
@@ -140,6 +145,50 @@ export default function Home() {
     if (selectedBrand === 'All') return true;
     return sneaker.brandName === selectedBrand;
   }) : [];
+
+  // GSAP Animation for Trending Section - Word by word like flagship
+  useEffect(() => {
+    if (!trendingSectionRef.current || !trendingHeaderRef.current || !trendingContentRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Set initial states for content elements
+      gsap.set(trendingContentRef.current?.children || [], { opacity: 0, y: 30 });
+
+      // Split heading into words (manual splitter like flagship)
+      const heading = trendingHeaderRef.current;
+      if (heading) {
+        const words = heading.innerText.split(" ");
+        heading.innerHTML = words.map(w => `<span class="trending-word">${w}</span>`).join(" ");
+      }
+
+      // Timeline for trending section reveal (like flagship)
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: trendingSectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true,
+        }
+      });
+
+      tl.from(".trending-word", {
+        opacity: 0,
+        y: 50,
+        stagger: 0.15,
+        duration: 0.8,
+        ease: "power2.out"
+      })
+      .to(trendingContentRef.current?.children || [], {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        stagger: 0.2,
+      }, "+=0.3"); // Small delay after header animation
+
+    }, trendingSectionRef);
+
+    return () => ctx.revert();
+  }, [sneakers, brands]); // Depend on data being loaded
 
   const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
     queryKey: ["/api/blog"],
@@ -237,7 +286,8 @@ export default function Home() {
         className="relative"
         height="100vh"
       >
-        <motion.section
+        <div
+          ref={trendingSectionRef}
           className="relative py-32 overflow-hidden"
           style={{
             background: 'transparent',
@@ -254,13 +304,7 @@ export default function Home() {
 
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             {/* Header Section */}
-            <motion.div
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: -50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
-              transition={{ duration: 1, delay: 0.2 }}
-            >
+            <div className="text-center mb-16">
               {/* Badge */}
               <motion.div
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
@@ -284,36 +328,23 @@ export default function Home() {
                 <span className="text-sm font-medium">TRENDING NOW</span>
               </motion.div>
 
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <SplitText type="words" delay={0.3}>
-                  What's Hot in
-                </SplitText>
-                <br />
-                <GradientText className="block">
-                  Sneaker Culture
-                </GradientText>
+              <h2 
+                ref={trendingHeaderRef}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              >
+                What's Hot in Sneaker Culture
               </h2>
               
-              <motion.p
-                className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              >
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
                 Discover the most sought-after sneakers trending across our community. 
                 Real-time insights from sneakerheads worldwide.
-              </motion.p>
-            </motion.div>
+              </p>
+            </div>
 
+            {/* Content Section */}
+            <div ref={trendingContentRef}>
             {/* Filter Pills */}
-            <motion.div
-              className="flex flex-wrap justify-center gap-3 mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
-              transition={{ duration: 0.8, delay: 1 }}
-            >
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
               <button
                 className={`px-6 py-3 rounded-full text-sm font-medium transition-all ${
                   selectedBrand === 'All'
@@ -339,16 +370,10 @@ export default function Home() {
                   {brand.name}
                 </button>
               )) : null}
-            </motion.div>
+            </div>
 
             {/* Sneaker Grid */}
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
-              transition={{ duration: 1, delay: 1.2 }}
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
               {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 8).map((sneaker: any, index: number) => (
                 <motion.div
                   key={sneaker.id}
@@ -436,16 +461,10 @@ export default function Home() {
                   </div>
                 ))
               )}
-            </motion.div>
+            </div>
 
             {/* Stats Row */}
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 0.8, delay: 1.8 }}
-            >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {[
                 { number: filteredSneakers?.length || 25, label: 'Trending Items', suffix: '+' },
                 { number: Array.isArray(brands) ? brands.length : 8, label: 'Top Brands', suffix: '+' },
@@ -474,16 +493,10 @@ export default function Home() {
                   <div className="text-gray-400 font-medium">{stat.label}</div>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
 
             {/* CTA Section */}
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 0.8, delay: 2 }}
-            >
+            <div className="text-center">
               <Link href="/trending">
                 <motion.button
                   className="group relative px-12 py-4 rounded-full font-semibold text-white overflow-hidden"
@@ -516,9 +529,10 @@ export default function Home() {
                 />
                 Live trending data • Updated 2m ago
               </div>
-            </motion.div>
+            </div>
+            </div>
           </div>
-        </motion.section>
+        </div>
       </SectionWrapper>
 
       {/* Latest Stories Section - Advanced GSAP Pinned Animation */}
