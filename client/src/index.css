@@ -92,6 +92,35 @@ body {
   scroll-behavior: unset;
 }
 
+/* Scroll Section Snapping - Full Page Slides */
+.scroll-snap-container {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Enhanced snapping for better control */
+.scroll-snap-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  scroll-snap-align: start;
+}
+
 /* Global seasonSans font application */
 *, *::before, *::after {
   font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

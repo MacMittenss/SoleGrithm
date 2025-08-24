@@ -15,6 +15,7 @@ import SplitText from "@/components/advanced/SplitText";
 import GradientText from "@/components/advanced/GradientText";
 import SectionWrapper from "@/components/SectionWrapper";
 import ScrollPinnedSection from "@/components/advanced/ScrollPinnedSection";
+import ScrollSnapContainer, { ScrollSnapSection } from "@/components/advanced/ScrollSnapContainer";
 
 // Legacy components (will be gradually replaced)
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -159,27 +160,23 @@ export default function Home() {
         brandText="SoleGrithm"
       />
 
-      <motion.div 
-        ref={containerRef}
-        className="min-h-screen"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
-          minHeight: '100vh',
-        }}
-      >
+      <ScrollSnapContainer className="min-h-screen">
       {/* Hero Section - Advanced VITURE-style */}
-      <AdvancedHero />
+      <ScrollSnapSection sectionId="hero" className="flex items-center justify-center">
+        <AdvancedHero />
+      </ScrollSnapSection>
 
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
-      <AdvancedFlagshipFeatures />
+      <ScrollSnapSection sectionId="flagship" className="flex items-center justify-center">
+        <AdvancedFlagshipFeatures />
+      </ScrollSnapSection>
 
       {/* What's Hot Right Now Slider */}
-      <motion.div variants={itemVariants}>
-        <HotRightNowSlider />
-      </motion.div>
+      <ScrollSnapSection sectionId="brands" className="flex items-center justify-center">
+        <motion.div variants={itemVariants}>
+          <HotRightNowSlider />
+        </motion.div>
+      </ScrollSnapSection>
 
 
 
@@ -1748,7 +1745,7 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
-      </motion.div>
+      </ScrollSnapContainer>
     </>
   );
 }
