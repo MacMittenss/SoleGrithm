@@ -258,7 +258,7 @@ export default function Home() {
               className="text-center mb-16"
               initial={{ opacity: 0, y: -50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.1, margin: "-40% 0px -40% 0px" }}
+              viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
               transition={{ duration: 1, delay: 0.2 }}
             >
               {/* Badge */}
@@ -298,7 +298,7 @@ export default function Home() {
                 className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.1, margin: "-40% 0px -40% 0px" }}
+                viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
                 transition={{ duration: 0.8, delay: 0.8 }}
               >
                 Discover the most sought-after sneakers trending across our community. 
@@ -311,7 +311,7 @@ export default function Home() {
               className="flex flex-wrap justify-center gap-3 mb-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.1, margin: "-40% 0px -40% 0px" }}
+              viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
               transition={{ duration: 0.8, delay: 1 }}
             >
               <button
@@ -346,7 +346,7 @@ export default function Home() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.1, margin: "-40% 0px -40% 0px" }}
+              viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
               transition={{ duration: 1, delay: 1.2 }}
             >
               {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 8).map((sneaker: any, index: number) => (
@@ -358,7 +358,7 @@ export default function Home() {
                   }}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.1, margin: "-40% 0px -40% 0px" }}
+                  viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
                   transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
                   whileHover={{ y: -8, scale: 1.02 }}
                 >
