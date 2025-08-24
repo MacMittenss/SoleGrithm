@@ -31,17 +31,10 @@ export default function AdvancedFlagshipFeatures() {
         const originalText = heading.innerText;
         const words = originalText.split(" ");
         
-        // Create single header with individual word spans
+        // Create single header with individual word spans and normal spacing
         heading.innerHTML = words.map((word, index) => 
-          `<span class="viture-word" style="display: inline-block; transition: all 0.3s ease;">${word}</span>`
+          `<span class="viture-word" style="display: inline-block;">${word}</span>`
         ).join(' ');
-        
-        // Apply progressive spacing - start wide, get tighter
-        const wordElements = heading.querySelectorAll('.viture-word');
-        wordElements.forEach((word, index) => {
-          (word as HTMLElement).style.marginLeft = index === 0 ? '0' : '3rem'; // Start with wide spacing
-          (word as HTMLElement).style.letterSpacing = '0.2em';
-        });
       }
 
       // Set initial states
@@ -69,21 +62,19 @@ export default function AdvancedFlagshipFeatures() {
         ease: "power2.out"
       }, 0)
       
-      // Stage 2: Spacing progressively tightens (like VITURE)
+      // Stage 2: Keep normal spacing, just animate opacity and position
       .to(".viture-word", {
-        marginLeft: (index, target) => index === 0 ? '0' : '1rem', // Medium spacing
-        letterSpacing: '0.1em',
-        duration: 1,
+        scale: 1.05,
+        duration: 0.5,
         ease: "power2.inOut"
       }, 1.2)
       
-      // Stage 3: Final tight spacing
+      // Stage 3: Settle back to normal
       .to(".viture-word", {
-        marginLeft: (index, target) => index === 0 ? '0' : '0.25rem', // Tight spacing
-        letterSpacing: '0.05em',
-        duration: 0.8,
+        scale: 1,
+        duration: 0.5,
         ease: "power2.inOut"
-      }, 2.5)
+      }, 2.0)
       
       // Stage 4: Show content
       .to(subtitleRef.current, {
