@@ -140,8 +140,8 @@ export default function BrandShowcase() {
             ease: "back.out(1.7)",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top top+=70%", // Start much later - after 70% of the pinned scroll
-              end: "+=30vh", // Shorter animation duration
+              start: "top top+=50vh", // Start only after header is pinned AND 50vh of additional scrolling
+              end: "+=50vh",
               scrub: false, // Don't scrub to allow proper staggering
               toggleActions: "play none none reverse"
             },
