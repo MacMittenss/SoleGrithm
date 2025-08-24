@@ -73,7 +73,7 @@ export default function AdvancedFlagshipFeatures() {
   return (
     <div
       ref={sectionRef}
-      className="flagship-features relative min-h-screen bg-black py-16 px-8 lg:px-16 overflow-hidden"
+      className="flagship-features relative min-h-screen bg-black pt-8 pb-16 px-8 lg:px-16 overflow-hidden"
       style={{
         background: 'transparent',
       }}
@@ -100,7 +100,7 @@ export default function AdvancedFlagshipFeatures() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Title */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
           <h2 
             ref={titleRef}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
