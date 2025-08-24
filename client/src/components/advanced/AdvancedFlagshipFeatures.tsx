@@ -25,15 +25,16 @@ export default function AdvancedFlagshipFeatures() {
       gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Simple word-by-word animation (start simple, then enhance)
+      // Clean single header with word-by-word animation
       const heading = titleRef.current;
       if (heading) {
-        const words = heading.innerText.split(" ");
-        heading.innerHTML = words.map(w => `<span class="flagship-word" style="display: inline-block; margin: 0 0.5rem; opacity: 1;">${w}</span>`).join('');
+        const originalText = heading.innerText;
+        const words = originalText.split(" ");
+        heading.innerHTML = words.map(w => `<span class="flagship-word" style="display: inline-block; margin: 0 0.5rem;">${w}</span>`).join('');
       }
 
-      // Set initial states for words (make them visible first, then animate)
-      gsap.set(".flagship-word", { opacity: 1, y: 0 });
+      // Set initial states for words
+      gsap.set(".flagship-word", { opacity: 0, y: 30 });
 
       // Timeline for VITURE-style display section reveal
       let tl = gsap.timeline({
@@ -46,17 +47,12 @@ export default function AdvancedFlagshipFeatures() {
         }
       });
 
-      // Make words animate with VITURE-style spacing effect
-      tl.fromTo(".flagship-word", {
-        opacity: 0.3,
-        y: 20,
-        scale: 0.8
-      }, {
+      // Clean word-by-word reveal animation
+      tl.to(".flagship-word", {
         opacity: 1,
         y: 0,
-        scale: 1,
-        stagger: 0.2,
-        duration: 0.8,
+        stagger: 0.15,
+        duration: 0.6,
         ease: "power2.out"
       }, 0)
       
