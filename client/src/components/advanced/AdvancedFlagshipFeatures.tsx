@@ -25,70 +25,43 @@ export default function AdvancedFlagshipFeatures() {
       gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // VITURE-style word-by-word animation with spacing progression
+      // Split heading into words (manual splitter like reference)
       const heading = titleRef.current;
       if (heading) {
-        const originalText = heading.innerText;
-        const words = originalText.split(" ");
-        
-        // Create single header with individual word spans and normal spacing
-        heading.innerHTML = words.map((word, index) => 
-          `<span class="viture-word" style="display: inline-block;">${word}</span>`
-        ).join(' ');
+        const words = heading.innerText.split(" ");
+        heading.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Set initial states
-      gsap.set(".viture-word", { opacity: 0, y: 50 });
-      gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
-
-      // Timeline for VITURE-style animation
+      // Timeline for display section reveal (like reference)
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top center",
-          end: "bottom top",
+          end: "bottom center",
           scrub: true,
           pin: true,
         }
       });
 
-      // Stage 1: Words appear with wide spacing
-      tl.to(".viture-word", {
-        opacity: 1,
-        y: 0,
-        stagger: 0.15,
+      tl.from(".flagship-features .word", {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
         duration: 0.8,
         ease: "power2.out"
-      }, 0)
-      
-      // Stage 2: Keep normal spacing, just animate opacity and position
-      .to(".viture-word", {
-        scale: 1.05,
-        duration: 0.5,
-        ease: "power2.inOut"
-      }, 1.2)
-      
-      // Stage 3: Settle back to normal
-      .to(".viture-word", {
-        scale: 1,
-        duration: 0.5,
-        ease: "power2.inOut"
-      }, 2.0)
-      
-      // Stage 4: Show content
+      })
       .to(subtitleRef.current, {
         opacity: 1,
         y: 0,
         duration: 1
-      }, 3.5)
+      })
       .to(cardsRef.current?.children || [], {
         opacity: 1,
         scale: 1,
         duration: 1,
         stagger: 0.2,
         y: 0
-      }, 4.0);
+      });
 
       // Background animation removed - now using static homepage background
 
@@ -130,7 +103,7 @@ export default function AdvancedFlagshipFeatures() {
         <div className="text-center mb-8">
           <h2 
             ref={titleRef}
-            className="relative text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4 min-h-[200px] flex items-center justify-center"
+            className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4"
             style={{ 
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
             }}
