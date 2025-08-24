@@ -22,12 +22,19 @@ export default function AdvancedHero() {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Hero elements ready for scroll snap animations
-      // Pinning and scroll triggers now handled by ScrollSnapContainer
-      gsap.set(".hero h1, .hero p", {
-        opacity: 1,
-        y: 0,
-        scale: 1
+      // Hero fade/scale out animation - target h1 and p elements directly
+      gsap.to(".hero h1, .hero p", {
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          pin: true,
+        },
+        opacity: 0,
+        y: -100,
+        scale: 0.8,
+        stagger: 0.2
       });
 
 

@@ -32,43 +32,36 @@ export default function AdvancedFlagshipFeatures() {
         heading.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Set elements ready for scroll snap animations
-      // Scroll triggers and pinning now handled by ScrollSnapContainer
-      gsap.set(".flagship-features .word", { opacity: 1, y: 0 });
-      gsap.set(subtitleRef.current, { opacity: 1, y: 0 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 1, y: 0, scale: 1 });
-      
-      // Listen for snap animation events
-      const handleSnapAnimation = () => {
-        // Animate elements when scroll snap completes
-        let tl = gsap.timeline();
-        
-        tl.from(".flagship-features .word", {
-          opacity: 0,
-          y: 50,
-          stagger: 0.2,
-          duration: 0.8,
-          ease: "power2.out"
-        })
-        .from(subtitleRef.current, {
-          opacity: 0,
-          y: 30,
-          duration: 1
-        }, "-=0.5")
-        .from(cardsRef.current?.children || [], {
-          opacity: 0,
-          y: 50,
-          scale: 0.8,
-          duration: 1,
-          stagger: 0.2
-        }, "-=0.5");
-      };
-      
-      window.addEventListener('snapAnimationStart:flagship', handleSnapAnimation);
-      
-      return () => {
-        window.removeEventListener('snapAnimationStart:flagship', handleSnapAnimation);
-      };
+      // Timeline for display section reveal (like reference)
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: true,
+          pin: true,
+        }
+      });
+
+      tl.from(".flagship-features .word", {
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        duration: 0.8,
+        ease: "power2.out"
+      })
+      .to(subtitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1
+      })
+      .to(cardsRef.current?.children || [], {
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        stagger: 0.2,
+        y: 0
+      });
 
       // Background animation removed - now using static homepage background
 
