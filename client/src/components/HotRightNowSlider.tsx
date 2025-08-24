@@ -131,14 +131,19 @@ export default function BrandShowcase() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1,
-            stagger: 0.15,
+            duration: 0.6,
+            stagger: {
+              amount: 1.2, // Total time to stagger all elements
+              from: "start", // Start from first element
+              ease: "power2.out"
+            },
             ease: "back.out(1.7)",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top top+=40%", // Start after 40% of the pinned scroll
-              end: "top top+=80%",
-              scrub: true,
+              start: "top top+=70%", // Start much later - after 70% of the pinned scroll
+              end: "+=30vh", // Shorter animation duration
+              scrub: false, // Don't scrub to allow proper staggering
+              toggleActions: "play none none reverse"
             },
           }
         );
