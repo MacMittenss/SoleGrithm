@@ -80,54 +80,56 @@ export default function BrandShowcase() {
     if (!sectionRef.current || !gridRef.current || !headingRef.current || isLoading || !featuredBrands.length) return;
 
     const ctx = gsap.context(() => {
-      // Pin the section during scroll
+      // Set initial state - hide brand logos
+      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
+      if (logoItems) {
+        gsap.set(logoItems, {
+          opacity: 0,
+          y: 50,
+          scale: 0.8,
+        });
+      }
+
+      // Pin the header to top of viewport first
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "bottom top",
-        pin: true,
+        end: "+=100vh", // Pin for additional 100vh of scrolling
+        pin: headingRef.current,
         pinSpacing: false,
         anticipatePin: 1,
       });
 
-      // Heading fade out animation
-      gsap.to(headingRef.current, {
-        opacity: 0,
-        y: -100,
-        scale: 0.8,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-
-      // Brand logos staggered reveal animation with delayed start
-      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
+      // Brand logos reveal animation - only after header is pinned and additional scrolling begins
       if (logoItems) {
-        gsap.fromTo(logoItems,
-          {
-            opacity: 0,
-            y: 50,
-            scale: 0.8,
+        gsap.to(logoItems, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top", // Start after header is pinned
+            end: "+=100vh",
+            scrub: 1, // Tied to scroll progress
+            onUpdate: (self) => {
+              // Only start animating logos after 20% of scroll progress
+              if (self.progress > 0.2) {
+                gsap.to(logoItems, {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.6,
+                  stagger: 0.15,
+                  ease: "power2.out",
+                  overwrite: true
+                });
+              }
+            }
           },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.15, // Slightly slower stagger for better visibility
-            ease: "back.out(1.7)",
-            delay: 1.5, // Delay to let header/subheader animations complete first
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top bottom", // Start animation only when section just enters viewport
-              end: "bottom center",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
+        });
       }
 
       // Background animation removed - now using static homepage background
@@ -293,7 +295,7 @@ export default function BrandShowcase() {
           >
 
 
-            <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.8] mb-6 text-white">
+            <h2 className="text-9xl md:text-9xl lg:text-10xl font-bold leading-[0.8] mb-6 text-white">
               <SplitText type="words" delay={0.2}>
                 Iconic Brands
               </SplitText>

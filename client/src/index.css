@@ -21,6 +21,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom text sizes */
+@layer utilities {
+  .text-10xl {
+    font-size: 10rem;
+    line-height: 1;
+  }
+}
+
 /* Lenis Smooth Scrolling - VITURE Style */
 html.lenis, 
 html.lenis body {
