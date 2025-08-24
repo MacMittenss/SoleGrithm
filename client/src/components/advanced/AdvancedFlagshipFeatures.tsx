@@ -16,6 +16,7 @@ export default function AdvancedFlagshipFeatures() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -37,43 +38,69 @@ export default function AdvancedFlagshipFeatures() {
         title.innerHTML = words.map(w => `<span class="word inline-block">${w}</span>`).join(" ");
       }
 
-      // Set initial states - title words hidden, subtitle hidden
-      gsap.set(".flagship-features .word", { opacity: 0 });
-      gsap.set(subtitleRef.current, { opacity: 0 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
+      // Set initial states - everything hidden
+      gsap.set(".flagship-features .word", { opacity: 0, y: 50 });
+      gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
+      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50 });
+      
+      // Set overlay initially hidden
+      if (overlayRef.current) {
+        gsap.set(overlayRef.current, { opacity: 0 });
+      }
 
-
-      // Content reveal timeline (after overlay)
-      let contentTl = gsap.timeline({
+      // Cinematic transition timeline
+      let cinematicTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom center",
-          scrub: true,
+          start: "top 80%",
+          end: "top 20%",
+          scrub: 1,
         }
       });
 
-      // Animate title words at their final position
-      contentTl
+      // Step 1: Fade in black overlay (masks the transition)
+      if (overlayRef.current) {
+        cinematicTl.to(overlayRef.current, {
+          opacity: 1,
+          duration: 0.3,
+          ease: "power2.inOut"
+        });
+      }
+
+      // Step 2: Header emerges from overlay (word by word)
+      cinematicTl
         .to(".flagship-features .word", {
           opacity: 1,
-          stagger: 0.15,
-          duration: 0.8,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.4,
           ease: "power2.out"
-        })
-        // Animate subtitle
+        }, "+=0.2")
+        // Step 3: Subtitle emerges
         .to(subtitleRef.current, {
           opacity: 1,
-          duration: 1
-        }, "-=0.3")
-        // Animate cards
-        .to(cardsRef.current?.children || [], {
-          opacity: 1,
           y: 0,
-          scale: 1,
-          stagger: 0.2,
-          duration: 1
-        }, "-=0.5");
+          duration: 0.4,
+          ease: "power2.out"
+        }, "-=0.2");
+
+      // Step 4: Content cards animate sequentially
+      cinematicTl.to(cardsRef.current?.children || [], {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        duration: 0.5,
+        ease: "power2.out"
+      }, "-=0.1");
+
+      // Step 5: Fade out overlay once everything is in place
+      if (overlayRef.current) {
+        cinematicTl.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.inOut"
+        }, "+=0.1");
+      }
 
       // Background animation removed - now using static homepage background
 
@@ -90,6 +117,16 @@ export default function AdvancedFlagshipFeatures() {
         background: 'transparent',
       }}
     >
+      {/* Cinematic Black Overlay for Hero → Flagship Transition */}
+      <div
+        ref={overlayRef}
+        className="fixed inset-0 z-50 pointer-events-none"
+        style={{
+          background: '#000000',
+          opacity: 0,
+        }}
+      />
+      
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20">
         {/* Gradient orbs */}
