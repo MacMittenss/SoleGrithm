@@ -16,7 +16,6 @@ export default function AdvancedFlagshipFeatures() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -38,77 +37,43 @@ export default function AdvancedFlagshipFeatures() {
         title.innerHTML = words.map(w => `<span class="word inline-block">${w}</span>`).join(" ");
       }
 
-      // Set initial states - everything hidden
-      gsap.set(".flagship-features .word", { opacity: 0, y: 50 });
-      gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50 });
-      
-      // Set overlay initially hidden with rotation setup
-      if (overlayRef.current) {
-        gsap.set(overlayRef.current, { 
-          scaleX: 0,
-          scaleY: 0,
-          rotation: -45,
-          transformOrigin: "bottom right",
-          opacity: 1
-        });
-      }
+      // Set initial states - title words hidden, subtitle hidden
+      gsap.set(".flagship-features .word", { opacity: 0 });
+      gsap.set(subtitleRef.current, { opacity: 0 });
+      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
 
-      // Movie-like cinematic sequence timeline
-      let movieTl = gsap.timeline({
+
+      // Content reveal timeline (after overlay)
+      let contentTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 100%",
-          end: "top 0%",
-          pin: true,
-          pinSpacing: false,
-          scrub: false,
-          onEnter: () => {
-            // Trigger the movie sequence when entering
-            movieTl.play();
-          }
+          start: "top top",
+          end: "bottom center",
+          scrub: true,
         }
       });
 
-      // Step 1: Rotating overlay sweeps in from bottom-right clockwise
-      if (overlayRef.current) {
-        movieTl.to(overlayRef.current, {
-          scaleX: 3,
-          scaleY: 3,
-          rotation: 0,
-          duration: 1.2,
-          ease: "power2.out"
-        });
-      }
-
-      // Step 2: Header emerges from within the overlay (word by word)
-      movieTl
+      // Animate title words at their final position
+      contentTl
         .to(".flagship-features .word", {
           opacity: 1,
-          y: 0,
-          stagger: 0.2,
+          stagger: 0.15,
           duration: 0.8,
           ease: "power2.out"
-        }, "+=0.3")
-        // Step 3: Subtitle emerges
+        })
+        // Animate subtitle
         .to(subtitleRef.current, {
           opacity: 1,
+          duration: 1
+        }, "-=0.3")
+        // Animate cards
+        .to(cardsRef.current?.children || [], {
+          opacity: 1,
           y: 0,
-          duration: 0.6,
-          ease: "power2.out"
-        }, "+=0.2");
-
-      // Step 4: Content cards animate in sequentially 
-      movieTl.to(cardsRef.current?.children || [], {
-        opacity: 1,
-        y: 0,
-        stagger: 0.3,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "+=0.3");
-
-      // Timeline stays paused initially
-      movieTl.pause();
+          scale: 1,
+          stagger: 0.2,
+          duration: 1
+        }, "-=0.5");
 
       // Background animation removed - now using static homepage background
 
@@ -125,16 +90,6 @@ export default function AdvancedFlagshipFeatures() {
         background: 'transparent',
       }}
     >
-      {/* Rotating Black Overlay for Hero → Flagship Transition */}
-      <div
-        ref={overlayRef}
-        className="fixed inset-0 z-50 pointer-events-none"
-        style={{
-          background: '#000000',
-          transformOrigin: 'bottom right',
-        }}
-      />
-      
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20">
         {/* Gradient orbs */}
