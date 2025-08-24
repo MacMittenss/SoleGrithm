@@ -80,8 +80,13 @@ export default function BrandShowcase() {
     if (!sectionRef.current || !gridRef.current || !headingRef.current || isLoading || !featuredBrands.length) return;
 
     const ctx = gsap.context(() => {
-      // Set initial states for elements
-      gsap.set(gridRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
+      // Get brand logo elements once
+      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
+      
+      // Set initial states for brand logo elements
+      if (logoItems) {
+        gsap.set(logoItems, { opacity: 0, y: 50, scale: 0.8 });
+      }
 
       // Stage 1: Pin the section when header reaches top
       ScrollTrigger.create({
@@ -115,7 +120,6 @@ export default function BrandShowcase() {
       );
 
       // Stage 3: Brand logos animation (delayed, only after significant scroll progress)
-      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
       if (logoItems) {
         gsap.fromTo(logoItems,
           {
