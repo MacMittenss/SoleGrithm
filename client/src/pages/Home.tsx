@@ -15,6 +15,7 @@ import SplitText from "@/components/advanced/SplitText";
 import GradientText from "@/components/advanced/GradientText";
 import SectionWrapper from "@/components/SectionWrapper";
 import ScrollPinnedSection from "@/components/advanced/ScrollPinnedSection";
+import ScrollSnapContainer from "@/components/advanced/ScrollSnapContainer";
 
 // Legacy components (will be gradually replaced)
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -170,16 +171,23 @@ export default function Home() {
           minHeight: '100vh',
         }}
       >
-      {/* Hero Section - Advanced VITURE-style */}
-      <AdvancedHero />
+      <ScrollSnapContainer className="relative">
+        {/* Hero Section - Advanced VITURE-style */}
+        <section className="min-h-screen">
+          <AdvancedHero />
+        </section>
 
-      {/* Advanced Flagship Features with GSAP Scroll Animation */}
-      <AdvancedFlagshipFeatures />
+        {/* Advanced Flagship Features with GSAP Scroll Animation */}
+        <section className="min-h-screen">
+          <AdvancedFlagshipFeatures />
+        </section>
 
-      {/* What's Hot Right Now Slider */}
-      <motion.div variants={itemVariants}>
-        <HotRightNowSlider />
-      </motion.div>
+        {/* What's Hot Right Now Slider */}
+        <section className="min-h-screen flex items-center">
+          <motion.div variants={itemVariants} className="w-full animate-in">
+            <HotRightNowSlider />
+          </motion.div>
+        </section>
 
 
 
@@ -1748,6 +1756,7 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
+      </ScrollSnapContainer>
       </motion.div>
     </>
   );
