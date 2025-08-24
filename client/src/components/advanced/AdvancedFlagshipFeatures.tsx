@@ -25,50 +25,17 @@ export default function AdvancedFlagshipFeatures() {
       gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Clean single header with word-by-word animation
-      const heading = titleRef.current;
-      if (heading) {
-        const originalText = heading.innerText;
-        const words = originalText.split(" ");
-        heading.innerHTML = words.map(w => `<span class="flagship-word" style="display: inline-block; margin: 0 0.5rem;">${w}</span>`).join('');
-      }
+      // Just show static text - no animation for now
+      // const heading = titleRef.current;
+      // if (heading) {
+      //   const originalText = heading.innerText;
+      //   const words = originalText.split(" ");
+      //   heading.innerHTML = words.map(w => `<span class="flagship-word" style="display: inline-block; margin: 0 0.5rem;">${w}</span>`).join('');
+      // }
 
-      // Set initial states for words
-      gsap.set(".flagship-word", { opacity: 0, y: 30 });
-
-      // Timeline for VITURE-style display section reveal
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom top",
-          scrub: true,
-          pin: true,
-        }
-      });
-
-      // Clean word-by-word reveal animation
-      tl.to(".flagship-word", {
-        opacity: 1,
-        y: 0,
-        stagger: 0.15,
-        duration: 0.6,
-        ease: "power2.out"
-      }, 0)
-      
-      // Show content after text animation
-      .to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1
-      }, 1.5)
-      .to(cardsRef.current?.children || [], {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        stagger: 0.2,
-        y: 0
-      }, 2.0);
+      // Set elements to be visible (no animation)
+      gsap.set(subtitleRef.current, { opacity: 1, y: 0 });
+      gsap.set(cardsRef.current?.children || [], { opacity: 1, y: 0, scale: 1 });
 
       // Background animation removed - now using static homepage background
 
