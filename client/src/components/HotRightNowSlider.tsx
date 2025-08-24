@@ -83,33 +83,69 @@ export default function BrandShowcase() {
       // Set initial states for elements
       gsap.set(gridRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Timeline for backwards progress scrolling (like hero and flagship)
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          end: "bottom 20%", 
-          scrub: true, // Backwards progress scrolling like first two sections
-        }
+      // Stage 1: Pin the section when header reaches top
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=100vh", // Pin for additional viewport height
+        pin: true,
+        pinSpacing: false,
+        anticipatePin: 1,
       });
 
-      // Header animation - comes in first and pins
-      tl.from(headingRef.current, {
-        opacity: 0,
-        y: 100,
-        scale: 0.8,
-        duration: 0.5,
-        ease: "power2.out"
-      })
-      // Brand logos staggered reveal after header
-      .to(gridRef.current?.children || [], {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        stagger: 0.15,
-        ease: "back.out(1.7)"
-      }, "+=0.3"); // Small delay after header animation
+      // Stage 2: Header animation first (scrubbed to scroll)
+      gsap.fromTo(headingRef.current,
+        {
+          opacity: 0,
+          y: 100,
+          scale: 0.8,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top center",
+            end: "top top",
+            scrub: true,
+          }
+        }
+      );
+
+      // Stage 3: Brand logos animation (delayed, only after significant scroll progress)
+      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
+      if (logoItems) {
+        gsap.to(logoItems, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top", // Start when section is pinned
+            end: "+=100vh",
+            scrub: 1,
+            onUpdate: (self) => {
+              // Only animate brands after 40% scroll progress (much later)
+              if (self.progress > 0.4) {
+                gsap.to(logoItems, {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.6,
+                  stagger: 0.12,
+                  ease: "power2.out",
+                  overwrite: true
+                });
+              }
+            }
+          },
+        });
+      }
 
       // Background animation removed - now using static homepage background
 
