@@ -25,17 +25,79 @@ export default function AdvancedFlagshipFeatures() {
       gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Just show static text - no animation for now
-      // const heading = titleRef.current;
-      // if (heading) {
-      //   const originalText = heading.innerText;
-      //   const words = originalText.split(" ");
-      //   heading.innerHTML = words.map(w => `<span class="flagship-word" style="display: inline-block; margin: 0 0.5rem;">${w}</span>`).join('');
-      // }
+      // VITURE-style word-by-word animation with spacing progression
+      const heading = titleRef.current;
+      if (heading) {
+        const originalText = heading.innerText;
+        const words = originalText.split(" ");
+        
+        // Create single header with individual word spans
+        heading.innerHTML = words.map((word, index) => 
+          `<span class="viture-word" style="display: inline-block; transition: all 0.3s ease;">${word}</span>`
+        ).join(' ');
+        
+        // Apply progressive spacing - start wide, get tighter
+        const wordElements = heading.querySelectorAll('.viture-word');
+        wordElements.forEach((word, index) => {
+          (word as HTMLElement).style.marginLeft = index === 0 ? '0' : '3rem'; // Start with wide spacing
+          (word as HTMLElement).style.letterSpacing = '0.2em';
+        });
+      }
 
-      // Set elements to be visible (no animation)
-      gsap.set(subtitleRef.current, { opacity: 1, y: 0 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 1, y: 0, scale: 1 });
+      // Set initial states
+      gsap.set(".viture-word", { opacity: 0, y: 50 });
+      gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
+      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
+
+      // Timeline for VITURE-style animation
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom top",
+          scrub: true,
+          pin: true,
+        }
+      });
+
+      // Stage 1: Words appear with wide spacing
+      tl.to(".viture-word", {
+        opacity: 1,
+        y: 0,
+        stagger: 0.15,
+        duration: 0.8,
+        ease: "power2.out"
+      }, 0)
+      
+      // Stage 2: Spacing progressively tightens (like VITURE)
+      .to(".viture-word", {
+        marginLeft: (index, target) => index === 0 ? '0' : '1rem', // Medium spacing
+        letterSpacing: '0.1em',
+        duration: 1,
+        ease: "power2.inOut"
+      }, 1.2)
+      
+      // Stage 3: Final tight spacing
+      .to(".viture-word", {
+        marginLeft: (index, target) => index === 0 ? '0' : '0.25rem', // Tight spacing
+        letterSpacing: '0.05em',
+        duration: 0.8,
+        ease: "power2.inOut"
+      }, 2.5)
+      
+      // Stage 4: Show content
+      .to(subtitleRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 1
+      }, 3.5)
+      .to(cardsRef.current?.children || [], {
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        stagger: 0.2,
+        y: 0
+      }, 4.0);
 
       // Background animation removed - now using static homepage background
 
