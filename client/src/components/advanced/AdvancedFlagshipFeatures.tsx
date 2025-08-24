@@ -25,30 +25,15 @@ export default function AdvancedFlagshipFeatures() {
       gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Create VITURE-style multiple text layers with different spacing
+      // Simple word-by-word animation (start simple, then enhance)
       const heading = titleRef.current;
       if (heading) {
         const words = heading.innerText.split(" ");
-        
-        // Create three text layers with different spacing patterns (like VITURE)
-        const wideLayer = words.map(w => `<span class="word word-wide">${w}</span>`).join('      ');
-        const mediumLayer = words.map(w => `<span class="word word-medium">${w}</span>`).join('   ');
-        const tightLayer = words.map(w => `<span class="word word-tight">${w}</span>`).join(' ');
-        
-        heading.innerHTML = `
-          <div class="viture-text-layer layer-wide">${wideLayer}</div>
-          <div class="viture-text-layer layer-medium">${mediumLayer}</div>
-          <div class="viture-text-layer layer-tight">${tightLayer}</div>
-        `;
+        heading.innerHTML = words.map(w => `<span class="flagship-word" style="display: inline-block; margin: 0 0.5rem; opacity: 1;">${w}</span>`).join('');
       }
 
-      // Set initial states for VITURE-style layers
-      gsap.set(".layer-wide", { opacity: 1 });
-      gsap.set(".layer-medium", { opacity: 0 });
-      gsap.set(".layer-tight", { opacity: 0 });
-      gsap.set(".word-wide", { opacity: 0, y: 50, x: 20 });
-      gsap.set(".word-medium", { opacity: 0, y: 30, x: 10 });
-      gsap.set(".word-tight", { opacity: 0, y: 20 });
+      // Set initial states for words (make them visible first, then animate)
+      gsap.set(".flagship-word", { opacity: 1, y: 0 });
 
       // Timeline for VITURE-style display section reveal
       let tl = gsap.timeline({
@@ -61,64 +46,33 @@ export default function AdvancedFlagshipFeatures() {
         }
       });
 
-      // Stage 1: Wide spacing words appear one by one (like VITURE)
-      tl.from(".word-wide", {
-        opacity: 0,
-        y: 50,
-        x: 20,
-        stagger: 0.15,
+      // Make words animate with VITURE-style spacing effect
+      tl.fromTo(".flagship-word", {
+        opacity: 0.3,
+        y: 20,
+        scale: 0.8
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        stagger: 0.2,
         duration: 0.8,
         ease: "power2.out"
       }, 0)
       
-      // Stage 2: Transition to medium spacing
-      .to(".layer-wide", {
-        opacity: 0,
-        duration: 0.4
-      }, 1.2)
-      .to(".layer-medium", {
-        opacity: 1,
-        duration: 0.4
-      }, 1.4)
-      .from(".word-medium", {
-        opacity: 0,
-        y: 30,
-        x: 10,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: "power2.out"
-      }, 1.1)
-      
-      // Stage 3: Final tight spacing
-      .to(".layer-medium", {
-        opacity: 0,
-        duration: 0.4
-      }, 2.1)
-      .to(".layer-tight", {
-        opacity: 1,
-        duration: 0.4
-      }, 2.3)
-      .from(".word-tight", {
-        opacity: 0,
-        y: 20,
-        stagger: 0.08,
-        duration: 0.5,
-        ease: "power2.out"
-      }, 2.0)
-      
-      // Stage 4: Show content after text animation
+      // Show content after text animation
       .to(subtitleRef.current, {
         opacity: 1,
         y: 0,
         duration: 1
-      }, 2.8)
+      }, 1.5)
       .to(cardsRef.current?.children || [], {
         opacity: 1,
         scale: 1,
         duration: 1,
         stagger: 0.2,
         y: 0
-      }, 3.3);
+      }, 2.0);
 
       // Background animation removed - now using static homepage background
 
