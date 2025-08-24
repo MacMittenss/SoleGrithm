@@ -122,7 +122,7 @@ export default function BrandShowcase() {
             delay: 1.5, // Delay to let header/subheader animations complete first
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 60%", // Start animation when section is 60% in view
+              start: "top bottom", // Start animation only when section just enters viewport
               end: "bottom center",
               toggleActions: "play none none reverse",
             },
