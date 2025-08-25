@@ -161,12 +161,12 @@ export default function Home() {
         heading.innerHTML = words.map(w => `<span class="trending-word">${w}</span>`).join(" ");
       }
 
-      // Timeline for trending section reveal (like flagship)
+      // Timeline for trending section reveal - only when brands section is almost out of view
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: trendingSectionRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
+          start: "top 10%", // Much more restrictive - only animate when very close to top
+          end: "bottom 5%",
           scrub: true,
         }
       });
