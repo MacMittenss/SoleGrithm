@@ -146,44 +146,75 @@ export default function Home() {
     return sneaker.brandName === selectedBrand;
   }) : [];
 
-  // GSAP Animation for Trending Section - Word by word like flagship
+  // GSAP Animation for Trending Section - Proper section pinning with component-by-component reveal
   useEffect(() => {
     if (!trendingSectionRef.current || !trendingHeaderRef.current || !trendingContentRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Set initial states for content elements
-      gsap.set(trendingContentRef.current?.children || [], { opacity: 0, y: 30 });
+      // Set initial states for all content elements
+      gsap.set(trendingHeaderRef.current, { opacity: 0, y: 50 });
+      gsap.set(trendingContentRef.current?.children || [], { opacity: 0, y: 50 });
 
       // Split heading into words (manual splitter like flagship)
       const heading = trendingHeaderRef.current;
       if (heading) {
         const words = heading.innerText.split(" ");
         heading.innerHTML = words.map(w => `<span class="trending-word">${w}</span>`).join(" ");
+        gsap.set(".trending-word", { opacity: 0, y: 50 });
       }
 
-      // Timeline for trending section reveal - only when brands section is almost out of view
+      // Create pinned timeline that animates components sequentially as user scrolls
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: trendingSectionRef.current,
-          start: "top 10%", // Much more restrictive - only animate when very close to top
-          end: "bottom 5%",
-          scrub: true,
+          start: "top top",
+          end: "+=150%", // Extended scroll distance for component reveals
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
         }
       });
 
-      tl.from(".trending-word", {
-        opacity: 0,
-        y: 50,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power2.out"
-      })
-      .to(trendingContentRef.current?.children || [], {
+      // Sequential animation of components
+      tl.to(".trending-word", {
         opacity: 1,
         y: 0,
-        duration: 1,
-        stagger: 0.2,
-      }, "+=0.3"); // Small delay after header animation
+        stagger: 0.1,
+        duration: 0.3,
+        ease: "power2.out"
+      })
+      if (trendingContentRef.current?.children[0]) {
+        tl.to(trendingContentRef.current.children[0], { // Filter pills
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+        }, "+=0.2");
+      }
+      
+      if (trendingContentRef.current?.children[1]) {
+        tl.to(trendingContentRef.current.children[1], { // Sneaker grid
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+        }, "+=0.1");
+      }
+      
+      if (trendingContentRef.current?.children[2]) {
+        tl.to(trendingContentRef.current.children[2], { // Stats row
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+        }, "+=0.1");
+      }
+      
+      if (trendingContentRef.current?.children[3]) {
+        tl.to(trendingContentRef.current.children[3], { // CTA section
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+        }, "+=0.1");
+      }
 
     }, trendingSectionRef);
 
@@ -208,12 +239,9 @@ export default function Home() {
         brandText="SoleGrithm"
       />
 
-      <motion.div 
+      <div 
         ref={containerRef}
         className="min-h-screen"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
         style={{
           background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           minHeight: '100vh',
@@ -278,23 +306,15 @@ export default function Home() {
 
 
 
-      {/* Trending Now Section - Clean Flowing Design */}
-      <SectionWrapper
-        id="trending-now" 
-        sticky={true}
-        maskTransition={false}
-        className="relative mt-16"
-        height="100vh"
+      {/* Trending Now Section - Pinned Animation */}
+      <div
+        ref={trendingSectionRef}
+        className="relative min-h-screen py-32 overflow-hidden"
+        style={{
+          background: 'transparent',
+        }}
+        data-testid="section-trending-now"
       >
-        <div
-          ref={trendingSectionRef}
-          className="relative py-16 overflow-hidden"
-          style={{
-            background: 'transparent',
-            marginTop: '4rem',
-          }}
-          data-testid="section-trending-now"
-        >
           {/* Background gradient effects - Same as flagship */}
           <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
             {/* Purple/Pink/Blue gradient orbs like flagship - positioned lower to avoid brands section */}
@@ -528,16 +548,11 @@ export default function Home() {
 
               {/* Live indicator */}
               <div className="inline-flex items-center gap-2 text-sm text-gray-400 mt-6">
-                <motion.div
-                  className="w-2 h-2 rounded-full"
+                <div
+                  className="w-2 h-2 rounded-full animate-pulse"
                   style={{
                     background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
                   }}
-                  animate={{
-                    scale: [1, 1.3, 1],
-                    opacity: [1, 0.5, 1],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
                 />
                 Live trending data • Updated 2m ago
               </div>
@@ -545,7 +560,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </SectionWrapper>
+      </div>
 
       {/* Latest Stories Section - Advanced GSAP Pinned Animation */}
       <AdvancedLatestStories />
@@ -1774,7 +1789,7 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
-      </motion.div>
+      </div>
     </>
   );
 }
