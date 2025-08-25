@@ -151,8 +151,7 @@ export default function Home() {
     if (!trendingSectionRef.current || !trendingHeaderRef.current || !trendingContentRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Set initial states for all content elements
-      gsap.set(trendingHeaderRef.current, { opacity: 0, y: 50 });
+      // Set initial states for all content elements  
       gsap.set(trendingContentRef.current?.children || [], { opacity: 0, y: 50 });
 
       // Split heading into words (manual splitter like flagship)
@@ -161,6 +160,9 @@ export default function Home() {
         const words = heading.innerText.split(" ");
         heading.innerHTML = words.map(w => `<span class="trending-word">${w}</span>`).join(" ");
         gsap.set(".trending-word", { opacity: 0, y: 50 });
+        
+        // Make sure header is visible initially for text splitting
+        gsap.set(heading, { opacity: 1 });
       }
 
       // Create pinned timeline that animates components sequentially as user scrolls
@@ -350,6 +352,7 @@ export default function Home() {
               <h2 
                 ref={trendingHeaderRef}
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                style={{ opacity: 1 }} // Ensure visibility as fallback
               >
                 What's Hot in Sneaker Culture
               </h2>
