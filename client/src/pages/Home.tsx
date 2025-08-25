@@ -337,7 +337,8 @@ export default function Home() {
                 className="font-bold leading-tight text-white"
                 style={{ 
                   opacity: 1,
-                  fontSize: 'calc(4rem * 1.7)', // 1.7 times bigger than text-4xl base
+                  fontSize: 'clamp(2.5rem, 8vw, 6.8rem)', // Responsive sizing to fit on one line
+                  whiteSpace: 'nowrap'
                 }}
               >
                 What's Hot in Sneaker Culture
