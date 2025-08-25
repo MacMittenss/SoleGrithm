@@ -332,35 +332,16 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             {/* Header Section */}
             <div className="text-center mb-16">
-              {/* Badge */}
-              <div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-                style={{
-                  background: 'rgba(255, 41, 0, 0.1)',
-                  border: '1px solid rgba(255, 41, 0, 0.2)',
-                }}
-              >
-                <div
-                  className="w-2 h-2 rounded-full animate-pulse"
-                  style={{
-                    background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
-                  }}
-                />
-                <span className="text-sm font-medium">TRENDING NOW</span>
-              </div>
-
               <h2 
                 ref={trendingHeaderRef}
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
-                style={{ opacity: 1 }} // Ensure visibility as fallback
+                className="font-bold leading-tight text-white"
+                style={{ 
+                  opacity: 1,
+                  fontSize: 'calc(4rem * 1.7)', // 1.7 times bigger than text-4xl base
+                }}
               >
                 What's Hot in Sneaker Culture
               </h2>
-              
-              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto">
-                Discover the most sought-after sneakers trending across our community. 
-                Real-time insights from sneakerheads worldwide.
-              </p>
             </div>
 
             {/* Content Section */}
