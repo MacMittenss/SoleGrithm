@@ -154,19 +154,13 @@ export default function AdvancedLatestStories() {
         <div className="text-center mb-16">
           <h2 
             ref={titleRef}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+            className="font-bold leading-tight mb-6 text-white"
             style={{ 
-              fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
+              fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
+              fontSize: 'calc(4rem * 1.4)', // 1.4 times bigger
             }}
           >
-            Discover Culture & <span
-              style={{
-                background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-              }}
-            >Trends</span>
+            Discover Culture & Trends
           </h2>
           
           <p
