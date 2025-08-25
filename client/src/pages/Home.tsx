@@ -254,9 +254,9 @@ export default function Home() {
       <AdvancedFlagshipFeatures />
 
       {/* What's Hot Right Now Slider */}
-      <motion.div variants={itemVariants}>
+      <div>
         <HotRightNowSlider />
-      </motion.div>
+      </div>
 
 
 
@@ -264,16 +264,9 @@ export default function Home() {
 
       {/* Personalized Quick Stats for Authenticated Users */}
       {isAuthenticated && (
-        <motion.section 
-          className="py-12 sm:py-16 px-4"
-          variants={itemVariants}
-        >
+        <section className="py-12 sm:py-16 px-4">
           <div className="max-w-md mx-auto">
-            <motion.div
-              className="bg-gradient-to-br from-primary/5 to-orange-500/5 rounded-2xl p-6 border border-primary/10"
-              variants={cardVariants}
-              whileHover="hover"
-            >
+            <div className="bg-gradient-to-br from-primary/5 to-orange-500/5 rounded-2xl p-6 border border-primary/10">
               <div className="text-center mb-4">
                 <h3 className="text-lg font-semibold">Welcome back, {user?.displayName || 'Sneakerhead'}!</h3>
                 <p className="text-sm text-muted-foreground">Your sneaker stats</p>
@@ -296,9 +289,9 @@ export default function Home() {
                   <ChevronDown className="w-4 h-4 ml-2 rotate-[-90deg]" />
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           </div>
-        </motion.section>
+        </section>
       )}
 
 
@@ -338,27 +331,21 @@ export default function Home() {
             {/* Header Section */}
             <div className="text-center mb-16">
               {/* Badge */}
-              <motion.div
+              <div
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
                 style={{
                   background: 'rgba(255, 41, 0, 0.1)',
                   border: '1px solid rgba(255, 41, 0, 0.2)',
                 }}
-                whileHover={{ scale: 1.05 }}
               >
-                <motion.div
-                  className="w-2 h-2 rounded-full"
+                <div
+                  className="w-2 h-2 rounded-full animate-pulse"
                   style={{
                     background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
                   }}
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [1, 0.7, 1],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
                 />
                 <span className="text-sm font-medium">TRENDING NOW</span>
-              </motion.div>
+              </div>
 
               <h2 
                 ref={trendingHeaderRef}
@@ -407,17 +394,12 @@ export default function Home() {
             {/* Sneaker Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
               {Array.isArray(filteredSneakers) ? filteredSneakers.slice(0, 8).map((sneaker: any, index: number) => (
-                <motion.div
+                <div
                   key={sneaker.id}
-                  className="group relative overflow-hidden rounded-2xl cursor-pointer"
+                  className="group relative overflow-hidden rounded-2xl cursor-pointer hover:-translate-y-2 hover:scale-105 transition-transform"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
                   }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.02, margin: "-90% 0px -90% 0px" }}
-                  transition={{ duration: 0.6, delay: 1.4 + index * 0.1 }}
-                  whileHover={{ y: -8, scale: 1.02 }}
                 >
                   {/* Trend Rank Badge */}
                   <div className="absolute top-4 left-4 z-10">
@@ -502,13 +484,12 @@ export default function Home() {
                 { number: Array.isArray(brands) ? brands.length : 8, label: 'Top Brands', suffix: '+' },
                 { number: 98, label: 'Community Score', suffix: '%' }
               ].map((stat, index) => (
-                <motion.div
+                <div
                   key={stat.label}
-                  className="text-center p-6 rounded-2xl border border-white/10"
+                  className="text-center p-6 rounded-2xl border border-white/10 hover:scale-105 hover:-translate-y-1 transition-transform"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
                   }}
-                  whileHover={{ scale: 1.05, y: -5 }}
                 >
                   <div className="text-3xl sm:text-4xl font-bold mb-2">
                     <span
@@ -523,27 +504,25 @@ export default function Home() {
                     </span>
                   </div>
                   <div className="text-gray-400 font-medium">{stat.label}</div>
-                </motion.div>
+                </div>
               ))}
             </div>
 
             {/* CTA Section */}
             <div className="text-center">
               <Link href="/trending">
-                <motion.button
-                  className="group relative px-12 py-4 rounded-full font-semibold text-white overflow-hidden"
+                <button
+                  className="group relative px-12 py-4 rounded-full font-semibold text-white overflow-hidden hover:scale-105 active:scale-95 transition-transform"
                   style={{
                     background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
                   }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   data-testid="button-explore-trending"
                 >
                   <span className="relative z-10 flex items-center gap-3">
                     Explore All Trending
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
-                </motion.button>
+                </button>
               </Link>
 
               {/* Live indicator */}
@@ -1660,11 +1639,11 @@ export default function Home() {
                 <div className="text-xs sm:text-sm text-muted-foreground font-medium group-hover:text-foreground transition-colors">
                   {stat.label}
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Call to Action - Get Started */}
       <motion.section 
@@ -1770,13 +1749,9 @@ export default function Home() {
                 }}
               >
                 <Card className="p-4 sm:p-6 text-center border-0 shadow-lg bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow group">
-                  <motion.div 
-                    className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary/10 to-orange-500/10 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform"
-                    whileHover={{ rotate: [0, -10, 10, 0] }}
-                    transition={{ duration: 0.5 }}
-                  >
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary/10 to-orange-500/10 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                     <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary group-hover:text-orange-500 transition-colors" />
-                  </motion.div>
+                  </div>
                   <h3 className="font-semibold text-base sm:text-lg mb-2 group-hover:text-primary transition-colors">
                     {feature.title}
                   </h3>
@@ -1784,11 +1759,11 @@ export default function Home() {
                     {feature.description}
                   </p>
                 </Card>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
       </div>
     </>
   );
