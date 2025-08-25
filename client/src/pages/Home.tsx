@@ -338,7 +338,9 @@ export default function Home() {
                 style={{ 
                   opacity: 1,
                   fontSize: 'clamp(2.5rem, 8vw, 6.8rem)', // Responsive sizing to fit on one line
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
+                  width: '100%'
                 }}
               >
                 What's Hot in Sneaker Culture
