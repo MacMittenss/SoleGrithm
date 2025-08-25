@@ -334,7 +334,7 @@ export default function Home() {
             <div className="text-center mb-16">
               <h2 
                 ref={trendingHeaderRef}
-                className="font-bold leading-tight text-white"
+                className="font-bold leading-tight text-white mb-4"
                 style={{ 
                   opacity: 1,
                   fontSize: 'clamp(2.5rem, 8vw, 6.8rem)', // Responsive sizing to fit on one line
@@ -343,6 +343,10 @@ export default function Home() {
               >
                 What's Hot in Sneaker Culture
               </h2>
+              
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
+                The latest Sole Trends
+              </p>
             </div>
 
             {/* Content Section */}
