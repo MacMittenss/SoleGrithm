@@ -40,8 +40,11 @@ export default function AdvancedLatestStories() {
 
       // Split title into words for word-by-word reveal
       const title = titleRef.current;
-      if (title) {
+      if (title && title.innerText) {
         const words = title.innerText.split(" ");
+        // Clear existing content safely
+        title.innerHTML = '';
+        // Add new word spans
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
