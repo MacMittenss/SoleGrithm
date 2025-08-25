@@ -432,7 +432,7 @@ export default function Home() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <motion.span
+                      <span
                         className="text-2xl font-bold"
                         style={{
                           background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
@@ -442,7 +442,7 @@ export default function Home() {
                         }}
                       >
                         ${sneaker.retailPrice || '0'}
-                      </motion.span>
+                      </span>
                       <div className="flex items-center gap-2 text-sm">
                         <TrendingUp className="w-4 h-4 text-green-500" />
                         <span className="text-green-500 font-medium">Hot</span>
@@ -451,11 +451,11 @@ export default function Home() {
                   </div>
 
                   {/* Hover overlay */}
-                  <motion.div
+                  <div
                     className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     style={{ pointerEvents: 'none' }}
                   />
-                </motion.div>
+                </div>
               )) : (
                 // Loading skeleton
                 Array.from({ length: 8 }).map((_, index) => (
@@ -554,7 +554,7 @@ export default function Home() {
         className="relative"
         height="100vh"
       >
-        <motion.section
+        <section
           className="relative py-32 overflow-hidden"
           style={{
             background: 'transparent',
@@ -562,7 +562,7 @@ export default function Home() {
           data-testid="section-sole-radar"
         >
           {/* Background effects */}
-          <motion.div
+          <div
             className="absolute inset-0"
             style={{
               background: 'radial-gradient(ellipse at 50% 30%, rgba(0, 255, 150, 0.08) 0%, rgba(50, 255, 100, 0.04) 35%, rgba(255, 150, 100, 0.06) 100%)',
@@ -570,12 +570,12 @@ export default function Home() {
           />
 
           {/* Floating geometric shapes */}
-          <motion.div
+          <div
             className="absolute top-20 right-20 w-32 h-32 rounded-full border border-green-500/20"
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           />
-          <motion.div
+          <div
             className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-orange-500/20"
             animate={{ rotate: [45, 135, 45] }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
@@ -584,7 +584,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
-              <motion.div
+              <div
                 className="space-y-8"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -592,7 +592,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {/* Badge */}
-                <motion.div
+                <div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(0, 255, 150, 0.1)',
@@ -602,7 +602,7 @@ export default function Home() {
                 >
                   <Compass className="w-4 h-4 text-green-500" />
                   <span className="text-sm font-medium">SOLE RADAR AI</span>
-                </motion.div>
+                </div>
 
                 {/* Main Title */}
                 <div>
@@ -616,7 +616,7 @@ export default function Home() {
                     </GradientText>
                   </h2>
                   
-                  <motion.p
+                  <p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -625,11 +625,11 @@ export default function Home() {
                   >
                     AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
                     preferences, and trends to deliver perfectly curated recommendations.
-                  </motion.p>
+                  </p>
                 </div>
 
                 {/* Feature list */}
-                <motion.div
+                <div
                   className="space-y-4"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -641,7 +641,7 @@ export default function Home() {
                     { icon: Target, title: 'Smart Recommendations', desc: 'Personalized suggestions based on your history' },
                     { icon: Zap, title: 'Instant Discovery', desc: 'Lightning-fast results in under 1 second' }
                   ].map((feature, index) => (
-                    <motion.div
+                    <div
                       key={feature.title}
                       className="flex items-start gap-4"
                       initial={{ opacity: 0, x: -20 }}
@@ -662,19 +662,19 @@ export default function Home() {
                         <h4 className="font-semibold text-lg mb-1">{feature.title}</h4>
                         <p className="text-gray-400">{feature.desc}</p>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
-                </motion.div>
+                </div>
 
                 {/* CTA Button */}
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1.5 }}
                 >
                   <Link href="/discover">
-                    <motion.button
+                    <button
                       className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
                       style={{
                         background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
@@ -687,13 +687,13 @@ export default function Home() {
                         Start Discovery
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
-                    </motion.button>
+                    </button>
                   </Link>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* Features Grid Column */}
-              <motion.div
+              <div
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -701,7 +701,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.4 }}
               >
                 {/* Features Grid */}
-                <motion.div 
+                <div 
                   className="grid grid-cols-2 gap-8"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -730,7 +730,7 @@ export default function Home() {
                       description: "Track your style journey and discover new trends that align with your evolving taste."
                     }
                   ].map((feature, index) => (
-                    <motion.div
+                    <div
                       key={feature.title}
                       className="text-center space-y-4"
                       initial={{ 
@@ -755,7 +755,7 @@ export default function Home() {
                       }}
                       data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
                     >
-                      <motion.div 
+                      <div 
                         className="flex items-center justify-center w-16 h-16 mx-auto rounded-xl"
                         style={{
                           background: 'linear-gradient(135deg, rgba(0, 255, 150, 0.1), rgba(50, 255, 100, 0.1))',
@@ -768,20 +768,20 @@ export default function Home() {
                         transition={{ duration: 0.5 }}
                       >
                         <feature.icon className="w-8 h-8 text-green-500" />
-                      </motion.div>
+                      </div>
                       <h3 className="text-lg font-semibold text-white">
                         {feature.title}
                       </h3>
                       <p className="text-sm text-gray-400 leading-relaxed">
                         {feature.description}
                       </p>
-                    </motion.div>
+                    </div>
                   ))}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.section>
+        </section>
       </SectionWrapper>
 
       {/* Style Quiz Section - Advanced Visual AI Search Style */}
@@ -792,7 +792,7 @@ export default function Home() {
         className="relative"
         height="100vh"
       >
-        <motion.section
+        <section
           className="relative py-32 overflow-hidden"
           style={{
             background: 'transparent',
@@ -800,7 +800,7 @@ export default function Home() {
           data-testid="section-style-quiz"
         >
           {/* Background effects */}
-          <motion.div
+          <div
             className="absolute inset-0"
             style={{
               background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
@@ -808,12 +808,12 @@ export default function Home() {
           />
 
           {/* Floating geometric shapes */}
-          <motion.div
+          <div
             className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20"
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           />
-          <motion.div
+          <div
             className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
             animate={{ rotate: [45, 135, 45] }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
@@ -822,7 +822,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
-              <motion.div
+              <div
                 className="space-y-8"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -830,7 +830,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {/* Badge */}
-                <motion.div
+                <div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(150, 0, 255, 0.1)',
@@ -840,7 +840,7 @@ export default function Home() {
                 >
                   <Sparkles className="w-4 h-4 text-purple-500" />
                   <span className="text-sm font-medium">STYLE QUIZ AI</span>
-                </motion.div>
+                </div>
 
                 {/* Main Title */}
                 <div>
@@ -854,7 +854,7 @@ export default function Home() {
                     </GradientText>
                   </h2>
                   
-                  <motion.p
+                  <p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -863,11 +863,11 @@ export default function Home() {
                   >
                     Take our quick style quiz and get personalized sneaker recommendations 
                     tailored just for you with AI-powered precision.
-                  </motion.p>
+                  </p>
                 </div>
 
                 {/* Enhanced Form */}
-                <motion.form 
+                <form 
                   className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
@@ -881,7 +881,7 @@ export default function Home() {
                     <label className="block text-white py-2 font-semibold mb-3" htmlFor="stylequiz">
                       Ready to find your style?
                     </label>
-                    <motion.input
+                    <input
                       className="w-full p-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-400 leading-tight focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       id="stylequiz"
                       type="text"
@@ -893,7 +893,7 @@ export default function Home() {
 
                   <div className="pt-4">
                     <Link href="/quiz">
-                      <motion.button
+                      <button
                         className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full w-full"
                         style={{
                           background: 'linear-gradient(to right, #9600ff 0%, #6450ff 61%, #ff6496 100%)',
@@ -906,14 +906,14 @@ export default function Home() {
                           Start Style Quiz
                           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </span>
-                      </motion.button>
+                      </button>
                     </Link>
                   </div>
-                </motion.form>
-              </motion.div>
+                </form>
+              </div>
 
               {/* Interactive Sneaker Column */}
-              <motion.div
+              <div
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -921,7 +921,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.4 }}
               >
                 {/* Enhanced Interactive Card */}
-                <motion.div
+                <div
                   className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
@@ -937,7 +937,7 @@ export default function Home() {
                 >
                   <div className="text-center space-y-6">
                     {/* Enhanced Sneaker Icon */}
-                    <motion.div
+                    <div
                       className="w-32 h-32 mx-auto rounded-2xl flex items-center justify-center"
                       style={{
                         background: 'linear-gradient(135deg, rgba(150, 0, 255, 0.1), rgba(100, 50, 255, 0.1))',
@@ -950,7 +950,7 @@ export default function Home() {
                       transition={{ duration: 0.5 }}
                     >
                       <ShoppingBag className="w-16 h-16 text-purple-500" />
-                    </motion.div>
+                    </div>
                     
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-white">AI Style Matching</h3>
@@ -960,7 +960,7 @@ export default function Home() {
                       
                       {/* Enhanced Interactive Elements */}
                       <div className="grid grid-cols-2 gap-3">
-                        <motion.div
+                        <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
@@ -971,9 +971,9 @@ export default function Home() {
                         >
                           <Heart className="w-6 h-6 text-pink-500 mx-auto mb-2" />
                           <p className="text-sm font-medium text-white">Casual</p>
-                        </motion.div>
+                        </div>
                         
-                        <motion.div
+                        <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
@@ -984,9 +984,9 @@ export default function Home() {
                         >
                           <Zap className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
                           <p className="text-sm font-medium text-white">Athletic</p>
-                        </motion.div>
+                        </div>
                         
-                        <motion.div
+                        <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
@@ -997,9 +997,9 @@ export default function Home() {
                         >
                           <Star className="w-6 h-6 text-blue-500 mx-auto mb-2" />
                           <p className="text-sm font-medium text-white">Street</p>
-                        </motion.div>
+                        </div>
                         
-                        <motion.div
+                        <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
                             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
@@ -1010,41 +1010,41 @@ export default function Home() {
                         >
                           <Sparkles className="w-6 h-6 text-purple-500 mx-auto mb-2" />
                           <p className="text-sm font-medium text-white">Formal</p>
-                        </motion.div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.section>
+        </section>
       </SectionWrapper>
 
 
 
       {/* Community & Social Section */}
-      <motion.section 
+      <section 
         className="py-16 sm:py-24"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+          <div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Join the Community
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Connect with sneaker enthusiasts worldwide
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
+          <div 
             className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center"
             variants={containerVariants}
           >
             {/* DaisyUI iPhone Mockup */}
-            <motion.div variants={itemVariants} className="flex justify-center">
-              <motion.div 
+            <div variants={itemVariants} className="flex justify-center">
+              <div 
                 className="mockup-phone scale-75 sm:scale-90"
                 animate={{ 
                   boxShadow: [
@@ -1079,7 +1079,7 @@ export default function Home() {
                       <div className="w-full h-full max-h-56">
                         <div className="grid grid-cols-3 gap-1 h-full">
                           <div className="grid gap-1">
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
                               alt="Community post"
@@ -1088,7 +1088,7 @@ export default function Home() {
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.1 }}
                             />
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
                               alt="Community post"
@@ -1099,7 +1099,7 @@ export default function Home() {
                             />
                           </div>
                           <div className="grid gap-1">
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
                               alt="Community post"
@@ -1108,7 +1108,7 @@ export default function Home() {
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.3 }}
                             />
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
                               alt="Community post"
@@ -1117,7 +1117,7 @@ export default function Home() {
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.4 }}
                             />
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
                               alt="Community post"
@@ -1128,7 +1128,7 @@ export default function Home() {
                             />
                           </div>
                           <div className="grid gap-1">
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
                               alt="Community post"
@@ -1137,7 +1137,7 @@ export default function Home() {
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.6 }}
                             />
-                            <motion.img 
+                            <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
                               alt="Community post"
@@ -1152,11 +1152,11 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Social Features */}
-            <motion.div variants={itemVariants} className="space-y-6">
+            <div variants={itemVariants} className="space-y-6">
               <h3 className="text-2xl font-semibold">Connect & Share</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
@@ -1193,10 +1193,10 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Women in Sneakers Section - Advanced Visual AI Search Style */}
       <SectionWrapper
@@ -1206,7 +1206,7 @@ export default function Home() {
         className="relative"
         height="100vh"
       >
-        <motion.section
+        <section
           className="relative py-32 overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, rgba(50, 20, 40, 0.98), rgba(30, 10, 50, 0.95))',
@@ -1214,7 +1214,7 @@ export default function Home() {
           data-testid="section-women-sneakers"
         >
           {/* Background effects */}
-          <motion.div
+          <div
             className="absolute inset-0"
             style={{
               background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 100, 150, 0.08) 0%, rgba(150, 50, 255, 0.04) 35%, rgba(255, 150, 200, 0.06) 100%)',
@@ -1222,12 +1222,12 @@ export default function Home() {
           />
 
           {/* Floating geometric shapes */}
-          <motion.div
+          <div
             className="absolute top-20 right-20 w-32 h-32 rounded-full border border-pink-500/20"
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           />
-          <motion.div
+          <div
             className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-purple-500/20"
             animate={{ rotate: [45, 135, 45] }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
@@ -1236,7 +1236,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
-              <motion.div
+              <div
                 className="space-y-8"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1244,7 +1244,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {/* Badge */}
-                <motion.div
+                <div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(255, 100, 150, 0.1)',
@@ -1254,7 +1254,7 @@ export default function Home() {
                 >
                   <Heart className="w-4 h-4 text-pink-500" />
                   <span className="text-sm font-medium">WOMEN IN SNEAKERS</span>
-                </motion.div>
+                </div>
 
                 {/* Main Title */}
                 <div>
@@ -1268,7 +1268,7 @@ export default function Home() {
                     </GradientText>
                   </h2>
                   
-                  <motion.p
+                  <p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -1277,11 +1277,11 @@ export default function Home() {
                   >
                     Celebrating and elevating women in sneaker culture. Discover female-led brands, 
                     exclusive collections, and stories of women breaking barriers in the industry.
-                  </motion.p>
+                  </p>
                 </div>
 
                 {/* Feature badges */}
-                <motion.div
+                <div
                   className="flex flex-wrap gap-3"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1293,7 +1293,7 @@ export default function Home() {
                     { label: 'Exclusive Collections', color: 'rgba(150, 50, 255, 0.1)' },
                     { label: 'Inspiring Stories', color: 'rgba(100, 150, 255, 0.1)' }
                   ].map((badge, index) => (
-                    <motion.div
+                    <div
                       key={badge.label}
                       className="px-4 py-2 rounded-full border border-white/20 text-sm font-medium text-white"
                       style={{ background: badge.color }}
@@ -1304,19 +1304,19 @@ export default function Home() {
                       whileHover={{ scale: 1.05 }}
                     >
                       {badge.label}
-                    </motion.div>
+                    </div>
                   ))}
-                </motion.div>
+                </div>
 
                 {/* CTA Button */}
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1.5 }}
                 >
                   <Link href="/women-in-sneakers">
-                    <motion.button
+                    <button
                       className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
                       style={{
                         background: 'linear-gradient(to right, #ff6496 0%, #9650ff 61%, #ff9650 100%)',
@@ -1329,13 +1329,13 @@ export default function Home() {
                         Explore Women in Sneakers
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
-                    </motion.button>
+                    </button>
                   </Link>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* Visual Grid Column */}
-              <motion.div
+              <div
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1351,7 +1351,7 @@ export default function Home() {
                 >
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-4">
-                      <motion.div
+                      <div
                         className="h-32 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(255, 100, 150, 0.1), rgba(255, 150, 200, 0.1))',
@@ -1364,8 +1364,8 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                       >
                         <Heart className="w-8 h-8 text-pink-500" />
-                      </motion.div>
-                      <motion.div
+                      </div>
+                      <div
                         className="h-20 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(150, 50, 255, 0.1), rgba(200, 100, 255, 0.1))',
@@ -1378,10 +1378,10 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                       >
                         <Users className="w-6 h-6 text-purple-500" />
-                      </motion.div>
+                      </div>
                     </div>
                     <div className="space-y-4">
-                      <motion.div
+                      <div
                         className="h-20 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(100, 150, 255, 0.1), rgba(150, 200, 255, 0.1))',
@@ -1394,8 +1394,8 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                       >
                         <Star className="w-6 h-6 text-blue-500" />
-                      </motion.div>
-                      <motion.div
+                      </div>
+                      <div
                         className="h-32 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(200, 100, 255, 0.1), rgba(255, 150, 255, 0.1))',
@@ -1408,14 +1408,14 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                       >
                         <Sparkles className="w-8 h-8 text-purple-500" />
-                      </motion.div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </motion.section>
+        </section>
       </SectionWrapper>
 
 
@@ -1435,7 +1435,7 @@ export default function Home() {
       <ARDemo />
 
       {/* Sole Map - Global Trends Section - Using ARDemo styling */}
-      <motion.section 
+      <section 
         className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 to-blue-500/5"
         initial="hidden"
         animate="visible"
@@ -1443,15 +1443,15 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-            <motion.div
+          <div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <div
               className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <TrendingUp className="w-4 h-4" />
               Sole Map
-            </motion.div>
+            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Global Trends Experience
             </h2>
@@ -1459,24 +1459,24 @@ export default function Home() {
               Explore real-time sneaker trends across the globe with interactive visualization. 
               Discover regional preferences and track sneaker culture worldwide.
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Interactive Map Visualization */}
-            <motion.div className="space-y-6" variants={itemVariants}>
-              <motion.div
+            <div className="space-y-6" variants={itemVariants}>
+              <div
                 className="relative bg-gradient-to-br from-background to-muted/50 rounded-2xl p-8 sm:p-12 border overflow-hidden"
                 variants={cardVariants}
                 whileHover="hover"
               >
                 <div className="text-center space-y-6">
-                  <motion.div
+                  <div
                     className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-2xl flex items-center justify-center mx-auto"
                     whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
                     transition={{ duration: 0.5 }}
                   >
                     <TrendingUp className="w-10 h-10 sm:w-12 sm:h-12 text-green-500" />
-                  </motion.div>
+                  </div>
                   
                   <div>
                     <h3 className="text-xl sm:text-2xl font-semibold mb-2">Interactive Heat Map</h3>
@@ -1484,7 +1484,7 @@ export default function Home() {
                       Live visualization of sneaker trends across major cities worldwide
                     </p>
                     
-                    <motion.div
+                    <div
                       variants={cardVariants}
                       whileHover="hover"
                       whileTap="tap"
@@ -1499,11 +1499,11 @@ export default function Home() {
                           Explore Sole Map
                         </Button>
                       </Link>
-                    </motion.div>
+                    </div>
                   </div>
 
                   {/* Features */}
-                  <motion.div 
+                  <div 
                     className="grid grid-cols-3 gap-4 pt-4"
                     variants={containerVariants}
                   >
@@ -1512,7 +1512,7 @@ export default function Home() {
                       { label: "Emerging", color: "bg-blue-400" },
                       { label: "Stable", color: "bg-green-400" }
                     ].map((feature, index) => (
-                      <motion.div
+                      <div
                         key={feature.label}
                         className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
                         variants={itemVariants}
@@ -1520,26 +1520,26 @@ export default function Home() {
                       >
                         <div className={`w-4 h-4 ${feature.color} rounded-full mx-auto mb-2`} />
                         <p className="text-xs font-medium">{feature.label}</p>
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Trending Cities */}
-            <motion.div className="space-y-6" variants={itemVariants}>
+            <div className="space-y-6" variants={itemVariants}>
               <h3 className="text-xl sm:text-2xl font-semibold text-center">
                 Trending Cities
               </h3>
               
-              <motion.div className="space-y-4" variants={containerVariants}>
+              <div className="space-y-4" variants={containerVariants}>
                 {[
                   { city: "New York", trend: "Nike Dunk Low", activity: 95 },
                   { city: "Los Angeles", trend: "Jordan 1 High", activity: 87 },
                   { city: "Atlanta", trend: "Yeezy 350", activity: 76 }
                 ].map((location, index) => (
-                  <motion.div
+                  <div
                     key={location.city}
                     className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
                     variants={cardVariants}
@@ -1560,13 +1560,13 @@ export default function Home() {
                         }`} />
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Live Market Section - Advanced */}
       <SectionWrapper
@@ -1591,12 +1591,12 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Quick Stats with Animated Counters */}
-      <motion.section 
+      <section 
         className="py-16 sm:py-24 bg-gradient-to-br from-background via-muted/30 to-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <div 
             className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
             variants={containerVariants}
           >
@@ -1606,7 +1606,7 @@ export default function Home() {
               { value: "25K+", label: "Community Reviews", delay: 0.2 },
               { value: "98%", label: "Satisfaction Rate", delay: 0.3 }
             ].map((stat, index) => (
-              <motion.div
+              <div
                 key={stat.label}
                 className="text-center group"
                 variants={{
@@ -1627,15 +1627,9 @@ export default function Home() {
                   transition: { duration: 0.2 }
                 }}
               >
-                <motion.div 
-                  className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-2"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  transition={{ duration: 0.5, delay: stat.delay + 0.2 }}
-                  viewport={{ once: true }}
-                >
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-2">
                   {stat.value}
-                </motion.div>
+                </div>
                 <div className="text-xs sm:text-sm text-muted-foreground font-medium group-hover:text-foreground transition-colors">
                   {stat.label}
                 </div>
@@ -1646,12 +1640,9 @@ export default function Home() {
       </section>
 
       {/* Call to Action - Get Started */}
-      <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-primary/5 via-orange-500/5 to-background"
-        variants={itemVariants}
-      >
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-primary/5 via-orange-500/5 to-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div variants={itemVariants} className="space-y-6">
+          <div className="space-y-6">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
               Ready to Elevate Your Sneaker Game?
             </h2>
@@ -1659,10 +1650,7 @@ export default function Home() {
               Join thousands of sneaker enthusiasts discovering, collecting, and connecting 
               through the power of AI and community.
             </p>
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-              variants={containerVariants}
-            >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/auth">
                 <Button size="lg" className="h-14 px-8 text-lg bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90" data-testid="button-get-started-main">
                   Get Started Free
@@ -1675,29 +1663,29 @@ export default function Home() {
                   <Sparkles className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
 
 
       {/* Final Features Section */}
-      <motion.section 
+      <section 
         className="py-16 sm:py-24 bg-gradient-to-br from-muted/20 to-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+          <div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Why SoleGrithm?
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               The most comprehensive platform for sneaker enthusiasts
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
+          <div 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
             variants={containerVariants}
           >
@@ -1727,7 +1715,7 @@ export default function Home() {
                 delay: 0.3
               }
             ].map((feature, index) => (
-              <motion.div
+              <div
                 key={feature.title}
                 variants={{
                   hidden: { opacity: 0, y: 30, scale: 0.95 },
@@ -1764,7 +1752,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      </div>
     </>
   );
 }
