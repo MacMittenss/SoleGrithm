@@ -355,7 +355,7 @@ export default function Home() {
             {/* Content Section */}
             <div ref={trendingContentRef}>
             {/* Filter Pills */}
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
+            <div className="flex flex-wrap justify-center gap-3 mb-32">
               <button
                 className={`px-6 py-3 rounded-full text-sm font-medium transition-all ${
                   selectedBrand === 'All'
