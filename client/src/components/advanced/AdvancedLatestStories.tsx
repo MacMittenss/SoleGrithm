@@ -29,7 +29,7 @@ export default function AdvancedLatestStories() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Pin the section during scroll
+      // Pin the section during scroll - delay start to avoid overlap with trending
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
@@ -45,11 +45,11 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Header animation timeline (non-scrubbed, plays once)
+      // Header animation timeline - delayed to wait for trending section to finish
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top center",
+          start: "top 15%", // Wait until trending section is almost out of viewport
           end: "+=200",
           toggleActions: "play none none none"
         }
@@ -114,6 +114,7 @@ export default function AdvancedLatestStories() {
       className="latest-stories min-h-screen relative flex items-center py-32 overflow-hidden"
       style={{
         background: 'transparent',
+        zIndex: 1, // Ensure proper layering
       }}
       data-testid="section-latest-stories"
     >
