@@ -118,13 +118,24 @@ export default function AdvancedLatestStories() {
       }}
       data-testid="section-latest-stories"
     >
-      {/* Background effects */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at 40% 60%, rgba(100, 150, 255, 0.08) 0%, rgba(255, 100, 150, 0.04) 35%, rgba(150, 255, 200, 0.06) 100%)',
-        }}
-      />
+      {/* Background gradient effects - Same as trending section */}
+      <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
+        {/* Purple/Pink/Blue gradient orbs like trending section */}
+        <div 
+          className="absolute top-32 left-1/4 w-80 h-80 rounded-full opacity-20"
+          style={{
+            background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
+            filter: 'blur(100px)',
+          }}
+        />
+        <div 
+          className="absolute bottom-20 right-1/4 w-60 h-60 rounded-full opacity-15"
+          style={{
+            background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
 
       {/* Floating geometric shapes */}
       <motion.div
