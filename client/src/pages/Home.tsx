@@ -296,16 +296,16 @@ export default function Home() {
         >
           {/* Background gradient effects - Same as flagship */}
           <div className="absolute inset-0 overflow-hidden">
-            {/* Purple/Pink/Blue gradient orbs like flagship */}
+            {/* Purple/Pink/Blue gradient orbs like flagship - positioned lower to avoid brands section */}
             <div 
-              className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-30"
+              className="absolute top-20 left-1/4 w-80 h-80 rounded-full opacity-20"
               style={{
                 background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
                 filter: 'blur(100px)',
               }}
             />
             <div 
-              className="absolute -bottom-40 -right-40 w-80 h-80 rounded-full opacity-25"
+              className="absolute bottom-20 right-1/4 w-60 h-60 rounded-full opacity-15"
               style={{
                 background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
                 filter: 'blur(80px)',
