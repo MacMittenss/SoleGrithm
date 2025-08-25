@@ -283,22 +283,23 @@ export default function Home() {
         id="trending-now" 
         sticky={true}
         maskTransition={false}
-        className="relative"
+        className="relative mt-16"
         height="100vh"
       >
         <div
           ref={trendingSectionRef}
-          className="relative py-32 overflow-hidden"
+          className="relative py-16 overflow-hidden"
           style={{
             background: 'transparent',
+            marginTop: '4rem',
           }}
           data-testid="section-trending-now"
         >
           {/* Background gradient effects - Same as flagship */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
             {/* Purple/Pink/Blue gradient orbs like flagship - positioned lower to avoid brands section */}
             <div 
-              className="absolute top-20 left-1/4 w-80 h-80 rounded-full opacity-20"
+              className="absolute top-32 left-1/4 w-80 h-80 rounded-full opacity-20"
               style={{
                 background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
                 filter: 'blur(100px)',
