@@ -147,17 +147,14 @@ export default function SoleRadarSection() {
         // Curtain rises and rotates clockwise as you scroll away from this section
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: "bottom 80%", // Start when section bottom is at 80% of viewport
-          end: "bottom 20%", // End when section bottom is at 20% of viewport
+          start: "bottom 100%", // Start immediately when section bottom reaches viewport top
+          end: "bottom 50%", // End when section bottom is at 50% of viewport
           scrub: 1,
           animation: gsap.to(curtainRef.current, {
             y: "0%", // Move curtain to cover full screen
             rotation: 0, // Rotate clockwise to upright position
             ease: "none",
           }),
-          onUpdate: (self) => {
-            // Optional: Add any additional effects during curtain rise
-          },
         });
       }
 
@@ -346,10 +343,14 @@ export default function SoleRadarSection() {
       {/* Curtain Overlay - Black curtain that rises from bottom */}
       <div
         ref={curtainRef}
-        className="fixed inset-0 pointer-events-none"
+        className="fixed pointer-events-none"
         style={{
           backgroundColor: '#000000',
           zIndex: 1000,
+          width: '150%', // Make wider to cover diagonal rotation
+          height: '150%', // Make taller to cover diagonal rotation
+          top: '-25%', // Offset to center the larger size
+          left: '-25%', // Offset to center the larger size
         }}
       />
     </div>
