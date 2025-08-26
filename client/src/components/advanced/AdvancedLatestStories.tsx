@@ -39,13 +39,22 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Header animation timeline - normal scroll-based animation
+      // Pin the section during header animation
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=200%", // Pin long enough for animation to complete
+        pin: true,
+        pinSpacing: false,
+      });
+
+      // Header animation timeline - triggered during pin
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%", // Start animation when section enters viewport
-          end: "top 20%",
-          toggleActions: "play none none reverse"
+          start: "top top", // Start animation when pinning begins
+          end: "+=200%", // Match pin duration
+          scrub: 1, // Tie animation to scroll progress
         }
       });
 
