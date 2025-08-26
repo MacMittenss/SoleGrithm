@@ -18,6 +18,7 @@ export default function AdvancedLatestStories() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   // Fetch blog data
   const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
@@ -26,7 +27,7 @@ export default function AdvancedLatestStories() {
   });
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!sectionRef.current || !titleRef.current || !subtitleRef.current || !cardsRef.current || !overlayRef.current) return;
 
     const ctx = gsap.context(() => {
       // Split title into words for word-by-word reveal
@@ -49,7 +50,13 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Set initial hidden states for title words
+      // Set initial states for black overlay (starts off-screen at bottom)
+      gsap.set(overlayRef.current, {
+        y: "100%", // Start completely below viewport
+        opacity: 1
+      });
+
+      // Set initial hidden states for content (hidden until overlay reveals them)
       gsap.set(".latest-stories .word", { 
         opacity: 0, 
         y: 150, 
@@ -61,7 +68,6 @@ export default function AdvancedLatestStories() {
         y: 80,
         transformOrigin: "center bottom"
       });
-      // Set initial hidden states for cards
       gsap.set(cardsRef.current, {
         y: 100,
         scale: 0,
@@ -78,8 +84,23 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Header animation sequence
+      // Header animation sequence with black overlay transition
       headerTl
+        // First: Black overlay comes up from bottom to cover screen
+        .to(overlayRef.current, {
+          y: "0%", // Move overlay to cover entire viewport
+          duration: 0.3,
+          ease: "power2.inOut"
+        })
+        // Brief pause while overlay covers screen
+        .to({}, { duration: 0.1 })
+        // Then: Overlay moves up and out of view, revealing content
+        .to(overlayRef.current, {
+          y: "-100%", // Move overlay up and out of viewport
+          duration: 0.4,
+          ease: "power2.inOut"
+        })
+        // Now animate content elements in sequence
         // Animate title words one by one with 0.1s spacing
         .to(".latest-stories .word", {
           opacity: 1,
@@ -88,7 +109,7 @@ export default function AdvancedLatestStories() {
           stagger: 0.1, // 0.1 seconds apart
           duration: 0.6,
           ease: "expo.out"
-        })
+        }, "-=0.2") // Start slightly before overlay finishes
         // Then animate subtitle
         .to(subtitleRef.current, {
           opacity: 1,
@@ -109,7 +130,7 @@ export default function AdvancedLatestStories() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [blogPosts]); // Re-run when blog posts change
+  }, []); // Run once when component mounts
 
   return (
     <div
@@ -122,6 +143,14 @@ export default function AdvancedLatestStories() {
       }}
       data-testid="section-latest-stories"
     >
+      {/* Black Overlay for Transition Effect */}
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 bg-black"
+        style={{
+          zIndex: 100, // Higher than section content
+        }}
+      />
       {/* Background gradient effects - Same as trending section */}
       <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
         {/* Purple/Pink/Blue gradient orbs like trending section */}
