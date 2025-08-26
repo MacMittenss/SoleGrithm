@@ -68,12 +68,12 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered during pin  
+      // Header animation timeline - triggered when previous section is almost out of view  
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Start animation when pinning begins
-          end: "+=200%", // Match pin duration
+          start: "top 60%", // Start animation when section is 60% into viewport
+          end: "+=150%", // Shorter pin duration since animation starts later
           scrub: 1, // Tie animation to scroll progress
         }
       });

@@ -76,12 +76,12 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered during pin  
+      // Header animation timeline - triggered when previous section is almost out of view  
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Start animation when pinning begins
-          end: "+=200%", // Match pin duration
+          start: "top 70%", // Start animation when section is 70% into viewport (later than discover culture)
+          end: "+=150%", // Shorter pin duration since animation starts later
           scrub: 1, // Tie animation to scroll progress
         }
       });
