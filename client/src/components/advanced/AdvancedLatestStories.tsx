@@ -49,26 +49,28 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Set initial states
-      gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
+      // Set initial states - position elements as if they're hidden behind an invisible overlay
+      gsap.set(".latest-stories .word", { opacity: 0, y: 80 });
+      gsap.set(subtitleRef.current, { opacity: 0, y: 50 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
 
-      // Header animation sequence
+      // Header animation sequence - cinematic reveal like pulling from pocket
       headerTl
-        // Animate title words first
-        .from(".latest-stories .word", {
-          opacity: 0,
-          y: 50,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power2.out"
+        // Animate title words with smooth upward slide
+        .to(".latest-stories .word", {
+          opacity: 1,
+          y: 0,
+          stagger: 0.12,
+          duration: 1.2,
+          ease: "power3.out" // Smooth cinematic easing
         })
-        // Then animate subtitle
+        // Then animate subtitle with same effect
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
-          duration: 1
-        }, "-=0.3");
+          duration: 1,
+          ease: "expo.out" // Even smoother for the subtitle
+        }, "-=0.6");
 
       // Cards animation timeline (separate, scroll-triggered after header)
       let cardsTl = gsap.timeline({
