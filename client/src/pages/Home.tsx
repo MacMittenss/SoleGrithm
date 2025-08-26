@@ -611,7 +611,7 @@ export default function Home() {
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                    viewport={{ once: false, amount: 0.3 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
                   >
                     AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
@@ -624,7 +624,7 @@ export default function Home() {
                   className="space-y-4"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                  viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1 }}
                 >
                   {[
@@ -637,7 +637,7 @@ export default function Home() {
                       className="flex items-start gap-4"
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                      viewport={{ once: false, amount: 0.3 }}
                       transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
                     >
                       <div
@@ -661,7 +661,7 @@ export default function Home() {
                 <div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                  viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1.5 }}
                 >
                   <Link href="/discover">
@@ -688,7 +688,7 @@ export default function Home() {
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                viewport={{ once: false, amount: 0.3 }}
                 transition={{ duration: 1, delay: 0.4 }}
               >
                 {/* Features Grid */}
@@ -696,7 +696,7 @@ export default function Home() {
                   className="grid grid-cols-2 gap-8"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                  viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
                 >
                   {[
@@ -734,7 +734,7 @@ export default function Home() {
                         y: 0,
                         scale: 1 
                       }}
-                      viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                      viewport={{ once: false, amount: 0.3 }}
                       transition={{ 
                         duration: 0.6, 
                         delay: 0.8 + index * 0.15,
