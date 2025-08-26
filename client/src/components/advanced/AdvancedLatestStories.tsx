@@ -49,7 +49,7 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Header animation timeline - triggered during pin
+      // Header animation timeline - triggered during pin  
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -59,19 +59,6 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Set initial states - emerging from invisible overlay below
-      gsap.set(titleRef.current, { 
-        opacity: 0, 
-        y: 150, // Start well below final position
-        scale: 0.9,
-        transformOrigin: "center bottom" // Anchor animation from bottom
-      });
-      gsap.set(subtitleRef.current, { 
-        opacity: 0, 
-        y: 80,
-        transformOrigin: "center bottom"
-      });
-
       // Header animation sequence - both title and subtitle animate up as units
       headerTl
         // Animate entire title emerging from below like rising from invisible overlay
@@ -79,6 +66,7 @@ export default function AdvancedLatestStories() {
           opacity: 1,
           y: 0, // Move to natural position
           scale: 1,
+          transformOrigin: "center bottom",
           duration: 1.4,
           ease: "expo.out"
         })
@@ -86,6 +74,7 @@ export default function AdvancedLatestStories() {
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0, // Move to natural position
+          transformOrigin: "center bottom",
           duration: 1.4,
           ease: "expo.out"
         }, "-=1.2"); // Overlap with title animation
@@ -148,6 +137,8 @@ export default function AdvancedLatestStories() {
             style={{ 
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
               fontSize: 'calc(4rem * 1.4)', // 1.4 times bigger
+              opacity: 0, // Start hidden
+              transform: 'translateY(150px) scale(0.9)', // Start below and smaller
             }}
           >
             Discover Culture & Trends
@@ -156,6 +147,10 @@ export default function AdvancedLatestStories() {
           <p
             ref={subtitleRef}
             className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
+            style={{
+              opacity: 0, // Start hidden
+              transform: 'translateY(80px)', // Start below
+            }}
           >
             Explore the latest in sneaker culture with curated stories from our community
           </p>
