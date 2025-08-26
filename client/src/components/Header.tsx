@@ -80,7 +80,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
   const isActive = (href: string) => location === href;
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
       isHomePage
         ? isScrolled 
           ? 'bg-white shadow-lg border-b border-gray-200' 
