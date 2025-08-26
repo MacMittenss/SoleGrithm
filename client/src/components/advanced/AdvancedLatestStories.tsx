@@ -32,7 +32,7 @@ export default function AdvancedLatestStories() {
       // Pin the section during scroll - delay start to avoid overlap with trending
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: "top top",
+        start: "top 15%", // Wait until trending section is almost out of viewport
         end: "bottom top",
         pin: true,
         pinSpacing: false,
