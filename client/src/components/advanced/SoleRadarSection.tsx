@@ -134,22 +134,25 @@ export default function SoleRadarSection() {
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.1");
 
-      // Curtain overlay animation - rises from bottom to cover section when scrolling away
+      // Curtain overlay animation - rises from bottom with clockwise rotation
       if (curtainRef.current) {
-        // Set initial state - curtain hidden at bottom
+        // Set initial state - curtain hidden at bottom with rotation
         gsap.set(curtainRef.current, {
           y: "100%",
+          rotation: -90, // Start rotated counter-clockwise
+          transformOrigin: "0% 100%", // Bottom-left corner as rotation axis
           opacity: 1,
         });
 
-        // Curtain rises from bottom as you scroll away from this section
+        // Curtain rises and rotates clockwise as you scroll away from this section
         ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "bottom 80%", // Start when section bottom is at 80% of viewport
           end: "bottom 20%", // End when section bottom is at 20% of viewport
           scrub: 1,
           animation: gsap.to(curtainRef.current, {
-            y: "0%", // Rise to cover entire section
+            y: "0%", // Move curtain to cover full screen
+            rotation: 0, // Rotate clockwise to upright position
             ease: "none",
           }),
           onUpdate: (self) => {
