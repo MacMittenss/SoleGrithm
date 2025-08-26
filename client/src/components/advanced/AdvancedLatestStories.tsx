@@ -39,23 +39,14 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Header animation timeline - start animation before pin
+      // Header animation timeline - normal scroll-based animation
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 50%", // Start animation when section is halfway into viewport
-          end: "+=200",
-          toggleActions: "play none none none"
+          start: "top 80%", // Start animation when section enters viewport
+          end: "top 20%",
+          toggleActions: "play none none reverse"
         }
-      });
-
-      // Pin the section during scroll - delay start to avoid overlap with trending  
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top 15%", // Wait until trending section is almost out of viewport
-        end: "bottom top",
-        pin: true,
-        pinSpacing: false,
       });
 
       // Set initial states
@@ -114,10 +105,10 @@ export default function AdvancedLatestStories() {
   return (
     <div
       ref={sectionRef}
-      className="latest-stories min-h-screen relative flex items-center py-32 overflow-hidden"
+      className="latest-stories relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
-        zIndex: 10, // Higher z-index to cover sections behind it during pin
+        zIndex: 1, // Normal z-index for natural document flow
       }}
       data-testid="section-latest-stories"
     >
