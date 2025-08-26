@@ -100,8 +100,9 @@ export default function AdvancedLatestStories() {
       ref={sectionRef}
       className="latest-stories relative py-32 overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
-        zIndex: 1, // Normal z-index for natural document flow
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Fully opaque background
+        zIndex: 50, // High z-index to cover content behind during pin
+        minHeight: '100vh', // Ensure full viewport coverage
       }}
       data-testid="section-latest-stories"
     >
