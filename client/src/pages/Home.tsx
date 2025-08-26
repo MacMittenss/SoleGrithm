@@ -613,12 +613,12 @@ export default function Home() {
       </div>
 
       {/* Latest Stories Section - Advanced GSAP Pinned Animation */}
-      <AdvancedLatestStories />
+      {/* <AdvancedLatestStories /> */}
 
 
 
       {/* Sole Radar Section - Advanced GSAP Pinned Animation */}
-      <SoleRadarSection />
+      {/* <SoleRadarSection /> */}
 
       {/* Style Quiz Section - Advanced Visual AI Search Style with Curtain Transition */}
       <SectionWrapper
