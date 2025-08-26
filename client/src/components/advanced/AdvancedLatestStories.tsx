@@ -117,7 +117,7 @@ export default function AdvancedLatestStories() {
       className="latest-stories min-h-screen relative flex items-center py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
-        zIndex: 1, // Ensure proper layering
+        zIndex: 10, // Higher z-index to cover sections behind it during pin
       }}
       data-testid="section-latest-stories"
     >

@@ -538,6 +538,7 @@ export default function Home() {
 
 
       {/* Sole Radar Section - Advanced Visual AI Search Style */}
+      <div style={{ marginTop: '50vh' }}> {/* Add spacing to prevent appearing during pin */}
       <SectionWrapper
         id="sole-radar"
         sticky={true}
@@ -774,6 +775,7 @@ export default function Home() {
           </div>
         </section>
       </SectionWrapper>
+      </div> {/* Close the spacing div */}
 
       {/* Style Quiz Section - Advanced Visual AI Search Style */}
       <SectionWrapper
