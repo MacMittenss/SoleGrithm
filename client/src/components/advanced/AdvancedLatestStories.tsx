@@ -39,13 +39,14 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Pin the section during header animation
+      // Pin the section during header animation - prevent content below from scrolling
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
         end: "+=200%", // Pin long enough for animation to complete
         pin: true,
-        pinSpacing: false,
+        pinSpacing: true, // Create spacing to prevent content below from scrolling through
+        anticipatePin: 1,
       });
 
       // Header animation timeline - triggered during pin
