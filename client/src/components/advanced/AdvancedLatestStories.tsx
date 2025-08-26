@@ -29,15 +29,6 @@ export default function AdvancedLatestStories() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Pin the section during scroll - delay start to avoid overlap with trending
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top 15%", // Wait until trending section is almost out of viewport
-        end: "bottom top",
-        pin: true,
-        pinSpacing: false,
-      });
-
       // Split title into words for word-by-word reveal
       const title = titleRef.current;
       if (title && title.innerText) {
@@ -48,14 +39,23 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Header animation timeline - delayed to wait for trending section to finish
+      // Header animation timeline - start animation before pin
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 15%", // Wait until trending section is almost out of viewport
+          start: "top 50%", // Start animation when section is halfway into viewport
           end: "+=200",
           toggleActions: "play none none none"
         }
+      });
+
+      // Pin the section during scroll - delay start to avoid overlap with trending  
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top 15%", // Wait until trending section is almost out of viewport
+        end: "bottom top",
+        pin: true,
+        pinSpacing: false,
       });
 
       // Set initial states
