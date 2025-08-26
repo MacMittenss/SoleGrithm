@@ -65,6 +65,8 @@ export default function Home() {
   const trendingSectionRef = useRef<HTMLDivElement>(null);
   const trendingHeaderRef = useRef<HTMLHeadingElement>(null);
   const trendingContentRef = useRef<HTMLDivElement>(null);
+  const styleQuizRef = useRef<HTMLElement>(null);
+  const styleQuizContentRef = useRef<HTMLDivElement>(null);
   
   // Initialize smooth scrolling
   useSmoothScroll();
@@ -541,53 +543,41 @@ export default function Home() {
       {/* Sole Radar Section - Advanced GSAP Pinned Animation */}
       <SoleRadarSection />
 
-      {/* Style Quiz Section - Advanced Visual AI Search Style */}
-      <SectionWrapper
-        id="style-quiz"
-        sticky={true}
-        maskTransition={false}
-        className="relative"
-        height="100vh"
+      {/* Style Quiz Section - Curtain Reveal Animation */}
+      <section
+        ref={styleQuizRef}
+        className="relative py-32 overflow-hidden min-h-screen"
+        style={{
+          background: '#000000', // Black background to match curtain
+        }}
+        data-testid="section-style-quiz"
       >
-        <section
-          className="relative py-32 overflow-hidden"
+        {/* Background effects */}
+        <div
+          className="absolute inset-0"
           style={{
-            background: 'transparent',
+            background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
           }}
-          data-testid="section-style-quiz"
-        >
-          {/* Background effects */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
-            }}
-          />
+        />
 
-          {/* Floating geometric shapes */}
-          <div
-            className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          />
-          <div
-            className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
-            animate={{ rotate: [45, 135, 45] }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-          />
+        {/* Floating geometric shapes */}
+        <motion.div
+          className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
+          animate={{ rotate: [45, 135, 45] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        />
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              {/* Content Column */}
-              <div
-                className="space-y-8"
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 1, delay: 0.2 }}
-              >
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Content Column */}
+            <div ref={styleQuizContentRef} className="space-y-8">
                 {/* Badge */}
-                <div
+                <motion.div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(150, 0, 255, 0.1)',
@@ -597,7 +587,7 @@ export default function Home() {
                 >
                   <Sparkles className="w-4 h-4 text-purple-500" />
                   <span className="text-sm font-medium">STYLE QUIZ AI</span>
-                </div>
+                </motion.div>
 
                 {/* Main Title */}
                 <div>
@@ -611,7 +601,7 @@ export default function Home() {
                     </GradientText>
                   </h2>
                   
-                  <p
+                  <motion.p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -620,11 +610,11 @@ export default function Home() {
                   >
                     Take our quick style quiz and get personalized sneaker recommendations 
                     tailored just for you with AI-powered precision.
-                  </p>
+                  </motion.p>
                 </div>
 
                 {/* Enhanced Form */}
-                <form 
+                <motion.form 
                   className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
@@ -638,7 +628,7 @@ export default function Home() {
                     <label className="block text-white py-2 font-semibold mb-3" htmlFor="stylequiz">
                       Ready to find your style?
                     </label>
-                    <input
+                    <motion.input
                       className="w-full p-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-400 leading-tight focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       id="stylequiz"
                       type="text"
@@ -666,7 +656,7 @@ export default function Home() {
                       </button>
                     </Link>
                   </div>
-                </form>
+                </motion.form>
               </div>
 
               {/* Interactive Sneaker Column */}
@@ -711,9 +701,9 @@ export default function Home() {
                     
                     <div>
                       <h3 className="text-xl font-semibold mb-2 text-white">AI Style Matching</h3>
-                      <p className="text-gray-400 mb-6">
+                      <motion.p className="text-gray-400 mb-6">
                         Click to explore interactive style preferences
-                      </p>
+                      </motion.p>
                       
                       {/* Enhanced Interactive Elements */}
                       <div className="grid grid-cols-2 gap-3">
@@ -1025,7 +1015,7 @@ export default function Home() {
                     </GradientText>
                   </h2>
                   
-                  <p
+                  <motion.p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -1034,7 +1024,7 @@ export default function Home() {
                   >
                     Celebrating and elevating women in sneaker culture. Discover female-led brands, 
                     exclusive collections, and stories of women breaking barriers in the industry.
-                  </p>
+                  </motion.p>
                 </div>
 
                 {/* Feature badges */}
@@ -1239,7 +1229,7 @@ export default function Home() {
                     <h3 className="text-xl sm:text-2xl font-semibold mb-2">Interactive Heat Map</h3>
                     <p className="text-sm sm:text-base text-muted-foreground mb-6">
                       Live visualization of sneaker trends across major cities worldwide
-                    </p>
+                    </motion.p>
                     
                     <div
                       variants={cardVariants}
@@ -1502,7 +1492,7 @@ export default function Home() {
                   </h3>
                   <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors">
                     {feature.description}
-                  </p>
+                  </motion.p>
                 </Card>
               </div>
             ))}

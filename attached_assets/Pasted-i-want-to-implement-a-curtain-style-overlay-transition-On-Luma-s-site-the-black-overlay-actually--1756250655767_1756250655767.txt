@@ -1,0 +1,64 @@
+i want to implement a curtain-style overlay transition:
+
+On Luma’s site, the black overlay actually pins to the bottom of the viewport and rises upward, covering the hero section like a curtain. Once it fully covers, the new header/content animates in on top of that black background.
+
+Here’s how it works step-by-step:
+
+Hero scroll begins → a black “curtain” (the overlay) is pinned to the bottom of the viewport.
+
+As you scroll further → the curtain rises upward (instead of just fading in), covering the hero section from bottom to top.
+
+Once the curtain fills the screen → the new section header (A 1200p 4K-Like Display) animates into view (fade + translate).
+
+The curtain then either stays fixed as background or gradually fades away to reveal the rest of the section content.
+
+Here's the referenced template code:
+gsap.registerPlugin(ScrollTrigger);
+
+/**
+
+Curtain Reveal Transition
+@param {string} heroSelector - The hero/previous section selector
+@param {string} nextSectionSelector - The next section selector
+@param {string} curtainColor - (optional) overlay color (default: black)
+*/
+function sectionCurtainReveal(heroSelector, nextSectionSelector, curtainColor = "black") {
+// Create a curtain element dynamically
+const curtain = document.createElement("div");
+curtain.classList.add("curtain");
+curtain.style.cssText = position: fixed; bottom: 0; left: 0; width: 100%; height: 0%; background: ${curtainColor}; z-index: 999; pointer-events: none;;
+document.body.appendChild(curtain);
+// Animate curtain rising
+gsap.to(curtain, {
+height: "100%",
+ease: "none",
+scrollTrigger: {
+trigger: heroSelector,
+start: "bottom bottom",
+end: "bottom top",
+scrub: true
+}
+});
+
+// Animate content in next section
+gsap.timeline({
+scrollTrigger: {
+trigger: nextSectionSelector,
+start: "top center",
+toggleActions: "play none none reverse"
+}
+})
+.to(${nextSectionSelector} h2, { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+.to(${nextSectionSelector} p, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5");
+
+// Fade out curtain once new section is revealed
+gsap.to(curtain, {
+opacity: 0,
+scrollTrigger: {
+trigger: nextSectionSelector,
+start: "top center",
+end: "bottom center",
+scrub: true
+}
+});
+}

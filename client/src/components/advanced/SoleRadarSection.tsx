@@ -18,6 +18,7 @@ export default function SoleRadarSection() {
   const featuresRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const curtainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -132,6 +133,30 @@ export default function SoleRadarSection() {
           duration: 1.0,
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.1");
+
+      // Curtain overlay animation - rises from bottom to cover section when scrolling away
+      if (curtainRef.current) {
+        // Set initial state - curtain hidden at bottom
+        gsap.set(curtainRef.current, {
+          y: "100%",
+          opacity: 1,
+        });
+
+        // Curtain rises from bottom as you scroll away from this section
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "bottom 80%", // Start when section bottom is at 80% of viewport
+          end: "bottom 20%", // End when section bottom is at 20% of viewport
+          scrub: 1,
+          animation: gsap.to(curtainRef.current, {
+            y: "0%", // Rise to cover entire section
+            ease: "none",
+          }),
+          onUpdate: (self) => {
+            // Optional: Add any additional effects during curtain rise
+          },
+        });
+      }
 
     }, sectionRef);
 
@@ -314,6 +339,16 @@ export default function SoleRadarSection() {
           </div>
         </div>
       </div>
+
+      {/* Curtain Overlay - Black curtain that rises from bottom */}
+      <div
+        ref={curtainRef}
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundColor: '#000000',
+          zIndex: 1000,
+        }}
+      />
     </div>
   );
 }
