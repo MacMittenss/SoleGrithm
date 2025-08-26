@@ -579,7 +579,7 @@ export default function Home() {
                 className="space-y-8"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.9, margin: "-40% 0px -40% 0px" }}
+                viewport={{ once: false, amount: 0.1, margin: "-80% 0px -10% 0px" }}
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {/* Badge */}
