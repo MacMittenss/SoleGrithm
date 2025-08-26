@@ -49,6 +49,19 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
+      // Set initial hidden states with GSAP
+      gsap.set(titleRef.current, { 
+        opacity: 0, 
+        y: 150, 
+        scale: 0.9,
+        transformOrigin: "center bottom"
+      });
+      gsap.set(subtitleRef.current, { 
+        opacity: 0, 
+        y: 80,
+        transformOrigin: "center bottom"
+      });
+
       // Header animation timeline - triggered during pin  
       let headerTl = gsap.timeline({
         scrollTrigger: {
@@ -137,8 +150,6 @@ export default function AdvancedLatestStories() {
             style={{ 
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
               fontSize: 'calc(4rem * 1.4)', // 1.4 times bigger
-              opacity: 0, // Start hidden
-              transform: 'translateY(150px) scale(0.9)', // Start below and smaller
             }}
           >
             Discover Culture & Trends
@@ -147,10 +158,7 @@ export default function AdvancedLatestStories() {
           <p
             ref={subtitleRef}
             className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
-            style={{
-              opacity: 0, // Start hidden
-              transform: 'translateY(80px)', // Start below
-            }}
+            style={{}}
           >
             Explore the latest in sneaker culture with curated stories from our community
           </p>
