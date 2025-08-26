@@ -143,26 +143,27 @@ export default function SoleRadarSection() {
       ref={sectionRef}
       className="sole-radar relative py-32 overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Same as discover culture section
+        background: 'transparent', // Same as flagship section
         zIndex: 1, // Normal z-index like other sections
         minHeight: '100vh', // Ensure full viewport coverage
       }}
       data-testid="section-sole-radar"
     >
-      {/* Background gradient effects - Same as discover culture section */}
-      <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
-        {/* Green/Orange gradient orbs */}
-        <div 
-          className="absolute top-32 left-1/4 w-80 h-80 rounded-full opacity-20"
+      {/* Animated background elements - Same as flagship section */}
+      <div className="absolute inset-0 opacity-20">
+        {/* Gradient orbs - Same as flagship */}
+        <div
+          className="absolute top-1/3 left-1/3 w-80 h-80 rounded-full"
           style={{
-            background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
+            background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
             filter: 'blur(100px)',
           }}
         />
-        <div 
-          className="absolute bottom-20 right-1/4 w-60 h-60 rounded-full opacity-15"
+        
+        <div
+          className="absolute bottom-1/3 right-1/3 w-60 h-60 rounded-full"
           style={{
-            background: 'linear-gradient(to right, #ff9650 0%, #00ff96 61%, #32ff64 100%)',
+            background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
             filter: 'blur(80px)',
           }}
         />
