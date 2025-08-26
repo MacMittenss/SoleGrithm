@@ -50,28 +50,25 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Set initial states for black overlay (starts off-screen at bottom)
+      // Set initial states for black overlay (starts hidden, will animate in)
       gsap.set(overlayRef.current, {
         y: "100%", // Start completely below viewport
         opacity: 1
       });
 
-      // Set initial hidden states for content (hidden until overlay reveals them)
+      // Set initial visible states for content (show by default)
       gsap.set(".latest-stories .word", { 
-        opacity: 0, 
-        y: 150, 
-        scale: 0.9,
-        transformOrigin: "center bottom"
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
       });
       gsap.set(subtitleRef.current, { 
-        opacity: 0, 
-        y: 80,
-        transformOrigin: "center bottom"
+        opacity: 1, 
+        y: 0,
       });
       gsap.set(cardsRef.current, {
-        y: 100,
-        scale: 0,
-        transformOrigin: "center bottom"
+        y: 0,
+        scale: 1,
       });
 
       // Header animation timeline - triggered during pin  
@@ -99,31 +96,7 @@ export default function AdvancedLatestStories() {
           y: "-100%", // Move overlay up and out of viewport
           duration: 0.4,
           ease: "power2.inOut"
-        })
-        // Now animate content elements in sequence
-        // Animate title words one by one with 0.1s spacing
-        .to(".latest-stories .word", {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.1, // 0.1 seconds apart
-          duration: 0.6,
-          ease: "expo.out"
-        }, "-=0.2") // Start slightly before overlay finishes
-        // Then animate subtitle
-        .to(subtitleRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "expo.out"
-        }, "+=0.2") // Small pause after words
-        // Then animate cards growing upward from bottom
-        .to(cardsRef.current, {
-          y: 0,
-          scale: 1,
-          duration: 1.0,
-          ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.3"); // Pause after subtitle
+        });
 
       // Background animation removed - now using static homepage background
 
