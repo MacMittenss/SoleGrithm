@@ -60,7 +60,7 @@ export default function AdvancedLatestStories() {
       });
 
       // Set initial states - emerging from invisible overlay below
-      gsap.set(".latest-stories .word", { 
+      gsap.set(titleRef.current, { 
         opacity: 0, 
         y: 150, // Start well below final position
         scale: 0.9,
@@ -72,21 +72,17 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation sequence - dramatic upward emergence
+      // Header animation sequence - both title and subtitle animate up as units
       headerTl
-        // Animate title words emerging from below like rising from invisible overlay
-        .to(".latest-stories .word", {
+        // Animate entire title emerging from below like rising from invisible overlay
+        .to(titleRef.current, {
           opacity: 1,
           y: 0, // Move to natural position
           scale: 1,
-          stagger: {
-            amount: 1.0, // Slightly longer stagger for dramatic effect
-            ease: "power2.out"
-          },
-          duration: 2.0, // Slower, more dramatic
+          duration: 1.4,
           ease: "expo.out"
         })
-        // Subtitle emerges after title starts
+        // Subtitle emerges with same timing and style
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0, // Move to natural position
