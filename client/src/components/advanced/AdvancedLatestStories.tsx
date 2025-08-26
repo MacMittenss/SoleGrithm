@@ -59,35 +59,40 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Set initial states - VITURE-style word positioning
+      // Set initial states - emerging from invisible overlay below
       gsap.set(".latest-stories .word", { 
         opacity: 0, 
-        y: 120, // More dramatic offset like VITURE
-        scale: 0.8 // Slight scale for extra punch
+        y: 150, // Start well below final position
+        scale: 0.9,
+        transformOrigin: "center bottom" // Anchor animation from bottom
       });
-      gsap.set(subtitleRef.current, { opacity: 0, y: 60 });
+      gsap.set(subtitleRef.current, { 
+        opacity: 0, 
+        y: 80,
+        transformOrigin: "center bottom"
+      });
 
-      // Header animation sequence - VITURE-style word-by-word reveal
+      // Header animation sequence - dramatic upward emergence
       headerTl
-        // Animate title words with VITURE-style upward slide
+        // Animate title words emerging from below like rising from invisible overlay
         .to(".latest-stories .word", {
           opacity: 1,
-          y: 0,
+          y: 0, // Move to natural position
           scale: 1,
           stagger: {
-            amount: 0.8, // Total time for all words to stagger
+            amount: 1.0, // Slightly longer stagger for dramatic effect
             ease: "power2.out"
           },
-          duration: 1.6, // Longer duration for that premium feel
-          ease: "expo.out" // VITURE uses expo easing for that smooth deceleration
+          duration: 2.0, // Slower, more dramatic
+          ease: "expo.out"
         })
-        // Then animate subtitle with complementary timing
+        // Subtitle emerges after title starts
         .to(subtitleRef.current, {
           opacity: 1,
-          y: 0,
-          duration: 1.2,
+          y: 0, // Move to natural position
+          duration: 1.4,
           ease: "expo.out"
-        }, "-=0.4");
+        }, "-=1.2"); // Overlap with title animation
 
       // Background animation removed - now using static homepage background
 
