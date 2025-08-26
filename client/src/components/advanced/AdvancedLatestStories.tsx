@@ -58,27 +58,35 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Set initial states - position header elements as if they're hidden behind an invisible overlay
-      gsap.set(".latest-stories .word", { opacity: 0, y: 80 });
-      gsap.set(subtitleRef.current, { opacity: 0, y: 50 });
+      // Set initial states - VITURE-style word positioning
+      gsap.set(".latest-stories .word", { 
+        opacity: 0, 
+        y: 120, // More dramatic offset like VITURE
+        scale: 0.8 // Slight scale for extra punch
+      });
+      gsap.set(subtitleRef.current, { opacity: 0, y: 60 });
 
-      // Header animation sequence - cinematic reveal like pulling from pocket
+      // Header animation sequence - VITURE-style word-by-word reveal
       headerTl
-        // Animate title words with smooth upward slide
+        // Animate title words with VITURE-style upward slide
         .to(".latest-stories .word", {
           opacity: 1,
           y: 0,
-          stagger: 0.12,
-          duration: 1.2,
-          ease: "power3.out" // Smooth cinematic easing
+          scale: 1,
+          stagger: {
+            amount: 0.8, // Total time for all words to stagger
+            ease: "power2.out"
+          },
+          duration: 1.6, // Longer duration for that premium feel
+          ease: "expo.out" // VITURE uses expo easing for that smooth deceleration
         })
-        // Then animate subtitle with same effect
+        // Then animate subtitle with complementary timing
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
-          duration: 1,
-          ease: "expo.out" // Even smoother for the subtitle
-        }, "-=0.6");
+          duration: 1.2,
+          ease: "expo.out"
+        }, "-=0.4");
 
       // Background animation removed - now using static homepage background
 
