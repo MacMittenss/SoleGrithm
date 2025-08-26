@@ -139,8 +139,8 @@ export default function SoleRadarSection() {
         // Set initial state - curtain hidden at bottom with rotation
         gsap.set(curtainRef.current, {
           y: "100%",
-          rotation: -90, // Start rotated counter-clockwise
-          transformOrigin: "0% 100%", // Bottom-left corner as rotation axis
+          rotation: 90, // Start rotated clockwise from vertical
+          transformOrigin: "100% 100%", // Bottom-right corner as rotation axis
           opacity: 1,
         });
 
