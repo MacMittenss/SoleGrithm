@@ -65,8 +65,6 @@ export default function Home() {
   const trendingSectionRef = useRef<HTMLDivElement>(null);
   const trendingHeaderRef = useRef<HTMLHeadingElement>(null);
   const trendingContentRef = useRef<HTMLDivElement>(null);
-  const styleQuizRef = useRef<HTMLDivElement>(null);
-  const styleQuizContentRef = useRef<HTMLDivElement>(null);
   
   // Initialize smooth scrolling
   useSmoothScroll();
@@ -225,83 +223,6 @@ export default function Home() {
 
     return () => ctx.revert();
   }, [sneakers, brands]); // Depend on data being loaded
-
-  // Style Quiz Curtain Transition - LUMA-style curtain reveal
-  useEffect(() => {
-    if (!styleQuizRef.current || !styleQuizContentRef.current) return;
-
-    // Create curtain element
-    const curtain = document.createElement("div");
-    curtain.classList.add("style-quiz-curtain");
-    curtain.style.cssText = `
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0%;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.95));
-      z-index: 999;
-      pointer-events: none;
-    `;
-    document.body.appendChild(curtain);
-
-    const ctx = gsap.context(() => {
-      // Set initial state for content (hidden)
-      gsap.set(styleQuizContentRef.current, { opacity: 0, y: 50 });
-
-      // Animate curtain rising from bottom
-      gsap.to(curtain, {
-        height: "100%",
-        ease: "power2.out",
-        duration: 1.5,
-        scrollTrigger: {
-          trigger: styleQuizRef.current,
-          start: "top 80%",
-          end: "top 20%",
-          scrub: 1,
-        }
-      });
-
-      // Animate content appearing on top of curtain
-      gsap.to(styleQuizContentRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: styleQuizRef.current,
-          start: "top 40%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      // Fade out curtain after content appears
-      gsap.to(curtain, {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: styleQuizRef.current,
-          start: "top 20%",
-          end: "bottom 60%",
-          scrub: 1,
-        }
-      });
-
-    }, styleQuizRef);
-
-    return () => {
-      ctx.revert();
-      // Clean up curtain element safely
-      try {
-        if (curtain && curtain.parentNode) {
-          curtain.parentNode.removeChild(curtain);
-        }
-      } catch (error) {
-        // Silently handle cleanup errors
-      }
-    };
-  }, []);
 
   const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
     queryKey: ["/api/blog"],
@@ -613,14 +534,14 @@ export default function Home() {
       </div>
 
       {/* Latest Stories Section - Advanced GSAP Pinned Animation */}
-      {/* <AdvancedLatestStories /> */}
+      <AdvancedLatestStories />
 
 
 
       {/* Sole Radar Section - Advanced GSAP Pinned Animation */}
-      {/* <SoleRadarSection /> */}
+      <SoleRadarSection />
 
-      {/* Style Quiz Section - Advanced Visual AI Search Style with Curtain Transition */}
+      {/* Style Quiz Section - Advanced Visual AI Search Style */}
       <SectionWrapper
         id="style-quiz"
         sticky={true}
@@ -629,7 +550,6 @@ export default function Home() {
         height="100vh"
       >
         <section
-          ref={styleQuizRef}
           className="relative py-32 overflow-hidden"
           style={{
             background: 'transparent',
@@ -656,7 +576,7 @@ export default function Home() {
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
           />
 
-          <div ref={styleQuizContentRef} className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
               <div
