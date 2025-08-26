@@ -15,7 +15,6 @@ import { ToastContainer } from '@/components/ui/notification-toast';
 
 // Pages
 import Home from "@/pages/Home";
-import CurtainTest from "@/pages/CurtainTest";
 import Catalog from "@/pages/Catalog";
 import Blog from "@/pages/Blog";
 import Profile from "@/pages/Profile";
@@ -67,9 +66,7 @@ function App() {
               <main id="main-content">
                 <PageTransition>
                   <Switch>
-                    <Route path="/" component={CurtainTest} />
-                    <Route path="/home" component={Home} />
-                    <Route path="/curtain-test" component={CurtainTest} />
+                    <Route path="/" component={Home} />
                     <Route path="/auth" component={Auth} />
                     {/* Redirect Catalog to Live Market */}
                     <Route path="/catalog">
