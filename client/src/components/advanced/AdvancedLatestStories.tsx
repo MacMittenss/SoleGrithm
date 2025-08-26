@@ -49,10 +49,9 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Set initial states - position elements as if they're hidden behind an invisible overlay
+      // Set initial states - position header elements as if they're hidden behind an invisible overlay
       gsap.set(".latest-stories .word", { opacity: 0, y: 80 });
       gsap.set(subtitleRef.current, { opacity: 0, y: 50 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 60, scale: 0.8 });
 
       // Header animation sequence - cinematic reveal like pulling from pocket
       headerTl
@@ -71,31 +70,6 @@ export default function AdvancedLatestStories() {
           duration: 1,
           ease: "expo.out" // Even smoother for the subtitle
         }, "-=0.6");
-
-      // Cards animation timeline (separate, scroll-triggered after header)
-      let cardsTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: cardsRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: 1,
-          onUpdate: (self) => {
-            // Animate cards one by one based on scroll progress
-            const cards = cardsRef.current?.children || [];
-            const progress = self.progress;
-            const cardCount = cards.length;
-            
-            Array.from(cards).forEach((card: any, index) => {
-              const cardProgress = Math.max(0, Math.min(1, (progress * cardCount) - index));
-              gsap.set(card, {
-                opacity: cardProgress,
-                y: 60 * (1 - cardProgress),
-                scale: 0.8 + (0.2 * cardProgress)
-              });
-            });
-          }
-        }
-      });
 
       // Background animation removed - now using static homepage background
 
