@@ -49,7 +49,10 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Set initial hidden states for title words
+      // Set initial hidden states for entire section and content
+      gsap.set(sectionRef.current, { 
+        opacity: 0, // Start section completely hidden
+      });
       gsap.set(".latest-stories .word", { 
         opacity: 0, 
         y: 150, 
@@ -78,9 +81,15 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Header animation sequence
+      // Header animation sequence - start with section fade-in
       headerTl
-        // Animate title words one by one with 0.1s spacing
+        // First, gradually fade in the entire section
+        .to(sectionRef.current, {
+          opacity: 1,
+          duration: 1.2,
+          ease: "power2.out"
+        })
+        // Then animate title words one by one with 0.1s spacing
         .to(".latest-stories .word", {
           opacity: 1,
           y: 0,
@@ -88,7 +97,7 @@ export default function AdvancedLatestStories() {
           stagger: 0.1, // 0.1 seconds apart
           duration: 0.6,
           ease: "expo.out"
-        })
+        }, "+=0.3") // Pause after section fade-in
         // Then animate subtitle
         .to(subtitleRef.current, {
           opacity: 1,
@@ -117,7 +126,7 @@ export default function AdvancedLatestStories() {
       className="latest-stories relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Fully opaque background
-        zIndex: 50, // High z-index to cover content behind during pin
+        zIndex: 40, // Lower z-index to not cover navbar (navbar is z-50)
         minHeight: '100vh', // Ensure full viewport coverage
       }}
       data-testid="section-latest-stories"
