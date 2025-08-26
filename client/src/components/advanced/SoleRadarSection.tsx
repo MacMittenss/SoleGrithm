@@ -81,7 +81,7 @@ export default function SoleRadarSection() {
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 70%", // Start animation when section is 70% into viewport (later than discover culture)
+          start: "top 40%", // Start animation much later - when section is only 40% into viewport
           end: "+=150%", // Shorter pin duration since animation starts later
           scrub: 1, // Tie animation to scroll progress
         }
