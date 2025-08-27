@@ -51,6 +51,32 @@ The application employs a modern full-stack architecture with clear separation o
 - **Unified Live Market**: Catalog and Live Market sections are merged into a single "Live Market" experience with real-time price indicators and market analytics.
 - **Enhanced Detail Pages**: Live market data display, AR Try-On functionality, and direct purchase links integrated into SneakerDetail pages.
 
+## Critical Animation Patterns
+
+### GSAP ScrollTrigger Animation Rules (NEVER BREAK THESE)
+**For smooth sequential homepage section animations, ALWAYS use:**
+```javascript
+let headerTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: sectionRef.current,
+    start: "top 80%", // When section enters viewport
+    toggleActions: "play none none reverse", // Time-based animations
+  }
+});
+```
+
+**NEVER use `scrub: 1` for main section content animations** - this ties animation progress directly to scroll position causing elements to "pop" and snap to positions instead of smooth sequential timing.
+
+**Only use `scrub: true` for:**
+- Overlay/curtain effects that need to be synchronized with scroll speed
+- Blur effects that should progress with scroll
+- Effects that should be perfectly tied to scroll position
+
+**Timeline Structure:**
+- Use proper durations (0.4s, 0.5s, 0.6s) with stagger timing (0.05s, 0.1s)
+- Elements should animate sequentially: badge → words → subtitle → features → buttons → grids
+- Always use `ease: "expo.out"` for text reveals and `ease: "back.out(1.2)"` for scaling elements
+
 ## External Dependencies
 
 ### Core Infrastructure
