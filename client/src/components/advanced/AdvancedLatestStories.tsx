@@ -49,23 +49,26 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Set initial hidden states ONLY when animation is about to start
+      // Set initial hidden states for title words
       gsap.set(".latest-stories .word", { 
         opacity: 0, 
-        y: 50, // Smaller movement to reduce popping
-        scale: 0.95
+        y: 150, 
+        scale: 0.9,
+        transformOrigin: "center bottom"
       });
       gsap.set(subtitleRef.current, { 
         opacity: 0, 
-        y: 30 // Smaller movement
+        y: 80,
+        transformOrigin: "center bottom"
       });
+      // Set initial hidden states for cards
       gsap.set(cardsRef.current, {
-        opacity: 0,
-        y: 30, // Much smaller movement
-        scale: 0.95
+        y: 100,
+        scale: 0,
+        transformOrigin: "center bottom"
       });
 
-      // Timeline using .to() approach - properly reveals content
+      // Header animation timeline - animate only when section is pinned
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -74,9 +77,9 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Header animation sequence - reveal elements
+      // Header animation sequence - much faster timing
       headerTl
-        // Animate title words to visible state
+        // Animate title words one by one with faster spacing
         .to(".latest-stories .word", {
           opacity: 1,
           y: 0,
@@ -85,16 +88,15 @@ export default function AdvancedLatestStories() {
           duration: 0.3, // Much faster duration
           ease: "expo.out"
         })
-        // Then animate subtitle to visible state
+        // Then animate subtitle faster
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate cards to visible state
+        // Then animate cards growing upward from bottom faster
         .to(cardsRef.current, {
-          opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.4, // Much faster

@@ -44,37 +44,40 @@ export default function SoleRadarSection() {
         anticipatePin: 1,
       });
 
-      // Set initial hidden states ONLY when animation is about to start
-      gsap.set(badgeRef.current, { 
-        opacity: 0, 
-        y: 30 // Smaller movement
-      });
+      // Set initial hidden states for title words
       gsap.set(".sole-radar .word", { 
         opacity: 0, 
-        y: 50, // Smaller movement to reduce popping
-        scale: 0.95
+        y: 150, 
+        scale: 0.9,
+        transformOrigin: "center bottom"
       });
       gsap.set(subtitleRef.current, { 
         opacity: 0, 
-        y: 30 // Smaller movement
+        y: 80,
+        transformOrigin: "center bottom"
+      });
+      gsap.set(badgeRef.current, { 
+        opacity: 0, 
+        y: 60,
+        transformOrigin: "center bottom"
       });
       gsap.set(featuresRef.current, {
-        opacity: 0,
-        y: 30, // Much smaller movement
-        scale: 0.95
+        y: 100,
+        scale: 0,
+        transformOrigin: "center bottom"
       });
       gsap.set(buttonRef.current, {
-        opacity: 0,
-        y: 30,
-        scale: 0.95
+        y: 100,
+        scale: 0,
+        transformOrigin: "center bottom"
       });
       gsap.set(gridRef.current, {
-        opacity: 0,
-        y: 30,
-        scale: 0.95
+        y: 100,
+        scale: 0,
+        transformOrigin: "center bottom"
       });
 
-      // Timeline using .to() approach - properly reveals content
+      // Header animation timeline - animate only when section is pinned
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -83,16 +86,16 @@ export default function SoleRadarSection() {
         }
       });
 
-      // Header animation sequence - reveal elements
+      // Header animation sequence - much faster timing
       headerTl
-        // Badge first to visible state
+        // Badge first - much faster
         .to(badgeRef.current, {
           opacity: 1,
           y: 0,
           duration: 0.2, // Much faster
           ease: "expo.out"
         })
-        // Animate title words to visible state
+        // Animate title words one by one with faster spacing
         .to(".sole-radar .word", {
           opacity: 1,
           y: 0,
@@ -101,39 +104,70 @@ export default function SoleRadarSection() {
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate subtitle to visible state
+        // Then animate subtitle faster
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate features to visible state
+        // Then animate features list faster
         .to(featuresRef.current, {
-          opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.05") // Minimal pause
-        // Then animate button to visible state
+        // Then animate button faster
         .to(buttonRef.current, {
-          opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)"
         }, "+=0.03") // Minimal delay
-        // Finally animate grid to visible state
+        // Finally animate grid faster
         .to(gridRef.current, {
-          opacity: 1,
           y: 0,
           scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.03"); // Minimal delay
 
-      // Curtain overlay animations removed to prevent popping conflicts
+      // Curtain overlay animation - rises from bottom with clockwise rotation
+      if (curtainRef.current) {
+        // Set initial state - curtain as horizontal bar at bottom
+        gsap.set(curtainRef.current, {
+          scaleY: 0, // Start as flat horizontal line
+          rotation: 0, // Start horizontal 
+          transformOrigin: "33.33% 100%", // Rotate from a point that ensures full coverage
+          opacity: 1,
+        });
+
+        // Section blur effect as it scrolls away - faster rate
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "bottom 95%", // Start blurring when section begins scrolling away
+          end: "bottom 70%", // Reach full blur much sooner for faster rate
+          scrub: true, // Smooth blur progression
+          animation: gsap.to(sectionRef.current, {
+            filter: "blur(20px)", // Maximum blur of 20px
+            ease: "none",
+          }),
+        });
+
+        // Curtain grows and rotates after section animation is complete
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "bottom 90%", // Start after section internal animations are complete
+          end: "bottom 30%", // End when section is pushed away
+          scrub: true, // Perfectly synchronized with scroll speed
+          animation: gsap.to(curtainRef.current, {
+            scaleY: 1, // Grow to full height to cover screen
+            rotation: 90, // Rotate 90 degrees clockwise to vertical
+            ease: "none", // Linear movement to match scroll
+          }),
+        });
+      }
 
     }, sectionRef);
 
