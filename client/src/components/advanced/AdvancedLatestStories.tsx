@@ -43,7 +43,7 @@ export default function AdvancedLatestStories() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=400%", // Long pin to ensure all animations complete before scrolling away
+        end: "+=250%", // Shorter pin - scroll away immediately after completion
         pin: true,
         pinSpacing: true, // Create spacing to prevent content below from scrolling through
         anticipatePin: 1,
@@ -73,36 +73,36 @@ export default function AdvancedLatestStories() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top", // Start when section is pinned to viewport top
-          end: "+=300%", // Long duration to complete all animations
+          end: "+=200%", // Shorter duration for faster completion
           scrub: 1, // Reversible animation tied to scroll
         }
       });
 
-      // Header animation sequence - faster timing
+      // Header animation sequence - much faster timing
       headerTl
-        // Animate title words one by one with faster spacing
+        // Animate title words one by one with fastest spacing
         .to(".latest-stories .word", {
           opacity: 1,
           y: 0,
           scale: 1,
-          stagger: 0.05, // Faster stagger
-          duration: 0.4, // Faster duration
+          stagger: 0.03, // Much faster stagger
+          duration: 0.3, // Much faster duration
           ease: "expo.out"
         })
-        // Then animate subtitle faster
+        // Then animate subtitle much faster
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.5, // Faster
+          duration: 0.3, // Much faster
           ease: "expo.out"
-        }, "+=0.1") // Reduced pause
-        // Then animate cards growing upward from bottom faster
+        }, "+=0.05") // Minimal pause
+        // Then animate cards growing upward from bottom much faster
         .to(cardsRef.current, {
           y: 0,
           scale: 1,
-          duration: 0.7, // Faster
+          duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.1"); // Reduced pause
+        }, "+=0.05"); // Minimal pause
 
       // Background animation removed - now using static homepage background
 
