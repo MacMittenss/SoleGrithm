@@ -125,14 +125,25 @@ export default function SoleRadarSection() {
           scale: 1,
           duration: 1.0,
           ease: "back.out(1.2)"
-        }, "+=0.1")
+        }, "+=0.05") // Reduced delay
         // Finally animate grid
         .to(gridRef.current, {
           y: 0,
           scale: 1,
           duration: 1.0,
-          ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.1");
+          ease: "back.out(1.2)", // Slight bounce effect for growth
+          onComplete: () => {
+            // Trigger curtain animation immediately after grid completes
+            if (curtainRef.current) {
+              gsap.to(curtainRef.current, {
+                y: "0%",
+                rotation: 0,
+                duration: 1.5,
+                ease: "power2.inOut"
+              });
+            }
+          }
+        }, "+=0.05"); // Reduced delay
 
       // Curtain overlay animation - rises from bottom with clockwise rotation
       if (curtainRef.current) {
@@ -144,18 +155,8 @@ export default function SoleRadarSection() {
           opacity: 1,
         });
 
-        // Curtain rises and rotates clockwise as you scroll away from this section
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "bottom 100%", // Start immediately when section bottom reaches viewport top
-          end: "bottom 50%", // End when section bottom is at 50% of viewport
-          scrub: 1,
-          animation: gsap.to(curtainRef.current, {
-            y: "0%", // Move curtain to cover full screen
-            rotation: 0, // Rotate clockwise to upright position
-            ease: "none",
-          }),
-        });
+        // Note: Curtain animation is now triggered by onComplete callback above
+        // instead of scroll position for precise timing
       }
 
     }, sectionRef);
