@@ -34,11 +34,11 @@ export default function SoleRadarSection() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Minimal pinning - no delay after animation completion
+      // Pin exactly for animation duration - no more, no less
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=80%", // Very short pin - just enough for animation
+        end: "+=180%", // Exact duration: badge(0.2s) + words(0.3s+0.05s) + subtitle(0.3s+0.05s) + features(0.4s+0.05s) + button(0.4s+0.03s) + grid(0.4s+0.03s) = ~1.8s total
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,

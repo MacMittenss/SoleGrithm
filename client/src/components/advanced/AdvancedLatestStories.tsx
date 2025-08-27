@@ -39,11 +39,11 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Minimal pinning - no delay after animation completion
+      // Pin exactly for animation duration - no more, no less
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=80%", // Very short pin - just enough for animation
+        end: "+=120%", // Exact duration: words(0.3s) + subtitle(0.3s+0.05s) + cards(0.4s+0.05s) = ~1.1s total
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
