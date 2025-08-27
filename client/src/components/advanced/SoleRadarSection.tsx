@@ -144,16 +144,16 @@ export default function SoleRadarSection() {
           opacity: 1,
         });
 
-        // Curtain grows and rotates with backwards animation support
+        // Curtain grows and rotates synchronized with section scroll-out speed
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: "bottom 95%", // Start earlier when section bottom reaches 95% of viewport
-          end: "bottom 50%", // End when section bottom reaches 50% of viewport  
-          scrub: 1, // Smooth scrubbing for forward and backward animation
+          start: "bottom 100%", // Start exactly when section bottom hits viewport top
+          end: "bottom 0%", // End when section is completely scrolled out
+          scrub: true, // Perfectly synchronized with scroll speed
           animation: gsap.to(curtainRef.current, {
             scaleY: 1, // Grow to full height to cover screen
             rotation: 90, // Rotate 90 degrees clockwise to vertical
-            ease: "none",
+            ease: "none", // Linear movement to match scroll
           }),
         });
       }
