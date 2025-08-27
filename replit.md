@@ -65,7 +65,29 @@ let headerTl = gsap.timeline({
 });
 ```
 
-**NEVER use `scrub: 1` for main section content animations** - this ties animation progress directly to scroll position causing elements to "pop" and snap to positions instead of smooth sequential timing.
+**SPECIAL PATTERN for Latest Stories & Sole Radar Sections (PRESERVE EXACTLY):**
+```javascript
+// Animation timeline - animate ONLY when section is pinned
+let headerTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: sectionRef.current,
+    start: "top top", // Animate only when section is pinned to top
+    toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
+  }
+});
+
+// Pinning - exact duration matching animation completion
+ScrollTrigger.create({
+  trigger: sectionRef.current,
+  start: "top top",
+  end: "+=120%" // (Latest Stories) or "+=180%" (Sole Radar) - exact animation duration
+  pin: true,
+  pinSpacing: true,
+  anticipatePin: 1,
+});
+```
+
+**CRITICAL: NEVER use `scrub: 1` for main section content animations** - this ties animation progress directly to scroll position causing elements to "pop" and snap to positions instead of smooth sequential timing.
 
 **Only use `scrub: true` for:**
 - Overlay/curtain effects that need to be synchronized with scroll speed
@@ -73,9 +95,10 @@ let headerTl = gsap.timeline({
 - Effects that should be perfectly tied to scroll position
 
 **Timeline Structure:**
-- Use proper durations (0.4s, 0.5s, 0.6s) with stagger timing (0.05s, 0.1s)
+- Use proper durations (0.3s, 0.4s) with minimal stagger timing (0.03s, 0.05s) for fast animations
 - Elements should animate sequentially: badge → words → subtitle → features → buttons → grids
 - Always use `ease: "expo.out"` for text reveals and `ease: "back.out(1.2)"` for scaling elements
+- Pin duration must exactly match total animation time - no delays after completion
 
 ## External Dependencies
 
