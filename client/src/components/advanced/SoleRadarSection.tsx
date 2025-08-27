@@ -77,13 +77,13 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered only when section is pinned to viewport
+      // Header animation timeline - smooth scroll-based animations
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Start only when section is pinned to viewport top
-          end: "bottom top", // End when section bottom reaches viewport top
-          scrub: 1, // Reversible animation tied to scroll
+          start: "top 85%", // Start when section enters viewport
+          end: "bottom 50%", // Complete animation range
+          scrub: 1, // Smooth reversible animation
         }
       });
 
