@@ -38,7 +38,7 @@ export default function SoleRadarSection() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=250%", // Shorter pin - scroll away immediately after completion
+        end: "+=400%", // Long pin to ensure all animations complete before scrolling away
         pin: true,
         pinSpacing: true, // Create spacing to prevent content below from scrolling through
         anticipatePin: 1,
@@ -82,57 +82,57 @@ export default function SoleRadarSection() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top", // Start when section is pinned to viewport top
-          end: "+=200%", // Shorter duration for faster completion
+          end: "+=300%", // Long duration to complete all animations
           scrub: 1, // Reversible animation tied to scroll
         }
       });
 
-      // Header animation sequence - much faster timing
+      // Header animation sequence - faster timing
       headerTl
-        // Badge first - much faster
+        // Badge first - faster
         .to(badgeRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.2, // Much faster
+          duration: 0.3, // Faster
           ease: "expo.out"
         })
-        // Animate title words one by one with fastest spacing
+        // Animate title words one by one with faster spacing
         .to(".sole-radar .word", {
           opacity: 1,
           y: 0,
           scale: 1,
-          stagger: 0.03, // Much faster stagger
-          duration: 0.3, // Much faster
+          stagger: 0.05, // Faster stagger
+          duration: 0.4, // Faster
           ease: "expo.out"
-        }, "+=0.05") // Minimal pause
-        // Then animate subtitle much faster
+        }, "+=0.1") // Reduced pause
+        // Then animate subtitle faster
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.3, // Much faster
+          duration: 0.5, // Faster
           ease: "expo.out"
-        }, "+=0.05") // Minimal pause
-        // Then animate features list much faster
+        }, "+=0.1") // Reduced pause
+        // Then animate features list faster
         .to(featuresRef.current, {
           y: 0,
           scale: 1,
-          duration: 0.4, // Much faster
+          duration: 0.6, // Faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.05") // Minimal pause
-        // Then animate button much faster
+        }, "+=0.1") // Reduced pause
+        // Then animate button faster
         .to(buttonRef.current, {
           y: 0,
           scale: 1,
-          duration: 0.4, // Much faster
+          duration: 0.6, // Faster
           ease: "back.out(1.2)"
-        }, "+=0.02") // Minimal delay
-        // Finally animate grid much faster
+        }, "+=0.05") // Minimal delay
+        // Finally animate grid faster
         .to(gridRef.current, {
           y: 0,
           scale: 1,
-          duration: 0.4, // Much faster
+          duration: 0.6, // Faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.02"); // Minimal delay
+        }, "+=0.05"); // Minimal delay
 
       // Curtain overlay animation - rises from bottom with clockwise rotation
       if (curtainRef.current) {
