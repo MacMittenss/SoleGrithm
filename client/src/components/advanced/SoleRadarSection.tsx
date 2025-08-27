@@ -140,7 +140,7 @@ export default function SoleRadarSection() {
         gsap.set(curtainRef.current, {
           scaleY: 0, // Start as flat horizontal line
           rotation: 0, // Start horizontal 
-          transformOrigin: "50% 100%", // Rotate from bottom center of the wider element
+          transformOrigin: "33.33% 100%", // Rotate from a point that ensures full coverage
           opacity: 1,
         });
 
@@ -347,10 +347,10 @@ export default function SoleRadarSection() {
         style={{
           backgroundColor: '#000000',
           zIndex: 1000,
-          width: '200vw', // Extra wide to cover any gaps during rotation
-          height: '2000vh', // Extremely thick overlay for complete coverage
+          width: '300vw', // Much wider to ensure full coverage when upright
+          height: '600vh', // Back to reasonable thickness
           bottom: '0%', // Start at bottom of viewport
-          left: '-50vw', // Center the wider overlay
+          left: '-100vw', // Position further left to cover gaps when vertical
         }}
       />
     </div>
