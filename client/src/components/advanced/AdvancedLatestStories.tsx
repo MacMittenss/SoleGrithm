@@ -39,13 +39,13 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Pin exactly for animation duration - no more, no less
+      // Light pinning to prevent overlay issues
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=120%", // Exact duration: words(0.3s) + subtitle(0.3s+0.05s) + cards(0.4s+0.05s) = ~1.1s total
+        end: "+=50%", // Much shorter to prevent overlay
         pin: true,
-        pinSpacing: true,
+        pinSpacing: false, // Disable pin spacing to maintain flow
         anticipatePin: 1,
       });
 
@@ -116,7 +116,6 @@ export default function AdvancedLatestStories() {
       className="latest-stories relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Fully opaque background
-        minHeight: '100vh', // Ensure full viewport coverage
       }}
       data-testid="section-latest-stories"
     >
