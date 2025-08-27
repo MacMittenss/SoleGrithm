@@ -181,6 +181,7 @@ export default function SoleRadarSection() {
       className="sole-radar relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Same as discover culture section
+        minHeight: '100vh', // Ensure full viewport coverage
       }}
       data-testid="section-sole-radar"
     >
