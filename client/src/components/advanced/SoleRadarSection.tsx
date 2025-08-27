@@ -144,11 +144,11 @@ export default function SoleRadarSection() {
           opacity: 1,
         });
 
-        // Curtain grows and rotates synchronized with section scroll-out speed
+        // Curtain grows and rotates after section animation is complete
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: "bottom 100%", // Start exactly when section bottom hits viewport top
-          end: "bottom 0%", // End when section is completely scrolled out
+          start: "bottom 90%", // Start after section internal animations are complete
+          end: "bottom 30%", // End when section is pushed away
           scrub: true, // Perfectly synchronized with scroll speed
           animation: gsap.to(curtainRef.current, {
             scaleY: 1, // Grow to full height to cover screen
