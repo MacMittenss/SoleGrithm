@@ -68,13 +68,12 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - reversible scroll-tied animations
+      // Header animation timeline - smooth reversible animations (NO POPPING)
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top", // Headers appear only when section is pinned
-          end: "bottom top", // Complete animation range
-          scrub: 1, // Fully reversible animations tied to scroll
+          toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
         }
       });
 
