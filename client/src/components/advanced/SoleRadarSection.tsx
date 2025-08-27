@@ -147,8 +147,8 @@ export default function SoleRadarSection() {
         // Curtain grows and rotates with backwards animation support
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: "bottom 80%", // Start when section bottom reaches 80% of viewport
-          end: "bottom 20%", // End when section bottom reaches 20% of viewport  
+          start: "bottom 95%", // Start earlier when section bottom reaches 95% of viewport
+          end: "bottom 50%", // End when section bottom reaches 50% of viewport  
           scrub: 1, // Smooth scrubbing for forward and backward animation
           animation: gsap.to(curtainRef.current, {
             scaleY: 1, // Grow to full height to cover screen
@@ -340,12 +340,13 @@ export default function SoleRadarSection() {
         </div>
       </div>
 
-      {/* Curtain Overlay - Black curtain that starts as horizontal bar at bottom */}
+      {/* Curtain Overlay - Style Quiz background that starts as horizontal bar at bottom */}
       <div
         ref={curtainRef}
         className="fixed pointer-events-none"
         style={{
-          backgroundColor: '#000000',
+          background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
+          backgroundColor: 'rgba(20, 20, 30, 1)', // Fallback dark background
           zIndex: 1000,
           width: '100vw', // Full viewport width
           height: '200vh', // Extra height to cover full screen when rotated
