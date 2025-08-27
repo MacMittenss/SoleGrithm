@@ -34,13 +34,13 @@ export default function SoleRadarSection() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Pin the section during header animation - prevent content below from scrolling
+      // Reduced pinning - more like normal sections
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=150%", // Shorter pin - just enough for animation to complete
+        end: "+=100%", // Much shorter pin duration
         pin: true,
-        pinSpacing: true, // Create spacing to prevent content below from scrolling through
+        pinSpacing: true,
         anticipatePin: 1,
       });
 
@@ -77,11 +77,11 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered when section is pinned to viewport
+      // Header animation timeline - triggered when previous section is almost out of view
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Start only when section is pinned to viewport top
+          start: "top 85%", // Start when previous section is almost out of viewport
           end: "bottom 20%", // End when section bottom reaches 20% of viewport
           scrub: 1, // Reversible animation tied to scroll
         }
