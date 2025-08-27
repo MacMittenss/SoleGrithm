@@ -144,11 +144,11 @@ export default function SoleRadarSection() {
           opacity: 1,
         });
 
-        // Section blur effect as it scrolls away
+        // Section blur effect as it scrolls away - faster rate
         ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "bottom 95%", // Start blurring when section begins scrolling away
-          end: "bottom 20%", // Full blur when section is mostly gone
+          end: "bottom 70%", // Reach full blur much sooner for faster rate
           scrub: true, // Smooth blur progression
           animation: gsap.to(sectionRef.current, {
             filter: "blur(20px)", // Maximum blur of 20px
