@@ -81,7 +81,7 @@ export default function SoleRadarSection() {
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Start when section is pinned to viewport top
+          start: "top 20%", // Start later - when section top reaches 20% of viewport
           end: "+=300%", // Long duration to complete all animations
           scrub: 1, // Reversible animation tied to scroll
         }
