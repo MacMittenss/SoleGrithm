@@ -44,7 +44,37 @@ export default function SoleRadarSection() {
         anticipatePin: 1,
       });
 
-      // Timeline using .from() approach - prevents popping
+      // Set initial hidden states ONLY when animation is about to start
+      gsap.set(badgeRef.current, { 
+        opacity: 0, 
+        y: 30 // Smaller movement
+      });
+      gsap.set(".sole-radar .word", { 
+        opacity: 0, 
+        y: 50, // Smaller movement to reduce popping
+        scale: 0.95
+      });
+      gsap.set(subtitleRef.current, { 
+        opacity: 0, 
+        y: 30 // Smaller movement
+      });
+      gsap.set(featuresRef.current, {
+        opacity: 0,
+        y: 30, // Much smaller movement
+        scale: 0.95
+      });
+      gsap.set(buttonRef.current, {
+        opacity: 0,
+        y: 30,
+        scale: 0.95
+      });
+      gsap.set(gridRef.current, {
+        opacity: 0,
+        y: 30,
+        scale: 0.95
+      });
+
+      // Timeline using .to() approach - properly reveals content
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -53,49 +83,52 @@ export default function SoleRadarSection() {
         }
       });
 
-      // Header animation sequence using .from() - much more reliable
+      // Header animation sequence - reveal elements
       headerTl
-        // Badge first from hidden state
-        .from(badgeRef.current, {
-          opacity: 0,
-          y: 60,
+        // Badge first to visible state
+        .to(badgeRef.current, {
+          opacity: 1,
+          y: 0,
           duration: 0.2, // Much faster
           ease: "expo.out"
         })
-        // Animate title words from hidden state
-        .from(".sole-radar .word", {
-          opacity: 0,
-          y: 150,
-          scale: 0.9,
+        // Animate title words to visible state
+        .to(".sole-radar .word", {
+          opacity: 1,
+          y: 0,
+          scale: 1,
           stagger: 0.03, // Much faster stagger
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate subtitle from hidden state
-        .from(subtitleRef.current, {
-          opacity: 0,
-          y: 80,
+        // Then animate subtitle to visible state
+        .to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate features from hidden state
-        .from(featuresRef.current, {
-          y: 100,
-          scale: 0,
+        // Then animate features to visible state
+        .to(featuresRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.05") // Minimal pause
-        // Then animate button from hidden state
-        .from(buttonRef.current, {
-          y: 100,
-          scale: 0,
+        // Then animate button to visible state
+        .to(buttonRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)"
         }, "+=0.03") // Minimal delay
-        // Finally animate grid from hidden state
-        .from(gridRef.current, {
-          y: 100,
-          scale: 0,
+        // Finally animate grid to visible state
+        .to(gridRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.03"); // Minimal delay

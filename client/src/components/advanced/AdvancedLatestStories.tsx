@@ -49,7 +49,23 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Timeline using .from() approach - prevents popping
+      // Set initial hidden states ONLY when animation is about to start
+      gsap.set(".latest-stories .word", { 
+        opacity: 0, 
+        y: 50, // Smaller movement to reduce popping
+        scale: 0.95
+      });
+      gsap.set(subtitleRef.current, { 
+        opacity: 0, 
+        y: 30 // Smaller movement
+      });
+      gsap.set(cardsRef.current, {
+        opacity: 0,
+        y: 30, // Much smaller movement
+        scale: 0.95
+      });
+
+      // Timeline using .to() approach - properly reveals content
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -58,28 +74,29 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Header animation sequence using .from() - much more reliable
+      // Header animation sequence - reveal elements
       headerTl
-        // Animate title words from hidden state
-        .from(".latest-stories .word", {
-          opacity: 0,
-          y: 150,
-          scale: 0.9,
+        // Animate title words to visible state
+        .to(".latest-stories .word", {
+          opacity: 1,
+          y: 0,
+          scale: 1,
           stagger: 0.03, // Much faster stagger
           duration: 0.3, // Much faster duration
           ease: "expo.out"
         })
-        // Then animate subtitle from hidden state
-        .from(subtitleRef.current, {
-          opacity: 0,
-          y: 80,
+        // Then animate subtitle to visible state
+        .to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate cards from hidden state
-        .from(cardsRef.current, {
-          y: 100,
-          scale: 0,
+        // Then animate cards to visible state
+        .to(cardsRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.05"); // Minimal pause
