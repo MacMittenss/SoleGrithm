@@ -68,11 +68,11 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - wait for previous section to fully exit
+      // Header animation timeline - animate only when section is pinned
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 60%", // Wait until previous section fully exits before starting
+          start: "top top", // Animate only when section is pinned to top
           toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
         }
       });
