@@ -67,6 +67,9 @@ export default function Home() {
   const trendingContentRef = useRef<HTMLDivElement>(null);
   const styleQuizRef = useRef<HTMLElement>(null);
   const styleQuizContentRef = useRef<HTMLDivElement>(null);
+  const joinCommunityRef = useRef<HTMLElement>(null);
+  const joinCommunityHeaderRef = useRef<HTMLDivElement>(null);
+  const joinCommunityContentRef = useRef<HTMLDivElement>(null);
   
   // Initialize smooth scrolling
   useSmoothScroll();
@@ -303,6 +306,80 @@ export default function Home() {
       }
 
     }, styleQuizRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // GSAP Animation for Join Community Section - Header first, then all components
+  useEffect(() => {
+    if (!joinCommunityRef.current || !joinCommunityHeaderRef.current || !joinCommunityContentRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Find header elements
+      const title = joinCommunityHeaderRef.current?.querySelector('h2');
+      const subtitle = joinCommunityHeaderRef.current?.querySelector('p');
+      
+      // Find content elements
+      const mockupPhone = joinCommunityContentRef.current?.querySelector('.mockup-phone');
+      const connectSection = joinCommunityContentRef.current?.querySelector('.community-features');
+      const joinButton = joinCommunityContentRef.current?.querySelector('.community-button');
+      
+      // Set initial hidden states
+      if (title) gsap.set(title, { opacity: 0, y: 50 });
+      if (subtitle) gsap.set(subtitle, { opacity: 0, y: 50 });
+      if (mockupPhone) gsap.set(mockupPhone, { opacity: 0, y: 50 });
+      if (connectSection) gsap.set(connectSection, { opacity: 0, y: 50 });
+      if (joinButton) gsap.set(joinButton, { opacity: 0, y: 50 });
+
+      // Create pinned timeline
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: joinCommunityRef.current,
+          start: "top top",
+          end: "+=150%", // Extended scroll distance like other sections
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      // Header animation first
+      if (title) {
+        tl.to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      }
+      
+      if (subtitle) {
+        tl.to(subtitle, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out"
+        }, "+=0.1");
+      }
+
+      // All other components animate together after header
+      const otherElements = [];
+      if (mockupPhone) otherElements.push(mockupPhone);
+      if (connectSection) otherElements.push(connectSection);
+      if (joinButton) otherElements.push(joinButton);
+      
+      if (otherElements.length > 0) {
+        tl.to(otherElements, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        }, "+=0.2");
+      }
+
+    }, joinCommunityRef);
 
     return () => ctx.revert();
   }, []);
@@ -816,9 +893,12 @@ export default function Home() {
 
 
       {/* Community & Social Section */}
-      <section className="py-16 sm:py-24">
+      <section 
+        ref={joinCommunityRef}
+        className="py-16 sm:py-24 min-h-screen"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
+          <div ref={joinCommunityHeaderRef} className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Join the Community
             </h2>
@@ -827,7 +907,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
+          <div ref={joinCommunityContentRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
             {/* DaisyUI iPhone Mockup */}
             <div className="flex justify-center">
               <div className="mockup-phone scale-75 sm:scale-90"
@@ -860,19 +940,11 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.1 }}
                             />
                             <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.2 }}
                             />
                           </div>
                           <div className="grid gap-1">
@@ -880,28 +952,16 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.3 }}
                             />
                             <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.4 }}
                             />
                             <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.5 }}
                             />
                           </div>
                           <div className="grid gap-1">
@@ -909,19 +969,11 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.6 }}
                             />
                             <img 
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              whileInView={{ opacity: 1, scale: 1 }}
-                              viewport={{ once: true, amount: 0.3 }}
-                              transition={{ duration: 0.6, delay: 0.7 }}
                             />
                           </div>
                         </div>
@@ -933,7 +985,7 @@ export default function Home() {
             </div>
 
             {/* Social Features */}
-            <div variants={itemVariants} className="space-y-6">
+            <div className="space-y-6 community-features">
               <h3 className="text-2xl font-semibold">Connect & Share</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
@@ -964,7 +1016,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <Link href="/auth">
+              <Link href="/auth" className="community-button">
                 <Button size="lg" className="w-full" data-testid="button-join-community">
                   Join Community
                   <ArrowRight className="w-5 h-5 ml-2" />
