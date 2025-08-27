@@ -348,7 +348,7 @@ export default function SoleRadarSection() {
           backgroundColor: '#000000',
           zIndex: 1000,
           width: '200vw', // Extra wide to cover any gaps during rotation
-          height: '600vh', // Three times thicker for more substantial overlay
+          height: '2000vh', // Extremely thick overlay for complete coverage
           bottom: '0%', // Start at bottom of viewport
           left: '-50vw', // Center the wider overlay
         }}
