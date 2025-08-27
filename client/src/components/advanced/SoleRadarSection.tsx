@@ -34,7 +34,7 @@ export default function SoleRadarSection() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Pin exactly for animation duration - no more, no less
+      // Pin when section reaches top after animation starts
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
@@ -77,11 +77,11 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - smooth reversible animations (NO POPPING)
+      // Header animation timeline - wait for previous section to exit completely
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Headers appear only when section is pinned
+          start: "top 60%", // Wait until previous section fully exits before starting
           toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
         }
       });
