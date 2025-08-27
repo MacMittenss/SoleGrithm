@@ -82,8 +82,7 @@ export default function SoleRadarSection() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 85%", // Start when previous section is almost out of viewport
-          end: "bottom 20%", // End when section bottom reaches 20% of viewport
-          scrub: 1, // Reversible animation tied to scroll
+          toggleActions: "play none none reverse", // Play on enter, reverse on leave
         }
       });
 
