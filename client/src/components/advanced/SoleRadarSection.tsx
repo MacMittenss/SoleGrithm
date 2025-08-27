@@ -82,8 +82,7 @@ export default function SoleRadarSection() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 40%", // Start animation much later - when section is only 40% into viewport
-          end: "+=150%", // Shorter pin duration since animation starts later
-          scrub: 1, // Tie animation to scroll progress
+          toggleActions: "play none none reverse", // Play on enter, reverse on leave
         }
       });
 

@@ -73,8 +73,7 @@ export default function AdvancedLatestStories() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 60%", // Start animation when section is 60% into viewport
-          end: "+=150%", // Shorter pin duration since animation starts later
-          scrub: 1, // Tie animation to scroll progress
+          toggleActions: "play none none reverse", // Play on enter, reverse on leave
         }
       });
 
