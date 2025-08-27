@@ -73,8 +73,7 @@ export default function AdvancedLatestStories() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top", // Start only when section is pinned to viewport top
-          end: "bottom 20%", // End when section bottom reaches 20% of viewport
-          scrub: 1, // Reversible animation tied to scroll
+          toggleActions: "play none none reverse", // Play on enter, reverse on leave
         }
       });
 
