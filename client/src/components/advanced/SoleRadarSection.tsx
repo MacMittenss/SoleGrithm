@@ -345,8 +345,7 @@ export default function SoleRadarSection() {
         ref={curtainRef}
         className="fixed pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
-          backgroundColor: 'rgba(20, 20, 30, 1)', // Fallback dark background
+          backgroundColor: '#000000',
           zIndex: 1000,
           width: '100vw', // Full viewport width
           height: '200vh', // Extra height to cover full screen when rotated
