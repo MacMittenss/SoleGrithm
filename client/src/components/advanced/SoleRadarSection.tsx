@@ -156,11 +156,11 @@ export default function SoleRadarSection() {
           }),
         });
 
-        // Curtain grows and rotates after section animation is complete
+        // Curtain grows and rotates AFTER section completely finishes
         ScrollTrigger.create({
           trigger: sectionRef.current,
-          start: "bottom 90%", // Start after section internal animations are complete
-          end: "bottom 30%", // End when section is pushed away
+          start: "bottom 50%", // Wait until section animations and pinning are fully complete
+          end: "bottom 10%", // End when section is pushed away
           scrub: true, // Perfectly synchronized with scroll speed
           animation: gsap.to(curtainRef.current, {
             scaleY: 1, // Grow to full height to cover screen
