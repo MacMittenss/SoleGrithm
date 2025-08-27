@@ -82,10 +82,10 @@ export default function SoleRadarSection() {
         paused: true // Start paused, will be triggered manually
       });
 
-      // Trigger the timeline when section is approaching viewport
+      // Trigger the timeline only when section is pinned to viewport
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: "top 80%", // Start when section is 80% into viewport
+        start: "top top", // Start only when section is pinned to viewport top
         onEnter: () => headerTl.play(),
         onLeave: () => headerTl.reverse(),
         onEnterBack: () => headerTl.play(),
