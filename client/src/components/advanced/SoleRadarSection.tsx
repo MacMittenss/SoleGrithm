@@ -77,12 +77,13 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered when previous section is almost out of view
+      // Header animation timeline - triggered only when section is pinned to viewport
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 85%", // Start when previous section is almost out of viewport
-          toggleActions: "play none none reverse", // Play on enter, reverse on leave
+          start: "top top", // Start only when section is pinned to viewport top
+          end: "bottom top", // End when section bottom reaches viewport top
+          scrub: 1, // Reversible animation tied to scroll
         }
       });
 
