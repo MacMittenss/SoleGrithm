@@ -226,6 +226,87 @@ export default function Home() {
     return () => ctx.revert();
   }, [sneakers, brands]); // Depend on data being loaded
 
+  // GSAP Animation for Style Quiz Section - Header first, then all components
+  useEffect(() => {
+    if (!styleQuizRef.current || !styleQuizContentRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Find header elements
+      const badge = styleQuizContentRef.current?.querySelector('[data-testid="badge-style-quiz"]');
+      const titleWords = styleQuizContentRef.current?.querySelectorAll('.style-quiz-word');
+      const subtitle = styleQuizContentRef.current?.querySelector('.style-quiz-subtitle');
+      const form = styleQuizContentRef.current?.querySelector('form');
+      const sneakerGrid = styleQuizRef.current?.querySelector('.style-quiz-grid');
+      
+      // Set initial hidden states
+      if (badge) gsap.set(badge, { opacity: 0, y: 50 });
+      if (titleWords.length > 0) gsap.set(titleWords, { opacity: 0, y: 50 });
+      if (subtitle) gsap.set(subtitle, { opacity: 0, y: 50 });
+      if (form) gsap.set(form, { opacity: 0, y: 50 });
+      if (sneakerGrid) gsap.set(sneakerGrid, { opacity: 0, y: 50 });
+
+      // Create pinned timeline
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: styleQuizRef.current,
+          start: "top top",
+          end: "+=150%", // Extended scroll distance like other sections
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      // Header animation first
+      if (badge) {
+        tl.to(badge, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      }
+      
+      if (titleWords.length > 0) {
+        tl.to(titleWords, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          duration: 0.3,
+          ease: "power2.out"
+        }, "+=0.1");
+      }
+      
+      if (subtitle) {
+        tl.to(subtitle, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out"
+        }, "+=0.1");
+      }
+
+      // All other components animate together after header
+      const otherElements = [];
+      if (form) otherElements.push(form);
+      if (sneakerGrid) otherElements.push(sneakerGrid);
+      
+      if (otherElements.length > 0) {
+        tl.to(otherElements, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        }, "+=0.2");
+      }
+
+    }, styleQuizRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
     queryKey: ["/api/blog"],
     staleTime: 1000 * 60 * 5, // 5 minutes
@@ -560,15 +641,12 @@ export default function Home() {
         />
 
         {/* Floating geometric shapes */}
-        <motion.div
-          className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        <div
+          className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20 animate-spin"
+          style={{ animationDuration: '20s' }}
         />
-        <motion.div
+        <div
           className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
-          animate={{ rotate: [45, 135, 45] }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
@@ -576,90 +654,90 @@ export default function Home() {
             {/* Content Column */}
             <div ref={styleQuizContentRef} className="space-y-8">
                 {/* Badge */}
-                <motion.div
+                <div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(150, 0, 255, 0.1)',
                     border: '1px solid rgba(150, 0, 255, 0.2)',
                   }}
-                  whileHover={{ scale: 1.05 }}
+                  data-testid="badge-style-quiz"
                 >
                   <Sparkles className="w-4 h-4 text-purple-500" />
                   <span className="text-sm font-medium">STYLE QUIZ AI</span>
-                </motion.div>
+                </div>
 
                 {/* Main Title */}
                 <div>
-                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                    <SplitText type="words" delay={0.3}>
-                      Discover Your
-                    </SplitText>
+                  <h2 
+                    className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                    style={{ 
+                      fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
+                    }}
+                  >
+                    <span className="style-quiz-word text-white">Discover</span> <span className="style-quiz-word text-white">Your</span>
                     <br />
-                    <GradientText className="block">
-                      Perfect Style
-                    </GradientText>
+                    <span className="style-quiz-word" style={{
+                      background: 'linear-gradient(to right, #9600ff 0%, #6450ff 61%, #ff6496 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}>Perfect</span> <span className="style-quiz-word" style={{
+                      background: 'linear-gradient(to right, #9600ff 0%, #6450ff 61%, #ff6496 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}>Style</span>
                   </h2>
                   
-                  <motion.p
-                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, amount: 0.3 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
+                  <p
+                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl style-quiz-subtitle"
                   >
                     Take our quick style quiz and get personalized sneaker recommendations 
                     tailored just for you with AI-powered precision.
-                  </motion.p>
+                  </p>
                 </div>
 
                 {/* Enhanced Form */}
-                <motion.form 
+                <form 
                   className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
                   }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ duration: 0.8, delay: 1 }}
                 >
                   <div className="mb-6">
                     <label className="block text-white py-2 font-semibold mb-3" htmlFor="stylequiz">
                       Ready to find your style?
                     </label>
-                    <motion.input
+                    <input
                       className="w-full p-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-400 leading-tight focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                       id="stylequiz"
                       type="text"
                       placeholder="Enter your name to get started..."
                       data-testid="input-style-quiz-name"
-                      whileFocus={{ scale: 1.02 }}
                     />
                   </div>
 
                   <div className="pt-4">
                     <Link href="/quiz">
-                      <motion.button
-                        className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full w-full"
+                      <button
+                        className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full w-full hover:scale-105 active:scale-95 transition-transform"
                         style={{
                           background: 'linear-gradient(to right, #9600ff 0%, #6450ff 61%, #ff6496 100%)',
                         }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                         data-testid="button-start-style-quiz"
                       >
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           Start Style Quiz
                           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </span>
-                      </motion.button>
+                      </button>
                     </Link>
                   </div>
-                </motion.form>
+                </form>
               </div>
 
               {/* Interactive Sneaker Column */}
-              <div className="relative">
+              <div className="relative style-quiz-grid">
                 {/* Enhanced Interactive Card */}
                 <div className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
