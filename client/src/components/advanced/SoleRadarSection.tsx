@@ -38,7 +38,7 @@ export default function SoleRadarSection() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=300%", // Pin longer to ensure all animations complete
+        end: "+=150%", // Shorter pin - just enough for animation to complete
         pin: true,
         pinSpacing: true, // Create spacing to prevent content below from scrolling through
         anticipatePin: 1,
@@ -77,11 +77,11 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered when previous section is almost out of view  
+      // Header animation timeline - triggered when section is pinned to viewport
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%", // Start earlier when section is 80% into viewport
+          start: "top top", // Start only when section is pinned to viewport top
           end: "bottom 20%", // End when section bottom reaches 20% of viewport
           scrub: 1, // Reversible animation tied to scroll
         }
