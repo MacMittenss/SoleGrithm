@@ -136,23 +136,23 @@ export default function SoleRadarSection() {
 
       // Curtain overlay animation - rises from bottom with clockwise rotation
       if (curtainRef.current) {
-        // Set initial state - curtain hidden at bottom with rotation
+        // Set initial state - curtain as horizontal bar at bottom
         gsap.set(curtainRef.current, {
-          y: "100%",
-          rotation: -90, // Start pointing left, will rotate clockwise to upright
-          transformOrigin: "100% 100%", // Bottom-right corner as rotation axis
+          scaleY: 0, // Start as flat horizontal line
+          rotation: 0, // Start horizontal 
+          transformOrigin: "center bottom", // Rotate from bottom center
           opacity: 1,
         });
 
-        // Curtain rises and rotates with backwards animation support
+        // Curtain grows and rotates with backwards animation support
         ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "bottom 80%", // Start when section bottom reaches 80% of viewport
           end: "bottom 20%", // End when section bottom reaches 20% of viewport  
           scrub: 1, // Smooth scrubbing for forward and backward animation
           animation: gsap.to(curtainRef.current, {
-            y: "0%", // Move curtain to cover full screen
-            rotation: 0, // Rotate clockwise to upright position
+            scaleY: 1, // Grow to full height to cover screen
+            rotation: 90, // Rotate 90 degrees clockwise to vertical
             ease: "none",
           }),
         });
@@ -340,17 +340,17 @@ export default function SoleRadarSection() {
         </div>
       </div>
 
-      {/* Curtain Overlay - Black curtain that rises from bottom */}
+      {/* Curtain Overlay - Black curtain that starts as horizontal bar at bottom */}
       <div
         ref={curtainRef}
         className="fixed pointer-events-none"
         style={{
           backgroundColor: '#000000',
           zIndex: 1000,
-          width: '150%', // Make wider to cover diagonal rotation
-          height: '150%', // Make taller to cover diagonal rotation
-          top: '-25%', // Offset to center the larger size
-          left: '-25%', // Offset to center the larger size
+          width: '100vw', // Full viewport width
+          height: '200vh', // Extra height to cover full screen when rotated
+          bottom: '0%', // Start at bottom of viewport
+          left: '0%', // Align to left edge
         }}
       />
     </div>
