@@ -49,26 +49,7 @@ export default function AdvancedLatestStories() {
         anticipatePin: 1,
       });
 
-      // Set initial hidden states for title words
-      gsap.set(".latest-stories .word", { 
-        opacity: 0, 
-        y: 150, 
-        scale: 0.9,
-        transformOrigin: "center bottom"
-      });
-      gsap.set(subtitleRef.current, { 
-        opacity: 0, 
-        y: 80,
-        transformOrigin: "center bottom"
-      });
-      // Set initial hidden states for cards
-      gsap.set(cardsRef.current, {
-        y: 100,
-        scale: 0,
-        transformOrigin: "center bottom"
-      });
-
-      // Header animation timeline - animate only when section is pinned
+      // Timeline using .from() approach - prevents popping
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -77,28 +58,28 @@ export default function AdvancedLatestStories() {
         }
       });
 
-      // Header animation sequence - much faster timing
+      // Header animation sequence using .from() - much more reliable
       headerTl
-        // Animate title words one by one with faster spacing
-        .to(".latest-stories .word", {
-          opacity: 1,
-          y: 0,
-          scale: 1,
+        // Animate title words from hidden state
+        .from(".latest-stories .word", {
+          opacity: 0,
+          y: 150,
+          scale: 0.9,
           stagger: 0.03, // Much faster stagger
           duration: 0.3, // Much faster duration
           ease: "expo.out"
         })
-        // Then animate subtitle faster
-        .to(subtitleRef.current, {
-          opacity: 1,
-          y: 0,
+        // Then animate subtitle from hidden state
+        .from(subtitleRef.current, {
+          opacity: 0,
+          y: 80,
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate cards growing upward from bottom faster
-        .to(cardsRef.current, {
-          y: 0,
-          scale: 1,
+        // Then animate cards from hidden state
+        .from(cardsRef.current, {
+          y: 100,
+          scale: 0,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.05"); // Minimal pause

@@ -44,40 +44,7 @@ export default function SoleRadarSection() {
         anticipatePin: 1,
       });
 
-      // Set initial hidden states for title words
-      gsap.set(".sole-radar .word", { 
-        opacity: 0, 
-        y: 150, 
-        scale: 0.9,
-        transformOrigin: "center bottom"
-      });
-      gsap.set(subtitleRef.current, { 
-        opacity: 0, 
-        y: 80,
-        transformOrigin: "center bottom"
-      });
-      gsap.set(badgeRef.current, { 
-        opacity: 0, 
-        y: 60,
-        transformOrigin: "center bottom"
-      });
-      gsap.set(featuresRef.current, {
-        y: 100,
-        scale: 0,
-        transformOrigin: "center bottom"
-      });
-      gsap.set(buttonRef.current, {
-        y: 100,
-        scale: 0,
-        transformOrigin: "center bottom"
-      });
-      gsap.set(gridRef.current, {
-        y: 100,
-        scale: 0,
-        transformOrigin: "center bottom"
-      });
-
-      // Header animation timeline - animate only when section is pinned
+      // Timeline using .from() approach - prevents popping
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -86,49 +53,49 @@ export default function SoleRadarSection() {
         }
       });
 
-      // Header animation sequence - much faster timing
+      // Header animation sequence using .from() - much more reliable
       headerTl
-        // Badge first - much faster
-        .to(badgeRef.current, {
-          opacity: 1,
-          y: 0,
+        // Badge first from hidden state
+        .from(badgeRef.current, {
+          opacity: 0,
+          y: 60,
           duration: 0.2, // Much faster
           ease: "expo.out"
         })
-        // Animate title words one by one with faster spacing
-        .to(".sole-radar .word", {
-          opacity: 1,
-          y: 0,
-          scale: 1,
+        // Animate title words from hidden state
+        .from(".sole-radar .word", {
+          opacity: 0,
+          y: 150,
+          scale: 0.9,
           stagger: 0.03, // Much faster stagger
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate subtitle faster
-        .to(subtitleRef.current, {
-          opacity: 1,
-          y: 0,
+        // Then animate subtitle from hidden state
+        .from(subtitleRef.current, {
+          opacity: 0,
+          y: 80,
           duration: 0.3, // Much faster
           ease: "expo.out"
         }, "+=0.05") // Minimal pause
-        // Then animate features list faster
-        .to(featuresRef.current, {
-          y: 0,
-          scale: 1,
+        // Then animate features from hidden state
+        .from(featuresRef.current, {
+          y: 100,
+          scale: 0,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.05") // Minimal pause
-        // Then animate button faster
-        .to(buttonRef.current, {
-          y: 0,
-          scale: 1,
+        // Then animate button from hidden state
+        .from(buttonRef.current, {
+          y: 100,
+          scale: 0,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)"
         }, "+=0.03") // Minimal delay
-        // Finally animate grid faster
-        .to(gridRef.current, {
-          y: 0,
-          scale: 1,
+        // Finally animate grid from hidden state
+        .from(gridRef.current, {
+          y: 100,
+          scale: 0,
           duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.03"); // Minimal delay
