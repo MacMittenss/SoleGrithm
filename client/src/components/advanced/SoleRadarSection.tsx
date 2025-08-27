@@ -34,11 +34,11 @@ export default function SoleRadarSection() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Proper pinning with document flow preservation
+      // Extended pinning like trending section for natural flow
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=100%", // Moderate duration for smooth flow
+        end: "+=150%", // Extended scroll distance like trending section
         pin: true,
         pinSpacing: true, // Enable pin spacing to maintain document flow
         anticipatePin: 1,
