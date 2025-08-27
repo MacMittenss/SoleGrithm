@@ -68,13 +68,12 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - smooth scroll-based animations
+      // Header animation timeline - proper time-based animations
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 85%", // Start when section enters viewport
-          end: "bottom 50%", // Complete animation range
-          scrub: 1, // Smooth reversible animation
+          start: "top 80%", // Start when section enters viewport
+          toggleActions: "play none none reverse", // Smooth play and reverse
         }
       });
 
