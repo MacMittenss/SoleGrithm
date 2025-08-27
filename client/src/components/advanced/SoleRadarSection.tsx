@@ -79,11 +79,17 @@ export default function SoleRadarSection() {
 
       // Header animation timeline - triggered when section is pinned to viewport
       let headerTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top", // Start only when section is pinned to viewport top
-          toggleActions: "play none none reverse", // Play on enter, reverse on leave
-        }
+        paused: true // Start paused, will be triggered manually
+      });
+
+      // Trigger the timeline when section reaches viewport
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        onEnter: () => headerTl.play(),
+        onLeave: () => headerTl.reverse(),
+        onEnterBack: () => headerTl.play(),
+        onLeaveBack: () => headerTl.reverse()
       });
 
       // Header animation sequence - faster timing
