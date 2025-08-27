@@ -77,11 +77,11 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - animate only when section is pinned
+      // Header animation timeline - wait for previous section to fully complete
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top", // Animate only when section is pinned to top
+          start: "top 20%", // Wait longer for previous section to fully finish
           toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
         }
       });
