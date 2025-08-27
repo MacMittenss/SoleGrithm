@@ -77,12 +77,13 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - wait for previous section to fully complete
+      // Header animation timeline - animate while pinned (like trending section)
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 20%", // Wait longer for previous section to fully finish
-          toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
+          start: "top top", // Animate when section is pinned to viewport
+          end: "+=150%", // Same extended range as pinning
+          scrub: 1, // Scroll-tied animation like trending section
         }
       });
 
