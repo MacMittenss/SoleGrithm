@@ -38,7 +38,7 @@ export default function SoleRadarSection() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=400%", // Long pin to ensure all animations complete before scrolling away
+        end: "+=150%", // Shorter pin - just enough for animation to complete
         pin: true,
         pinSpacing: true, // Create spacing to prevent content below from scrolling through
         anticipatePin: 1,
@@ -77,12 +77,12 @@ export default function SoleRadarSection() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - scroll-tied and reversible
+      // Header animation timeline - triggered when section is pinned to viewport
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 20%", // Start later - when section top reaches 20% of viewport
-          end: "+=300%", // Long duration to complete all animations
+          start: "top top", // Start only when section is pinned to viewport top
+          end: "bottom 20%", // End when section bottom reaches 20% of viewport
           scrub: 1, // Reversible animation tied to scroll
         }
       });
@@ -153,19 +153,6 @@ export default function SoleRadarSection() {
           animation: gsap.to(curtainRef.current, {
             scaleY: 1, // Grow to full height to cover screen
             rotation: 90, // Rotate 90 degrees clockwise to vertical
-            ease: "none",
-          }),
-        });
-
-        // Section content moves up and blurs in sync with overlay
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "bottom 95%", // Same timing as overlay
-          end: "bottom 50%", // Same timing as overlay
-          scrub: 1, // Smooth scrubbing for forward and backward animation
-          animation: gsap.to(sectionRef.current, {
-            y: -200, // Move section up
-            filter: "blur(20px)", // Progressive blur as it moves up
             ease: "none",
           }),
         });
