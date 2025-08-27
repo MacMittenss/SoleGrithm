@@ -156,6 +156,19 @@ export default function SoleRadarSection() {
             ease: "none",
           }),
         });
+
+        // Section content moves up and blurs in sync with overlay
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "bottom 95%", // Same timing as overlay
+          end: "bottom 50%", // Same timing as overlay
+          scrub: 1, // Smooth scrubbing for forward and backward animation
+          animation: gsap.to(sectionRef.current, {
+            y: -200, // Move section up
+            filter: "blur(20px)", // Progressive blur as it moves up
+            ease: "none",
+          }),
+        });
       }
 
     }, sectionRef);
