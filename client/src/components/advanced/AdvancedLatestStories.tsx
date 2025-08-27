@@ -43,7 +43,7 @@ export default function AdvancedLatestStories() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=200%", // Pin long enough for animation to complete
+        end: "+=300%", // Pin longer to ensure all animations complete
         pin: true,
         pinSpacing: true, // Create spacing to prevent content below from scrolling through
         anticipatePin: 1,
@@ -72,36 +72,37 @@ export default function AdvancedLatestStories() {
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 60%", // Start animation when section is 60% into viewport
-          toggleActions: "play none none reverse", // Play on enter, reverse on leave
+          start: "top 80%", // Start earlier when section is 80% into viewport
+          end: "bottom 20%", // End when section bottom reaches 20% of viewport
+          scrub: 1, // Reversible animation tied to scroll
         }
       });
 
-      // Header animation sequence
+      // Header animation sequence - faster timing
       headerTl
-        // Animate title words one by one with 0.1s spacing
+        // Animate title words one by one with faster spacing
         .to(".latest-stories .word", {
           opacity: 1,
           y: 0,
           scale: 1,
-          stagger: 0.1, // 0.1 seconds apart
-          duration: 0.6,
+          stagger: 0.05, // Faster stagger
+          duration: 0.4, // Faster duration
           ease: "expo.out"
         })
-        // Then animate subtitle
+        // Then animate subtitle faster
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.5, // Faster
           ease: "expo.out"
-        }, "+=0.2") // Small pause after words
-        // Then animate cards growing upward from bottom
+        }, "+=0.1") // Reduced pause
+        // Then animate cards growing upward from bottom faster
         .to(cardsRef.current, {
           y: 0,
           scale: 1,
-          duration: 1.0,
+          duration: 0.7, // Faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.3"); // Pause after subtitle
+        }, "+=0.1"); // Reduced pause
 
       // Background animation removed - now using static homepage background
 
