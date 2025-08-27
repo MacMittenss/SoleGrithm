@@ -144,6 +144,18 @@ export default function SoleRadarSection() {
           opacity: 1,
         });
 
+        // Section blur effect as it scrolls away
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "bottom 95%", // Start blurring when section begins scrolling away
+          end: "bottom 20%", // Full blur when section is mostly gone
+          scrub: true, // Smooth blur progression
+          animation: gsap.to(sectionRef.current, {
+            filter: "blur(20px)", // Maximum blur of 20px
+            ease: "none",
+          }),
+        });
+
         // Curtain grows and rotates after section animation is complete
         ScrollTrigger.create({
           trigger: sectionRef.current,
