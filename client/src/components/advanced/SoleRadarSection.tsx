@@ -100,41 +100,7 @@ export default function SoleRadarSection() {
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.03"); // Minimal delay
 
-      // Curtain overlay animation - rises from bottom with clockwise rotation
-      if (curtainRef.current) {
-        // Set initial state - curtain as horizontal bar at bottom
-        gsap.set(curtainRef.current, {
-          scaleY: 0, // Start as flat horizontal line
-          rotation: 0, // Start horizontal 
-          transformOrigin: "33.33% 100%", // Rotate from a point that ensures full coverage
-          opacity: 1,
-        });
-
-        // Section blur effect as it scrolls away - faster rate
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "bottom 95%", // Start blurring when section begins scrolling away
-          end: "bottom 70%", // Reach full blur much sooner for faster rate
-          scrub: true, // Smooth blur progression
-          animation: gsap.to(sectionRef.current, {
-            filter: "blur(20px)", // Maximum blur of 20px
-            ease: "none",
-          }),
-        });
-
-        // Curtain grows and rotates after section animation is complete
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "bottom 90%", // Start after section internal animations are complete
-          end: "bottom 30%", // End when section is pushed away
-          scrub: true, // Perfectly synchronized with scroll speed
-          animation: gsap.to(curtainRef.current, {
-            scaleY: 1, // Grow to full height to cover screen
-            rotation: 90, // Rotate 90 degrees clockwise to vertical
-            ease: "none", // Linear movement to match scroll
-          }),
-        });
-      }
+      // Curtain overlay animations removed to prevent popping conflicts
 
     }, sectionRef);
 
