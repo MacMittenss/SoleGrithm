@@ -39,11 +39,11 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Reduced pinning - more like normal sections
+      // Minimal pinning - no delay after animation completion
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=100%", // Much shorter pin duration
+        end: "+=80%", // Very short pin - just enough for animation
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
@@ -68,40 +68,41 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - proper time-based animations
+      // Header animation timeline - reversible scroll-tied animations
       let headerTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%", // Start when section enters viewport
-          toggleActions: "play none none reverse", // Smooth play and reverse
+          start: "top top", // Headers appear only when section is pinned
+          end: "bottom top", // Complete animation range
+          scrub: 1, // Fully reversible animations tied to scroll
         }
       });
 
-      // Header animation sequence - faster timing
+      // Header animation sequence - much faster timing
       headerTl
         // Animate title words one by one with faster spacing
         .to(".latest-stories .word", {
           opacity: 1,
           y: 0,
           scale: 1,
-          stagger: 0.05, // Faster stagger
-          duration: 0.4, // Faster duration
+          stagger: 0.03, // Much faster stagger
+          duration: 0.3, // Much faster duration
           ease: "expo.out"
         })
         // Then animate subtitle faster
         .to(subtitleRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.5, // Faster
+          duration: 0.3, // Much faster
           ease: "expo.out"
-        }, "+=0.1") // Reduced pause
+        }, "+=0.05") // Minimal pause
         // Then animate cards growing upward from bottom faster
         .to(cardsRef.current, {
           y: 0,
           scale: 1,
-          duration: 0.7, // Faster
+          duration: 0.4, // Much faster
           ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.1"); // Reduced pause
+        }, "+=0.05"); // Minimal pause
 
       // Background animation removed - now using static homepage background
 
