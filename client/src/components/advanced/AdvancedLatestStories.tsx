@@ -43,7 +43,7 @@ export default function AdvancedLatestStories() {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=150%", // Shorter pin - just enough for animation to complete
+        end: "+=400%", // Long pin to ensure all animations complete before scrolling away
         pin: true,
         pinSpacing: true, // Create spacing to prevent content below from scrolling through
         anticipatePin: 1,
@@ -68,19 +68,14 @@ export default function AdvancedLatestStories() {
         transformOrigin: "center bottom"
       });
 
-      // Header animation timeline - triggered when section is pinned to viewport
+      // Header animation timeline - scroll-tied and reversible
       let headerTl = gsap.timeline({
-        paused: true // Start paused, will be triggered manually
-      });
-
-      // Trigger the timeline only when section is pinned to viewport
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top", // Start only when section is pinned to viewport top
-        onEnter: () => headerTl.play(),
-        onLeave: () => headerTl.reverse(),
-        onEnterBack: () => headerTl.play(),
-        onLeaveBack: () => headerTl.reverse()
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top", // Start when section is pinned to viewport top
+          end: "+=300%", // Long duration to complete all animations
+          scrub: 1, // Reversible animation tied to scroll
+        }
       });
 
       // Header animation sequence - faster timing
