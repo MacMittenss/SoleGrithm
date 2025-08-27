@@ -39,13 +39,13 @@ export default function AdvancedLatestStories() {
         title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Light pinning to prevent overlay issues
+      // Proper pinning with document flow preservation
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=50%", // Much shorter to prevent overlay
+        end: "+=100%", // Moderate duration for smooth flow
         pin: true,
-        pinSpacing: false, // Disable pin spacing to maintain flow
+        pinSpacing: true, // Enable pin spacing to maintain document flow
         anticipatePin: 1,
       });
 
