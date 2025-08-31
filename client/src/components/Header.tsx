@@ -65,10 +65,9 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
 
   const navItems = [
     { href: '/', label: 'Home' },
-    { href: '/live-market', label: 'Market' },
-    { href: '/collections', label: 'Collections' },
-    { href: '/blog', label: 'Stories' },
-    { href: '/quiz', label: 'Quiz' },
+    { href: '/about', label: 'About' },
+    { href: '/works', label: 'Works' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   const isActive = (href: string) => location === href;
@@ -88,9 +87,9 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <div className="flex items-center">
-              <span className={`font-medium text-xl transition-colors ${
+              <span className={`font-bold text-xl transition-colors ${
                 isHomePage && !isScrolled ? "text-white" : "text-black"
-              }`} style={{fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em'}}>SOLEGRITHM</span>
+              }`} style={{fontFamily: 'Inter, sans-serif'}}>iDESIGNER</span>
             </div>
           </Link>
 
