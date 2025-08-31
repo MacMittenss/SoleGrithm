@@ -404,9 +404,8 @@ export default function Home() {
 
       <div 
         ref={containerRef}
-        className="min-h-screen"
+        className="min-h-screen bg-white"
         style={{
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
           minHeight: '100vh',
         }}
       >

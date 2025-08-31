@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
-/* Custom seasonSans font definitions */
+/* iDesigner Template Font Setup - Inter Primary */
 @font-face {
-  font-family: 'seasonSans';
-  src: local('Manrope'), local('Inter'), local('SF Pro Display'), local('Helvetica Neue');
+  font-family: 'Inter';
+  src: local('Inter'), local('SF Pro Display'), local('Helvetica Neue');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'seasonSans Fallback';
-  src: local('Manrope'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+  font-family: 'Inter Fallback';
+  src: local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -53,26 +53,23 @@ html.lenis body {
   transition-duration: 1ms;
 }
 
-/* VITURE-style CSS Custom Properties */
+/* iDesigner Template CSS Custom Properties */
 :root {
   --color-primary: #000000;
-  --color-dark: #141414;
+  --color-dark: #0f0f0f;
   --color-white: #ffffff;
   --color-white-08: rgba(255, 255, 255, 0.08);
   --color-white-20: rgba(255, 255, 255, 0.2);
   --color-white-40: rgba(255, 255, 255, 0.4);
   --color-white-50: rgba(255, 255, 255, 0.5);
-  --color-orange: #ff2900;
-  --color-gold: #ffd700;
+  --color-accent: #666666;
+  --color-accent-light: #999999;
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --spacing-safe: clamp(1.25rem, 5vw, 3.125rem);
   --spacing-vert-safe: clamp(1.875rem, 5vh, 4.6875rem);
-  --vw: 1vw;
-  --vh: 1vh;
-  --svh: 1svh;
-  --dvh: 1dvh;
-  --lvh: 1lvh;
+  --container-padding: clamp(1rem, 4vw, 4.5rem);
+  --section-spacing: clamp(4rem, 8vw, 7rem);
 }
 
 /* Advanced scrolling and perspective */
@@ -84,15 +81,17 @@ body {
   margin: 0;
   padding: 0;
   overscroll-behavior: none;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98));
-  color: #ffffff;
-  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #ffffff;
+  color: #000000;
+  font-family: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 /* Prevent flash of unstyled content */
 #root {
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98));
+  background: #ffffff;
 }
 
 /* Enhanced smooth scrolling performance */
@@ -100,25 +99,113 @@ body {
   scroll-behavior: unset;
 }
 
-/* Global seasonSans font application */
+/* Global Inter font application */
 *, *::before, *::after {
-  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Typography enhancements for VITURE-style text */
+/* Typography enhancements for iDesigner template style */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
+  font-family: "Inter", "Inter Fallback", sans-serif;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.caps {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.05em;
 }
 
 p, span, div {
-  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
+  font-family: "Inter", "Inter Fallback", sans-serif;
+  color: #666666;
 }
 
 /* Button and interactive elements */
 button, input, textarea, select {
-  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
+  font-family: "Inter", "Inter Fallback", sans-serif;
+}
+
+/* iDesigner Template Utility Classes */
+.template-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.template-section {
+  padding: var(--section-spacing) 0;
+}
+
+.template-card {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.template-card:hover {
+  border-color: #e0e0e0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.slide-up-animation {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: slideUp 0.8s ease forwards;
+}
+
+.slide-from-left-animation {
+  opacity: 0;
+  transform: translateX(-40px);
+  animation: slideFromLeft 0.8s ease forwards;
+}
+
+.slide-from-right-animation {
+  opacity: 0;
+  transform: translateX(40px);
+  animation: slideFromRight 0.8s ease forwards;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFromLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideFromRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Dark mode support */
+.dark body {
+  background: #000000;
+  color: #ffffff;
+}
+
+.dark .template-card {
+  background: #1a1a1a;
+  border-color: #333333;
+}
+
+.dark .template-card:hover {
+  border-color: #444444;
+  box-shadow: 0 8px 32px rgba(255, 255, 255, 0.08);
 }
 
 /* VITURE-style glassmorphism utilities */
