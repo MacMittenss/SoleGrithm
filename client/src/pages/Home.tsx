@@ -13,55 +13,81 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const textRef = useRef<HTMLSpanElement>(null);
 
   useLayoutEffect(() => {
-    if (!preloaderRef.current || !textRef.current) return;
+    console.log('Preloader useLayoutEffect started');
+    
+    if (!preloaderRef.current || !textRef.current) {
+      console.log('Preloader refs not ready');
+      return;
+    }
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        console.log('Preloader animation complete');
+    console.log('Starting preloader animation');
+
+    // Simple animation without complex timeline
+    const animatePreloader = async () => {
+      const text = textRef.current!;
+      const preloader = preloaderRef.current!;
+
+      try {
+        // Initial setup
+        gsap.set(text, { 
+          opacity: 0,
+          y: 50,
+          scale: 0.8
+        });
+
+        console.log('Animating text in');
+        // Animate text in
+        await gsap.to(text, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "power2.out"
+        });
+
+        console.log('Holding');
+        // Hold
+        await gsap.to({}, { duration: 0.6 });
+
+        console.log('Animating text out');
+        // Animate text out
+        await gsap.to(text, {
+          opacity: 0,
+          y: -30,
+          scale: 1.1,
+          duration: 0.6,
+          ease: "power2.in"
+        });
+
+        console.log('Animating preloader out');
+        // Animate preloader out
+        await gsap.to(preloader, {
+          yPercent: -100,
+          duration: 0.8,
+          ease: "power2.inOut"
+        });
+
+        console.log('Preloader animation complete, calling onComplete');
         onComplete();
-      },
-    });
 
-    // Initial setup
-    gsap.set(textRef.current, { 
-      opacity: 0,
-      y: 50,
-      scale: 0.8
-    });
+      } catch (error) {
+        console.error('Preloader animation error:', error);
+        onComplete();
+      }
+    };
 
-    // Animate text in
-    tl.to(textRef.current, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.8,
-      ease: "expo.out"
-    })
-    // Hold
-    .to({}, { duration: 0.5 })
-    // Animate out
-    .to(textRef.current, {
-      opacity: 0,
-      y: -30,
-      scale: 1.1,
-      duration: 0.6,
-      ease: "expo.in"
-    })
-    .to(preloaderRef.current, {
-      yPercent: -100,
-      duration: 0.8,
-      ease: "expo.inOut"
-    }, "-=0.2");
+    animatePreloader();
 
-    // Fallback timeout to ensure preloader doesn't get stuck
+    // Fallback timeout
     const fallbackTimeout = setTimeout(() => {
       console.log('Preloader fallback timeout triggered');
       onComplete();
     }, 3000);
 
     return () => {
-      tl.kill();
+      console.log('Preloader cleanup');
       clearTimeout(fallbackTimeout);
+      gsap.killTweensOf([textRef.current, preloaderRef.current]);
     };
   }, [onComplete]);
 
