@@ -685,7 +685,6 @@ body::before {
 }
 
 .hero-wrapper {
-  text-align: center;
   z-index: 0;
   position: absolute;
   top: 50%;
@@ -701,6 +700,7 @@ body::before {
   color: var(--white);
   margin: 0;
   text-transform: uppercase;
+  text-align: left;
 }
 
 .heading {
@@ -710,6 +710,7 @@ body::before {
   color: var(--white);
   margin: 0 0 1rem 0;
   opacity: 0.8;
+  text-align: left;
 }
 
 /* 3D Animation container */
