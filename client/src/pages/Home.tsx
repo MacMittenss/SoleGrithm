@@ -416,6 +416,171 @@ export default function Home() {
               </div>
             </div>
           </section>
+          
+          {/* Section 2 - You'll Never Forget */}
+          <section className="section-module__Fy_-CG__section overflow-x-clip section2-module__24Nf6W__section2">
+            <div className="h-full">
+              <div className="section2-module__24Nf6W__inner">
+                <div className="section2-module__24Nf6W__content">
+                  <div className="title-subtitle-module__HtnROq__titleSubtitle title-subtitle-module__HtnROq__centered">
+                    <div className="dr-layout-block relative">
+                      <h2 className="h2 desktop-only">
+                        <SplitText text="You'll Never Forget" />
+                      </h2>
+                      <h2 className="h2 mobile-only">
+                        <SplitText text="You'll Never Forget" />
+                      </h2>
+                    </div>
+                  </div>
+                  <div className="section2-module__24Nf6W__cards grid grid-cols-1 dt:grid-cols-4 gap-gap">
+                    {/* Card 1 - Resolution */}
+                    <div className="card-module__JTl4uq__cardOuter bg-white-08">
+                      <div className="card-module__JTl4uq__card">
+                        <div className="absolute inset-0">
+                          <div className="absolute top-[33%] w-full h-full bg-gradient-to-b from-purple-600/20 to-blue-600/20 circleMask"></div>
+                        </div>
+                        <div className="section2-module__24Nf6W__cardContent">
+                          <h3 className="h4 desktop-only">
+                            Up To 1200 <sup>p</sup>
+                          </h3>
+                          <h3 className="h4 mobile-only">
+                            Up To 1200 <sup>p</sup>
+                          </h3>
+                          <p className="lightSubtitle text-white-40 desktop-only">
+                            Resolution
+                          </p>
+                          <p className="lightSubtitle text-white-40 mobile-only">
+                            Resolution
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Card 2 - Advanced Optical Optimization */}
+                    <div className="card-module__JTl4uq__cardOuter card-module__JTl4uq__align-bottom bg-white-08 dt:col-span-2">
+                      <div className="card-module__JTl4uq__card">
+                        <div className="absolute inset-0">
+                          <div className="absolute left-[33%] dt:left-[10%] top-[-0%] w-full h-full bg-gradient-to-r from-orange-600/20 to-red-600/20 circleMask"></div>
+                        </div>
+                        <div className="section2-module__24Nf6W__cardCols">
+                          <div className="section2-module__24Nf6W__cardContent">
+                            <p className="lightSubtitle text-white-40 desktop-only">
+                              Enhanced with
+                            </p>
+                            <p className="lightSubtitle text-white-40 mobile-only">
+                              Enhanced with
+                            </p>
+                            <h3 className="h4 desktop-only">
+                              Advanced Optical<br />Optimization
+                            </h3>
+                            <h3 className="h4 mobile-only">
+                              Advanced Optical<br />Optimization
+                            </h3>
+                            <p className="lightSubtitle text-white-40 desktop-only">
+                              Delivering nearly 4K sharpness
+                            </p>
+                            <p className="lightSubtitle text-white-40 mobile-only">
+                              Delivering nearly 4K sharpness
+                            </p>
+                          </div>
+                          <div className="section2-module__24Nf6W__right relative">
+                            <div>
+                              <a
+                                className="small-button-module__2USyQq__button text14_24 small-button-module__2USyQq__white"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://www.viture.com/blog/leading-the-way-in-xr-best-display-best-features"
+                              >
+                                <div className="small-button-module__2USyQq__buttonHover"></div>
+                                <span>Learn More</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Card 3 - Even Sharper */}
+                    <div className="card-module__JTl4uq__cardOuter bg-white-08">
+                      <div className="card-module__JTl4uq__card">
+                        <div className="absolute inset-0">
+                          <div className="absolute left-[0%] top-[20%] w-full h-full bg-gradient-to-t from-blue-600/20 to-cyan-600/20 circleMask"></div>
+                        </div>
+                        <div className="section2-module__24Nf6W__cardContent">
+                          <h3 className="h4 desktop-only">Even Sharper</h3>
+                          <h3 className="h4 mobile-only">Even Sharper</h3>
+                          <p className="lightSubtitle text-white-40 desktop-only">
+                            Than VITURE Pro — and<br />that was already the<br />sharpest
+                            out there
+                          </p>
+                          <p className="lightSubtitle text-white-40 mobile-only">
+                            Than VITURE Pro — and that<br />was already the
+                            sharpest out<br />there
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 3 - The Best Just Got Better */}
+          <section className="section-module__Fy_-CG__section overflow-x-clip section3-module__SzoO3a__section3">
+            <div className="h-full">
+              <div className="section3-module__SzoO3a__sticky">
+                <div className="section3-module__SzoO3a__title dr-layout-block relative">
+                  <div className="title-subtitle-module__HtnROq__titleSubtitle title-subtitle-module__HtnROq__centered">
+                    <h2 className="h2 desktop-only">
+                      <SplitText text="The Best Just Got Better" />
+                    </h2>
+                    <h2 className="h2 mobile-only">
+                      <SplitText text="The Best Just Got Better" />
+                    </h2>
+                  </div>
+                </div>
+                <div className="section3-module__SzoO3a__viewport">
+                  <div className="section3-module__SzoO3a__viewportInner">
+                    <div className="absolute inset-0 top-[10%] dt:min-h-full">
+                      <img
+                        alt=""
+                        draggable="false"
+                        loading="eager"
+                        decoding="async"
+                        className=""
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
+                        style={{
+                          position: 'absolute',
+                          height: '100%',
+                          width: '100%',
+                          inset: '0px',
+                          objectFit: 'cover',
+                          color: 'transparent'
+                        }}
+                      />
+                    </div>
+                    <div className="section3-module__SzoO3a__hotspots">
+                      <div
+                        className="hotspot-module__GlFlMq__hotspot"
+                        style={{ '--pos-x': 28, '--pos-y': 70 } as React.CSSProperties}
+                      >
+                        <div className="hotspot-module__GlFlMq__inner">
+                          <div className="flex flex-col">
+                            <span className="lightSubtitle text-white-40">
+                              Pioneering
+                            </span>
+                            <h3 className="h4">Micro-OLED Display</h3>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </main>
       </div>
     </div>

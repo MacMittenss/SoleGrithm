@@ -117,6 +117,31 @@ body {
   letter-spacing: -0.02em;
 }
 
+.h4 {
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.lightSubtitle {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.text14_24 {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
 /* Layout */
 .dr-layout-block {
   max-width: 1200px;
@@ -165,6 +190,42 @@ body {
 
 .overflow-clip {
   overflow: clip;
+}
+
+/* Grid Utilities */
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.dt\:grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dt\:col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.gap-gap {
+  gap: 24px;
+}
+
+/* Background Colors */
+.bg-white-08 {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 768px) {
+  .dt\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .dt\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
 }
 
 /* Lenis Smooth Scroll */
@@ -580,7 +641,214 @@ body {
   z-index: 1;
 }
 
+/* Section Styles */
+.section-module__Fy_-CG__section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section 2 - You'll Never Forget */
+.section2-module__24Nf6W__section2 {
+  background: #000000;
+  padding: 80px 0;
+}
+
+.section2-module__24Nf6W__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section2-module__24Nf6W__content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.section2-module__24Nf6W__cards {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.section2-module__24Nf6W__cardCols {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.section2-module__24Nf6W__cardContent {
+  padding: 32px;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+.section2-module__24Nf6W__right {
+  padding: 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Section 3 - The Best Just Got Better */
+.section3-module__SzoO3a__section3 {
+  background: #000000;
+  padding: 80px 0;
+}
+
+.section3-module__SzoO3a__sticky {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section3-module__SzoO3a__title {
+  margin-bottom: 48px;
+}
+
+.section3-module__SzoO3a__viewport {
+  position: relative;
+  height: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.section3-module__SzoO3a__viewportInner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.section3-module__SzoO3a__hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+/* Card Styles */
+.card-module__JTl4uq__cardOuter {
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 320px;
+  position: relative;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-module__JTl4uq__card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-module__JTl4uq__align-bottom {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Circle Mask Effect */
+.circleMask {
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(40px);
+}
+
+/* Button Styles */
+.small-button-module__2USyQq__button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: white;
+  text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.small-button-module__2USyQq__button:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.small-button-module__2USyQq__buttonHover {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.small-button-module__2USyQq__button:hover .small-button-module__2USyQq__buttonHover {
+  opacity: 1;
+}
+
+.small-button-module__2USyQq__white {
+  color: white;
+}
+
+/* Hotspot Styles */
+.hotspot-module__GlFlMq__hotspot {
+  position: absolute;
+  left: calc(var(--pos-x) * 1%);
+  top: calc(var(--pos-y) * 1%);
+  transform: translate(-50%, -50%);
+}
+
+.hotspot-module__GlFlMq__inner {
+  padding: 16px 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Title/Subtitle Module */
+.title-subtitle-module__HtnROq__titleSubtitle {
+  text-align: left;
+}
+
+.title-subtitle-module__HtnROq__centered {
+  text-align: center;
+}
+
+.title-subtitle-module__HtnROq__subtitle {
+  margin-top: 16px;
+  opacity: 0.7;
+}
+
 /* Responsive Design */
+@media (min-width: 768px) {
+  .section2-module__24Nf6W__cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .card-module__JTl4uq__cardOuter.dt\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+  
+  .section2-module__24Nf6W__cardCols {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  
+  .section2-module__24Nf6W__right {
+    padding: 0;
+    margin-left: 24px;
+  }
+}
+
 @media (max-width: 1024px) {
   .dr-layout-block {
     padding: 0 16px;
