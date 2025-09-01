@@ -205,8 +205,8 @@ export default function Home() {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initially position words to emerge from overlay area
-      gsap.set(".flagship-header .hero__text-cont .word", {
+      // Initially hide words completely
+      gsap.set(".flagship-header .word", {
         y: 50,
         opacity: 0,
         scale: 0.8,
@@ -229,10 +229,10 @@ export default function Home() {
         }
       });
 
-      // Sequential animation: words emerge from overlay left-to-right, then components
+      // Sequential animation: words emerge word by word, then components
       
-      // Header animation - words emerge from overlay word by word (0% - 40% of pin progress)
-      pinTl.to(".flagship-header .hero__text-cont .word", {
+      // Header animation - words emerge word by word (0% - 40% of pin progress)
+      pinTl.to(".flagship-header .word", {
         y: 0,
         opacity: 1,
         scale: 1,
