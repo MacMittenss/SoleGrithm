@@ -1065,8 +1065,8 @@ body::before {
   position: relative;
   overflow: hidden;
   min-height: 380px;
-  width: 100%;
-  max-width: 600px;
+  width: 150%;
+  max-width: 1000px;
 }
 
 .flagship-feature-card::before {
