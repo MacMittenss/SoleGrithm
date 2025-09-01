@@ -1,3 +1,0 @@
-(globalThis.TURBOPACK=globalThis.TURBOPACK||[]).push(["object"==typeof document?document.currentScript:void 0,{42363:s=>{"use strict";var{g:t,__dirname:e}=s;{s.s({createStore:()=>e});let t=s=>{let t,e=new Set,c=(s,c)=>{let i="function"==typeof s?s(t):s;if(!Object.is(i,t)){let s=t;t=(null!=c?c:"object"!=typeof i||null===i)?i:Object.assign({},t,i),e.forEach(e=>e(t,s))}},i=()=>t,a={setState:c,getState:i,getInitialState:()=>n,subscribe:s=>(e.add(s),()=>e.delete(s))},n=t=s(c,i,a);return a},e=t}}]);
-
-//# sourceMappingURL=365bd61fba17a73c.js.map

@@ -1,3 +1,0 @@
-(globalThis.TURBOPACK=globalThis.TURBOPACK||[]).push(["object"==typeof document?document.currentScript:void 0,{64805:function(e){var{g:t,__dirname:n,m:r,e:l}=e;"use strict";function a(e){var t,n;t=self.__next_s,n=()=>{e()},t&&t.length?t.reduce((e,t)=>{let[n,r]=t;return e.then(()=>new Promise((e,t)=>{let l=document.createElement("script");if(r)for(let e in r)"children"!==e&&l.setAttribute(e,r[e]);n?(l.src=n,l.onload=()=>e(),l.onerror=t):r&&(l.innerHTML=r.children,setTimeout(e)),document.head.appendChild(l)}))},Promise.resolve()).then(n):n()}r.d(l,{default:()=>a})}}]);
-
-//# sourceMappingURL=a5e30ec45f3e2284.js.map
