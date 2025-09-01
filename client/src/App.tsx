@@ -67,7 +67,8 @@ function App() {
               <main id="main-content">
                 <PageTransition>
                   <Switch>
-                    <Route path="/" component={Home} />
+                    <Route path="/" component={VitureClone} />
+                    <Route path="/sneaker-home" component={Home} />
                     <Route path="/auth" component={Auth} />
                     {/* Redirect Catalog to Live Market */}
                     <Route path="/catalog">
