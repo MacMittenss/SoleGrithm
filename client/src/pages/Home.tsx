@@ -9,102 +9,83 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Preloader Component
 const Preloader = ({ onComplete }: { onComplete: () => void }) => {
+  const [phase, setPhase] = useState<'fadeIn' | 'hold' | 'fadeOut' | 'slideOut'>('fadeIn');
   const preloaderRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
+  const hasCompletedRef = useRef(false);
 
-  useLayoutEffect(() => {
-    console.log('Preloader useLayoutEffect started');
+  useEffect(() => {
+    if (hasCompletedRef.current) return;
     
-    if (!preloaderRef.current || !textRef.current) {
-      console.log('Preloader refs not ready');
-      return;
-    }
-
-    console.log('Starting preloader animation');
-
-    // Simple animation without complex timeline
-    const animatePreloader = async () => {
-      const text = textRef.current!;
-      const preloader = preloaderRef.current!;
-
-      try {
-        // Initial setup
-        gsap.set(text, { 
-          opacity: 0,
-          y: 50,
-          scale: 0.8
-        });
-
-        console.log('Animating text in');
-        // Animate text in
-        await gsap.to(text, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          ease: "power2.out"
-        });
-
-        console.log('Holding');
-        // Hold
-        await gsap.to({}, { duration: 0.6 });
-
-        console.log('Animating text out');
-        // Animate text out
-        await gsap.to(text, {
-          opacity: 0,
-          y: -30,
-          scale: 1.1,
-          duration: 0.6,
-          ease: "power2.in"
-        });
-
-        console.log('Animating preloader out');
-        // Animate preloader out
-        await gsap.to(preloader, {
-          yPercent: -100,
-          duration: 0.8,
-          ease: "power2.inOut"
-        });
-
-        console.log('Preloader animation complete, calling onComplete');
-        setTimeout(() => onComplete(), 100);
-
-      } catch (error) {
-        console.error('Preloader animation error:', error);
+    console.log('Starting preloader phases');
+    
+    const sequence = async () => {
+      // Phase 1: Fade in (800ms)
+      setPhase('fadeIn');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Phase 2: Hold (600ms)
+      setPhase('hold');
+      await new Promise(resolve => setTimeout(resolve, 600));
+      
+      // Phase 3: Fade out (600ms)
+      setPhase('fadeOut');
+      await new Promise(resolve => setTimeout(resolve, 600));
+      
+      // Phase 4: Slide out (800ms)
+      setPhase('slideOut');
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Complete
+      if (!hasCompletedRef.current) {
+        hasCompletedRef.current = true;
+        console.log('Preloader complete');
         onComplete();
       }
     };
 
-    animatePreloader();
+    sequence();
 
     // Fallback timeout
-    const fallbackTimeout = setTimeout(() => {
-      console.log('Preloader fallback timeout triggered');
-      onComplete();
-    }, 3000);
+    const fallback = setTimeout(() => {
+      if (!hasCompletedRef.current) {
+        hasCompletedRef.current = true;
+        console.log('Preloader fallback triggered');
+        onComplete();
+      }
+    }, 3500);
 
     return () => {
-      console.log('Preloader cleanup');
-      clearTimeout(fallbackTimeout);
-      gsap.killTweensOf([textRef.current, preloaderRef.current]);
+      clearTimeout(fallback);
     };
   }, [onComplete]);
 
   return (
     <div 
       ref={preloaderRef}
-      className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
+      className={`fixed inset-0 z-[9999] bg-black flex items-center justify-center transition-transform duration-800 ease-in-out ${
+        phase === 'slideOut' ? '-translate-y-full' : 'translate-y-0'
+      }`}
     >
       <div className="relative">
         <span 
-          ref={textRef}
-          className="text-6xl font-bold text-white tracking-wider"
-          style={{ fontFamily: 'seasonSans, seasonSans Fallback, Manrope, Inter, sans-serif' }}
+          className={`text-6xl font-bold text-white tracking-wider transition-all duration-800 ease-out ${
+            phase === 'fadeIn' ? 'opacity-100 translate-y-0 scale-100' :
+            phase === 'hold' ? 'opacity-100 translate-y-0 scale-100' :
+            phase === 'fadeOut' ? 'opacity-0 -translate-y-8 scale-110' :
+            'opacity-0 -translate-y-8 scale-110'
+          } ${
+            phase === 'fadeIn' ? '' : phase === 'hold' ? '' : 'ease-in'
+          }`}
+          style={{ 
+            fontFamily: 'seasonSans, seasonSans Fallback, Manrope, Inter, sans-serif',
+            transform: phase === 'fadeIn' ? 'translateY(50px) scale(0.8)' : undefined
+          }}
         >
           VITURE
         </span>
-        <div className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-50" />
+        <div className={`absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent transition-opacity duration-800 ${
+          phase === 'fadeIn' || phase === 'hold' ? 'opacity-50' : 'opacity-0'
+        }`} />
       </div>
     </div>
   );
