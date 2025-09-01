@@ -18,6 +18,7 @@ export default function Home() {
   const animationFrameRef = useRef<number>();
   const flagshipRef = useRef<HTMLElement>(null);
   const flagshipHeaderRef = useRef<HTMLDivElement>(null);
+  const heroHeaderRef = useRef<HTMLDivElement>(null);
 
   // Get brand data for the brands section
   const { data: brands } = useQuery({
@@ -203,6 +204,32 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
+  // Hero Header Scroll Animation
+  useEffect(() => {
+    if (!heroRef.current || !heroHeaderRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Animate hero header up as we scroll away from hero section
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.to(heroHeaderRef.current, {
+            y: -100 * progress,
+            opacity: 1 - progress * 0.7,
+            duration: 0.1,
+            ease: "none"
+          });
+        }
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
       {/* Template Navbar */}
@@ -225,7 +252,7 @@ export default function Home() {
         <div className="fingerprint"></div>
         <div className="circle"></div>
         <div className="template-container">
-          <div className="hero-wrapper">
+          <div ref={heroHeaderRef} className="hero-wrapper">
             <h5 className="heading">Welcome to</h5>
             <h1 className="hero-text">SOLEGRITHM</h1>
           </div>
