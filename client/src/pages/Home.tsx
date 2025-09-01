@@ -181,7 +181,6 @@ const Preloader = ({ isVisible }: { isVisible: boolean }) => {
 };
 
 
-const Navigation = () => (
   <div className="navigation-module__mix1Pa__navigation">
     <div className="navigation-module__mix1Pa__headerInner">
       <div className="navigation-module__mix1Pa__middle">
@@ -225,8 +224,6 @@ const Navigation = () => (
       </div>
     </div>
   </div>
-);
-
 export default function Home() {
   const [showPreloader, setShowPreloader] = useState(true);
 
