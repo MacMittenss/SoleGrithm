@@ -987,7 +987,7 @@ body::before {
 .template-section {
   width: 100%;
   padding: 4rem 0;
-  background: var(--black);
+  background: rgba(5, 5, 5, 0.8);
 }
 
 .template-container {
@@ -1005,7 +1005,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--black);
+  background: rgba(5, 5, 5, 0.8);
   overflow: hidden;
 }
 
