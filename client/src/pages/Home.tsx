@@ -223,8 +223,8 @@ export default function Home() {
           trigger: flagshipRef.current,
           start: "top top", 
           end: "+=200%",
-          pin: true, // Pin the entire page/viewport
-          pinSpacing: false, // Don't add spacing
+          pin: ".homepage-container", // Pin the entire homepage container
+          pinSpacing: true,
           scrub: 1
         }
       });
@@ -263,8 +263,9 @@ export default function Home() {
 
   return (
     <>
-      {/* Template Navbar */}
-      <nav className="template-navbar">
+      <div className="homepage-container">
+        {/* Template Navbar */}
+        <nav className="template-navbar">
         <div className="nav-container">
           <Link href="/" className="logo-link-wrapper">
             SoleGrithm
@@ -503,6 +504,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </div>
     </>
   );
 }
