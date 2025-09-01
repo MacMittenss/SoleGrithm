@@ -223,7 +223,7 @@ export default function Home() {
           trigger: flagshipRef.current,
           start: "top top", 
           end: "+=200%",
-          pin: ".homepage-container", // Pin the entire homepage container
+          pin: flagshipRef.current, // Pin the flagship section itself
           pinSpacing: true,
           scrub: 1
         }
