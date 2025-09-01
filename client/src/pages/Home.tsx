@@ -204,12 +204,12 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
-  // Hero Header Scroll Animation
+  // Hero Header Snake Scroll Animation
   useEffect(() => {
     if (!heroRef.current || !heroHeaderRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animate hero header up as we scroll away from hero section
+      // Animate hero header elements in snake pattern from left to right
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
@@ -217,11 +217,20 @@ export default function Home() {
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress;
-          gsap.to(heroHeaderRef.current, {
-            y: -100 * progress,
-            opacity: 1 - progress * 0.7,
+          
+          // Snake animation - elements move out in staggered wave from left to right
+          gsap.to(".snake-text", {
+            x: (index) => 200 + (index * 100), // Staggered horizontal movement
+            y: (index) => -80 - (index * 20),  // Staggered vertical movement
+            rotation: (index) => 15 + (index * 10), // Rotation for snake effect
+            opacity: 1 - (progress * 1.2),
+            scale: 1 - (progress * 0.3),
             duration: 0.1,
-            ease: "none"
+            ease: "none",
+            stagger: {
+              each: 0.1,
+              from: "start"
+            }
           });
         }
       });
@@ -253,8 +262,8 @@ export default function Home() {
         <div className="circle"></div>
         <div className="template-container">
           <div ref={heroHeaderRef} className="hero-wrapper">
-            <h5 className="heading">Welcome to</h5>
-            <h1 className="hero-text">SOLEGRITHM</h1>
+            <h5 className="heading snake-text">Welcome to</h5>
+            <h1 className="hero-text snake-text">SOLEGRITHM</h1>
           </div>
           <div className="hero-overlay"></div>
         </div>
