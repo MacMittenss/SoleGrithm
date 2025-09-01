@@ -7,9 +7,11 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [targetRotation, setTargetRotation] = useState({ x: 0, y: 0 });
   const [splineApp, setSplineApp] = useState<any>(null);
   const splineRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLSection>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const animationFrameRef = useRef<number>();
 
   // Get brand data for the brands section
   const { data: brands } = useQuery({
@@ -53,32 +55,82 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Mouse tracking for robot animation
+  // Smooth animation loop for robot movement
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const newMousePos = {
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -(e.clientY / window.innerHeight) * 2 + 1
-      };
-      setMousePos(newMousePos);
+    if (!splineApp) return;
 
-      // Update robot orientation if Spline is loaded
+    const animate = () => {
       if (splineApp && splineApp.findObjectByName) {
         try {
-          const robot = splineApp.findObjectByName('Robot') || splineApp.findObjectByName('Head');
-          if (robot) {
-            robot.rotation.y = newMousePos.x * 0.3;
-            robot.rotation.x = newMousePos.y * 0.2;
+          // Find robot parts with multiple fallback names
+          const robotHead = splineApp.findObjectByName('Head') || 
+                           splineApp.findObjectByName('Robot') || 
+                           splineApp.findObjectByName('robot') ||
+                           splineApp.findObjectByName('head') ||
+                           splineApp.findObjectByName('RobotHead');
+          
+          if (robotHead) {
+            // Smooth interpolation for more natural movement
+            const lerpFactor = 0.1; // Adjust for smoothness (0.1 = smooth, 1.0 = instant)
+            
+            const currentRotY = robotHead.rotation.y || 0;
+            const currentRotX = robotHead.rotation.x || 0;
+            
+            // Interpolate towards target rotation
+            robotHead.rotation.y = currentRotY + (targetRotation.y - currentRotY) * lerpFactor;
+            robotHead.rotation.x = currentRotX + (targetRotation.x - currentRotX) * lerpFactor;
+          }
+          
+          // Try to find and smoothly rotate the body/torso
+          const robotBody = splineApp.findObjectByName('Body') || 
+                           splineApp.findObjectByName('Torso') ||
+                           splineApp.findObjectByName('body') ||
+                           splineApp.findObjectByName('RobotBody');
+          
+          if (robotBody) {
+            const currentBodyRotY = robotBody.rotation.y || 0;
+            const targetBodyRotY = targetRotation.y * 0.3; // Subtle body movement
+            robotBody.rotation.y = currentBodyRotY + (targetBodyRotY - currentBodyRotY) * 0.05;
           }
         } catch (error) {
           // Silently handle any Spline interaction errors
         }
       }
+      
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+    
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [splineApp, targetRotation]);
+
+  // Mouse tracking for robot animation
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = heroRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      // More accurate mouse position calculation relative to hero section
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      
+      setMousePos({ x, y });
+      
+      // Set target rotation with increased sensitivity and range
+      setTargetRotation({
+        x: y * 0.4, // Vertical look range
+        y: x * 0.8  // Horizontal look range (increased for better tracking)
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [splineApp]);
+  }, []);
 
   // Scroll animations
   useEffect(() => {
@@ -153,7 +205,7 @@ export default function Home() {
           <div className="space-7rem"></div>
           <div className="brands-wrapper">
             <div className="brands-grid slide-up-animation">
-              {brands?.slice(0, 4).map((brand: any) => (
+              {(brands && Array.isArray(brands) ? brands.slice(0, 4) : []).map((brand: any) => (
                 <div key={brand.id} className="logos-wrapper">
                   <h3 style={{ color: 'var(--white)', fontSize: '1.2rem' }}>{brand.name}</h3>
                 </div>
