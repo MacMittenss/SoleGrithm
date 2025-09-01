@@ -708,6 +708,7 @@ body::before {
 
 .heading {
   font-size: clamp(0.8rem, 0.89vw, 1.2rem);
+  font-weight: 700;
   letter-spacing: 0.14vw;
   text-transform: uppercase;
   color: var(--white);
