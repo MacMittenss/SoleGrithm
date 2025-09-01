@@ -726,7 +726,7 @@ body::before {
   overflow: hidden;
 }
 
-/* Animation Swipe Overlay */
+/* Animation Swipe Overlay - Invisible but clips content */
 .anim-swipe,
 .flagship-anim-swipe {
   position: absolute;
@@ -734,8 +734,24 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--black);
+  background: transparent;
   z-index: 2;
+  overflow: hidden;
+}
+
+/* Text elements positioned behind the overlay */
+.hero__text-cont h5,
+.hero__text-cont h2 {
+  position: relative;
+  z-index: 1;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.1s ease;
+}
+
+/* When overlay moves, reveal text */
+.hero__text-cont:has(.flagship-anim-swipe[style*="transform"]) h5,
+.hero__text-cont:has(.flagship-anim-swipe[style*="transform"]) h2 {
+  clip-path: inset(0 0 0 0);
 }
 
 .hero-text {

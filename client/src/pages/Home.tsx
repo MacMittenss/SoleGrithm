@@ -208,9 +208,14 @@ export default function Home() {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animate swipe overlay elements to reveal flagship header as it scrolls up
-      gsap.to(".flagship-anim-swipe", {
-        yPercent: -300,
+      // Initially hide text with clip-path
+      gsap.set(".hero__text-cont h5, .hero__text-cont h2", {
+        clipPath: "inset(0 0 100% 0)"
+      });
+
+      // Animate text reveal by changing clip-path as we scroll
+      gsap.to(".hero__text-cont h5, .hero__text-cont h2", {
+        clipPath: "inset(0 0 0% 0)",
         delay: 0.2,
         duration: 3,
         stagger: {
