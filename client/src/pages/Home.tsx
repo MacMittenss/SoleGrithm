@@ -203,6 +203,33 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
+  // Hero Header Split Animation (GSAP website style)
+  useEffect(() => {
+    if (!heroRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Animate header elements with split swipe effect
+      gsap.to(".anim-swipe", {
+        yPercent: 300,
+        delay: 0.2,
+        duration: 3,
+        stagger: {
+          from: "random",
+          each: 0.1
+        },
+        ease: "sine.out",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
 
   return (
     <>
@@ -227,8 +254,8 @@ export default function Home() {
         <div className="circle"></div>
         <div className="template-container">
           <div className="hero-wrapper">
-            <h5 className="heading">Welcome to</h5>
-            <h1 className="hero-text">SOLEGRITHM</h1>
+            <h5 className="heading anim-swipe">Welcome to</h5>
+            <h1 className="hero-text anim-swipe">SOLEGRITHM</h1>
           </div>
           <div className="hero-overlay"></div>
         </div>
