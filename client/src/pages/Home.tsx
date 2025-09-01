@@ -231,12 +231,12 @@ export default function Home() {
 
       // Sequential animation: words emerge from overlay left-to-right, then components
       
-      // Header animation - words emerge word by word (0% - 40% of pin progress)
+      // Header animation - words emerge word by word (0% - 50% of pin progress)
       pinTl.to(".flagship-header .word", {
         y: 0,
         opacity: 1,
         scale: 1,
-        duration: 0.4,
+        duration: 0.5,
         stagger: {
           from: "start", // Left to right
           each: 0.08
@@ -244,17 +244,17 @@ export default function Home() {
         ease: "back.out(1.4)"
       }, 0)
 
-      // Small pause, then component animation (60% - 100% of pin progress)
+      // Feature cards animate in after header completes (50% - 100% of pin progress)
       .to(".flagship-features-grid .flagship-feature-card", {
         y: 0,
         opacity: 1,
-        duration: 0.4,
+        duration: 0.5,
         stagger: {
           from: "start",
-          each: 0.05
+          each: 0.1
         },
         ease: "back.out(1.2)"
-      }, 0.6);
+      }, 0.5);
     }, flagshipRef);
 
     return () => ctx.revert();
