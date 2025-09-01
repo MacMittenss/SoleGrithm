@@ -205,11 +205,13 @@ export default function Home() {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initially hide all elements
+      // Initially position header text inside/behind overlay
       gsap.set(".hero__text-cont h5, .hero__text-cont h2", {
-        clipPath: "inset(0 0 100% 0)"
+        y: 100,
+        opacity: 0,
+        scale: 0.8
       });
-      gsap.set(".flagship-grid .flagship-item", {
+      gsap.set(".flagship-grid .flagship-feature-card", {
         y: 50,
         opacity: 0
       });
@@ -226,21 +228,23 @@ export default function Home() {
         }
       });
 
-      // Sequential animation: header first, then components
+      // Sequential animation: header emerges from overlay, then components
       
-      // Header animation (0% - 40% of pin progress)
+      // Header animation - text emerges from overlay (0% - 40% of pin progress)
       pinTl.to(".hero__text-cont h5, .hero__text-cont h2", {
-        clipPath: "inset(0 0 0% 0)",
+        y: 0,
+        opacity: 1,
+        scale: 1,
         duration: 0.4,
         stagger: {
           from: "random", 
           each: 0.1
         },
-        ease: "sine.out"
+        ease: "back.out(1.4)"
       }, 0)
 
       // Small pause, then component animation (60% - 100% of pin progress)
-      .to(".flagship-grid .flagship-item", {
+      .to(".flagship-grid .flagship-feature-card", {
         y: 0,
         opacity: 1,
         duration: 0.4,
