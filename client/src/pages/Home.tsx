@@ -115,22 +115,19 @@ export default function Home() {
     };
   }, [splineApp, targetRotation]);
 
-  // Mouse tracking for robot animation
+  // Mouse tracking for robot animation - viewport-based (scroll-independent)
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = heroRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      // More accurate mouse position calculation relative to hero section
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = ((e.clientY - rect.top) / rect.height) * 2 - 1; // Fixed: removed negative sign
+      // Calculate mouse position relative to viewport only (ignores scroll)
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
       
       setMousePos({ x, y });
       
-      // Set target rotation with increased sensitivity and range
+      // Set target rotation - only responds to cursor, not scroll
       setTargetRotation({
-        x: y * 0.4,  // Fixed: removed negative sign for natural vertical movement
-        y: x * 0.8   // Horizontal look range (increased for better tracking)
+        x: y * 0.4,  // Vertical head movement
+        y: x * 0.8   // Horizontal head movement
       });
     };
 
