@@ -18,7 +18,6 @@ export default function Home() {
   const animationFrameRef = useRef<number>();
   const flagshipRef = useRef<HTMLElement>(null);
   const flagshipHeaderRef = useRef<HTMLDivElement>(null);
-  const heroHeaderRef = useRef<HTMLDivElement>(null);
 
   // Get brand data for the brands section
   const { data: brands } = useQuery({
@@ -204,53 +203,6 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
-  // Hero Header Snake Scroll Animation (inspired by Cassie Evans' CodePen)
-  useEffect(() => {
-    if (!heroRef.current || !heroHeaderRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Create snake path animation for each text element
-      ScrollTrigger.create({
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const snakeTexts = document.querySelectorAll(".snake-text");
-          
-          snakeTexts.forEach((element, index) => {
-            // Calculate snake curve positions
-            const baseX = progress * 400;
-            const baseY = progress * -150;
-            
-            // Create wave pattern with different phases for each element
-            const waveOffset = (index * Math.PI * 0.5) + (progress * Math.PI * 2);
-            const snakeX = baseX + Math.sin(waveOffset) * 80;
-            const snakeY = baseY + Math.cos(waveOffset) * 40;
-            
-            // Rotation follows the snake curve direction
-            const rotationAngle = Math.sin(waveOffset + Math.PI * 0.5) * 25;
-            
-            // Scale and opacity effects
-            const scaleValue = 1 - (progress * 0.4);
-            const opacityValue = Math.max(0, 1 - (progress * 1.5));
-            
-            gsap.set(element, {
-              x: snakeX,
-              y: snakeY,
-              rotation: rotationAngle,
-              scale: scaleValue,
-              opacity: opacityValue,
-              transformOrigin: "center center"
-            });
-          });
-        }
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <>
@@ -274,9 +226,9 @@ export default function Home() {
         <div className="fingerprint"></div>
         <div className="circle"></div>
         <div className="template-container">
-          <div ref={heroHeaderRef} className="hero-wrapper">
-            <h5 className="heading snake-text">Welcome to</h5>
-            <h1 className="hero-text snake-text">SOLEGRITHM</h1>
+          <div className="hero-wrapper">
+            <h5 className="heading">Welcome to</h5>
+            <h1 className="hero-text">SOLEGRITHM</h1>
           </div>
           <div className="hero-overlay"></div>
         </div>
