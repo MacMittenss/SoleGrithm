@@ -204,12 +204,12 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
-  // Hero Header Snake Scroll Animation
+  // Hero Header Snake Scroll Animation (inspired by Cassie Evans' CodePen)
   useEffect(() => {
     if (!heroRef.current || !heroHeaderRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animate hero header elements in snake pattern from left to right
+      // Create snake path animation for each text element
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
@@ -217,20 +217,33 @@ export default function Home() {
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress;
+          const snakeTexts = document.querySelectorAll(".snake-text");
           
-          // Snake animation - elements move out in staggered wave from left to right
-          gsap.to(".snake-text", {
-            x: (index) => 200 + (index * 100), // Staggered horizontal movement
-            y: (index) => -80 - (index * 20),  // Staggered vertical movement
-            rotation: (index) => 15 + (index * 10), // Rotation for snake effect
-            opacity: 1 - (progress * 1.2),
-            scale: 1 - (progress * 0.3),
-            duration: 0.1,
-            ease: "none",
-            stagger: {
-              each: 0.1,
-              from: "start"
-            }
+          snakeTexts.forEach((element, index) => {
+            // Calculate snake curve positions
+            const baseX = progress * 400;
+            const baseY = progress * -150;
+            
+            // Create wave pattern with different phases for each element
+            const waveOffset = (index * Math.PI * 0.5) + (progress * Math.PI * 2);
+            const snakeX = baseX + Math.sin(waveOffset) * 80;
+            const snakeY = baseY + Math.cos(waveOffset) * 40;
+            
+            // Rotation follows the snake curve direction
+            const rotationAngle = Math.sin(waveOffset + Math.PI * 0.5) * 25;
+            
+            // Scale and opacity effects
+            const scaleValue = 1 - (progress * 0.4);
+            const opacityValue = Math.max(0, 1 - (progress * 1.5));
+            
+            gsap.set(element, {
+              x: snakeX,
+              y: snakeY,
+              rotation: rotationAngle,
+              scale: scaleValue,
+              opacity: opacityValue,
+              transformOrigin: "center center"
+            });
           });
         }
       });
