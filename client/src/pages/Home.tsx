@@ -406,7 +406,7 @@ export default function Home() {
         ref={containerRef}
         className="min-h-screen"
         style={{
-          background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98))',
+          background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(5, 5, 10, 0.98), rgba(0, 0, 0, 1))',
           minHeight: '100vh',
         }}
       >
@@ -477,15 +477,17 @@ export default function Home() {
             <div 
               className="absolute top-32 left-1/4 w-80 h-80 rounded-full opacity-20"
               style={{
-                background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
-                filter: 'blur(100px)',
+                background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 40%, #06B6D4 80%, #8B5CF6 100%)',
+                filter: 'blur(120px)',
+                opacity: '0.6',
               }}
             />
             <div 
               className="absolute bottom-20 right-1/4 w-60 h-60 rounded-full opacity-15"
               style={{
-                background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
-                filter: 'blur(80px)',
+                background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 40%, #EC4899 80%, #06B6D4 100%)',
+                filter: 'blur(100px)',
+                opacity: '0.4',
               }}
             />
           </div>
@@ -550,7 +552,9 @@ export default function Home() {
                   key={sneaker.id}
                   className="group relative overflow-hidden rounded-2xl cursor-pointer hover:-translate-y-2 hover:scale-105 transition-transform"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))',
+                    backdropFilter: 'blur(20px)',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   {/* Trend Rank Badge */}
@@ -558,7 +562,7 @@ export default function Home() {
                     <div
                       className="px-3 py-1 rounded-full text-xs font-bold"
                       style={{
-                        background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                        background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 40%, #581dff 80%, #ff2900 100%)',
                       }}
                     >
                       #{index + 1}
@@ -615,7 +619,9 @@ export default function Home() {
                     key={index}
                     className="rounded-2xl overflow-hidden"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))',
+                    backdropFilter: 'blur(20px)',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     <div className="aspect-square bg-white/10 animate-pulse" />
@@ -640,7 +646,9 @@ export default function Home() {
                   key={stat.label}
                   className="text-center p-6 rounded-2xl border border-white/10 hover:scale-105 hover:-translate-y-1 transition-transform"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   }}
                 >
                   <div className="text-3xl sm:text-4xl font-bold mb-2">
@@ -778,7 +786,9 @@ export default function Home() {
                 <form 
                   className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))',
+                    backdropFilter: 'blur(20px)',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   <div className="mb-6">
@@ -818,7 +828,9 @@ export default function Home() {
                 {/* Enhanced Interactive Card */}
                 <div className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))',
+                    backdropFilter: 'blur(20px)',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                   }}>
                   <div className="text-center space-y-6">
                     {/* Enhanced Sneaker Icon */}
@@ -841,7 +853,9 @@ export default function Home() {
                         <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                           }}
                           data-testid="style-option-casual"
                         >
@@ -852,7 +866,9 @@ export default function Home() {
                         <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                           }}
                           data-testid="style-option-athletic"
                         >
@@ -863,7 +879,9 @@ export default function Home() {
                         <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                           }}
                           data-testid="style-option-streetwear"
                         >
@@ -874,7 +892,9 @@ export default function Home() {
                         <div
                           className="p-4 rounded-xl border border-white/10 cursor-pointer"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                           }}
                           data-testid="style-option-formal"
                         >
@@ -1038,7 +1058,7 @@ export default function Home() {
         <section
           className="relative py-32 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, rgba(50, 20, 40, 0.98), rgba(30, 10, 50, 0.95))',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.98), rgba(10, 5, 15, 0.95), rgba(0, 0, 0, 1))',
           }}
           data-testid="section-women-sneakers"
         >
@@ -1051,12 +1071,12 @@ export default function Home() {
           />
 
           {/* Floating geometric shapes */}
-          <div
+          <motion.div
             className="absolute top-20 right-20 w-32 h-32 rounded-full border border-pink-500/20"
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           />
-          <div
+          <motion.div
             className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-purple-500/20"
             animate={{ rotate: [45, 135, 45] }}
             transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
@@ -1065,7 +1085,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
-              <div
+              <motion.div
                 className="space-y-8"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1073,7 +1093,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {/* Badge */}
-                <div
+                <motion.div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(255, 100, 150, 0.1)',
@@ -1083,7 +1103,7 @@ export default function Home() {
                 >
                   <Heart className="w-4 h-4 text-pink-500" />
                   <span className="text-sm font-medium">WOMEN IN SNEAKERS</span>
-                </div>
+                </motion.div>
 
                 {/* Main Title */}
                 <div>
@@ -1110,7 +1130,7 @@ export default function Home() {
                 </div>
 
                 {/* Feature badges */}
-                <div
+                <motion.div
                   className="flex flex-wrap gap-3"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1122,7 +1142,7 @@ export default function Home() {
                     { label: 'Exclusive Collections', color: 'rgba(150, 50, 255, 0.1)' },
                     { label: 'Inspiring Stories', color: 'rgba(100, 150, 255, 0.1)' }
                   ].map((badge, index) => (
-                    <div
+                    <motion.div
                       key={badge.label}
                       className="px-4 py-2 rounded-full border border-white/20 text-sm font-medium text-white"
                       style={{ background: badge.color }}
@@ -1133,19 +1153,19 @@ export default function Home() {
                       whileHover={{ scale: 1.05 }}
                     >
                       {badge.label}
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
 
                 {/* CTA Button */}
-                <div
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1.5 }}
                 >
                   <Link href="/women-in-sneakers">
-                    <button
+                    <motion.button
                       className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
                       style={{
                         background: 'linear-gradient(to right, #ff6496 0%, #9650ff 61%, #ff9650 100%)',
@@ -1158,13 +1178,13 @@ export default function Home() {
                         Explore Women in Sneakers
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
-                    </button>
+                    </motion.button>
                   </Link>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Visual Grid Column */}
-              <div
+              <motion.div
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1175,12 +1195,14 @@ export default function Home() {
                 <div
                   className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))',
+                    backdropFilter: 'blur(20px)',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-4">
-                      <div
+                      <motion.div
                         className="h-32 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(255, 100, 150, 0.1), rgba(255, 150, 200, 0.1))',
@@ -1193,8 +1215,8 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                       >
                         <Heart className="w-8 h-8 text-pink-500" />
-                      </div>
-                      <div
+                      </motion.div>
+                      <motion.div
                         className="h-20 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(150, 50, 255, 0.1), rgba(200, 100, 255, 0.1))',
@@ -1207,10 +1229,10 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                       >
                         <Users className="w-6 h-6 text-purple-500" />
-                      </div>
+                      </motion.div>
                     </div>
                     <div className="space-y-4">
-                      <div
+                      <motion.div
                         className="h-20 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(100, 150, 255, 0.1), rgba(150, 200, 255, 0.1))',
@@ -1223,8 +1245,8 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                       >
                         <Star className="w-6 h-6 text-blue-500" />
-                      </div>
-                      <div
+                      </motion.div>
+                      <motion.div
                         className="h-32 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(200, 100, 255, 0.1), rgba(255, 150, 255, 0.1))',
@@ -1237,11 +1259,11 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                       >
                         <Sparkles className="w-8 h-8 text-purple-500" />
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -1264,7 +1286,7 @@ export default function Home() {
       <ARDemo />
 
       {/* Sole Map - Global Trends Section - Using ARDemo styling */}
-      <section 
+      <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 to-blue-500/5"
         initial="hidden"
         animate="visible"
@@ -1272,15 +1294,15 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-            <div
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <motion.div
               className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <TrendingUp className="w-4 h-4" />
               Sole Map
-            </div>
+            </motion.div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Global Trends Experience
             </h2>
@@ -1288,7 +1310,7 @@ export default function Home() {
               Explore real-time sneaker trends across the globe with interactive visualization. 
               Discover regional preferences and track sneaker culture worldwide.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Interactive Map Visualization */}
@@ -1380,7 +1402,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Live Market Section - Advanced */}
       <SectionWrapper
