@@ -30,7 +30,7 @@
 }
 
 /* Lenis Smooth Scrolling - VITURE Style */
-html.lenis, 
+html.lenis,
 html.lenis body {
   height: auto;
 }
@@ -101,7 +101,9 @@ body {
 }
 
 /* Global seasonSans font application */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -160,12 +162,17 @@ h6 {
   line-height: 1.33vw;
 }
 
-p, span, div {
+p,
+span,
+div {
   font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
 }
 
 /* Button and interactive elements */
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
   font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
 }
 
@@ -226,8 +233,15 @@ button, input, textarea, select {
 }
 
 @keyframes gradient-flow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .viture-text-glow {
@@ -241,7 +255,7 @@ button, input, textarea, select {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -249,8 +263,13 @@ button, input, textarea, select {
 
 /* DaisyUI custom animations and shimmer effect */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .animate-shimmer {
@@ -259,11 +278,14 @@ button, input, textarea, select {
 
 /* VITURE-style dramatic visual effects */
 @keyframes viture-glow {
-  0%, 100% { 
-    box-shadow: 0 0 30px rgba(255, 41, 0, 0.3), 0 0 60px rgba(88, 29, 255, 0.2); 
+
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(255, 41, 0, 0.3), 0 0 60px rgba(88, 29, 255, 0.2);
   }
-  50% { 
-    box-shadow: 0 0 40px rgba(255, 41, 0, 0.5), 0 0 80px rgba(88, 29, 255, 0.3); 
+
+  50% {
+    box-shadow: 0 0 40px rgba(255, 41, 0, 0.5), 0 0 80px rgba(88, 29, 255, 0.3);
   }
 }
 
@@ -280,7 +302,7 @@ body::before {
   width: 100%;
   height: 100%;
   background: radial-gradient(circle at 20% 20%, rgba(255, 41, 0, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(88, 29, 255, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 80% 80%, rgba(88, 29, 255, 0.1) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
 }
@@ -308,7 +330,7 @@ body::before {
     --input: hsl(0, 0%, 94%);
     --ring: hsl(0, 0%, 20%);
     --radius: 0.5rem;
-    
+
     /* Pinterest-style spacing and layout */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -317,7 +339,7 @@ body::before {
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
     --spacing-3xl: 4rem;
-    
+
     /* Visual hierarchy */
     --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -345,7 +367,7 @@ body::before {
     --border: hsl(0, 0%, 20%);
     --input: hsl(0, 0%, 18%);
     --ring: hsl(0, 0%, 90%);
-    
+
     /* Dark mode shadows */
     --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
@@ -357,7 +379,7 @@ body::before {
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
@@ -429,56 +451,56 @@ body::before {
     @apply bg-card rounded-lg overflow-hidden transition-all duration-300 ease-out;
     box-shadow: var(--shadow-card);
   }
-  
+
   .pinterest-card:hover {
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-2px);
   }
-  
+
   /* Masonry grid support */
   .masonry-grid {
     column-count: 2;
     column-gap: 1rem;
     column-fill: balance;
   }
-  
+
   @media (min-width: 640px) {
     .masonry-grid {
       column-count: 3;
     }
   }
-  
+
   @media (min-width: 768px) {
     .masonry-grid {
       column-count: 4;
     }
   }
-  
+
   @media (min-width: 1024px) {
     .masonry-grid {
       column-count: 5;
     }
   }
-  
+
   .masonry-item {
     @apply mb-4 break-inside-avoid;
   }
-  
+
   /* Visual-first image containers */
   .pinterest-image {
     @apply w-full object-cover transition-transform duration-500;
   }
-  
+
   .pinterest-image:hover {
     transform: scale(1.05);
   }
-  
+
   /* Minimal text overlays */
   .pinterest-overlay {
     @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent;
     @apply opacity-0 group-hover:opacity-100 transition-opacity duration-300;
   }
-  
+
   /* Clean save buttons */
   .pinterest-save-btn {
     @apply absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm;
@@ -519,6 +541,7 @@ body::before {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
@@ -529,6 +552,7 @@ body::before {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -561,6 +585,7 @@ body::before {
 }
 
 @layer components {
+
   /* Pinterest-style sneaker card */
   .sneaker-card {
     @apply transition-all duration-300 ease-in-out;
@@ -617,12 +642,13 @@ body::before {
 
 /* Utilities layer for utility classes */
 @layer utilities {
+
   /* Spacing utilities */
-  .space-y-section > * + * {
+  .space-y-section>*+* {
     @apply mt-24;
   }
 
-  .space-y-component > * + * {
+  .space-y-component>*+* {
     @apply mt-8;
   }
 
@@ -696,7 +722,7 @@ body::before {
 
 .hero-text {
   font-size: clamp(6rem, 15vw, 24rem);
-  font-weight: 600;
+  font-weight: 900;
   letter-spacing: -0.07vw;
   color: var(--white);
   margin: 0;
@@ -707,8 +733,8 @@ body::before {
 }
 
 .heading {
-  font-size: clamp(0.8rem, 0.89vw, 1.2rem);
-  font-weight: 700;
+  font-size: clamp(0.8rem, 0.89vw, 1.9rem);
+  font-weight: 900;
   letter-spacing: 0.14vw;
   text-transform: uppercase;
   color: var(--white);
@@ -915,4 +941,3 @@ body::before {
   margin: 0 auto;
   padding: 0 2rem;
 }
-
