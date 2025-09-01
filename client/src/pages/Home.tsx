@@ -229,28 +229,28 @@ export default function Home() {
         }
       });
 
-      // Add header animation first (0% - 40% of scroll progress)
+      // Add header animation first (0% - 50% of scroll progress)
       pinTl.to(".hero__text-cont h5, .hero__text-cont h2", {
         clipPath: "inset(0 0 0% 0)",
-        duration: 0.4,
+        duration: 0.5,
         stagger: {
           from: "random", 
-          each: 0.05
+          each: 0.1
         },
         ease: "sine.out"
       }, 0)
 
-      // Add component animation second (40% - 100% of scroll progress) 
+      // Add component animation second (50% - 100% of scroll progress) - AFTER header completes
       .to(".flagship-grid .flagship-item", {
         y: 0,
         opacity: 1,
-        duration: 0.6,
+        duration: 0.5,
         stagger: {
           from: "start",
-          each: 0.02
+          each: 0.05
         },
         ease: "back.out(1.2)"
-      }, 0.4);
+      }, 0.5);
     }, flagshipRef);
 
     return () => ctx.revert();
