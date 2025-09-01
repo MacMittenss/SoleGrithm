@@ -7,8 +7,9 @@ import { useQuery } from '@tanstack/react-query';
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [splineApp, setSplineApp] = useState<any>(null);
   const splineRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLSection>(null);
 
   // Get brand data for the brands section
   const { data: brands } = useQuery({
@@ -16,18 +17,68 @@ export default function Home() {
     staleTime: 1000 * 60 * 5,
   });
 
-  // Mouse tracking for 3D robot animation
+  // Initialize Spline 3D Robot
+  useEffect(() => {
+    const initSpline = async () => {
+      if (!splineRef.current) return;
+      
+      try {
+        // @ts-ignore - Spline runtime types not available
+        const { Application } = await import('https://unpkg.com/@splinetool/runtime@1.6.8/build/runtime.js');
+        
+        const canvas = splineRef.current.querySelector('canvas');
+        if (canvas) {
+          const app = new Application(canvas);
+          await app.load('https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode');
+          
+          // Fade in the robot after loading
+          if (splineRef.current) {
+            splineRef.current.style.opacity = '1';
+            splineRef.current.style.transition = 'opacity 1s ease-in-out';
+          }
+          
+          setSplineApp(app);
+        }
+      } catch (error) {
+        console.log('Spline loading fallback - using placeholder animation');
+        // Fallback: show the container with reduced opacity
+        if (splineRef.current) {
+          splineRef.current.style.opacity = '0.5';
+        }
+      }
+    };
+
+    // Delay initialization to ensure DOM is ready
+    const timer = setTimeout(initSpline, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Mouse tracking for robot animation
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
+      const newMousePos = {
         x: (e.clientX / window.innerWidth) * 2 - 1,
         y: -(e.clientY / window.innerHeight) * 2 + 1
-      });
+      };
+      setMousePos(newMousePos);
+
+      // Update robot orientation if Spline is loaded
+      if (splineApp && splineApp.findObjectByName) {
+        try {
+          const robot = splineApp.findObjectByName('Robot') || splineApp.findObjectByName('Head');
+          if (robot) {
+            robot.rotation.y = newMousePos.x * 0.3;
+            robot.rotation.x = newMousePos.y * 0.2;
+          }
+        } catch (error) {
+          // Silently handle any Spline interaction errors
+        }
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [splineApp]);
 
   // Scroll animations
   useEffect(() => {
@@ -84,35 +135,15 @@ export default function Home() {
           <div className="hero-overlay"></div>
         </div>
         
-        {/* 3D Animation Placeholder - Robot that follows cursor */}
+        {/* 3D Spline Robot Animation - Interactive robot that follows cursor */}
         <div 
           ref={splineRef}
           className="spline"
-          style={{
-            transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`,
-            transition: 'transform 0.1s ease-out'
-          }}
+          style={{ opacity: 0 }}
+          data-animation-type="spline"
+          data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
         >
-          {/* Animated sneaker/robot placeholder */}
-          <div 
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: `translate(-50%, -50%) rotate(${mousePos.x * 10}deg)`,
-              fontSize: '8rem',
-              opacity: 0.3,
-              transition: 'transform 0.1s ease-out'
-            }}
-          >
-            <Footprints 
-              size={200} 
-              color="white"
-              style={{
-                filter: 'drop-shadow(0 0 50px rgba(255, 41, 0, 0.3))'
-              }}
-            />
-          </div>
+          <canvas id="spline-canvas"></canvas>
         </div>
       </section>
 
