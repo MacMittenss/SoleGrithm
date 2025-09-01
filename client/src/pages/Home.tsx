@@ -205,13 +205,12 @@ export default function Home() {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initially position header text inside/behind overlay
-      gsap.set(".hero__text-cont h5, .hero__text-cont h2", {
+      // Initially position words inside overlay - no opacity fade
+      gsap.set(".hero__text-cont .word", {
         y: 100,
-        opacity: 0,
-        scale: 0.8
+        clipPath: "inset(0 0 100% 0)" // Clipped by overlay
       });
-      gsap.set(".flagship-grid .flagship-feature-card", {
+      gsap.set(".flagship-features-grid .flagship-feature-card", {
         y: 50,
         opacity: 0
       });
@@ -228,23 +227,22 @@ export default function Home() {
         }
       });
 
-      // Sequential animation: header emerges from overlay, then components
+      // Sequential animation: words emerge from overlay left-to-right, then components
       
-      // Header animation - text emerges from overlay (0% - 40% of pin progress)
-      pinTl.to(".hero__text-cont h5, .hero__text-cont h2", {
+      // Header animation - words emerge from overlay word by word (0% - 40% of pin progress)
+      pinTl.to(".hero__text-cont .word", {
         y: 0,
-        opacity: 1,
-        scale: 1,
+        clipPath: "inset(0 0 0% 0)", // Reveal from overlay
         duration: 0.4,
         stagger: {
-          from: "random", 
-          each: 0.1
+          from: "start", // Left to right
+          each: 0.08
         },
         ease: "back.out(1.4)"
       }, 0)
 
       // Small pause, then component animation (60% - 100% of pin progress)
-      .to(".flagship-grid .flagship-feature-card", {
+      .to(".flagship-features-grid .flagship-feature-card", {
         y: 0,
         opacity: 1,
         duration: 0.4,
@@ -307,11 +305,20 @@ export default function Home() {
           <div className="flagship-wrapper">
             <div ref={flagshipHeaderRef} className="flagship-header">
               <div className="hero__text-cont">
-                <h5 className="heading">Innovation at Its Core</h5>
+                <h5 className="heading">
+                  <span className="word">Innovation</span>
+                  <span className="word">at</span>
+                  <span className="word">Its</span>
+                  <span className="word">Core</span>
+                </h5>
                 <div className="flagship-anim-swipe"></div>
               </div>
               <div className="hero__text-cont">
-                <h2 className="flagship-title">OUR FLAGSHIP FEATURES</h2>
+                <h2 className="flagship-title">
+                  <span className="word">OUR</span>
+                  <span className="word">FLAGSHIP</span>
+                  <span className="word">FEATURES</span>
+                </h2>
                 <div className="flagship-anim-swipe"></div>
               </div>
               <p className="flagship-subtitle">

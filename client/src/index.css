@@ -746,6 +746,13 @@ body::before {
   z-index: 2;
 }
 
+/* Individual word styling for word-by-word animation */
+.hero__text-cont .word {
+  display: inline-block;
+  margin-right: 0.3em;
+  position: relative;
+}
+
 .hero-text {
   font-family: Arial, sans-serif;
   font-size: clamp(6rem, 15vw, 24rem);
