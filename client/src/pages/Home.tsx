@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import AdvancedFlagshipFeatures from '@/components/advanced/AdvancedFlagshipFeatures';
-import { Lenis } from '@/components/Lenis';
 
 interface SplitCharProps {
   children: string;
@@ -212,36 +211,28 @@ export default function Home() {
   }, []);
 
   return (
-    <Lenis
-      options={{
-        lerp: 0.1,
-        duration: 1.2,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-      }}
+    <div 
+      id="lenis" 
+      className="lenis"
+      style={{
+        '--vw': '25.6px',
+        '--dvh': '12.88px',
+        '--svh': '12.88px',
+        '--lvh': '1vh',
+        '--scrollbar-width': '11px'
+      } as React.CSSProperties}
     >
-      <div 
-        id="lenis" 
-        className="lenis"
-        style={{
-          '--vw': '25.6px',
-          '--dvh': '12.88px',
-          '--svh': '12.88px',
-          '--lvh': '1vh',
-          '--scrollbar-width': '11px'
-        } as React.CSSProperties}
-      >
-        <div>
-          <Header onAIChatToggle={() => {}} />
-          <main className="relative flex flex-col grow font-season">
+      <div>
+        <Header onAIChatToggle={() => {}} />
+        <main className="relative flex flex-col grow font-season">
             <Preloader isVisible={showPreloader} />
             
             <section className="section-module__Fy_-CG__section overflow-x-clip section1-module__iQD6-W__section1 overflow-clip">
               <div className="h-full" style={{ filter: 'blur(0px)', transform: 'scale(1)' }}>
-              <div className="section1-module__iQD6-W__sticky">
-                <div className="section1-module__iQD6-W__inner">
-                  <div className="absolute inset-0">
-                    <img
+                <div className="section1-module__iQD6-W__sticky">
+                  <div className="section1-module__iQD6-W__inner">
+                    <div className="absolute inset-0">
+                      <img
                       alt=""
                       draggable="false"
                       loading="eager"
@@ -275,8 +266,8 @@ export default function Home() {
                     />
                   </div>
                   
-                  <div className="dr-layout-block section1-module__iQD6-W__contentWrapper">
-                    <h2 className="section1-module__iQD6-W__title h2">
+                    <div className="dr-layout-block section1-module__iQD6-W__contentWrapper">
+                      <h2 className="section1-module__iQD6-W__title h2">
                       <div className="section1-module__iQD6-W__lumaIlluWrapper">
                         <div
                           className="section1-module__iQD6-W__lumaIlluBlur"
@@ -547,9 +538,8 @@ export default function Home() {
             </div>
             </section>
 
-          </main>
-        </div>
+        </main>
       </div>
-    </Lenis>
+    </div>
   );
 }
