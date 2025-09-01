@@ -62,7 +62,7 @@ function App() {
     return (
       <AdvancedPreloader 
         onComplete={handlePreloaderComplete}
-        brandText="SoleGrithm"
+        brandText="Luma"
         duration={2500}
       />
     );
