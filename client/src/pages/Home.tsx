@@ -203,33 +203,54 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
-  // Flagship Header Split Animation (GSAP website style)
+  // Flagship Section Pin and Animation Sequence
   useEffect(() => {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initially hide text with clip-path
+      // Initially hide all elements
       gsap.set(".hero__text-cont h5, .hero__text-cont h2", {
         clipPath: "inset(0 0 100% 0)"
       });
+      gsap.set(".flagship-grid .flagship-item", {
+        y: 50,
+        opacity: 0
+      });
 
-      // Animate text reveal by changing clip-path as we scroll
-      gsap.to(".hero__text-cont h5, .hero__text-cont h2", {
-        clipPath: "inset(0 0 0% 0)",
-        delay: 0.2,
-        duration: 3,
-        stagger: {
-          from: "random",
-          each: 0.1
-        },
-        ease: "sine.out",
+      // Create pinned timeline that controls entire homepage during flagship section
+      let pinTl = gsap.timeline({
         scrollTrigger: {
           trigger: flagshipRef.current,
-          start: "top 80%",
-          end: "top 20%",
-          scrub: true
+          start: "top center", 
+          end: "+=200%",
+          pin: flagshipRef.current, // Pin the flagship section
+          pinSpacing: true,
+          scrub: 1
         }
       });
+
+      // Add header animation first (0% - 40% of scroll progress)
+      pinTl.to(".hero__text-cont h5, .hero__text-cont h2", {
+        clipPath: "inset(0 0 0% 0)",
+        duration: 0.4,
+        stagger: {
+          from: "random", 
+          each: 0.05
+        },
+        ease: "sine.out"
+      }, 0)
+
+      // Add component animation second (40% - 100% of scroll progress) 
+      .to(".flagship-grid .flagship-item", {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: {
+          from: "start",
+          each: 0.02
+        },
+        ease: "back.out(1.2)"
+      }, 0.4);
     }, flagshipRef);
 
     return () => ctx.revert();
