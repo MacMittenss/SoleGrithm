@@ -789,7 +789,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: -1;
   pointer-events: none;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -848,6 +848,12 @@ body::before {
   background: rgba(5, 5, 5, 0.9);
   backdrop-filter: blur(10px);
   padding: 1rem 0;
+}
+
+/* All sections after hero should be above robot */
+.template-section {
+  position: relative;
+  z-index: 10;
 }
 
 .nav-container {
@@ -987,6 +993,7 @@ body::before {
 .flagship-section {
   position: relative;
   min-height: 110vh;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
