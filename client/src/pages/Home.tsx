@@ -1,219 +1,423 @@
-export default function Home() {
+import { useEffect, useState } from 'react';
+
+interface SplitCharProps {
+  children: string;
+  index: number;
+  total: number;
+  delay?: number;
+}
+
+const SplitChar = ({ children, index, total, delay = 0 }: SplitCharProps) => (
+  <span
+    className="luma-illuminate-text-module__laZ2Ka__splitChar"
+    style={{
+      '--char-index': index,
+      '--total-chars': total,
+      animationDelay: `${delay + index * 0.1}s`
+    } as React.CSSProperties}
+  >
+    {children}
+  </span>
+);
+
+const LumaIlluminateText = () => {
+  const lumaChars = 'luma'.split('');
+  const illuminateChars = 'Illuminate'.split('');
+
   return (
-    <div>
-      {/* Navigation */}
-      <div className="navbar w-nav">
-        <a href="#" className="logo-link-wrapper w-nav-brand">
-          <img 
-            width="Auto" 
-            height="Auto" 
-            alt="logo" 
-            src="/images/iDesigner.png" 
-            loading="eager" 
-            className="logo" 
-          />
-        </a>
-        <div className="nav-container w-container">
-          <nav role="navigation" className="nav-menu w-nav-menu">
-            <div className="nav-link-wrapper">
-              <a href="#" className="nav-link w-nav-link">Home</a>
-              <a href="#" className="nav-link move-down hide-on-tab w-nav-link">Home</a>
+    <div className="luma-illuminate-text-module__laZ2Ka__lumaIlluminate">
+      <div className="luma-illuminate-text-module__laZ2Ka__luma" aria-label="Luma">
+        {lumaChars.map((char, index) => (
+          <SplitChar key={`luma-${index}`} index={index + 1} total={10}>
+            {char}
+          </SplitChar>
+        ))}
+      </div>
+      <div className="luma-illuminate-text-module__laZ2Ka__illuminate">
+        {illuminateChars.map((char, index) => (
+          <SplitChar key={`illuminate-${index}`} index={index} total={10}>
+            {char}
+          </SplitChar>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const SplitText = ({ text }: { text: string }) => {
+  const words = text.split(' ');
+  
+  return (
+    <span className="split-text-module__McvV0q__splitText">
+      <span className="split-text-module__McvV0q__split" aria-label={text}>
+        {words.map((word, index) => (
+          <div
+            key={index}
+            className="word-mask"
+            aria-hidden="true"
+            style={{
+              position: 'relative',
+              display: 'inline-block',
+              overflow: 'clip'
+            }}
+          >
+            <div
+              className="word"
+              aria-hidden="true"
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                transform: 'translateY(0%)'
+              }}
+            >
+              {word}
             </div>
-            <div className="nav-link-wrapper">
-              <a href="#" className="nav-link w-nav-link">About</a>
-              <a href="#" className="nav-link move-down hide-on-tab w-nav-link">About</a>
-            </div>
-            <div className="nav-link-wrapper">
-              <a href="#" className="nav-link w-nav-link">Works</a>
-              <a href="#" className="nav-link move-down hide-on-tab w-nav-link">Works</a>
-            </div>
-            <div className="nav-link-wrapper">
-              <a href="#" className="nav-link w-nav-link">Contact</a>
-              <a href="#" className="nav-link move-down hide-on-tab w-nav-link">Contact</a>
-            </div>
-          </nav>
-          <div className="menu-button w-nav-button">
-            <div className="burger-icon w-icon-nav-menu"></div>
           </div>
+        ))}
+      </span>
+      <span className="split-text-module__McvV0q__fallback">{text}</span>
+    </span>
+  );
+};
+
+const DotsGrid = () => (
+  <svg
+    viewBox="0 0 1362 421"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <radialGradient id="dots-grid_svg__a" cx="50%" cy="100%" r="100%">
+        <stop offset="0%" stopColor="white" />
+        <stop offset="100%" stopColor="black" />
+      </radialGradient>
+      <linearGradient id="dots-grid_svg__c" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+        <stop offset="50%" stopColor="rgba(255,255,255,0.1)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+      </linearGradient>
+    </defs>
+    <mask
+      id="dots-grid_svg__b"
+      maskUnits="userSpaceOnUse"
+    >
+      <ellipse
+        cx="681"
+        cy="421"
+        rx="681"
+        ry="421"
+        fill="url(#dots-grid_svg__a)"
+      />
+    </mask>
+    <g mask="url(#dots-grid_svg__b)">
+      {Array.from({ length: 85 }, (_, i) => (
+        <path
+          key={i}
+          d={`M${129 + i * 16} 0v421`}
+          stroke="url(#dots-grid_svg__c)"
+          strokeWidth="2"
+          strokeDasharray="2 20"
+        />
+      ))}
+    </g>
+  </svg>
+);
+
+const Preloader = ({ isVisible }: { isVisible: boolean }) => {
+  const lumaChars = 'Luma'.split('');
+
+  return (
+    <div
+      className="preloader-module__HuRKdq__preloader"
+      style={{
+        transform: isVisible ? 'translate(0%, 0%)' : 'translate(0%, -100%)',
+        display: isVisible ? 'flex' : 'none'
+      }}
+    >
+      <div className="preloader-module__HuRKdq__inner">
+        <div className="preloader-module__HuRKdq__textWrapper">
+          <div className="preloader-module__HuRKdq__word">
+            {lumaChars.map((char, index) => (
+              <span
+                key={index}
+                className="preloader-module__HuRKdq__char"
+                style={{
+                  '--char-index': index,
+                  '--total-chars': 4,
+                  animationDelay: `${index * 0.1}s`
+                } as React.CSSProperties}
+              >
+                {char}
+              </span>
+            ))}
+          </div>
+          <div
+            className="preloader-module__HuRKdq__word preloader-module__HuRKdq__wordBlurred"
+            style={{ filter: 'blur(30px) brightness(1) saturate(1)' }}
+          >
+            {lumaChars.map((char, index) => (
+              <span
+                key={`blur-${index}`}
+                className="preloader-module__HuRKdq__char"
+                style={{
+                  '--char-index': index,
+                  '--total-chars': 4,
+                  animationDelay: `${index * 0.1}s`
+                } as React.CSSProperties}
+              >
+                {char}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="preloader-module__HuRKdq__progressBar">
+          <div className="preloader-module__HuRKdq__blurred"></div>
+          <div className="preloader-module__HuRKdq__solid"></div>
         </div>
       </div>
+    </div>
+  );
+};
 
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="fingerprint"></div>
-        <div className="circle"></div>
-        <div className="w-layout-blockcontainer container w-container">
-          <div className="hero-wrapper">
-            <h5 className="heading">Welcome</h5>
-            <h1 className="hero-text">iDESIGNER</h1>
-            <a href="#brands" className="arrow-border-wrapper w-inline-block">
-              <div className="icon-wrapper">
-                <img
-                  width="Auto"
-                  height="Auto"
-                  alt="arrow up"
-                  src="/images/arrow_outward.svg"
-                  loading="eager"
-                  className="arrow"
-                />
-              </div>
-            </a>
+const Banner = () => (
+  <>
+    <div className="banner-desktop-module__RDsdcW__bannerDesktop desktop-only">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.viture.com/blog/leading-the-way-in-xr-best-display-best-features"
+      >
+        <div className="banner-desktop-module__RDsdcW__content">
+          <p className="text16_24_normal banner-desktop-module__RDsdcW__text">
+            <img
+              style={{ margin: '0px 4px 0px 0px', height: '24px' }}
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDYiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0NiAxNiI+PHBhdGggZmlsbD0idXJsKCNhKSIgZD0iTTQ1LjAzNDQgMS44MzhjLS4zODk3LS4zMTU1LTEuMjE1NC0uMTQ4NS0yLjg5NDgtLjM4MDQtMS40MDEtLjE5NDktNC4yMzA5LS41Mjg5LTguNDcxMS0uNTI4OS01LjA1NjcgMC03LjU4MDUgMS4xNzg0LTguNjAxMSAxLjQ3NTMtMS4wMjA2LjI5NjktMS43MDcyLjI1OTgtMi4wMDQxLjI1OTgtLjI5NjkgMC0uOTgzNS4wMzctMi4wMDQxLS4yNTk4LTEuMDIwNi0uMjk3LTMuNTM1MS0xLjQ2Ni04LjU5MTgtMS40NjYtNC4yMzA5IDAtNy4wNjA4LjMzNC04LjQ3MTEuNTI4OS0xLjY3MDEuMjMyLTIuNTA1Mi4wNjQ5LTIuODk0OS4zODA0LS4zODk2LjMxNTQtLjI4NzYgMS4wNjctLjI4NzYgMS40Mjg4IDAgLjM2MTkgMCAxLjA4NTYuNTU2NyAxLjMxNzYuNTU2Ny4yMzIuOTE4Ni4wNjUgMS4zNDU0LjI5NjkuNDI2OC4yMzIuODUzNi44NTM2IDEuMTEzNCAyLjE3MTEuMjU5OCAxLjMxNzUuNTU2NyA0LjI5NTkgMS43NDQzIDYuMDAzMSAxLjE3ODQgMS43MDcyIDMuMzEyNCAyLjY2MjkgNi41OTY5IDIuNTk3OSAzLjI4NDYtLjA2NDkgNC45NTQ3LS41NTY3IDYuMzY1LTIuMDk2OSAxLjQxMDMtMS41NDAyIDIuMTM0LTQuMDM2IDIuNDU4Ny00LjkyNjguMzI0OC0uODkwNy43NTE2LTEuODkyOCAxLjExMzQtMi4xNzExLjI1OTgtLjE5NDkuNzIzNy0uMTY3Ljk1NTctLjE2Ny4yMzIgMCAuNjg2Ni0uMDI3OS45NTU3LjE2Ny4zNjE4LjI3ODMuNzg4NiAxLjI4MDQgMS4xMTM0IDIuMTcxMS4zMjQ3Ljg5MDcgMS4wNDg0IDMuMzc3MyAyLjQ1ODcgNC45MjY4IDEuNDEwNCAxLjU0MDIgMy4wODk3IDIuMDMyIDYuMzY1IDIuMDk2OSAzLjI4NDUuMDY1IDUuNDE4NS0uODkwNyA2LjU5NjktMi41OTc5IDEuMTc4My0xLjcwNzIgMS40NzUzLTQuNjk0OSAxLjc0NDMtNi4wMDMxLjI1OTgtMS4zMTc1LjY4NjYtMS45MzkyIDEuMTEzNC0yLjE3MTEuNDI2OC0uMjMyLjc4ODctLjA2NSAxLjM0NTQtLjI5Ny41NTY3LS4yMzE5LjU1NjctLjk1NTYuNTU2Ny0xLjMxNzUgMC0uMzYxOC4xMDIxLTEuMTEzNC0uMjg3Ni0xLjQyODhsLjAwOTItLjAwOTNaIi8+PGRlZnM+PGxpbmVhcmdyYWRpZW50IGlkPSJhIiB4MT0iLjgwMTgiIHgyPSI0NS4yMDIiIHkxPSIxNS42NjU4IiB5Mj0iNS42MDU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI0ZGMjkwMCIvPjxzdG9wIG9mZnNldD0iLjYwNTgiIHN0b3AtY29sb3I9IiNGRTdBNjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1ODFERkYiLz48L2xpbmVhcmdyYWRpZW50PjwvZGVmcz48L3N2Zz4="
+              alt="glasses"
+            />
+            <span>Leading the Way in XR:&nbsp;</span>
+            <span
+              style={{
+                fontWeight: 700,
+                color: 'transparent',
+                backgroundImage: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text'
+              }}
+            >
+              Best Display, Best Features
+            </span>
+          </p>
+        </div>
+      </a>
+    </div>
+    
+    <div className="banner-mobile-module__3zKlBq__banner mobile-only">
+      <div className="banner-mobile-module__3zKlBq__content">
+        <div className="banner-mobile-module__3zKlBq__row">
+          <div className="banner-mobile-module__3zKlBq__glassesContainer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="46"
+              height="16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                fill="url(#a)"
+                d="M45.0344 1.838c-.3897-.3155-1.2154-.1485-2.8948-.3804-1.401-.1949-4.2309-.5289-8.4711-.5289-5.0567 0-7.5805 1.1784-8.6011 1.4753-1.0206.2969-1.7072.2598-2.0041.2598-.2969 0-.9835.037-2.0041-.2598-1.0206-.297-3.5351-1.466-8.5918-1.466-4.2309 0-7.0608.334-8.4711.5289-1.6701.232-2.5052.0649-2.8949.3804-.3896.3154-.2876 1.067-.2876 1.4288 0 .3619 0 1.0856.5567 1.3176.5567.232.9186.065 1.3454.2969.4268.232.8536.8536 1.1134 2.1711.2598 1.3175.5567 4.2959 1.7443 6.0031 1.1784 1.7072 3.3124 2.6629 6.5969 2.5979 3.2846-.0649 4.9547-.5567 6.365-2.0969 1.4103-1.5402 2.134-4.036 2.4587-4.9268.3248-.8907.7516-1.8928 1.1134-2.1711.2598-.1949.7237-.167.9557-.167.232 0 .6866-.0279.9557.167.3618.2783.7886 1.2804 1.1134 2.1711.3247.8907 1.0484 3.3773 2.4587 4.9268 1.4104 1.5402 3.0897 2.032 6.365 2.0969 3.2845.065 5.4185-.8907 6.5969-2.5979 1.1783-1.7072 1.4753-4.6949 1.7443-6.0031.2598-1.3175.6866-1.9392 1.1134-2.1711.4268-.232.7887-.065 1.3454-.297.5567-.2319.5567-.9556.5567-1.3175 0-.3618.1021-1.1134-.2876-1.4288l.0092-.0093Z"
+              />
+              <defs>
+                <linearGradient
+                  id="a"
+                  x1=".8018"
+                  x2="45.202"
+                  y1="15.6658"
+                  y2="5.6058"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#FF2900" />
+                  <stop offset=".6058" stopColor="#FE7A60" />
+                  <stop offset="1" stopColor="#581DFF" />
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
-          <div className="hero-overlay"></div>
-        </div>
-        <div className="spline" style={{ opacity: 0 }}>
-          <canvas></canvas>
-        </div>
-      </section>
-
-      {/* Brands Section */}
-      <section id="brands" className="section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
-          <div className="space-7rem"></div>
-          <div className="brands-wrapper">
-            <div className="brands-grid slide-up-animation">
-              <div className="logos-wrapper">
-                <img
-                  width="Auto"
-                  height="Auto"
-                  alt="brand logo"
-                  src="/images/load.png"
-                  loading="eager"
-                />
-              </div>
-              <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname3.png"
-                  alt="brand logo"
-                />
-              </div>
-              <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname2.png"
-                  alt="brand logo"
-                />
-              </div>
-              <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname1.png"
-                  alt="brand logo"
-                />
-              </div>
-            </div>
-            <div className="brands-grid slide-up-animation">
-              <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname1.png"
-                  alt="brand logo"
-                />
-              </div>
-              <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname2.png"
-                  alt="brand logo"
-                />
-              </div>
-              <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname3.png"
-                  alt="brand logo"
-                />
-              </div>
-              <div className="logos-wrapper">
-                <img
-                  width="Auto"
-                  height="Auto"
-                  alt="brand logo"
-                  src="/images/load.png"
-                  loading="eager"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="space-7rem"></div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
-          <div className="services-flex">
-            <div className="services-wrapper slide-from-left-animation">
-              <div className="services-card">
-                <div className="services-title-flex">
-                  <div className="services-icon">
-                    <img
-                      src="/images/Sticker-Mockup.jpg"
-                      alt="sticker mock up"
-                      loading="lazy"
-                      className="services-image"
-                    />
-                  </div>
-                  <h4 className="caps">Branding</h4>
-                </div>
-                <div className="services-text-block">
-                  <p className="self-align-left">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Vestibulum convallis, dolor sed consectetur gravida.
-                  </p>
-                </div>
-              </div>
-              <div className="services-card">
-                <div className="services-title-flex">
-                  <div className="services-icon">
-                    <img
-                      src="/images/Wall-Hanging-Poster.jpg"
-                      alt="wall hanging poster"
-                      loading="lazy"
-                      className="services-image"
-                    />
-                  </div>
-                  <h4 className="caps">Marketing</h4>
-                </div>
-                <div className="services-text-block">
-                  <p className="self-align-left">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Vestibulum convallis, dolor sed consectetur gravida.
-                  </p>
-                </div>
-              </div>
-              <p className="max-width-30rem">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum convallis, dolor sed consectetur gravida.
-              </p>
-            </div>
-            <div className="services-wrapper slide-from-right-animation">
-              <h5>Creative Solutions</h5>
-              <h2 className="services-title">SERVICES</h2>
-              <div className="services-card">
-                <div className="services-title-flex">
-                  <div className="services-icon">
-                    <img
-                      src="/images/CreativeDesignStudioX.jpg"
-                      alt="design studio"
-                      loading="lazy"
-                      className="services-image"
-                    />
-                  </div>
-                  <h4 className="caps">Design</h4>
-                </div>
-                <div className="services-text-block">
-                  <p className="self-align-left">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Vestibulum convallis, dolor sed consectetur gravida.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="banner-mobile-module__3zKlBq__basePrice text16_24_normal text-white-40">
+            From <strong className="text-white">$399</strong>
           </div>
         </div>
-      </section>
+        <a
+          className="banner-mobile-module__3zKlBq__buyLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.viture.com/product/viture-luma-xr-glasses"
+        >
+          <span className="banner-mobile-module__3zKlBq__linkGradient text16_24_600">
+            Order Now
+          </span>
+        </a>
+      </div>
+    </div>
+  </>
+);
+
+const Navigation = () => (
+  <div className="navigation-module__mix1Pa__navigation">
+    <div className="navigation-module__mix1Pa__headerInner">
+      <div className="navigation-module__mix1Pa__middle">
+        <a href="https://www.viture.com/" className="navigation-module__mix1Pa__logo">
+          <svg viewBox="0 0 41 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="m10.1 0 16 28h-9.8L.3 0zM36 0l4.5 8h-9.8l-4.6-8z"
+              fill="white"
+            />
+          </svg>
+        </a>
+      </div>
+      <div className="navigation-module__mix1Pa__right">
+        <div className="navigation-module__mix1Pa__glassesContainer">
+          <img
+            alt=""
+            draggable="false"
+            loading="eager"
+            width="45"
+            height="16"
+            decoding="async"
+            className="image-module___v4zoa__block"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDYiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0NiAxNiI+PHBhdGggZmlsbD0idXJsKCNhKSIgZD0iTTQ1LjAzNDQgMS44MzhjLS4zODk3LS4zMTU1LTEuMjE1NC0uMTQ4NS0yLjg5NDgtLjM4MDQtMS40MDEtLjE5NDktNC4yMzA5LS41Mjg5LTguNDcxMS0uNTI4OS01LjA1NjcgMC03LjU4MDUgMS4xNzg0LTguNjAxMSAxLjQ3NTMtMS4wMjA2LjI5NjktMS43MDcyLjI1OTgtMi4wMDQxLjI1OTgtLjI5NjkgMC0uOTgzNS4wMzctMi4wMDQxLS4yNTk4LTEuMDIwNi0uMjk3LTMuNTM1MS0xLjQ2Ni04LjU5MTgtMS40NjYtNC4yMzA5IDAtNy4wNjA4LjMzNC04LjQ3MTEuNTI4OS0xLjY3MDEuMjMyLTIuNTA1Mi4wNjQ5LTIuODk0OS4zODA0LS4zODk2LjMxNTQtLjI4NzYgMS4wNjctLjI4NzYgMS40Mjg4IDAgLjM2MTkgMCAxLjA4NTYuNTU2NyAxLjMxNzYuNTU2Ny4yMzIuOTE4Ni4wNjUgMS4zNDU0LjI5NjkuNDI2OC4yMzIuODUzNi44NTM2IDEuMTEzNCAyLjE3MTEuMjU5OCAxLjMxNzUuNTU2NyA0LjI5NTkgMS43NDQzIDYuMDAzMSAxLjE3ODQgMS43MDcyIDMuMzEyNCAyLjY2MjkgNi41OTY5IDIuNTk3OSAzLjI4NDYtLjA2NDkgNC45NTQ3LS41NTY3IDYuMzY1LTIuMDk2OSAxLjQxMDMtMS41NDAyIDIuMTM0LTQuMDM2IDIuNDU4Ny00LjkyNjguMzI0OC0uODkwNy43NTE2LTEuODkyOCAxLjExMzQtMi4xNzExLjI1OTgtLjE5NDkuNzIzNy0uMTY3Ljk1NTctLjE2Ny4yMzIgMCAuNjg2Ni0uMDI3OS45NTU3LjE2Ny4zNjE4LjI3ODMuNzg4NiAxLjI4MDQgMS4xMTM0IDIuMTcxMS4zMjQ3Ljg5MDcgMS4wNDg0IDMuMzc3MyAyLjQ1ODcgNC45MjY4IDEuNDEwNCAxLjU0MDIgMy4wODk3IDIuMDMyIDYuMzY1IDIuMDk2OSAzLjI4NDUuMDY1IDUuNDE4NS0uODkwNyA6LjU5NjktMi41OTc5IDEuMTc4My0xLjcwNzIgMS40NzUzLTQuNjk0OSAxLjc0NDMtNi4wMDMxLjI1OTgtMS4zMTc1LjY4NjYtMS45MzkyIDEuMTEzNC0yLjE3MTEuNDI2OC0uMjMyLjc4ODctLjA2NSAxLjM0NTQtLjI5Ny41NTY3LS4yMzE5LjU1NjctLjk1NTYuNTU2Ny0xLjMxNzUgMC0uMzYxOC4xMDIxLTEuMTEzNC0uMjg3Ni0xLjQyODhsLjAwOTItLjAwOTNaIi8+PGRlZnM+PGxpbmVhcmdyYWRpZW50IGlkPSJhIiB4MT0iLjgwMTgiIHgyPSI0NS4yMDIiIHkxPSIxNS42NjU4IiB5Mj0iNS42MDU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI0ZGMjkwMCIvPjxzdG9wIG9mZnNldD0iLjYwNTgiIHN0b3AtY29sb3I9IiNGRTdBNjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1ODFERkYiLz48L2xpbmVhcmdyYWRpZW50PjwvZGVmcz48L3N2Zz4="
+            style={{ color: 'transparent', objectFit: 'cover' }}
+          />
+        </div>
+        <div className="navigation-module__mix1Pa__basePrice text16_24_normal text-white-40">
+          From <strong className="text-white">$399</strong>
+        </div>
+        <a
+          className="navigation-module__mix1Pa__buyLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.viture.com/product/viture-luma-xr-glasses"
+        >
+          <div className="navigation-module__mix1Pa__buttonHover"></div>
+          <span className="navigation-module__mix1Pa__linkGradient text16_24_600">
+            Order Now
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+);
+
+export default function Home() {
+  const [showPreloader, setShowPreloader] = useState(true);
+
+  useEffect(() => {
+    // Hide preloader after 3 seconds
+    const timer = setTimeout(() => {
+      setShowPreloader(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    // Set viewport variables
+    const updateVh = () => {
+      const vw = window.innerWidth / 100;
+      const vh = window.innerHeight / 100;
+      document.documentElement.style.setProperty('--vw', `${vw}px`);
+      document.documentElement.style.setProperty('--dvh', `${vh}px`);
+      document.documentElement.style.setProperty('--svh', `${vh}px`);
+      document.documentElement.style.setProperty('--lvh', `${vh}px`);
+    };
+
+    updateVh();
+    window.addEventListener('resize', updateVh);
+    return () => window.removeEventListener('resize', updateVh);
+  }, []);
+
+  return (
+    <div 
+      id="lenis" 
+      className="lenis"
+      style={{
+        '--vw': '25.6px',
+        '--dvh': '12.88px',
+        '--svh': '12.88px',
+        '--lvh': '1vh',
+        '--scrollbar-width': '11px'
+      } as React.CSSProperties}
+    >
+      <div>
+        <Banner />
+        <Navigation />
+        <main className="relative flex flex-col grow font-season">
+          <Preloader isVisible={showPreloader} />
+          
+          <section className="section-module__Fy_-CG__section overflow-x-clip section1-module__iQD6-W__section1 overflow-clip">
+            <div className="h-full" style={{ filter: 'blur(0px)', transform: 'scale(1)' }}>
+              <div className="section1-module__iQD6-W__sticky">
+                <div className="section1-module__iQD6-W__inner">
+                  <div className="absolute inset-0">
+                    <img
+                      alt=""
+                      draggable="false"
+                      loading="eager"
+                      decoding="async"
+                      className="desktop-only"
+                      src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                      style={{
+                        position: 'absolute',
+                        height: '100%',
+                        width: '100%',
+                        inset: '0px',
+                        objectFit: 'cover',
+                        color: 'transparent'
+                      }}
+                    />
+                    <img
+                      alt=""
+                      draggable="false"
+                      loading="eager"
+                      decoding="async"
+                      className="mobile-only"
+                      src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                      style={{
+                        position: 'absolute',
+                        height: '100%',
+                        width: '100%',
+                        inset: '0px',
+                        objectFit: 'cover',
+                        color: 'transparent'
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="dr-layout-block section1-module__iQD6-W__contentWrapper">
+                    <h2 className="section1-module__iQD6-W__title h2">
+                      <div className="section1-module__iQD6-W__lumaIlluWrapper">
+                        <div
+                          className="section1-module__iQD6-W__lumaIlluBlur"
+                          aria-hidden="true"
+                        >
+                          <LumaIlluminateText />
+                        </div>
+                        <div className="section1-module__iQD6-W__lumaIllu">
+                          <LumaIlluminateText />
+                        </div>
+                      </div>
+                      <SplitText text="Your Victory" />
+                    </h2>
+                  </div>
+                  
+                  <div className="section1-module__iQD6-W__gridWrapper">
+                    <DotsGrid />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
   );
 }
