@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a SoleGrithm XR display technology website built with a full-stack TypeScript architecture. The project showcases a futuristic product marketing site featuring XR/AR display devices with modern animations, gradient effects, and interactive components. The application serves as a marketing platform for the SoleGrithm 2.0 product line including Pro, Ultra, and Essential variants.
+This is a SoleGrithm XR display technology website built with a full-stack TypeScript architecture. The project now integrates the original SoleGrithm Webflow website from GitHub with VITURE XR technology inspiration. The main site serves the SoleGrithm portfolio pages while maintaining access to the VITURE-inspired design at /viture. The application showcases a professional portfolio and XR technology platform with modern animations and interactive components.
 
 ## User Preferences
 
