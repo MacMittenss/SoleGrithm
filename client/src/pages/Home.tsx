@@ -205,10 +205,13 @@ export default function Home() {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Initially position words inside overlay - no opacity fade
+      // Initially position words to emerge from overlay area
       gsap.set(".hero__text-cont .word", {
-        y: 100,
-        clipPath: "inset(0 0 100% 0)" // Clipped by overlay
+        y: 40,
+        opacity: 1, // Visible but positioned to appear from overlay
+        scale: 0.9,
+        transformOrigin: "center bottom",
+        clipPath: "inset(100% 0 0 0)" // Hidden by cutting from top
       });
       gsap.set(".flagship-features-grid .flagship-feature-card", {
         y: 50,
@@ -232,7 +235,8 @@ export default function Home() {
       // Header animation - words emerge from overlay word by word (0% - 40% of pin progress)
       pinTl.to(".hero__text-cont .word", {
         y: 0,
-        clipPath: "inset(0 0 0% 0)", // Reveal from overlay
+        scale: 1,
+        clipPath: "inset(0% 0 0 0)", // Fully revealed
         duration: 0.4,
         stagger: {
           from: "start", // Left to right
