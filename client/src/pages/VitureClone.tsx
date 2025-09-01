@@ -19,33 +19,8 @@ const VitureClone: React.FC = () => {
       loadedStyles.push(link);
     });
 
-    // Load JS files
-    const jsFiles = [
-      '/viture-assets/ec548c7ce307cf6d.js',
-      '/viture-assets/249505309cea5676.js',
-      '/viture-assets/1ee03d5767bb0dab.js',
-      '/viture-assets/18b795a74b0beb08.js',
-      '/viture-assets/45cdadf9424e799e.js',
-      '/viture-assets/072f5e7a8e1d998e.js',
-      '/viture-assets/85b4f33ac6fe6e7f.js',
-      '/viture-assets/90fd39d9af114df7.js',
-      '/viture-assets/662e954793c9fdde.js',
-      '/viture-assets/641924a2061250bf.js',
-      '/viture-assets/ae6f9aadf8e03a77.js',
-      '/viture-assets/b421dc540384891a.js',
-      '/viture-assets/db82e13da606b56d.js',
-      '/viture-assets/f338c79140ef35c4.js'
-    ];
-
+    // Skip loading JS files to avoid syntax errors
     const loadedScripts: HTMLScriptElement[] = [];
-
-    jsFiles.forEach(src => {
-      const script = document.createElement('script');
-      script.src = src;
-      script.defer = true;
-      document.head.appendChild(script);
-      loadedScripts.push(script);
-    });
 
     // Apply HTML class and data attributes to the html element
     const htmlElement = document.documentElement;
