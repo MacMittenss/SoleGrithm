@@ -282,17 +282,7 @@ export default function Home() {
   }
 
   return (
-    <Lenis 
-      options={{
-        lerp: 0.1,
-        duration: 1.2,
-        smoothTouch: false,
-        wheelMultiplier: 1,
-        touchMultiplier: 1,
-        infinite: false,
-      }}
-    >
-      <div className="w-full min-h-screen bg-black text-white">
+    <div className="w-full min-h-screen bg-black text-white" style={{ height: 'auto', overflowY: 'auto' }}>
         {/* Navigation */}
         <Navigation />
         
@@ -916,6 +906,5 @@ export default function Home() {
           </div>
         </footer>
       </div>
-    </Lenis>
   );
 }
