@@ -691,7 +691,7 @@ body::before {
 }
 
 .hero-text {
-  font-size: clamp(3rem, 8vw, 12rem);
+  font-size: clamp(6rem, 15vw, 24rem);
   font-weight: 600;
   letter-spacing: -0.07vw;
   color: var(--white);
