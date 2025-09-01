@@ -181,49 +181,6 @@ const Preloader = ({ isVisible }: { isVisible: boolean }) => {
 };
 
 
-  <div className="navigation-module__mix1Pa__navigation">
-    <div className="navigation-module__mix1Pa__headerInner">
-      <div className="navigation-module__mix1Pa__middle">
-        <a href="https://www.viture.com/" className="navigation-module__mix1Pa__logo">
-          <svg viewBox="0 0 41 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="m10.1 0 16 28h-9.8L.3 0zM36 0l4.5 8h-9.8l-4.6-8z"
-              fill="white"
-            />
-          </svg>
-        </a>
-      </div>
-      <div className="navigation-module__mix1Pa__right">
-        <div className="navigation-module__mix1Pa__glassesContainer">
-          <img
-            alt=""
-            draggable="false"
-            loading="eager"
-            width="45"
-            height="16"
-            decoding="async"
-            className="image-module___v4zoa__block"
-            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDYiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0NiAxNiI+PHBhdGggZmlsbD0idXJsKCNhKSIgZD0iTTQ1LjAzNDQgMS44MzhjLS4zODk3LS4zMTU1LTEuMjE1NC0uMTQ4NS0yLjg5NDgtLjM4MDQtMS40MDEtLjE5NDktNC4yMzA5LS41Mjg5LTguNDcxMS0uNTI4OS01LjA1NjcgMC03LjU4MDUgMS4xNzg0LTguNjAxMSAxLjQ3NTMtMS4wMjA2LjI5NjktMS43MDcyLjI1OTgtMi4wMDQxLjI1OTgtLjI5NjkgMC0uOTgzNS4wMzctMi4wMDQxLS4yNTk4LTEuMDIwNi0uMjk3LTMuNTM1MS0xLjQ2Ni04LjU5MTgtMS40NjYtNC4yMzA5IDAtNy4wNjA4LjMzNC04LjQ3MTEuNTI4OS0xLjY3MDEuMjMyLTIuNTA1Mi4wNjQ5LTIuODk0OS4zODA0LS4zODk2LjMxNTQtLjI4NzYgMS4wNjctLjI4NzYgMS40Mjg4IDAgLjM2MTkgMCAxLjA4NTYuNTU2NyAxLjMxNzYuNTU2Ny4yMzIuOTE4Ni4wNjUgMS4zNDU0LjI5NjkuNDI2OC4yMzIuODUzNi44NTM2IDEuMTEzNCAyLjE3MTEuMjU5OCAxLjMxNzUuNTU2NyA0LjI5NTkgMS43NDQzIDYuMDAzMSAxLjE3ODQgMS43MDcyIDMuMzEyNCAyLjY2MjkgNi41OTY5IDIuNTk3OSAzLjI4NDYtLjA2NDkgNC45NTQ3LS41NTY3IDYuMzY1LTIuMDk2OSAxLjQxMDMtMS41NDAyIDIuMTM0LTQuMDM2IDIuNDU4Ny00LjkyNjguMzI0OC0uODkwNy43NTE2LTEuODkyOCAxLjExMzQtMi4xNzExLjI1OTgtLjE5NDkuNzIzNy0uMTY3Ljk1NTctLjE2Ny4yMzIgMCAuNjg2Ni0uMDI3OS45NTU3LjE2Ny4zNjE4LjI3ODMuNzg4NiAxLjI4MDQgMS4xMTM0IDIuMTcxMS4zMjQ3Ljg5MDcgMS4wNDg0IDMuMzc3MyAyLjQ1ODcgNC45MjY4IDEuNDEwNCAxLjU0MDIgMy4wODk3IDIuMDMyIDYuMzY1IDIuMDk2OSAzLjI4NDUuMDY1IDUuNDE4NS0uODkwNyA6LjU5NjktMi41OTc5IDEuMTc4My0xLjcwNzIgMS40NzUzLTQuNjk0OSAxLjc0NDMtNi4wMDMxLjI1OTgtMS4zMTc1LjY4NjYtMS45MzkyIDEuMTEzNC0yLjE3MTEuNDI2OC0uMjMyLjc4ODctLjA2NSAxLjM0NTQtLjI5Ny41NTY3LS4yMzE5LjU1NjctLjk1NTYuNTU2Ny0xLjMxNzUgMC0uMzYxOC4xMDIxLTEuMTEzNC0uMjg3Ni0xLjQyODhsLjAwOTItLjAwOTNaIi8+PGRlZnM+PGxpbmVhcmdyYWRpZW50IGlkPSJhIiB4MT0iLjgwMTgiIHgyPSI0NS4yMDIiIHkxPSIxNS42NjU4IiB5Mj0iNS42MDU4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iI0ZGMjkwMCIvPjxzdG9wIG9mZnNldD0iLjYwNTgiIHN0b3AtY29sb3I9IiNGRTdBNjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1ODFERkYiLz48L2xpbmVhcmdyYWRpZW50PjwvZGVmcz48L3N2Zz4="
-            style={{ color: 'transparent', objectFit: 'cover' }}
-          />
-        </div>
-        <div className="navigation-module__mix1Pa__basePrice text16_24_normal text-white-40">
-          From <strong className="text-white">$399</strong>
-        </div>
-        <a
-          className="navigation-module__mix1Pa__buyLink"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.viture.com/product/viture-luma-xr-glasses"
-        >
-          <div className="navigation-module__mix1Pa__buttonHover"></div>
-          <span className="navigation-module__mix1Pa__linkGradient text16_24_600">
-            Order Now
-          </span>
-        </a>
-      </div>
-    </div>
-  </div>
 export default function Home() {
   const [showPreloader, setShowPreloader] = useState(true);
 
