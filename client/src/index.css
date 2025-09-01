@@ -789,7 +789,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 11;
+  z-index: 9;
   pointer-events: none;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -801,6 +801,7 @@ body::before {
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
+  z-index: 9 !important;
 }
 
 /* Arrow navigation */
@@ -860,7 +861,7 @@ body::before {
 .template-section *,
 .flagship-section * {
   position: relative;
-  z-index: 12 !important;
+  z-index: 10 !important;
 }
 
 .nav-container {
