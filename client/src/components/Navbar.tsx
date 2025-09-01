@@ -8,25 +8,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Search, Menu, User, LogOut, Settings, Ungroup, Heart, Bot, Moon, Sun } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useTheme } from "next-themes";
-import { logout } from "@/lib/firebase";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { user } = useAuth();
-  const { theme, setTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const navigation = [
-    { name: 'Live Market', href: '/live-market' },
-    { name: 'Discover', href: '/discover' },
-    { name: 'Visual Search', href: '/visual-search' },
-    { name: 'Collections', href: '/collections' },
-    { name: 'Trend Map', href: '/trend-map' },
-    { name: 'Style Quiz', href: '/quiz' },
+    { name: 'Catalog', href: '/catalog' },
     { name: 'Blog', href: '/blog' },
-    { name: 'My Collection', href: '/collection' }
+    { name: 'Ungroup', href: '/collection' },
+    { name: 'Discover', href: '/discover' }
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -38,7 +33,7 @@ export default function Navbar() {
 
   const handleSignOut = async () => {
     try {
-      await logout();
+      await signOut();
     } catch (error) {
       console.error('Sign out error:', error);
     }
@@ -94,7 +89,7 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              onClick={toggleTheme}
               className="p-2"
             >
               {theme === 'light' ? (
