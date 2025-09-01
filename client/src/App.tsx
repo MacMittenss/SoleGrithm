@@ -31,6 +31,7 @@ import ReviewSummaryDemo from "@/pages/ReviewSummaryDemo";
 import TrendMap from "@/pages/TrendMap";
 import Testing from "@/pages/Testing";
 import WomenInSneakers from "@/pages/WomenInSneakers";
+import VitureClone from "@/pages/VitureClone";
 
 // Lazy load LiveMarket component
 const LiveMarket = lazy(() => import("@/pages/LiveMarket"));
@@ -108,6 +109,7 @@ function App() {
                   <Route path="/trend-map" component={TrendMap} />
                   <Route path="/testing" component={Testing} />
                   <Route path="/women-in-sneakers" component={WomenInSneakers} />
+                  <Route path="/viture-clone" component={VitureClone} />
                   <Route component={NotFound} />
                 </Switch>
                 </PageTransition>

@@ -1,0 +1,3 @@
+(globalThis.TURBOPACK=globalThis.TURBOPACK||[]).push(["object"==typeof document?document.currentScript:void 0,{7466:function(e){var{g:t,__dirname:r,m:n,e:a}=e;"use strict";function o(e,t){if(void 0===t&&(t={}),t.onlyHashChange)return void e();let r=document.documentElement,n=r.style.scrollBehavior;r.style.scrollBehavior="auto",t.dontForceLayout||r.getClientRects(),e(),r.style.scrollBehavior=n}Object.defineProperty(a,"__esModule",{value:!0}),Object.defineProperty(a,"handleSmoothScroll",{enumerable:!0,get:function(){return o}})}}]);
+
+//# sourceMappingURL=4d8f260770144fbf.js.map
