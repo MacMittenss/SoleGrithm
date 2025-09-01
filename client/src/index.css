@@ -900,7 +900,8 @@ body::before {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: var(--lighter-black);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
   transition: all 0.3s ease;
 }
@@ -928,7 +929,8 @@ body::before {
 }
 
 .services-card {
-  background: var(--lighter-black);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: var(--border-radius);
   transition: all 0.3s ease;
@@ -937,6 +939,7 @@ body::before {
 .template-section {
   width: 100%;
   padding: 4rem 0;
+  background: var(--black);
 }
 
 .template-container {
@@ -953,7 +956,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 15, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
+  background: var(--black);
   overflow: hidden;
 }
 
