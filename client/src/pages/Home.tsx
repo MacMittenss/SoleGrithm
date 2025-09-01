@@ -205,38 +205,56 @@ export default function Home() {
     if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Test: Just make sure words are visible first
+      // Initially position words behind overlay for emergence
       gsap.set(".flagship-header .word", {
-        y: 0,
-        opacity: 1,
-        scale: 1
+        y: 60,
+        opacity: 0,
+        scale: 0.8,
+        transformOrigin: "center bottom"
       });
-      
       gsap.set(".flagship-features-grid .flagship-feature-card", {
         y: 50,
         opacity: 0
       });
 
-      // Simple ScrollTrigger animation without pinning for now
-      let headerTl = gsap.timeline({
+      // Create pinned timeline that controls entire homepage during flagship section
+      let pinTl = gsap.timeline({
         scrollTrigger: {
           trigger: flagshipRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse"
+          start: "top top", 
+          end: "+=200%",
+          pin: true, // Pin the entire page/viewport
+          pinSpacing: false, // Don't add spacing
+          scrub: 1
         }
       });
 
-      // Feature cards animation when section enters viewport
-      headerTl.to(".flagship-features-grid .flagship-feature-card", {
+      // Sequential animation: words emerge from overlay left-to-right, then components
+      
+      // Header animation - words emerge word by word (0% - 40% of pin progress)
+      pinTl.to(".flagship-header .word", {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.4,
+        stagger: {
+          from: "start", // Left to right
+          each: 0.08
+        },
+        ease: "back.out(1.4)"
+      }, 0)
+
+      // Small pause, then component animation (60% - 100% of pin progress)
+      .to(".flagship-features-grid .flagship-feature-card", {
         y: 0,
         opacity: 1,
         duration: 0.4,
         stagger: {
           from: "start",
-          each: 0.1
+          each: 0.05
         },
         ease: "back.out(1.2)"
-      });
+      }, 0.6);
     }, flagshipRef);
 
     return () => ctx.revert();
