@@ -123,7 +123,7 @@ export default function Home() {
       
       // Set target rotation with increased sensitivity and range
       setTargetRotation({
-        x: -y * 0.4, // Fixed: negative to make vertical movement natural (cursor up = robot looks up)
+        x: y * 0.4,  // Fixed: removed negative sign for natural vertical movement
         y: x * 0.8   // Horizontal look range (increased for better tracking)
       });
     };
