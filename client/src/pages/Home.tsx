@@ -178,11 +178,6 @@ export default function Home() {
           <div className="hero-wrapper">
             <h5 className="heading">Welcome to</h5>
             <h1 className="hero-text">SOLEGRITHM</h1>
-            <Link href="#brands" className="arrow-border-wrapper">
-              <div className="icon-wrapper">
-                <ChevronDown className="arrow" />
-              </div>
-            </Link>
           </div>
           <div className="hero-overlay"></div>
         </div>
