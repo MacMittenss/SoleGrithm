@@ -711,7 +711,7 @@ body::before {
   letter-spacing: 0.14vw;
   text-transform: uppercase;
   color: var(--white);
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.25rem 0;
   opacity: 0.8;
   text-align: left;
   padding-left: 0;
