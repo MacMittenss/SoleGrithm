@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
+import AdvancedFlagshipFeatures from '@/components/advanced/AdvancedFlagshipFeatures';
 
 interface SplitCharProps {
   children: string;
@@ -289,6 +290,9 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          {/* Our Flagship Features Section */}
+          <AdvancedFlagshipFeatures />
           
           {/* Section 2 - A 1200p 4K‑Like Display */}
           <section className="section-module__Fy_-CG__section overflow-x-clip">
