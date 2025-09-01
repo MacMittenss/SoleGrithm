@@ -96,8 +96,8 @@ export function Lenis({ options, children }: LenisProps) {
           lerp: options?.lerp ?? 0.125,
           autoRaf: false,
           anchors: true,
-          wheelMultiplier: process.env.NODE_ENV === 'production' ? 0.5 : 1,
-          touchMultiplier: process.env.NODE_ENV === 'production' ? 0.75 : 1,
+          wheelMultiplier: options?.wheelMultiplier ?? 1,
+          touchMultiplier: options?.touchMultiplier ?? 1,
           syncTouch: true,
           prevent: (node: Element | null) =>
             node?.nodeName === 'VERCEL-LIVE-FEEDBACK' ||

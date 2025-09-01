@@ -228,6 +228,7 @@ export default function Home() {
     if (!isPreloaderComplete) return;
     
     // Set loading to false once preloader completes
+    console.log('Setting isLoading to false');
     setIsLoading(false);
 
     if (!heroRef.current) return;
@@ -270,6 +271,12 @@ export default function Home() {
     console.log('isPreloaderComplete:', isPreloaderComplete);
   }, [isPreloaderComplete]);
 
+  // Debug: Log loading state
+  const isLoading = useStore((state) => state.isLoading);
+  useEffect(() => {
+    console.log('isLoading state:', isLoading);
+  }, [isLoading]);
+
   if (!isPreloaderComplete) {
     return <Preloader onComplete={handlePreloaderComplete} />;
   }
@@ -280,7 +287,8 @@ export default function Home() {
         lerp: 0.1,
         duration: 1.2,
         smoothTouch: false,
-        touchMultiplier: 2,
+        wheelMultiplier: 1,
+        touchMultiplier: 1,
         infinite: false,
       }}
     >
