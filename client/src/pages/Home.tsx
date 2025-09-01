@@ -68,7 +68,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         });
 
         console.log('Preloader animation complete, calling onComplete');
-        onComplete();
+        setTimeout(() => onComplete(), 100);
 
       } catch (error) {
         console.error('Preloader animation error:', error);
@@ -232,6 +232,7 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const dotGridRef = useRef<HTMLDivElement>(null);
   const [isPreloaderComplete, setIsPreloaderComplete] = useState(false);
+  const preloaderCompleteRef = useRef(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const setIsLoading = useStore((state) => state.setIsLoading);
 
@@ -277,7 +278,10 @@ export default function Home() {
 
   const handlePreloaderComplete = () => {
     console.log('Preloader complete callback triggered');
-    setIsPreloaderComplete(true);
+    if (!preloaderCompleteRef.current) {
+      preloaderCompleteRef.current = true;
+      setIsPreloaderComplete(true);
+    }
   };
 
   // Debug: Add effect to log state changes
