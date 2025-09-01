@@ -392,104 +392,6 @@ body {
   font-weight: 600;
 }
 
-/* Navigation Styles */
-.navigation-module__mix1Pa__navigation {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  padding: 16px 24px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-@media (max-width: 767px) {
-  .navigation-module__mix1Pa__navigation {
-    top: 60px;
-  }
-}
-
-.navigation-module__mix1Pa__headerInner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.navigation-module__mix1Pa__middle {
-  flex: 1;
-}
-
-.navigation-module__mix1Pa__logo {
-  display: inline-block;
-  width: 41px;
-  height: 28px;
-}
-
-.navigation-module__mix1Pa__logo svg {
-  width: 100%;
-  height: 100%;
-}
-
-.navigation-module__mix1Pa__right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.navigation-module__mix1Pa__glassesContainer {
-  display: flex;
-  align-items: center;
-}
-
-.navigation-module__mix1Pa__basePrice {
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.navigation-module__mix1Pa__buyLink {
-  position: relative;
-  display: inline-block;
-  padding: 12px 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.navigation-module__mix1Pa__buyLink:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-.navigation-module__mix1Pa__buttonHover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  transform: scale(0);
-  transition: transform 0.3s ease;
-}
-
-.navigation-module__mix1Pa__buyLink:hover .navigation-module__mix1Pa__buttonHover {
-  transform: scale(1);
-}
-
-.navigation-module__mix1Pa__linkGradient {
-  position: relative;
-  z-index: 1;
-  background: linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-weight: 600;
-}
 
 /* Preloader Styles */
 .preloader-module__HuRKdq__preloader {
@@ -941,29 +843,9 @@ body {
     padding: 0 16px;
   }
   
-  .navigation-module__mix1Pa__navigation {
-    padding: 12px 16px;
-  }
-  
-  .navigation-module__mix1Pa__right {
-    gap: 12px;
-  }
 }
 
 @media (max-width: 767px) {
-  .navigation-module__mix1Pa__right {
-    gap: 8px;
-  }
-  
-  .navigation-module__mix1Pa__basePrice {
-    font-size: 14px;
-    line-height: 20px;
-  }
-  
-  .navigation-module__mix1Pa__buyLink {
-    padding: 8px 16px;
-    border-radius: 16px;
-  }
   
   .section1-module__iQD6-W__title {
     margin-bottom: 32px;
