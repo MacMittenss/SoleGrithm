@@ -322,67 +322,23 @@ export default function Home() {
             <div className="flagship-features-grid">
               <div className="flagship-feature-card">
                 <div className="feature-icon-wrapper">
-                  <Search size={32} color="var(--color-orange)" />
+                  <Users size={32} color="var(--color-orange)" />
                 </div>
-                <h4 className="feature-title">Visual AI Search</h4>
+                <h4 className="feature-title">Women in Sneakers</h4>
                 <p className="feature-description">
-                  Upload any sneaker photo and instantly discover similar styles, colorways, 
-                  and matching options using advanced computer vision technology.
+                  Celebrating and empowering women in sneaker culture. Discover exclusive 
+                  women-focused releases, sizing guides, and community-driven content.
                 </p>
               </div>
               
               <div className="flagship-feature-card">
                 <div className="feature-icon-wrapper">
-                  <Zap size={32} color="var(--color-purple)" />
-                </div>
-                <h4 className="feature-title">Smart Recommendations</h4>
-                <p className="feature-description">
-                  Our AI analyzes your style preferences, browsing history, and trending data 
-                  to deliver personalized sneaker recommendations tailored just for you.
-                </p>
-              </div>
-              
-              <div className="flagship-feature-card">
-                <div className="feature-icon-wrapper">
-                  <TrendingUp size={32} color="var(--color-gold)" />
-                </div>
-                <h4 className="feature-title">Live Market Data</h4>
-                <p className="feature-description">
-                  Real-time price tracking, market trends, and investment insights help you 
-                  make informed decisions in the ever-changing sneaker marketplace.
-                </p>
-              </div>
-              
-              <div className="flagship-feature-card">
-                <div className="feature-icon-wrapper">
-                  <Eye size={32} color="var(--color-green)" />
+                  <Eye size={32} color="var(--color-purple)" />
                 </div>
                 <h4 className="feature-title">AR Try-On</h4>
                 <p className="feature-description">
                   Experience sneakers in augmented reality before you buy. See how they look 
                   and fit using your smartphone camera for the perfect purchase decision.
-                </p>
-              </div>
-              
-              <div className="flagship-feature-card">
-                <div className="feature-icon-wrapper">
-                  <Users size={32} color="var(--color-blue)" />
-                </div>
-                <h4 className="feature-title">Community Hub</h4>
-                <p className="feature-description">
-                  Connect with fellow sneakerheads, share your collection, discuss latest drops, 
-                  and discover exclusive releases through our vibrant community platform.
-                </p>
-              </div>
-              
-              <div className="flagship-feature-card">
-                <div className="feature-icon-wrapper">
-                  <Heart size={32} color="var(--color-red)" />
-                </div>
-                <h4 className="feature-title">Collection Tracker</h4>
-                <p className="feature-description">
-                  Build and showcase your digital sneaker collection, track market values, 
-                  set price alerts, and manage your sneaker portfolio like a pro.
                 </p>
               </div>
             </div>
