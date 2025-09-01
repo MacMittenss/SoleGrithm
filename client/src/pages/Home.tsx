@@ -176,7 +176,7 @@ export default function Home() {
         <div className="circle"></div>
         <div className="template-container">
           <div className="hero-wrapper">
-            <h5 className="heading">Welcome</h5>
+            <h5 className="heading">Welcome to</h5>
             <h1 className="hero-text">SOLEGRITHM</h1>
             <Link href="#brands" className="arrow-border-wrapper">
               <div className="icon-wrapper">
