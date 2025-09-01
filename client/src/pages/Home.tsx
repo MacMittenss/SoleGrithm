@@ -203,14 +203,14 @@ export default function Home() {
     return () => ctx.revert();
   }, []);
 
-  // Hero Header Split Animation (GSAP website style)
+  // Flagship Header Split Animation (GSAP website style)
   useEffect(() => {
-    if (!heroRef.current) return;
+    if (!flagshipRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animate swipe overlay elements to reveal text underneath
-      gsap.to(".anim-swipe", {
-        yPercent: 300,
+      // Animate swipe overlay elements to reveal flagship header as it scrolls up
+      gsap.to(".flagship-anim-swipe", {
+        yPercent: -300,
         delay: 0.2,
         duration: 3,
         stagger: {
@@ -219,13 +219,13 @@ export default function Home() {
         },
         ease: "sine.out",
         scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
+          trigger: flagshipRef.current,
+          start: "top 80%",
+          end: "top 20%",
           scrub: true
         }
       });
-    }, heroRef);
+    }, flagshipRef);
 
     return () => ctx.revert();
   }, []);
@@ -254,14 +254,8 @@ export default function Home() {
         <div className="circle"></div>
         <div className="template-container">
           <div className="hero-wrapper">
-            <div className="hero__text-cont">
-              <h5 className="heading">Welcome to</h5>
-              <div className="anim-swipe"></div>
-            </div>
-            <div className="hero__text-cont">
-              <h1 className="hero-text">SOLEGRITHM</h1>
-              <div className="anim-swipe"></div>
-            </div>
+            <h5 className="heading">Welcome to</h5>
+            <h1 className="hero-text">SOLEGRITHM</h1>
           </div>
           <div className="hero-overlay"></div>
         </div>
@@ -283,8 +277,14 @@ export default function Home() {
         <div className="template-container padding-4-5rem">
           <div className="flagship-wrapper">
             <div ref={flagshipHeaderRef} className="flagship-header">
-              <h5 className="heading">Innovation at Its Core</h5>
-              <h2 className="flagship-title">OUR FLAGSHIP FEATURES</h2>
+              <div className="hero__text-cont">
+                <h5 className="heading">Innovation at Its Core</h5>
+                <div className="flagship-anim-swipe"></div>
+              </div>
+              <div className="hero__text-cont">
+                <h2 className="flagship-title">OUR FLAGSHIP FEATURES</h2>
+                <div className="flagship-anim-swipe"></div>
+              </div>
               <p className="flagship-subtitle">
                 Discover the cutting-edge technology and AI-powered features that make SoleGrithm 
                 the ultimate destination for sneaker enthusiasts worldwide.

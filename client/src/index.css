@@ -727,7 +727,8 @@ body::before {
 }
 
 /* Animation Swipe Overlay */
-.anim-swipe {
+.anim-swipe,
+.flagship-anim-swipe {
   position: absolute;
   top: 0;
   left: 0;
