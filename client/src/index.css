@@ -33,10 +33,11 @@
 html.lenis, 
 html.lenis body {
   height: auto;
+  overflow-x: hidden;
 }
 
-.lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
+.lenis.lenis-smooth {
+  scroll-behavior: unset !important;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
@@ -45,12 +46,6 @@ html.lenis body {
 
 .lenis.lenis-smooth iframe {
   pointer-events: none;
-}
-
-.lenis.lenis-autoToggle {
-  transition-behavior: allow-discrete;
-  transition-property: overflow;
-  transition-duration: 1ms;
 }
 
 /* VITURE-style CSS Custom Properties */

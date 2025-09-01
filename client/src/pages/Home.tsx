@@ -277,15 +277,14 @@ export default function Home() {
   return (
     <Lenis 
       options={{
-        lerp: 0.125,
+        lerp: 0.1,
         duration: 1.2,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothTouch: false,
         touchMultiplier: 2,
         infinite: false,
       }}
     >
-      <div className="w-full bg-black text-white overflow-hidden">
+      <div className="w-full min-h-screen bg-black text-white">
         {/* Navigation */}
         <Navigation />
         
