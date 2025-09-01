@@ -1,0 +1,199 @@
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+.lenis.lenis-autoToggle {
+  transition-behavior: allow-discrete;
+  transition-property: overflow;
+  transition-duration: 1ms;
+}
+
+.navigation-module__mix1Pa__navigation {
+  pointer-events: none;
+  height: 3.38542vw;
+  transition: 0.6s var(--ease-out-quart) color;
+  z-index: 999;
+  width: 100%;
+  position: fixed;
+  top: 2.91667vw;
+  left: 0;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__navigation {
+    height: 21.3333vw;
+  }
+}
+.navigation-module__mix1Pa__headerInner {
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 3.125vw;
+  display: flex;
+  position: relative;
+}
+.navigation-module__mix1Pa__headerInner * {
+  pointer-events: auto;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__headerInner {
+    gap: 6.4vw;
+    padding: 0 8.53333vw;
+  }
+}
+.navigation-module__mix1Pa__middle {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__middle {
+    flex: 0 auto;
+    justify-content: flex-start;
+  }
+}
+.navigation-module__mix1Pa__right {
+  justify-content: flex-end;
+  align-items: center;
+  display: flex;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__right {
+    display: none;
+  }
+}
+.navigation-module__mix1Pa__nav ul {
+  color: var(--color-white-50);
+  gap: 1.04167vw;
+  display: flex;
+}
+:is(.navigation-module__mix1Pa__nav ul) li.navigation-module__mix1Pa__active {
+  color: var(--color-white);
+}
+:is(:is(.navigation-module__mix1Pa__nav ul) li + li):before {
+  color: var(--color-white-50);
+  content: "→";
+  margin-right: 1.04167vw;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__nav {
+    display: none;
+  }
+}
+.navigation-module__mix1Pa__menuIcon {
+  background: #ffffff1a;
+  border-radius: 0.416667vw;
+  justify-content: center;
+  align-items: center;
+  padding: 0.416667vw 0.625vw;
+  display: flex;
+}
+.navigation-module__mix1Pa__menuIcon svg {
+  width: 1.25vw;
+  height: 1.25vw;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__menuIcon {
+    border-radius: 2.13333vw;
+    padding: 2.13333vw 3.2vw;
+  }
+  .navigation-module__mix1Pa__menuIcon svg {
+    width: 6.4vw;
+    height: 6.4vw;
+  }
+}
+.navigation-module__mix1Pa__glassesContainer {
+  align-items: center;
+  width: 2.34375vw;
+  height: 0.790104vw;
+  margin-right: 0.416667vw;
+  display: flex;
+}
+.navigation-module__mix1Pa__glassesContainer image,
+.navigation-module__mix1Pa__glassesContainer svg {
+  width: 100%;
+  height: 100%;
+}
+.navigation-module__mix1Pa__logo {
+  width: 1.82292vw;
+  height: 1.25vw;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__logo {
+    width: 8.53333vw;
+    height: 5.936vw;
+  }
+}
+.navigation-module__mix1Pa__basePrice {
+  text-transform: uppercase;
+  margin-right: 0.833333vw;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__basePrice {
+    display: none;
+  }
+}
+.navigation-module__mix1Pa__buyLink {
+  z-index: 1;
+  background: linear-gradient(90deg, #f31010, #ff5f34);
+  border-radius: 2.08333vw;
+  justify-content: center;
+  align-items: center;
+  padding: 0.833333vw 1.25vw;
+  font-weight: 600;
+  display: flex;
+  position: relative;
+  overflow: clip;
+}
+@media (width<=799.98px) {
+  .navigation-module__mix1Pa__buyLink {
+    border-radius: 4.26667vw;
+    padding: 2.13333vw 4.8vw;
+  }
+}
+.navigation-module__mix1Pa__buyLink .navigation-module__mix1Pa__linkGradient {
+  display: inline-block;
+}
+.navigation-module__mix1Pa__buttonHover {
+  display: none;
+}
+@media (hover: hover) {
+  .navigation-module__mix1Pa__buttonHover {
+    opacity: 0;
+    height: 100%;
+    transition: 0.6s var(--ease-out-quart) opacity;
+    z-index: -1;
+    background: linear-gradient(
+      90deg,
+      #fe3109 -15.52%,
+      #cd426d 13.76%,
+      #311e6f 77.72%,
+      #141414 112.73%
+    );
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .navigation-module__mix1Pa__buyLink:hover {
+    color: #fff;
+    background-color: #0000;
+    transition-property: background-color;
+    transition-delay: 50ms;
+  }
+  .navigation-module__mix1Pa__buyLink:hover
+    .navigation-module__mix1Pa__buttonHover {
+    opacity: 1;
+  }
+}
+
+/*# sourceMappingURL=e25f35710640b91d.css.map*/

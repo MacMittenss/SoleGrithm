@@ -5,6 +5,37 @@
   --svh: 12.88px;
   --lvh: 1vh;
   --scrollbar-width: 11px;
+  
+  /* VITURE Color System */
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-contrast: #F8421E;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-red: #e30613;
+  --color-orange: #F8421E;
+  --color-dark: #141414;
+  --color-white-40: rgba(255, 255, 255, 0.40);
+  --color-white-08: rgba(255, 255, 255, 0.08);
+  --color-white-10: rgba(255, 255, 255, 0.1);
+  --color-white-16: rgba(255, 255, 255, 0.16);
+  --color-white-20: rgba(255, 255, 255, 0.2);
+  --color-white-50: rgba(255, 255, 255, 0.5);
+  --color-gold: #FFD700;
+  
+  /* VITURE Easing Functions */
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  
+  /* VITURE Spacing System */
+  --spacing-safe: max(env(safe-area-inset-left), env(safe-area-inset-right), 3.125vw);
+  --spacing-vert-safe: max(env(safe-area-inset-bottom), 2.08333vw);
+  --safe: env(safe-area-inset-bottom, 0px);
+  
+  /* VITURE Layout */
+  --gap: 1.04167vw;
 }
 
 /* SeasonSans Font Family */
@@ -59,15 +90,40 @@ html {
   font-family: 'SeasonSans', 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 100%;
   line-height: 1.4;
+  overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+.lenis.lenis-autoToggle {
+  transition-behavior: allow-discrete;
+  transition-property: overflow;
+  transition-duration: 1ms;
 }
 
 body {
   margin: 0;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
   font-family: 'SeasonSans', 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Utility Classes */
@@ -210,7 +266,38 @@ body {
 }
 
 .gap-gap {
-  gap: 24px;
+  gap: var(--gap);
+}
+
+/* Media Query Prefixes */
+@media (width <= 799.98px) {
+  .mobile-only {
+    display: block !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+@media (width > 799.98px) {
+  .mobile-only {
+    display: none !important;
+  }
+  .desktop-only {
+    display: block !important;
+  }
+  
+  .dt\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .dt\:grid-rows-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  
+  .dt\:row-span-2 {
+    grid-row: span 2 / span 2;
+  }
 }
 
 /* Background Colors */

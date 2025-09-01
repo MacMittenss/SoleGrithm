@@ -417,19 +417,47 @@ export default function Home() {
             </div>
           </section>
           
-          {/* Section 2 - You'll Never Forget */}
-          <section className="section-module__Fy_-CG__section overflow-x-clip section2-module__24Nf6W__section2">
+          {/* Section 2 - A 1200p 4K‑Like Display */}
+          <section className="section-module__Fy_-CG__section overflow-x-clip">
+            <div className="section-module__Fy_-CG__mask"></div>
             <div className="h-full">
-              <div className="section2-module__24Nf6W__inner">
-                <div className="section2-module__24Nf6W__content">
-                  <div className="title-subtitle-module__HtnROq__titleSubtitle title-subtitle-module__HtnROq__centered">
-                    <div className="dr-layout-block relative">
-                      <h2 className="h2 desktop-only">
-                        <SplitText text="You'll Never Forget" />
+              <div className="section2-module__24Nf6W__sticky">
+                <div className="dr-layout-block-inner section2-module__24Nf6W__inner">
+                  <div className="relative">
+                    <div className="h-[50vh] absolute left-0 top-[100%] right-0"></div>
+                    <div className="title-subtitle-module__HtnROq__titleSubtitle">
+                      <h2 className="split-text-module__McvV0q__splitText h2 desktop-only" style={{opacity: 1}}>
+                        <span className="split-text-module__McvV0q__split">
+                          <span>A 1200p 4K‑Like Display</span>
+                        </span>
+                        <span className="split-text-module__McvV0q__fallback">
+                          <span>A 1200p 4K‑Like Display</span>
+                        </span>
                       </h2>
-                      <h2 className="h2 mobile-only">
-                        <SplitText text="You'll Never Forget" />
+                      <h2 className="split-text-module__McvV0q__splitText h2 mobile-only" style={{opacity: 1}}>
+                        <span className="split-text-module__McvV0q__split">
+                          <span>A 1200p<br />4K‑Like<br />Display</span>
+                        </span>
+                        <span className="split-text-module__McvV0q__fallback">
+                          <span>A 1200p<br />4K‑Like<br />Display</span>
+                        </span>
                       </h2>
+                      <p className="split-text-module__McvV0q__splitText subtitle text-white-40 inline-block desktop-only title-subtitle-module__HtnROq__subtitle" style={{opacity: 1}}>
+                        <span className="split-text-module__McvV0q__split">
+                          <span>You'll Never Forget</span>
+                        </span>
+                        <span className="split-text-module__McvV0q__fallback">
+                          <span>You'll Never Forget</span>
+                        </span>
+                      </p>
+                      <p className="split-text-module__McvV0q__splitText subtitle text-white-40 inline-block mobile-only title-subtitle-module__HtnROq__subtitle" style={{opacity: 1}}>
+                        <span className="split-text-module__McvV0q__split">
+                          <span>You'll Never Forget</span>
+                        </span>
+                        <span className="split-text-module__McvV0q__fallback">
+                          <span>You'll Never Forget</span>
+                        </span>
+                      </p>
                     </div>
                   </div>
                   <div className="section2-module__24Nf6W__cards grid grid-cols-1 dt:grid-cols-4 gap-gap">
@@ -527,50 +555,102 @@ export default function Home() {
           </section>
 
           {/* Section 3 - The Best Just Got Better */}
-          <section className="section-module__Fy_-CG__section overflow-x-clip section3-module__SzoO3a__section3">
+          <section className="section-module__Fy_-CG__section overflow-x-clip section3-module__SzoO3a__section3" style={{"--aspect-ratio": 1.7777777777777777} as React.CSSProperties}>
             <div className="h-full">
               <div className="section3-module__SzoO3a__sticky">
                 <div className="section3-module__SzoO3a__title dr-layout-block relative">
                   <div className="title-subtitle-module__HtnROq__titleSubtitle title-subtitle-module__HtnROq__centered">
-                    <h2 className="h2 desktop-only">
-                      <SplitText text="The Best Just Got Better" />
+                    <h2 className="split-text-module__McvV0q__splitText h2 desktop-only" style={{opacity: 1}}>
+                      <span className="split-text-module__McvV0q__split">
+                        <span>The Best Just Got Better</span>
+                      </span>
+                      <span className="split-text-module__McvV0q__fallback">
+                        <span>The Best Just Got Better</span>
+                      </span>
                     </h2>
-                    <h2 className="h2 mobile-only">
-                      <SplitText text="The Best Just Got Better" />
+                    <h2 className="split-text-module__McvV0q__splitText h2 mobile-only" style={{opacity: 1}}>
+                      <span className="split-text-module__McvV0q__split">
+                        <span>The Best Just<br />Got Better</span>
+                      </span>
+                      <span className="split-text-module__McvV0q__fallback">
+                        <span>The Best Just<br />Got Better</span>
+                      </span>
                     </h2>
                   </div>
                 </div>
                 <div className="section3-module__SzoO3a__viewport">
                   <div className="section3-module__SzoO3a__viewportInner">
                     <div className="absolute inset-0 top-[10%] dt:min-h-full">
-                      <img
-                        alt=""
-                        draggable="false"
-                        loading="eager"
-                        decoding="async"
-                        className=""
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
-                        style={{
-                          position: 'absolute',
-                          height: '100%',
-                          width: '100%',
-                          inset: '0px',
-                          objectFit: 'cover',
-                          color: 'transparent'
-                        }}
-                      />
+                      {/* Placeholder for section3 image */}
+                      <div className="w-full h-full bg-gradient-to-r from-gray-800 to-gray-900 flex items-center justify-center">
+                        <span className="text-white-40 text-sm">Section 3 Image</span>
+                      </div>
                     </div>
                     <div className="section3-module__SzoO3a__hotspots">
-                      <div
-                        className="hotspot-module__GlFlMq__hotspot"
-                        style={{ '--pos-x': 28, '--pos-y': 70 } as React.CSSProperties}
-                      >
+                      {/* Hotspot 1 - Sony's */}
+                      <div className="hotspot-module__GlFlMq__hotspot" style={{"--pos-x": 28, "--pos-y": 70} as React.CSSProperties}>
                         <div className="hotspot-module__GlFlMq__inner">
                           <div className="flex flex-col">
-                            <span className="lightSubtitle text-white-40">
-                              Pioneering
+                            <span className="split-text-module__McvV0q__splitText lightSubtitle text-white-40" style={{opacity: 1}}>
+                              <span className="split-text-module__McvV0q__split">Pioneering</span>
+                              <span className="split-text-module__McvV0q__fallback">Pioneering</span>
                             </span>
-                            <h3 className="h4">Micro-OLED Display</h3>
+                            <span className="split-text-module__McvV0q__splitText hotspotTitle uppercase hotspot-module__GlFlMq__title" style={{opacity: 1}}>
+                              <span className="split-text-module__McvV0q__split">Sony's</span>
+                              <span className="split-text-module__McvV0q__fallback">Sony's</span>
+                            </span>
+                            <span className="split-text-module__McvV0q__splitText lightSubtitle" style={{opacity: 1}}>
+                              <span className="split-text-module__McvV0q__split">
+                                <p className="lightSubtitle desktop-only">
+                                  Newest Innovation —<br />Unmatched Clarity,<br />Ultra Efficiency
+                                </p>
+                                <p className="lightSubtitle mobile-only">
+                                  Newest Innovation —<br />Unmatched Clarity,<br />Ultra Efficiency
+                                </p>
+                              </span>
+                              <span className="split-text-module__McvV0q__fallback">
+                                <p className="lightSubtitle desktop-only">
+                                  Newest Innovation —<br />Unmatched Clarity,<br />Ultra Efficiency
+                                </p>
+                                <p className="lightSubtitle mobile-only">
+                                  Newest Innovation —<br />Unmatched Clarity,<br />Ultra Efficiency
+                                </p>
+                              </span>
+                            </span>
+                          </div>
+                          <div className="hotspot-module__GlFlMq__decorator">
+                            <div className="hotspot-module__GlFlMq__outerCircle"></div>
+                            <div className="hotspot-module__GlFlMq__innerCircle"></div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Hotspot 2 - Premium */}
+                      <div className="hotspot-module__GlFlMq__hotspot" style={{"--pos-x": 60, "--pos-y": 50} as React.CSSProperties}>
+                        <div className="hotspot-module__GlFlMq__inner">
+                          <div className="flex flex-col">
+                            <span className="split-text-module__McvV0q__splitText lightSubtitle text-white-40" style={{opacity: 1}}>
+                              <span className="split-text-module__McvV0q__split">Crafted with A</span>
+                              <span className="split-text-module__McvV0q__fallback">Crafted with A</span>
+                            </span>
+                            <span className="split-text-module__McvV0q__splitText hotspotTitle uppercase hotspot-module__GlFlMq__title" style={{opacity: 1}}>
+                              <span className="split-text-module__McvV0q__split">premium</span>
+                              <span className="split-text-module__McvV0q__fallback">premium</span>
+                            </span>
+                            <span className="split-text-module__McvV0q__splitText lightSubtitle" style={{opacity: 1}}>
+                              <span className="split-text-module__McvV0q__split">
+                                <p className="lightSubtitle desktop-only">Translucent Aesthetic</p>
+                                <p className="lightSubtitle mobile-only">Translucent Aesthetic</p>
+                              </span>
+                              <span className="split-text-module__McvV0q__fallback">
+                                <p className="lightSubtitle desktop-only">Translucent Aesthetic</p>
+                                <p className="lightSubtitle mobile-only">Translucent Aesthetic</p>
+                              </span>
+                            </span>
+                          </div>
+                          <div className="hotspot-module__GlFlMq__decorator">
+                            <div className="hotspot-module__GlFlMq__outerCircle"></div>
+                            <div className="hotspot-module__GlFlMq__innerCircle"></div>
                           </div>
                         </div>
                       </div>
