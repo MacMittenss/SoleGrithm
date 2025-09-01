@@ -206,12 +206,11 @@ export default function Home() {
 
     const ctx = gsap.context(() => {
       // Initially position words to emerge from overlay area
-      gsap.set(".hero__text-cont .word", {
-        y: 40,
-        opacity: 1, // Visible but positioned to appear from overlay
-        scale: 0.9,
-        transformOrigin: "center bottom",
-        clipPath: "inset(100% 0 0 0)" // Hidden by cutting from top
+      gsap.set(".flagship-header .hero__text-cont .word", {
+        y: 50,
+        opacity: 0,
+        scale: 0.8,
+        transformOrigin: "center bottom"
       });
       gsap.set(".flagship-features-grid .flagship-feature-card", {
         y: 50,
@@ -233,10 +232,10 @@ export default function Home() {
       // Sequential animation: words emerge from overlay left-to-right, then components
       
       // Header animation - words emerge from overlay word by word (0% - 40% of pin progress)
-      pinTl.to(".hero__text-cont .word", {
+      pinTl.to(".flagship-header .hero__text-cont .word", {
         y: 0,
+        opacity: 1,
         scale: 1,
-        clipPath: "inset(0% 0 0 0)", // Fully revealed
         duration: 0.4,
         stagger: {
           from: "start", // Left to right
@@ -315,7 +314,6 @@ export default function Home() {
                   <span className="word">Its</span>
                   <span className="word">Core</span>
                 </h5>
-                <div className="flagship-anim-swipe"></div>
               </div>
               <div className="hero__text-cont">
                 <h2 className="flagship-title">
@@ -323,7 +321,6 @@ export default function Home() {
                   <span className="word">FLAGSHIP</span>
                   <span className="word">FEATURES</span>
                 </h2>
-                <div className="flagship-anim-swipe"></div>
               </div>
               <p className="flagship-subtitle">
                 Discover the cutting-edge technology and AI-powered features that make SoleGrithm 
