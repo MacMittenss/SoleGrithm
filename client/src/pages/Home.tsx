@@ -16,7 +16,10 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
     if (!preloaderRef.current || !textRef.current) return;
 
     const tl = gsap.timeline({
-      onComplete,
+      onComplete: () => {
+        console.log('Preloader animation complete');
+        onComplete();
+      },
     });
 
     // Initial setup
@@ -31,27 +34,34 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 1.2,
+      duration: 0.8,
       ease: "expo.out"
     })
     // Hold
-    .to({}, { duration: 0.8 })
+    .to({}, { duration: 0.5 })
     // Animate out
     .to(textRef.current, {
       opacity: 0,
       y: -30,
       scale: 1.1,
-      duration: 0.8,
+      duration: 0.6,
       ease: "expo.in"
-    }, "-=0.2")
+    })
     .to(preloaderRef.current, {
       yPercent: -100,
-      duration: 1,
+      duration: 0.8,
       ease: "expo.inOut"
-    }, "-=0.4");
+    }, "-=0.2");
+
+    // Fallback timeout to ensure preloader doesn't get stuck
+    const fallbackTimeout = setTimeout(() => {
+      console.log('Preloader fallback timeout triggered');
+      onComplete();
+    }, 3000);
 
     return () => {
       tl.kill();
+      clearTimeout(fallbackTimeout);
     };
   }, [onComplete]);
 
@@ -240,8 +250,14 @@ export default function Home() {
   }, [isPreloaderComplete, setIsLoading]);
 
   const handlePreloaderComplete = () => {
+    console.log('Preloader complete callback triggered');
     setIsPreloaderComplete(true);
   };
+
+  // Debug: Add effect to log state changes
+  useEffect(() => {
+    console.log('isPreloaderComplete:', isPreloaderComplete);
+  }, [isPreloaderComplete]);
 
   if (!isPreloaderComplete) {
     return <Preloader onComplete={handlePreloaderComplete} />;
@@ -253,7 +269,6 @@ export default function Home() {
         lerp: 0.125,
         duration: 1.2,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        mouseMultiplier: 1,
         smoothTouch: false,
         touchMultiplier: 2,
         infinite: false,
