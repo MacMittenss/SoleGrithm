@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronDown, Footprints, Sparkles, TrendingUp, Users, Star } from 'lucide-react';
+import { ChevronDown, Footprints, Sparkles, TrendingUp, Users, Star, Search, Eye, Heart, Zap } from 'lucide-react';
 import { Link } from 'wouter';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Import our existing components for brand data
 import { useQuery } from '@tanstack/react-query';
@@ -12,6 +16,8 @@ export default function Home() {
   const splineRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const animationFrameRef = useRef<number>();
+  const flagshipRef = useRef<HTMLElement>(null);
+  const flagshipHeaderRef = useRef<HTMLDivElement>(null);
 
   // Get brand data for the brands section
   const { data: brands } = useQuery({
@@ -153,6 +159,53 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  // Flagship Features GSAP ScrollTrigger Animation
+  useEffect(() => {
+    if (!flagshipRef.current || !flagshipHeaderRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Set up the pinning animation
+      ScrollTrigger.create({
+        trigger: flagshipRef.current,
+        start: "top top",
+        end: "bottom top",
+        pin: true,
+        pinSpacing: false,
+        onEnter: () => {
+          // Only animate header when section is pinned
+          gsap.fromTo(flagshipHeaderRef.current, {
+            y: 50,
+            opacity: 0,
+            scale: 0.9
+          }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "expo.out"
+          });
+
+          // Animate feature cards
+          gsap.fromTo(".flagship-feature-card", {
+            y: 60,
+            opacity: 0,
+            scale: 0.95
+          }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "back.out(1.2)",
+            delay: 0.3
+          });
+        }
+      });
+    }, flagshipRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
       {/* Template Navbar */}
@@ -191,6 +244,90 @@ export default function Home() {
           data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
         >
           <canvas id="spline-canvas"></canvas>
+        </div>
+      </section>
+
+      {/* Our Flagship Features Section */}
+      <section ref={flagshipRef} className="template-section flagship-section">
+        <div className="template-container padding-4-5rem">
+          <div className="flagship-wrapper">
+            <div ref={flagshipHeaderRef} className="flagship-header">
+              <h5 className="heading">Innovation at Its Core</h5>
+              <h2 className="flagship-title">OUR FLAGSHIP FEATURES</h2>
+              <p className="flagship-subtitle">
+                Discover the cutting-edge technology and AI-powered features that make SoleGrithm 
+                the ultimate destination for sneaker enthusiasts worldwide.
+              </p>
+            </div>
+            
+            <div className="flagship-features-grid">
+              <div className="flagship-feature-card">
+                <div className="feature-icon-wrapper">
+                  <Search size={32} color="var(--color-orange)" />
+                </div>
+                <h4 className="feature-title">Visual AI Search</h4>
+                <p className="feature-description">
+                  Upload any sneaker photo and instantly discover similar styles, colorways, 
+                  and matching options using advanced computer vision technology.
+                </p>
+              </div>
+              
+              <div className="flagship-feature-card">
+                <div className="feature-icon-wrapper">
+                  <Zap size={32} color="var(--color-purple)" />
+                </div>
+                <h4 className="feature-title">Smart Recommendations</h4>
+                <p className="feature-description">
+                  Our AI analyzes your style preferences, browsing history, and trending data 
+                  to deliver personalized sneaker recommendations tailored just for you.
+                </p>
+              </div>
+              
+              <div className="flagship-feature-card">
+                <div className="feature-icon-wrapper">
+                  <TrendingUp size={32} color="var(--color-gold)" />
+                </div>
+                <h4 className="feature-title">Live Market Data</h4>
+                <p className="feature-description">
+                  Real-time price tracking, market trends, and investment insights help you 
+                  make informed decisions in the ever-changing sneaker marketplace.
+                </p>
+              </div>
+              
+              <div className="flagship-feature-card">
+                <div className="feature-icon-wrapper">
+                  <Eye size={32} color="var(--color-green)" />
+                </div>
+                <h4 className="feature-title">AR Try-On</h4>
+                <p className="feature-description">
+                  Experience sneakers in augmented reality before you buy. See how they look 
+                  and fit using your smartphone camera for the perfect purchase decision.
+                </p>
+              </div>
+              
+              <div className="flagship-feature-card">
+                <div className="feature-icon-wrapper">
+                  <Users size={32} color="var(--color-blue)" />
+                </div>
+                <h4 className="feature-title">Community Hub</h4>
+                <p className="feature-description">
+                  Connect with fellow sneakerheads, share your collection, discuss latest drops, 
+                  and discover exclusive releases through our vibrant community platform.
+                </p>
+              </div>
+              
+              <div className="flagship-feature-card">
+                <div className="feature-icon-wrapper">
+                  <Heart size={32} color="var(--color-red)" />
+                </div>
+                <h4 className="feature-title">Collection Tracker</h4>
+                <p className="feature-description">
+                  Build and showcase your digital sneaker collection, track market values, 
+                  set price alerts, and manage your sneaker portfolio like a pro.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
