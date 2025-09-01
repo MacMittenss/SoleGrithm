@@ -857,21 +857,10 @@ body::before {
 }
 
 /* All typography and components in sections above robot */
-.template-section h1,
-.template-section h2, 
-.template-section h3,
-.template-section h4,
-.template-section h5,
-.template-section h6,
-.template-section p,
-.template-section div,
-.template-section span,
-.template-section .flagship-item,
-.template-section .flagship-header,
-.template-section .flagship-grid,
-.template-section .template-container {
+.template-section *,
+.flagship-section * {
   position: relative;
-  z-index: 12;
+  z-index: 12 !important;
 }
 
 .nav-container {
