@@ -159,86 +159,61 @@ const VitureClone: React.FC = () => {
 
       {/* Main Content */}
       <main style={{ paddingTop: '100px' }}>
-        {/* Hero Section */}
+        {/* Section 1 - Hero */}
         <section style={{
-          backgroundColor: '#000',
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          padding: '0 20px'
+          padding: '100px 20px',
+          position: 'relative'
         }}>
-          <div style={{ marginBottom: '2rem' }}>
+          <div style={{ marginBottom: '3rem' }}>
             <h1 style={{
-              fontSize: 'clamp(3rem, 8vw, 8rem)',
+              fontSize: 'clamp(4rem, 12vw, 12rem)',
               fontWeight: 700,
-              margin: '0 0 1rem 0',
+              margin: '0 0 2rem 0',
               background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              color: 'transparent'
+              color: 'transparent',
+              position: 'relative'
             }}>
               VITURE One
             </h1>
             <p style={{
-              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+              fontSize: 'clamp(1.2rem, 2.5vw, 2rem)',
               color: '#fff',
-              opacity: 0.8,
-              maxWidth: '600px',
-              margin: '0 auto'
+              opacity: 0.9,
+              maxWidth: '800px',
+              margin: '0 auto',
+              lineHeight: 1.4
             }}>
               The world's first XR glasses with Electrochromic Film technology
             </p>
           </div>
-
-          {/* Product Showcase */}
           <div style={{
-            width: 'clamp(300px, 50vw, 800px)',
-            height: 'clamp(200px, 30vw, 400px)',
+            width: 'clamp(400px, 70vw, 1000px)',
+            height: 'clamp(250px, 40vw, 500px)',
             background: 'linear-gradient(45deg, #ff2900, #fe7a60, #581dff)',
-            borderRadius: '20px',
+            borderRadius: '30px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 'clamp(1rem, 3vw, 2rem)',
+            fontSize: 'clamp(1.5rem, 4vw, 3rem)',
             color: '#fff',
             fontWeight: 600,
-            marginBottom: '2rem'
+            marginBottom: '3rem'
           }}>
             VITURE One XR Glasses
           </div>
-
-          {/* CTA Button */}
-          <button style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '50px',
-            color: '#fff',
-            padding: '15px 30px',
-            fontSize: '1rem',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            position: 'relative',
-            overflow: 'hidden'
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.background = 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)';
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-          }}>
-            Experience the Future
-          </button>
         </section>
 
-        {/* Features Section */}
+        {/* Section 2 - Next Generation Display */}
         <section style={{
-          backgroundColor: '#000',
           minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
@@ -246,53 +221,291 @@ const VitureClone: React.FC = () => {
           alignItems: 'center',
           padding: '100px 20px'
         }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 5vw, 4rem)',
-            fontWeight: 700,
-            marginBottom: '3rem',
-            background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            color: 'transparent',
-            textAlign: 'center'
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
+              fontWeight: 700,
+              margin: '0 0 2rem 0',
+              background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
+              Next Generation Display
+            </h2>
+            <p style={{
+              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+              color: '#fff',
+              opacity: 0.8,
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
+              Experience the future of visual technology with our revolutionary XR display
+            </p>
+          </div>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '30px',
+            padding: '3rem',
+            textAlign: 'center',
+            maxWidth: '600px'
           }}>
-            Next Generation Display
-          </h2>
+            <h3 style={{
+              fontSize: '2rem',
+              fontWeight: 600,
+              color: '#fff',
+              marginBottom: '1rem'
+            }}>4K Micro-OLED</h3>
+            <p style={{
+              color: '#fff',
+              opacity: 0.7,
+              lineHeight: 1.6,
+              fontSize: '1.1rem'
+            }}>Crystal clear visuals with unprecedented detail and color accuracy</p>
+          </div>
+        </section>
 
+        {/* Section 10 - Immersive Experience */}
+        <section style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '100px 20px'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
+              fontWeight: 700,
+              margin: '0 0 2rem 0',
+              background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
+              Immersive Experience
+            </h2>
+            <p style={{
+              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+              color: '#fff',
+              opacity: 0.8,
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
+              Step into a new reality with VITURE XR technology
+            </p>
+          </div>
+          <div style={{
+            width: '100%',
+            height: 'clamp(300px, 50vw, 600px)',
+            background: 'linear-gradient(135deg, #000 0%, #ff2900 50%, #581dff 100%)',
+            borderRadius: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#fff',
+            fontSize: 'clamp(2rem, 5vw, 4rem)',
+            fontWeight: 600,
+            maxWidth: '1200px'
+          }}>
+            XR Experience
+          </div>
+        </section>
+
+        {/* Section 11 - Advanced Features */}
+        <section style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '100px 20px'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
+              fontWeight: 700,
+              margin: '0 0 2rem 0',
+              background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
+              Advanced Features
+            </h2>
+          </div>
+          <div style={{
+            display: 'flex',
+            gap: '4rem',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}>
+            {[
+              { icon: '●', label: 'Precision Tracking' },
+              { icon: '■', label: 'High Resolution' },
+              { icon: '▲', label: 'Ultra Lightweight' }
+            ].map((feature, i) => (
+              <div key={i} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '1rem'
+              }}>
+                <div style={{
+                  width: '80px',
+                  height: '80px',
+                  background: 'linear-gradient(45deg, #ff2900, #fe7a60, #581dff)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '2rem',
+                  color: '#fff',
+                  fontWeight: 600
+                }}>
+                  {feature.icon}
+                </div>
+                <p style={{
+                  color: '#fff',
+                  fontSize: '1.1rem',
+                  fontWeight: 500
+                }}>{feature.label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Section 18 - Product Line */}
+        <section style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '100px 20px'
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
+              fontWeight: 700,
+              margin: '0 0 2rem 0',
+              background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
+              Product Line
+            </h2>
+          </div>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+            gap: '3rem',
             maxWidth: '1200px',
             width: '100%'
           }}>
             {[
-              { title: '4K Micro-OLED', desc: 'Crystal clear visuals with unprecedented detail' },
-              { title: 'Electrochromic Film', desc: 'Revolutionary transparency control technology' },
-              { title: 'Spatial Computing', desc: 'Immersive AR experiences anywhere' }
-            ].map((feature, i) => (
+              { name: 'VITURE One', subtitle: 'XR Glasses', gradient: 'linear-gradient(45deg, #ff2900, #fe7a60)' },
+              { name: 'VITURE Pro', subtitle: 'Professional XR', gradient: 'linear-gradient(45deg, #fe7a60, #581dff)' },
+              { name: 'VITURE Station', subtitle: 'Docking Station', gradient: 'linear-gradient(45deg, #581dff, #ff2900)' }
+            ].map((product, i) => (
               <div key={i} style={{
                 background: 'rgba(255, 255, 255, 0.05)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '20px',
+                borderRadius: '30px',
                 padding: '2rem',
                 textAlign: 'center'
               }}>
-                <h3 style={{
+                <div style={{
+                  background: product.gradient,
+                  borderRadius: '20px',
+                  height: '250px',
+                  marginBottom: '2rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   fontSize: '1.5rem',
+                  color: '#fff',
+                  fontWeight: 600
+                }}>
+                  {product.name}
+                </div>
+                <h3 style={{
+                  fontSize: '1.8rem',
                   fontWeight: 600,
                   color: '#fff',
-                  marginBottom: '1rem'
-                }}>{feature.title}</h3>
+                  marginBottom: '0.5rem'
+                }}>{product.name}</h3>
                 <p style={{
                   color: '#fff',
                   opacity: 0.7,
-                  lineHeight: 1.6
-                }}>{feature.desc}</p>
+                  fontSize: '1rem'
+                }}>{product.subtitle}</p>
               </div>
             ))}
           </div>
+        </section>
+
+        {/* Section 20 - Final CTA */}
+        <section style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '100px 20px',
+          textAlign: 'center'
+        }}>
+          <div style={{ marginBottom: '3rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(3rem, 8vw, 8rem)',
+              fontWeight: 700,
+              margin: '0 0 2rem 0',
+              background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent'
+            }}>
+              Experience the Future
+            </h2>
+            <p style={{
+              fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+              color: '#fff',
+              opacity: 0.8,
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
+              Join the XR revolution with VITURE's next-generation technology
+            </p>
+          </div>
+          <button style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '50px',
+            color: '#fff',
+            padding: '20px 40px',
+            fontSize: '1.2rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            letterSpacing: '1px'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+          }}>
+            Get Started
+          </button>
         </section>
       </main>
 
