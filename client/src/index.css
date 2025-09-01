@@ -318,7 +318,6 @@ body {
 /* Lenis Smooth Scroll */
 .lenis {
   height: 100vh;
-  overflow-y: auto;
 }
 
 /* Banner Styles */

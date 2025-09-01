@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import AdvancedFlagshipFeatures from '@/components/advanced/AdvancedFlagshipFeatures';
+import { Lenis } from '@/components/Lenis';
 
 interface SplitCharProps {
   children: string;
@@ -211,24 +212,32 @@ export default function Home() {
   }, []);
 
   return (
-    <div 
-      id="lenis" 
-      className="lenis"
-      style={{
-        '--vw': '25.6px',
-        '--dvh': '12.88px',
-        '--svh': '12.88px',
-        '--lvh': '1vh',
-        '--scrollbar-width': '11px'
-      } as React.CSSProperties}
+    <Lenis
+      options={{
+        lerp: 0.1,
+        duration: 1.2,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+      }}
     >
-      <div>
-        <Header onAIChatToggle={() => {}} />
-        <main className="relative flex flex-col grow font-season">
-          <Preloader isVisible={showPreloader} />
-          
-          <section className="section-module__Fy_-CG__section overflow-x-clip section1-module__iQD6-W__section1 overflow-clip">
-            <div className="h-full" style={{ filter: 'blur(0px)', transform: 'scale(1)' }}>
+      <div 
+        id="lenis" 
+        className="lenis"
+        style={{
+          '--vw': '25.6px',
+          '--dvh': '12.88px',
+          '--svh': '12.88px',
+          '--lvh': '1vh',
+          '--scrollbar-width': '11px'
+        } as React.CSSProperties}
+      >
+        <div>
+          <Header onAIChatToggle={() => {}} />
+          <main className="relative flex flex-col grow font-season">
+            <Preloader isVisible={showPreloader} />
+            
+            <section className="section-module__Fy_-CG__section overflow-x-clip section1-module__iQD6-W__section1 overflow-clip">
+              <div className="h-full" style={{ filter: 'blur(0px)', transform: 'scale(1)' }}>
               <div className="section1-module__iQD6-W__sticky">
                 <div className="section1-module__iQD6-W__inner">
                   <div className="absolute inset-0">
@@ -289,15 +298,15 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </section>
+            </section>
 
-          {/* Our Flagship Features Section */}
-          <AdvancedFlagshipFeatures />
-          
-          {/* Section 2 - A 1200p 4K‑Like Display */}
-          <section className="section-module__Fy_-CG__section overflow-x-clip">
-            <div className="section-module__Fy_-CG__mask"></div>
-            <div className="h-full">
+            {/* Our Flagship Features Section */}
+            <AdvancedFlagshipFeatures />
+            
+            {/* Section 2 - A 1200p 4K‑Like Display */}
+            <section className="section-module__Fy_-CG__section overflow-x-clip">
+              <div className="section-module__Fy_-CG__mask"></div>
+              <div className="h-full">
               <div className="section2-module__24Nf6W__sticky">
                 <div className="dr-layout-block-inner section2-module__24Nf6W__inner">
                   <div className="relative">
@@ -536,10 +545,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </section>
+            </section>
 
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
+    </Lenis>
   );
 }
