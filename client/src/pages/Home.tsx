@@ -18,10 +18,6 @@ export default function Home() {
   const animationFrameRef = useRef<number>();
   const flagshipRef = useRef<HTMLElement>(null);
   const flagshipHeaderRef = useRef<HTMLDivElement>(null);
-  const brandsRef = useRef<HTMLElement>(null);
-  const brandsHeaderRef = useRef<HTMLDivElement>(null);
-  const servicesRef = useRef<HTMLElement>(null);
-  const servicesHeaderRef = useRef<HTMLDivElement>(null);
 
   // Get brand data for the brands section
   const { data: brands } = useQuery({
@@ -163,22 +159,17 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  // Section Pinning and Animation System
+  // Flagship Features GSAP ScrollTrigger Animation
   useEffect(() => {
-    if (!flagshipRef.current || !flagshipHeaderRef.current || 
-        !brandsRef.current || !brandsHeaderRef.current ||
-        !servicesRef.current || !servicesHeaderRef.current) return;
+    if (!flagshipRef.current || !flagshipHeaderRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Flagship Section Pinning and Animation
+      // ScrollTrigger for animations - triggers when section enters viewport
       ScrollTrigger.create({
         trigger: flagshipRef.current,
-        start: "top top",
-        end: "+=100vh",
-        pin: true,
-        pinSpacing: true,
+        start: "top 80%",
         onEnter: () => {
-          // Step 1: Animate header first
+          // Animate header when section is pinned to viewport
           gsap.fromTo(flagshipHeaderRef.current, {
             y: 50,
             opacity: 0,
@@ -188,97 +179,26 @@ export default function Home() {
             opacity: 1,
             scale: 1,
             duration: 1.2,
-            ease: "expo.out",
-            onComplete: () => {
-              // Step 2: Then animate feature cards after header completes
-              gsap.fromTo(".flagship-feature-card", {
-                y: 60,
-                opacity: 0,
-                scale: 0.95
-              }, {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "back.out(1.2)"
-              });
-            }
+            ease: "expo.out"
           });
-        }
-      });
 
-      // Brands Section Pinning and Animation
-      ScrollTrigger.create({
-        trigger: brandsRef.current,
-        start: "top top",
-        end: "+=100vh", 
-        pin: true,
-        pinSpacing: true,
-        onEnter: () => {
-          // Step 1: Animate brands header first
-          gsap.fromTo(brandsHeaderRef.current, {
-            y: 30,
-            opacity: 0
+          // Animate feature cards
+          gsap.fromTo(".flagship-feature-card", {
+            y: 60,
+            opacity: 0,
+            scale: 0.95
           }, {
             y: 0,
             opacity: 1,
-            duration: 1,
-            ease: "expo.out",
-            onComplete: () => {
-              // Step 2: Then animate brand grid items
-              gsap.fromTo(".brands-grid", {
-                y: 40,
-                opacity: 0
-              }, {
-                y: 0,
-                opacity: 1,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "back.out(1.2)"
-              });
-            }
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "back.out(1.2)",
+            delay: 0.3
           });
         }
       });
-
-      // Services Section Pinning and Animation  
-      ScrollTrigger.create({
-        trigger: servicesRef.current,
-        start: "top top",
-        end: "+=100vh",
-        pin: true,
-        pinSpacing: true,
-        onEnter: () => {
-          // Step 1: Animate services header first
-          gsap.fromTo(servicesHeaderRef.current, {
-            y: 30,
-            opacity: 0
-          }, {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "expo.out",
-            onComplete: () => {
-              // Step 2: Then animate service cards
-              gsap.fromTo(".services-card", {
-                y: 40,
-                opacity: 0,
-                scale: 0.95
-              }, {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "back.out(1.2)"
-              });
-            }
-          });
-        }
-      });
-
-    }, [flagshipRef, brandsRef, servicesRef]);
+    }, flagshipRef);
 
     return () => ctx.revert();
   }, []);
@@ -409,21 +329,18 @@ export default function Home() {
       </section>
 
       {/* Brands Section */}
-      <section ref={brandsRef} id="brands" className="template-section">
+      <section id="brands" className="template-section">
         <div className="template-container padding-4-5rem">
-          <div ref={brandsHeaderRef} className="brands-header" style={{opacity: 0}}>
-            <h5 className="heading">Trusted Partners</h5>
-            <h2 className="services-title">OUR BRANDS</h2>
-          </div>
+          <div className="space-7rem"></div>
           <div className="brands-wrapper">
-            <div className="brands-grid" style={{opacity: 0}}>
+            <div className="brands-grid slide-up-animation">
               {(brands && Array.isArray(brands) ? brands.slice(0, 4) : []).map((brand: any) => (
                 <div key={brand.id} className="logos-wrapper">
                   <h3 style={{ color: 'var(--white)', fontSize: '1.2rem' }}>{brand.name}</h3>
                 </div>
               ))}
             </div>
-            <div className="brands-grid" style={{opacity: 0}}>
+            <div className="brands-grid slide-up-animation">
               <div className="logos-wrapper">
                 <TrendingUp size={40} color="var(--color-orange)" />
               </div>
@@ -438,19 +355,16 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <div className="space-7rem"></div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section ref={servicesRef} className="template-section">
+      <section className="template-section">
         <div className="template-container padding-4-5rem">
-          <div ref={servicesHeaderRef} className="services-header" style={{opacity: 0, textAlign: 'center', marginBottom: '3rem'}}>
-            <h5 className="heading">What We Offer</h5>
-            <h2 className="services-title">OUR SERVICES</h2>
-          </div>
           <div className="services-flex">
-            <div className="services-wrapper">
-              <div className="services-card" style={{opacity: 0}}>
+            <div className="services-wrapper slide-from-left-animation">
+              <div className="services-card">
                 <div className="services-title-flex">
                   <div className="services-icon">
                     <Sparkles size={30} color="white" />
@@ -464,7 +378,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="services-card" style={{opacity: 0}}>
+              <div className="services-card">
                 <div className="services-title-flex">
                   <div className="services-icon">
                     <TrendingUp size={30} color="white" />
@@ -483,8 +397,10 @@ export default function Home() {
                 that connects enthusiasts worldwide.
               </p>
             </div>
-            <div className="services-wrapper">
-              <div className="services-card" style={{opacity: 0}}>
+            <div className="services-wrapper slide-from-right-animation">
+              <h5>Sneaker Innovation</h5>
+              <h2 className="services-title">FEATURES</h2>
+              <div className="services-card">
                 <div className="services-title-flex">
                   <div className="services-icon">
                     <Users size={30} color="white" />

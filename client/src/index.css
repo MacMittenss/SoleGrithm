@@ -1123,30 +1123,3 @@ body::before {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* Section Headers Styling */
-.brands-header,
-.services-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.brands-header h2,
-.services-header h2 {
-  font-size: clamp(3rem, 6vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  background: linear-gradient(90deg, #ff2900 0%, #fe7a60 50%, #581dff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin: 1rem 0;
-  font-family: Arial, sans-serif;
-}
-
-.brands-header h5,
-.services-header h5 {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
