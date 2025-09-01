@@ -161,18 +161,16 @@ export default function LumaPreloader({
               marginBottom: '4rem'
             }}
           >
-            {/* LUMA text with gradient */}
+            {/* LUMA text - white and bold with blinking */}
             <div
               style={{
                 fontSize: 'clamp(3rem, 8vw, 6rem)',
-                fontWeight: 700,
+                fontWeight: 900,
                 letterSpacing: '0.1em',
-                background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 50%, #581dff 100%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: '#ffffff',
                 textTransform: 'uppercase',
-                marginBottom: '1rem'
+                marginBottom: '1rem',
+                animation: 'lumaBlink 2s ease-in-out infinite'
               }}
             >
               LUMA
@@ -248,6 +246,15 @@ export default function LumaPreloader({
               100% {
                 opacity: 0.2;
                 transform: scale(1.1);
+              }
+            }
+            
+            @keyframes lumaBlink {
+              0%, 50% {
+                opacity: 1;
+              }
+              25%, 75% {
+                opacity: 0.3;
               }
             }
           `}</style>
