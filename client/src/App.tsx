@@ -12,7 +12,7 @@ import { SkipLinks } from "@/components/accessibility/SkipToContent";
 import { PageTransition } from "@/components/transitions/PageTransition";
 import { useNotifications } from '@/hooks/useNotifications';
 import { ToastContainer } from '@/components/ui/notification-toast';
-import AdvancedPreloader from '@/components/advanced/AdvancedPreloader';
+import LumaPreloader from '@/components/LumaPreloader';
 
 // Pages
 import Home from "@/pages/Home";
@@ -60,9 +60,8 @@ function App() {
 
   if (isPreloading) {
     return (
-      <AdvancedPreloader 
+      <LumaPreloader 
         onComplete={handlePreloaderComplete}
-        brandText="Luma"
         duration={2500}
       />
     );
