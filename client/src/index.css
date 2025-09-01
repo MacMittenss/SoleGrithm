@@ -1,41 +1,549 @@
-/* Import Template CSS Files */
-@import './styles/normalize.css';
-@import './styles/template.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* Custom seasonSans font definitions */
+@font-face {
+  font-family: 'seasonSans';
+  src: local('Manrope'), local('Inter'), local('SF Pro Display'), local('Helvetica Neue');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
-/* Tailwind CSS */
+@font-face {
+  font-family: 'seasonSans Fallback';
+  src: local('Manrope'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Override body to match template exactly */
+/* Custom text sizes */
+@layer utilities {
+  .text-10xl {
+    font-size: 10rem;
+    line-height: 1;
+  }
+}
+
+/* Lenis Smooth Scrolling - VITURE Style */
+html.lenis, 
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+.lenis.lenis-autoToggle {
+  transition-behavior: allow-discrete;
+  transition-property: overflow;
+  transition-duration: 1ms;
+}
+
+/* VITURE-style CSS Custom Properties */
+:root {
+  --color-primary: #000000;
+  --color-dark: #141414;
+  --color-white: #ffffff;
+  --color-white-08: rgba(255, 255, 255, 0.08);
+  --color-white-20: rgba(255, 255, 255, 0.2);
+  --color-white-40: rgba(255, 255, 255, 0.4);
+  --color-white-50: rgba(255, 255, 255, 0.5);
+  --color-orange: #ff2900;
+  --color-gold: #ffd700;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --spacing-safe: clamp(1.25rem, 5vw, 3.125rem);
+  --spacing-vert-safe: clamp(1.875rem, 5vh, 4.6875rem);
+  --vw: 1vw;
+  --vh: 1vh;
+  --svh: 1svh;
+  --dvh: 1dvh;
+  --lvh: 1lvh;
+}
+
+/* Advanced scrolling and perspective */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98));
+  color: #ffffff;
+  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Prevent flash of unstyled content */
+#root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 30, 0.98));
+}
+
+/* Enhanced smooth scrolling performance */
+.lenis.lenis-smooth {
+  scroll-behavior: unset;
+}
+
+/* Global seasonSans font application */
+*, *::before, *::after {
+  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Typography enhancements for VITURE-style text */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+p, span, div {
+  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
+}
+
+/* Button and interactive elements */
+button, input, textarea, select {
+  font-family: "seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif;
+}
+
+/* VITURE-style glassmorphism utilities */
+.glass-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Advanced gradient text utilities */
+.gradient-text-primary {
+  background: linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Minimalist utilities for clean design */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* DaisyUI custom animations and shimmer effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 1s ease-in-out;
+}
+
 @layer base {
-  body {
-    background-color: white;
-    color: #050505;
-    font-family: Inter, sans-serif;
-    font-size: 1vw;
-    line-height: 1.4vw;
-    margin: 0;
+  :root {
+    /* Pinterest-inspired minimalist palette */
+    --background: hsl(0, 0%, 99%);
+    --foreground: hsl(0, 0%, 15%);
+    --card: hsl(0, 0%, 100%);
+    --card-foreground: hsl(0, 0%, 15%);
+    --popover: hsl(0, 0%, 100%);
+    --popover-foreground: hsl(0, 0%, 15%);
+    --primary: hsl(0, 0%, 20%);
+    --primary-foreground: hsl(0, 0%, 98%);
+    --secondary: hsl(0, 0%, 96%);
+    --secondary-foreground: hsl(0, 0%, 15%);
+    --muted: hsl(0, 0%, 97%);
+    --muted-foreground: hsl(0, 0%, 50%);
+    --accent: hsl(0, 0%, 95%);
+    --accent-foreground: hsl(0, 0%, 15%);
+    --destructive: hsl(0, 84.2%, 60.2%);
+    --destructive-foreground: hsl(0, 0%, 98%);
+    --border: hsl(0, 0%, 92%);
+    --input: hsl(0, 0%, 94%);
+    --ring: hsl(0, 0%, 20%);
+    --radius: 0.5rem;
+    
+    /* Pinterest-style spacing and layout */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    
+    /* Visual hierarchy */
+    --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-card-active: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark {
+    /* Dark mode with high contrast for readability */
+    --background: hsl(0, 0%, 8%);
+    --foreground: hsl(0, 0%, 95%);
+    --card: hsl(0, 0%, 10%);
+    --card-foreground: hsl(0, 0%, 95%);
+    --popover: hsl(0, 0%, 10%);
+    --popover-foreground: hsl(0, 0%, 95%);
+    --primary: hsl(0, 0%, 90%);
+    --primary-foreground: hsl(0, 0%, 10%);
+    --secondary: hsl(0, 0%, 15%);
+    --secondary-foreground: hsl(0, 0%, 95%);
+    --muted: hsl(0, 0%, 12%);
+    --muted-foreground: hsl(0, 0%, 60%);
+    --accent: hsl(0, 0%, 18%);
+    --accent-foreground: hsl(0, 0%, 95%);
+    --destructive: hsl(0, 62.8%, 30.6%);
+    --destructive-foreground: hsl(0, 0%, 98%);
+    --border: hsl(0, 0%, 20%);
+    --input: hsl(0, 0%, 18%);
+    --ring: hsl(0, 0%, 90%);
+    
+    /* Dark mode shadows */
+    --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-card-active: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
   }
 }
 
-/* Responsive font sizing for mobile */
-@media screen and (max-width: 767px) {
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
   body {
-    font-size: 14px;
-    line-height: 20px;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Text selection */
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+  }
+
+  /* Focus outline */
+  .focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Image optimization */
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  /* Line clamping utility */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Pinterest-style minimal cards */
+  .pinterest-card {
+    @apply bg-card rounded-lg overflow-hidden transition-all duration-300 ease-out;
+    box-shadow: var(--shadow-card);
+  }
+  
+  .pinterest-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+  
+  /* Masonry grid support */
+  .masonry-grid {
+    column-count: 2;
+    column-gap: 1rem;
+    column-fill: balance;
+  }
+  
+  @media (min-width: 640px) {
+    .masonry-grid {
+      column-count: 3;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .masonry-grid {
+      column-count: 4;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .masonry-grid {
+      column-count: 5;
+    }
+  }
+  
+  .masonry-item {
+    @apply mb-4 break-inside-avoid;
+  }
+  
+  /* Visual-first image containers */
+  .pinterest-image {
+    @apply w-full object-cover transition-transform duration-500;
+  }
+  
+  .pinterest-image:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Minimal text overlays */
+  .pinterest-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent;
+    @apply opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+  }
+  
+  /* Clean save buttons */
+  .pinterest-save-btn {
+    @apply absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm;
+    @apply text-gray-800 hover:bg-white hover:scale-110 transition-all duration-200;
   }
 }
 
-/* Custom animation for template */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@layer components {
+  .sneaker-card {
+    @apply transition-all duration-300 ease-in-out;
+    @apply hover:scale-105 hover:shadow-xl;
+  }
+
+  /* Hero section styling */
+  .hero-text {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Flight Club inspired spacing */
+  .section-spacing {
+    @apply py-24;
+  }
+
+  .container-spacing {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Micro-animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Gradient backgrounds for premium feel */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)) 60%, hsl(var(--chart-1)));
+  }
+
+  .gradient-muted {
+    background: linear-gradient(135deg, hsl(var(--muted)), hsl(var(--background)));
+  }
+
+  /* Enhanced button hover states */
+  .btn-hover-scale {
+    @apply transition-transform duration-200 ease-in-out;
+  }
+
+  .btn-hover-scale:hover {
+    @apply scale-105;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out;
+    @apply hover:shadow-2xl hover:-translate-y-1;
+  }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+@layer components {
+  /* Pinterest-style sneaker card */
+  .sneaker-card {
+    @apply transition-all duration-300 ease-in-out;
+    @apply hover:scale-105 hover:shadow-xl;
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply text-sm font-medium transition-colors duration-200;
+    @apply hover:text-primary focus:text-primary;
+  }
+
+  .nav-link.active {
+    @apply text-foreground;
+  }
+
+  /* Card component enhancements */
+  .card-minimal {
+    @apply bg-background border border-border rounded-2xl;
+    @apply shadow-sm hover:shadow-lg transition-shadow duration-300;
+  }
+
+  /* Form styling */
+  .form-input {
+    @apply bg-background border border-input rounded-lg px-3 py-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply transition-all duration-200;
+  }
+
+  /* Badge styling */
+  .badge-premium {
+    @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white;
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  /* Loading states */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  /* AI Chat specific styling */
+  .chat-message {
+    @apply rounded-lg p-3 max-w-xs text-sm;
+  }
+
+  .chat-message.bot {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .chat-message.user {
+    @apply bg-primary text-primary-foreground ml-auto;
+  }
+}
+
+/* Utilities layer for utility classes */
+@layer utilities {
+  /* Spacing utilities */
+  .space-y-section > * + * {
+    @apply mt-24;
+  }
+
+  .space-y-component > * + * {
+    @apply mt-8;
+  }
+
+  /* Typography utilities */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-chart-1 bg-clip-text text-transparent;
+  }
+
+  .text-hero {
+    @apply text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight;
+  }
+
+  .text-section-title {
+    @apply text-4xl sm:text-5xl font-bold tracking-tight;
+  }
+
+  /* Layout utilities */
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  /* Aspect ratio utilities */
+  .aspect-sneaker {
+    aspect-ratio: 4 / 3;
+  }
+
+  .aspect-blog {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Interactive utilities */
+  .interactive {
+    @apply cursor-pointer transition-all duration-200 ease-in-out;
+    @apply hover:scale-105 active:scale-95;
+  }
+
+  .glass-effect {
+    @apply bg-white/80 dark:bg-black/80 backdrop-blur-md;
+    @apply border border-white/20 dark:border-white/10;
+  }
 }
