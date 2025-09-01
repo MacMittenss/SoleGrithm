@@ -1,6 +1,111 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const VitureClone: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Advanced scroll animations and interactions
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      
+      const scrollY = containerRef.current.scrollTop;
+      const windowHeight = window.innerHeight;
+      
+      // Parallax effect for banners
+      const banners = containerRef.current.querySelectorAll('.banner-mobile-module__3zKlBq__banner');
+      banners.forEach((banner, index) => {
+        const rect = banner.getBoundingClientRect();
+        const offset = rect.top / windowHeight;
+        const speed = index === 0 ? 20 : 30; // Different speeds for each banner
+        (banner as HTMLElement).style.transform = `translateY(${offset * speed}px)`;
+      });
+      
+      // Progressive reveal animations for sections
+      const sections = containerRef.current.querySelectorAll('section');
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < windowHeight * 0.75 && rect.bottom > 0;
+        const delay = index * 0.1; // Stagger the animations
+        
+        if (isVisible) {
+          setTimeout(() => {
+            (section as HTMLElement).style.opacity = '1';
+            (section as HTMLElement).style.transform = 'translateY(0)';
+            (section as HTMLElement).classList.add('section-visible');
+          }, delay * 1000);
+        }
+      });
+
+      // Rotate gradient text based on scroll
+      const gradientTexts = containerRef.current.querySelectorAll('.gradient-text-module__frmLeG__gradientText');
+      gradientTexts.forEach((text) => {
+        const rect = text.getBoundingClientRect();
+        const rotation = (rect.top / windowHeight) * 5; // Subtle rotation
+        (text as HTMLElement).style.transform = `rotate(${rotation}deg)`;
+      });
+    };
+
+    // Mouse movement parallax effect
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      
+      const { clientX, clientY } = e;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const offsetX = (clientX - centerX) / centerX;
+      const offsetY = (clientY - centerY) / centerY;
+
+      // Apply subtle parallax to gradient elements
+      const gradientElements = containerRef.current.querySelectorAll('[style*="gradient"]');
+      gradientElements.forEach((element) => {
+        (element as HTMLElement).style.transform += ` translate(${offsetX * 2}px, ${offsetY * 2}px)`;
+      });
+    };
+
+    // Intersection Observer for more precise animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            
+            // Specific animations for different elements
+            if (entry.target.classList.contains('product-item-module__yw1N5a__productItem')) {
+              setTimeout(() => {
+                (entry.target as HTMLElement).style.transform = 'translateY(0) scale(1)';
+                (entry.target as HTMLElement).style.opacity = '1';
+              }, Math.random() * 300); // Random delay for organic feel
+            }
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const container = containerRef.current;
+    if (container) {
+      // Add event listeners
+      container.addEventListener('scroll', handleScroll);
+      document.addEventListener('mousemove', handleMouseMove);
+      
+      // Observe elements for intersection
+      const observeElements = container.querySelectorAll('section, .product-item-module__yw1N5a__productItem, .section11-module__XZ044a__icon');
+      observeElements.forEach((el) => observer.observe(el));
+      
+      // Initial call
+      handleScroll();
+    }
+
+    // Cleanup
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+        document.removeEventListener('mousemove', handleMouseMove);
+      }
+      observer.disconnect();
+    };
+  }, []);
+
   useEffect(() => {
     // Load CSS files
     const cssFiles = [
@@ -62,21 +167,240 @@ const VitureClone: React.FC = () => {
   }, []);
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: '#000',
-      color: '#fff',
-      zIndex: 9999,
-      overflow: 'auto'
-    }}>
-      {/* Hide existing navbar */}
+    <div 
+      ref={containerRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#000',
+        color: '#fff',
+        zIndex: 9999,
+        overflow: 'auto',
+        scrollBehavior: 'smooth'
+      }}>
+      {/* Hide existing navbar and add animations */}
       <style>{`
         header { display: none !important; }
         body { margin: 0; padding: 0; }
+        
+        /* Banner animations */
+        .banner-mobile-module__3zKlBq__banner {
+          animation: fadeInDown 1.2s ease-out;
+          transition: transform 0.1s ease-out;
+        }
+        
+        /* Section animations */
+        section {
+          opacity: 0;
+          transform: translateY(50px);
+          transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        section.section-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        section.animate-in {
+          animation: sectionSlideIn 1s ease-out forwards;
+        }
+        
+        /* Gradient text glow effect */
+        .gradient-text-module__frmLeG__gradientText {
+          position: relative;
+          animation: textGlow 3s ease-in-out infinite alternate;
+        }
+        
+        /* Product item hover effects */
+        .product-item-module__yw1N5a__productItem {
+          opacity: 0;
+          transform: translateY(30px) scale(0.9);
+          transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .product-item-module__yw1N5a__productItem:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 20px 40px rgba(255, 41, 0, 0.3);
+        }
+        
+        .product-item-module__yw1N5a__productItem.animate-in {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        
+        /* Button hover animations */
+        .small-button-module__2USyQq__button {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .small-button-module__2USyQq__button:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.5s;
+        }
+        
+        .small-button-module__2USyQq__button:hover:before {
+          left: 100%;
+        }
+        
+        /* Icon rotation animation */
+        .section11-module__XZ044a__icon {
+          transition: transform 0.3s ease;
+        }
+        
+        .section11-module__XZ044a__icon:hover {
+          transform: rotate(15deg) scale(1.1);
+        }
+        
+        /* Navigation fade in */
+        .navigation-module__mix1Pa__navigation {
+          animation: fadeInNav 1.5s ease-out 0.5s both;
+        }
+        
+        /* Glasses SVG animation */
+        .banner-mobile-module__3zKlBq__glassesContainer svg {
+          animation: glassesFloat 4s ease-in-out infinite;
+          filter: drop-shadow(0 0 10px rgba(255, 41, 0, 0.5));
+        }
+        
+        .banner-mobile-module__3zKlBq__glassesContainer:hover svg {
+          animation-duration: 2s;
+          filter: drop-shadow(0 0 20px rgba(255, 41, 0, 0.8));
+        }
+        
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fadeInNav {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes textGlow {
+          0% {
+            filter: brightness(1) saturate(1);
+          }
+          100% {
+            filter: brightness(1.1) saturate(1.2);
+          }
+        }
+        
+        @keyframes glassesFloat {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-5px);
+          }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, #ff2900, #fe7a60, #581dff);
+          border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(to bottom, #fe7a60, #581dff, #ff2900);
+        }
+        
+        @keyframes sectionSlideIn {
+          from {
+            opacity: 0;
+            transform: translateY(50px) rotateX(15deg);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
+          }
+        }
+        
+        /* Magnetic button effect */
+        .small-button-module__2USyQq__button {
+          cursor: pointer;
+        }
+        
+        .small-button-module__2USyQq__button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 10px 25px rgba(255, 41, 0, 0.4);
+        }
+        
+        /* Pulse animation for important elements */
+        .gradient-text-module__frmLeG__text {
+          animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        
+        /* Loading shimmer effect */
+        .section1-module__iQD6-W__sequence,
+        .section10-module__fkP61a__videosWrapper {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .section1-module__iQD6-W__sequence::before,
+        .section10-module__fkP61a__videosWrapper::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+          0% {
+            left: -100%;
+          }
+          100% {
+            left: 100%;
+          }
+        }
       `}</style>
 
       {/* Banner Mobile - First */}
