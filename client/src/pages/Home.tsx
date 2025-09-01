@@ -171,8 +171,14 @@ export default function Home() {
         end: "bottom top",
         pin: true,
         pinSpacing: false,
+      });
+
+      // Separate ScrollTrigger for animations - triggers when section is centered and pinned
+      ScrollTrigger.create({
+        trigger: flagshipRef.current,
+        start: "top top+=100",
         onEnter: () => {
-          // Only animate header when section is pinned
+          // Only animate header when section is properly pinned
           gsap.fromTo(flagshipHeaderRef.current, {
             y: 50,
             opacity: 0,
