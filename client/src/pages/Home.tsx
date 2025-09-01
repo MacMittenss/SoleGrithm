@@ -221,7 +221,7 @@ export default function Home() {
       let pinTl = gsap.timeline({
         scrollTrigger: {
           trigger: flagshipRef.current,
-          start: "top center", 
+          start: "top top", 
           end: "+=200%",
           pin: flagshipRef.current, // Pin the flagship section
           pinSpacing: true,
