@@ -1017,8 +1017,8 @@ body::before {
 
 .flagship-header {
   margin-bottom: 4rem;
-  opacity: 0;
-  transform: translateY(50px);
+  position: relative;
+  z-index: 2;
 }
 
 .flagship-title {
