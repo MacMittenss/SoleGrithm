@@ -789,7 +789,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 11;
   pointer-events: none;
   opacity: 0;
   transition: opacity 1s ease-in-out;
@@ -854,6 +854,24 @@ body::before {
 .template-section {
   position: relative;
   z-index: 10;
+}
+
+/* All typography and components in sections above robot */
+.template-section h1,
+.template-section h2, 
+.template-section h3,
+.template-section h4,
+.template-section h5,
+.template-section h6,
+.template-section p,
+.template-section div,
+.template-section span,
+.template-section .flagship-item,
+.template-section .flagship-header,
+.template-section .flagship-grid,
+.template-section .template-container {
+  position: relative;
+  z-index: 12;
 }
 
 .nav-container {
