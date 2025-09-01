@@ -36,8 +36,10 @@ export default function AdvancedFlagshipFeatures() {
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
+          start: "top center",
+          end: "bottom center",
+          scrub: true,
+          pin: true,
         }
       });
 
@@ -73,7 +75,7 @@ export default function AdvancedFlagshipFeatures() {
       ref={sectionRef}
       className="flagship-features relative min-h-screen bg-black pt-8 pb-16 px-8 lg:px-16 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #000000 0%, #111111 100%)',
+        background: 'transparent',
       }}
     >
       {/* Animated background elements */}
