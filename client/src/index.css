@@ -733,6 +733,7 @@ body::before {
 }
 
 .heading {
+  font-family: Arial, sans-serif;
   font-size: clamp(0.8rem, 0.89vw, 1.9rem);
   font-weight: 900;
   letter-spacing: 0.14vw;
