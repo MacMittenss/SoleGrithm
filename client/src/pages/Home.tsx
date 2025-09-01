@@ -208,7 +208,7 @@ export default function Home() {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Animate header elements with split swipe effect
+      // Animate swipe overlay elements to reveal text underneath
       gsap.to(".anim-swipe", {
         yPercent: 300,
         delay: 0.2,
@@ -254,8 +254,14 @@ export default function Home() {
         <div className="circle"></div>
         <div className="template-container">
           <div className="hero-wrapper">
-            <h5 className="heading anim-swipe">Welcome to</h5>
-            <h1 className="hero-text anim-swipe">SOLEGRITHM</h1>
+            <div className="hero__text-cont">
+              <h5 className="heading">Welcome to</h5>
+              <div className="anim-swipe"></div>
+            </div>
+            <div className="hero__text-cont">
+              <h1 className="hero-text">SOLEGRITHM</h1>
+              <div className="anim-swipe"></div>
+            </div>
           </div>
           <div className="hero-overlay"></div>
         </div>
