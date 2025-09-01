@@ -1043,13 +1043,13 @@ body::before {
 }
 
 .flagship-features-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  justify-items: center;
 }
 
 .flagship-feature-card {
@@ -1065,7 +1065,8 @@ body::before {
   position: relative;
   overflow: hidden;
   min-height: 380px;
-  min-width: 600px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .flagship-feature-card::before {
