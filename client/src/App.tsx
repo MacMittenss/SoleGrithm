@@ -12,6 +12,7 @@ import { SkipLinks } from "@/components/accessibility/SkipToContent";
 import { PageTransition } from "@/components/transitions/PageTransition";
 import { useNotifications } from '@/hooks/useNotifications';
 import { ToastContainer } from '@/components/ui/notification-toast';
+import AdvancedPreloader from '@/components/advanced/AdvancedPreloader';
 
 // Pages
 import Home from "@/pages/Home";
@@ -50,7 +51,22 @@ function ScrollToTop() {
 
 function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+  const [isPreloading, setIsPreloading] = useState(true);
   const { notifications, removeNotification } = useNotifications();
+
+  const handlePreloaderComplete = () => {
+    setIsPreloading(false);
+  };
+
+  if (isPreloading) {
+    return (
+      <AdvancedPreloader 
+        onComplete={handlePreloaderComplete}
+        brandText="SoleGrithm"
+        duration={2500}
+      />
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
