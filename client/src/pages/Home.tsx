@@ -164,21 +164,12 @@ export default function Home() {
     if (!flagshipRef.current || !flagshipHeaderRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Set up the pinning animation
+      // ScrollTrigger for animations - triggers when section enters viewport
       ScrollTrigger.create({
         trigger: flagshipRef.current,
-        start: "top top",
-        end: "bottom top",
-        pin: true,
-        pinSpacing: false,
-      });
-
-      // Separate ScrollTrigger for animations - triggers when section is centered and pinned
-      ScrollTrigger.create({
-        trigger: flagshipRef.current,
-        start: "top top+=100",
+        start: "top 80%",
         onEnter: () => {
-          // Only animate header when section is properly pinned
+          // Animate header when section is pinned to viewport
           gsap.fromTo(flagshipHeaderRef.current, {
             y: 50,
             opacity: 0,
