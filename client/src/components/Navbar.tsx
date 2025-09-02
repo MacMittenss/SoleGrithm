@@ -29,7 +29,7 @@ export default function Navbar() {
     >
       <Link href="/">
         <a className="logo-link-wrapper w-nav-brand">
-          <div className="brand-text">SoleGrithm</div>
+          <div className="brand-text">SOLEGRITHM</div>
         </a>
       </Link>
       

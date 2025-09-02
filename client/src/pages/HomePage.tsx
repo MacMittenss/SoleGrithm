@@ -90,7 +90,7 @@ export default function HomePage() {
         <div className="w-layout-blockcontainer container w-container">
           <div className="hero-wrapper">
             <h5 className="heading">Welcome To</h5>
-            <h1 className="hero-text">SoleGrithm</h1>
+            <h1 className="hero-text">SOLEGRITHM</h1>
             <a href="#brands" className="arrow-border-wrapper w-inline-block">
               <div className="icon-wrapper">
                 <img
