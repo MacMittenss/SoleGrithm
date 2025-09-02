@@ -1,0 +1,104 @@
+/* Import Webflow CSS */
+@import './normalize.css';
+@import './webflow.css';
+@import './marcuss-radical-site-450663.webflow.css';
+
+/* Additional React-specific styles */
+:root {
+  --black: #050505;
+  --white: whitesmoke;
+  --secondary: #1c1c1c;
+  --light-gray: #e7e7e9;
+  --primary: var(--white);
+  --light-grey: #eee;
+  --primary-51: #dbec62;
+  --black-2: #050505;
+  --white-2: whitesmoke;
+  --dark-gray-2: #404040;
+  --transparent-2: transparent;
+  --lighter-black: #161616;
+  --border-radius: 24px;
+  --transparent: transparent;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: Inter, sans-serif;
+  font-size: 1vw;
+  line-height: 1.4vw;
+  overflow-x: hidden;
+}
+
+h1 {
+  letter-spacing: -0.07vw;
+  text-transform: capitalize;
+  margin: 0;
+  font-size: 5.55vw;
+  font-weight: 600;
+  line-height: 6.11vw;
+}
+
+h2 {
+  letter-spacing: -0.07vw;
+  text-transform: capitalize;
+  margin: 0;
+  font-size: 4.44vw;
+  font-weight: 500;
+  line-height: 5vw;
+}
+
+h3 {
+  letter-spacing: -0.07vw;
+  text-transform: capitalize;
+  margin: 0;
+  font-size: 3.33vw;
+  font-weight: 500;
+  line-height: 3.89vw;
+}
+
+/* Responsive breakpoints */
+@media screen and (max-width: 991px) {
+  body {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  h1 {
+    font-size: 48px;
+    line-height: 56px;
+  }
+  
+  h2 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+  
+  h3 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  h1 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+  
+  h2 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+  
+  h3 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+}
