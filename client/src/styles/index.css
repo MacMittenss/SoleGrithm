@@ -893,7 +893,7 @@ blockquote {
 
 .hero-text {
   text-transform: none;
-  font-size: clamp(5rem, 25vw, 20rem);
+  font-size: clamp(5rem, 25vw, 18rem);
   font-weight: 600;
   line-height: 0.8;
   width: 98vw;
