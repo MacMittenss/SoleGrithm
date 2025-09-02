@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Navbar from '../components/Navbar'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -83,6 +84,8 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
+      <Navbar />
+      
       {/* Hero Section */}
       <section className="hero-section" ref={heroRef}>
         <div className="fingerprint"></div>

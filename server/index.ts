@@ -24,6 +24,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'public', 'index.html'));
 });
 
+// SoleGrithm routes
+app.get(['/live-market', '/women-in-sneakers', '/ar-tryon', '/solebot', '/soleradar', '/style-quiz', '/sneaker-map'], (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'dist', 'public', 'index.html'));
+});
+
 // Fallback for React Router
 app.get('*', (req, res) => {
   if (req.path.startsWith('/original')) {
