@@ -15,6 +15,72 @@
   position: relative !important;
 }
 
+/* Live Market Tabs Styling */
+.tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.tab-buttons {
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.tab-button {
+  padding: 1rem 2rem;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background: #fff;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Market and Catalog Cards Hover Effects */
+.market-card:hover,
+.catalog-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Responsive Tab Design */
+@media screen and (max-width: 768px) {
+  .tab-buttons {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .tab-button {
+    flex: 1;
+    min-width: auto;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .market-grid,
+  .catalog-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Custom navbar icon expansion effect - Override all existing styles */
 .w-nav-menu .nav-link {
   position: relative !important;
