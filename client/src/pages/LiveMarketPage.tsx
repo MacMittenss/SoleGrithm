@@ -227,236 +227,182 @@ export default function LiveMarketPage() {
             )}
 
             {activeTab === 'catalog' && (
-              <div className="catalog-content" style={{ backgroundColor: '#fafafa', minHeight: '600px' }}>
-                <div className="catalog-layout" style={{ display: 'flex', gap: '3rem', maxWidth: '1400px', margin: '0 auto' }}>
+              <div className="catalog-content builder-inspired" style={{ 
+                flex: 1,
+                width: '100%',
+                height: '100vh',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                {/* Full-screen background image */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  backgroundImage: 'url(https://api.builder.io/api/v1/image/assets/TEMP/eb31eb5ad05104dd9ea0ff4e45358086ad4a2ff1?placeholderIfAbsent=true&apiKey=d7a59c268b1d457db5e1952ba6299412)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }} />
+                
+                {/* Content overlay - centered catalog showcase */}
+                <div style={{
+                  position: 'relative',
+                  zIndex: 10,
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '2rem',
+                  background: 'rgba(0, 0, 0, 0.2)'
+                }}>
                   
-                  {/* Left Sidebar */}
-                  <div className="catalog-sidebar" style={{ 
-                    minWidth: '200px',
-                    backgroundColor: 'white',
-                    padding: '2rem',
-                    borderRadius: '8px',
-                    height: 'fit-content',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                  {/* Central Hero Content */}
+                  <div style={{
+                    textAlign: 'center',
+                    maxWidth: '800px',
+                    margin: '0 auto'
                   }}>
-                    <div className="categories" style={{ marginBottom: '2rem' }}>
-                      <h3 style={{ 
-                        fontSize: '0.9rem', 
-                        fontWeight: '600', 
-                        color: '#666', 
-                        marginBottom: '1.5rem',
-                        letterSpacing: '0.5px'
+                    <div style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                      backdropFilter: 'blur(20px)',
+                      borderRadius: '30px',
+                      padding: '4rem 3rem',
+                      boxShadow: '0 25px 60px rgba(0, 0, 0, 0.15)',
+                      border: '1px solid rgba(255, 255, 255, 0.3)'
+                    }}>
+                      <h1 style={{
+                        fontSize: '4.5rem',
+                        fontWeight: '900',
+                        color: '#1a1a1a',
+                        margin: '0 0 1.5rem 0',
+                        letterSpacing: '-0.04em',
+                        lineHeight: '0.9',
+                        background: 'linear-gradient(135deg, #1a1a1a 0%, #667eea 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
                       }}>
-                        CATEGORIES
-                      </h3>
-                      {['MEN', 'WOMEN', 'KIDS'].map((category) => (
-                        <div key={category} style={{
-                          padding: '0.75rem 0',
-                          color: '#333',
-                          fontSize: '1rem',
-                          fontWeight: '500',
+                        SNEAKER
+                        <br/>
+                        CATALOG
+                      </h1>
+                      
+                      <p style={{
+                        fontSize: '1.3rem',
+                        color: '#666',
+                        margin: '0 0 3rem 0',
+                        lineHeight: '1.6',
+                        fontWeight: '400'
+                      }}>
+                        Discover premium sneakers from the world's top brands.<br/>
+                        Find your perfect fit and make your statement.
+                      </p>
+                      
+                      <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <button style={{
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          color: 'white',
+                          border: 'none',
+                          padding: '1.2rem 3rem',
+                          borderRadius: '50px',
+                          fontSize: '1.1rem',
+                          fontWeight: '700',
                           cursor: 'pointer',
-                          borderBottom: '1px solid #f0f0f0',
-                          transition: 'color 0.2s ease'
+                          boxShadow: '0 15px 40px rgba(102, 126, 234, 0.4)',
+                          transition: 'all 0.3s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.75rem'
                         }}>
-                          {category}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="search-section">
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        backgroundColor: '#f8f9fa',
-                        borderRadius: '8px',
-                        padding: '0.75rem 1rem',
-                        border: '1px solid #e9ecef'
-                      }}>
-                        <svg width="16" height="16" fill="#666" style={{ marginRight: '0.5rem' }}>
-                          <circle cx="8" cy="8" r="3" stroke="#666" strokeWidth="1.5" fill="none"/>
-                          <path d="m13 13-3-3"/>
-                        </svg>
-                        <input 
-                          type="text" 
-                          placeholder="Search" 
-                          style={{
-                            border: 'none',
-                            background: 'transparent',
-                            outline: 'none',
-                            width: '100%',
-                            color: '#333',
-                            fontSize: '0.9rem'
-                          }}
-                        />
+                          Browse Collection
+                          <svg width="20" height="20" fill="white">
+                            <path d="M8 0L6.5 1.5L12 7H0v2h12l-5.5 5.5L8 16l8-8z"/>
+                          </svg>
+                        </button>
+                        
+                        <button style={{
+                          background: 'rgba(255, 255, 255, 0.8)',
+                          color: '#667eea',
+                          border: '2px solid rgba(102, 126, 234, 0.3)',
+                          padding: '1.2rem 3rem',
+                          borderRadius: '50px',
+                          fontSize: '1.1rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          backdropFilter: 'blur(10px)',
+                          transition: 'all 0.3s ease'
+                        }}>
+                          New Arrivals
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  {/* Main Content Area */}
-                  <div className="catalog-main" style={{ flex: 1 }}>
-                    
-                    {/* Collection Header */}
-                    <div className="collection-header" style={{ marginBottom: '3rem', backgroundColor: 'white', padding: '3rem', borderRadius: '12px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                        <div>
-                          <h1 style={{ 
-                            fontSize: '3.5rem', 
-                            fontWeight: '800', 
-                            color: '#333',
-                            margin: '0 0 0.5rem 0',
-                            letterSpacing: '-0.02em',
-                            lineHeight: '1'
-                          }}>
-                            NEW<br/>COLLECTION
-                          </h1>
-                          <p style={{ 
-                            color: '#666', 
-                            fontSize: '1.1rem',
-                            margin: '0 0 2rem 0'
-                          }}>
-                            Summer 2024
-                          </p>
-                          
-                          <button style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            padding: '1rem 2rem',
-                            backgroundColor: '#333',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '8px',
-                            fontSize: '1rem',
-                            fontWeight: '600',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease'
-                          }}>
-                            Go To Shop
-                            <svg width="16" height="16" fill="white">
-                              <path d="M8 0L6.5 1.5L12 7H0v2h12l-5.5 5.5L8 16l8-8z"/>
-                            </svg>
-                          </button>
+                  {/* Featured Categories */}
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                    gap: '2rem',
+                    maxWidth: '1200px',
+                    margin: '4rem auto 0 auto',
+                    width: '100%'
+                  }}>
+                    {[
+                      { name: 'Air Jordan Collection', count: '120+ styles', color: '#ff6b6b' },
+                      { name: 'Yeezy Exclusives', count: '85+ styles', color: '#4ecdc4' },
+                      { name: 'Nike Classics', count: '200+ styles', color: '#45b7d1' },
+                      { name: 'Limited Editions', count: '45+ styles', color: '#96ceb4' }
+                    ].map((category, index) => (
+                      <div key={index} style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        backdropFilter: 'blur(15px)',
+                        borderRadius: '20px',
+                        padding: '2rem',
+                        textAlign: 'center',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                      }}
+                      className="category-card">
+                        <div style={{
+                          width: '80px',
+                          height: '80px',
+                          background: `linear-gradient(135deg, ${category.color}, ${category.color}88)`,
+                          borderRadius: '50%',
+                          margin: '0 auto 1.5rem auto',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '2rem',
+                          boxShadow: `0 10px 25px ${category.color}40`
+                        }}>
+                          👟
                         </div>
-
-                        {/* Navigation Arrows */}
-                        <div style={{ display: 'flex', gap: '0.5rem' }}>
-                          <button style={{
-                            width: '40px',
-                            height: '40px',
-                            border: '1px solid #ddd',
-                            borderRadius: '6px',
-                            backgroundColor: 'white',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            transition: 'all 0.2s ease'
-                          }}>
-                            <svg width="16" height="16" fill="#666">
-                              <path d="M10 2L4 8l6 6V2z"/>
-                            </svg>
-                          </button>
-                          <button style={{
-                            width: '40px',
-                            height: '40px',
-                            border: '1px solid #ddd',
-                            borderRadius: '6px',
-                            backgroundColor: 'white',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            transition: 'all 0.2s ease'
-                          }}>
-                            <svg width="16" height="16" fill="#666">
-                              <path d="M6 2v12l6-6-6-6z"/>
-                            </svg>
-                          </button>
-                        </div>
+                        
+                        <h3 style={{
+                          fontSize: '1.2rem',
+                          fontWeight: '700',
+                          color: '#1a1a1a',
+                          margin: '0 0 0.5rem 0'
+                        }}>
+                          {category.name}
+                        </h3>
+                        
+                        <p style={{
+                          fontSize: '0.9rem',
+                          color: '#666',
+                          margin: 0
+                        }}>
+                          {category.count}
+                        </p>
                       </div>
-                    </div>
-
-                    {/* Featured Products Grid */}
-                    <div className="featured-products" style={{ marginBottom: '3rem' }}>
-                      <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                        gap: '1.5rem'
-                      }}>
-                        {mockSneakers.slice(0, 6).map((sneaker, index) => (
-                          <div key={sneaker.id} style={{
-                            backgroundColor: 'white',
-                            borderRadius: '12px',
-                            overflow: 'hidden',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                            cursor: 'pointer',
-                            transition: 'transform 0.3s ease, box-shadow 0.3s ease'
-                          }}
-                          className="featured-product-card">
-                            
-                            <div style={{
-                              width: '100%',
-                              height: '200px',
-                              backgroundColor: index % 2 === 0 ? '#f8f9fa' : '#fff7ed',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              position: 'relative'
-                            }}>
-                              <div style={{
-                                color: '#999',
-                                fontSize: '0.9rem',
-                                textAlign: 'center'
-                              }}>
-                                {sneaker.name}
-                              </div>
-                              
-                              {sneaker.trending && (
-                                <div style={{
-                                  position: 'absolute',
-                                  top: '0.75rem',
-                                  right: '0.75rem',
-                                  backgroundColor: '#ff4757',
-                                  color: 'white',
-                                  padding: '0.25rem 0.5rem',
-                                  borderRadius: '12px',
-                                  fontSize: '0.7rem',
-                                  fontWeight: '600'
-                                }}>
-                                  NEW
-                                </div>
-                              )}
-                            </div>
-                            
-                            <div style={{ padding: '1.5rem' }}>
-                              <h4 style={{ 
-                                fontSize: '1rem', 
-                                fontWeight: '600', 
-                                color: '#333',
-                                margin: '0 0 0.5rem 0'
-                              }}>
-                                {sneaker.name}
-                              </h4>
-                              <p style={{ 
-                                color: '#666', 
-                                fontSize: '0.9rem',
-                                margin: '0 0 1rem 0'
-                              }}>
-                                {sneaker.brand}
-                              </p>
-                              <div style={{
-                                fontSize: '1.1rem',
-                                fontWeight: '700',
-                                color: '#333'
-                              }}>
-                                {sneaker.price}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
