@@ -227,99 +227,237 @@ export default function LiveMarketPage() {
             )}
 
             {activeTab === 'catalog' && (
-              <div className="catalog-content">
-                <div className="section-header" style={{ marginBottom: '3rem' }}>
-                  <h2 style={{ color: '#333', fontSize: '2.5rem', fontWeight: '600', marginBottom: '1rem' }}>
-                    Sneaker Catalog
-                  </h2>
-                  <p style={{ color: '#666', fontSize: '1.1rem' }}>
-                    Browse our comprehensive collection of sneakers with detailed information
-                  </p>
-                </div>
-
-                <div className="catalog-filters" style={{ marginBottom: '3rem' }}>
-                  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                    {['All', 'Nike', 'Adidas', 'Jordan', 'New Balance', 'Yeezy'].map((filter) => (
-                      <button key={filter} style={{
-                        padding: '0.5rem 1.5rem',
-                        backgroundColor: filter === 'All' ? '#333' : 'white',
-                        color: filter === 'All' ? 'white' : '#333',
-                        border: '2px solid #333',
-                        borderRadius: '25px',
-                        fontSize: '0.9rem',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease'
+              <div className="catalog-content" style={{ backgroundColor: '#fafafa', minHeight: '600px' }}>
+                <div className="catalog-layout" style={{ display: 'flex', gap: '3rem', maxWidth: '1400px', margin: '0 auto' }}>
+                  
+                  {/* Left Sidebar */}
+                  <div className="catalog-sidebar" style={{ 
+                    minWidth: '200px',
+                    backgroundColor: 'white',
+                    padding: '2rem',
+                    borderRadius: '8px',
+                    height: 'fit-content',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                  }}>
+                    <div className="categories" style={{ marginBottom: '2rem' }}>
+                      <h3 style={{ 
+                        fontSize: '0.9rem', 
+                        fontWeight: '600', 
+                        color: '#666', 
+                        marginBottom: '1.5rem',
+                        letterSpacing: '0.5px'
                       }}>
-                        {filter}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="catalog-grid" style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-                  gap: '2rem'
-                }}>
-                  {mockSneakers.map((sneaker) => (
-                    <div key={sneaker.id} className="catalog-card" style={{
-                      backgroundColor: 'white',
-                      borderRadius: '12px',
-                      padding: '1.5rem',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                      cursor: 'pointer'
-                    }}>
+                        CATEGORIES
+                      </h3>
+                      {['MEN', 'WOMEN', 'KIDS'].map((category) => (
+                        <div key={category} style={{
+                          padding: '0.75rem 0',
+                          color: '#333',
+                          fontSize: '1rem',
+                          fontWeight: '500',
+                          cursor: 'pointer',
+                          borderBottom: '1px solid #f0f0f0',
+                          transition: 'color 0.2s ease'
+                        }}>
+                          {category}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="search-section">
                       <div style={{
-                        width: '100%',
-                        height: '200px',
-                        backgroundColor: '#f5f5f5',
-                        borderRadius: '8px',
-                        marginBottom: '1rem',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#666',
-                        fontSize: '0.9rem'
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '8px',
+                        padding: '0.75rem 1rem',
+                        border: '1px solid #e9ecef'
                       }}>
-                        Sneaker Image
+                        <svg width="16" height="16" fill="#666" style={{ marginRight: '0.5rem' }}>
+                          <circle cx="8" cy="8" r="3" stroke="#666" strokeWidth="1.5" fill="none"/>
+                          <path d="m13 13-3-3"/>
+                        </svg>
+                        <input 
+                          type="text" 
+                          placeholder="Search" 
+                          style={{
+                            border: 'none',
+                            background: 'transparent',
+                            outline: 'none',
+                            width: '100%',
+                            color: '#333',
+                            fontSize: '0.9rem'
+                          }}
+                        />
                       </div>
-                      
-                      <h3 style={{ color: '#333', fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem' }}>
-                        {sneaker.name}
-                      </h3>
-                      <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                        {sneaker.brand}
-                      </p>
-                      
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                        <p style={{ color: '#333', fontSize: '1.2rem', fontWeight: '600', margin: 0 }}>
-                          {sneaker.price}
-                        </p>
+                    </div>
+                  </div>
+
+                  {/* Main Content Area */}
+                  <div className="catalog-main" style={{ flex: 1 }}>
+                    
+                    {/* Collection Header */}
+                    <div className="collection-header" style={{ marginBottom: '3rem', backgroundColor: 'white', padding: '3rem', borderRadius: '12px', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                        <div>
+                          <h1 style={{ 
+                            fontSize: '3.5rem', 
+                            fontWeight: '800', 
+                            color: '#333',
+                            margin: '0 0 0.5rem 0',
+                            letterSpacing: '-0.02em',
+                            lineHeight: '1'
+                          }}>
+                            NEW<br/>COLLECTION
+                          </h1>
+                          <p style={{ 
+                            color: '#666', 
+                            fontSize: '1.1rem',
+                            margin: '0 0 2rem 0'
+                          }}>
+                            Summer 2024
+                          </p>
+                          
+                          <button style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.75rem',
+                            padding: '1rem 2rem',
+                            backgroundColor: '#333',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontSize: '1rem',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
+                          }}>
+                            Go To Shop
+                            <svg width="16" height="16" fill="white">
+                              <path d="M8 0L6.5 1.5L12 7H0v2h12l-5.5 5.5L8 16l8-8z"/>
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Navigation Arrows */}
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
-                          {[1,2,3,4,5].map(star => (
-                            <span key={star} style={{ color: star <= 4 ? '#fbbf24' : '#d1d5db' }}>★</span>
-                          ))}
+                          <button style={{
+                            width: '40px',
+                            height: '40px',
+                            border: '1px solid #ddd',
+                            borderRadius: '6px',
+                            backgroundColor: 'white',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'all 0.2s ease'
+                          }}>
+                            <svg width="16" height="16" fill="#666">
+                              <path d="M10 2L4 8l6 6V2z"/>
+                            </svg>
+                          </button>
+                          <button style={{
+                            width: '40px',
+                            height: '40px',
+                            border: '1px solid #ddd',
+                            borderRadius: '6px',
+                            backgroundColor: 'white',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'all 0.2s ease'
+                          }}>
+                            <svg width="16" height="16" fill="#666">
+                              <path d="M6 2v12l6-6-6-6z"/>
+                            </svg>
+                          </button>
                         </div>
                       </div>
-                      
-                      <button style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        backgroundColor: '#333',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        fontSize: '0.9rem',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.3s ease'
-                      }}>
-                        View Details
-                      </button>
                     </div>
-                  ))}
+
+                    {/* Featured Products Grid */}
+                    <div className="featured-products" style={{ marginBottom: '3rem' }}>
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                        gap: '1.5rem'
+                      }}>
+                        {mockSneakers.slice(0, 6).map((sneaker, index) => (
+                          <div key={sneaker.id} style={{
+                            backgroundColor: 'white',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                            cursor: 'pointer',
+                            transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+                          }}
+                          className="featured-product-card">
+                            
+                            <div style={{
+                              width: '100%',
+                              height: '200px',
+                              backgroundColor: index % 2 === 0 ? '#f8f9fa' : '#fff7ed',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              position: 'relative'
+                            }}>
+                              <div style={{
+                                color: '#999',
+                                fontSize: '0.9rem',
+                                textAlign: 'center'
+                              }}>
+                                {sneaker.name}
+                              </div>
+                              
+                              {sneaker.trending && (
+                                <div style={{
+                                  position: 'absolute',
+                                  top: '0.75rem',
+                                  right: '0.75rem',
+                                  backgroundColor: '#ff4757',
+                                  color: 'white',
+                                  padding: '0.25rem 0.5rem',
+                                  borderRadius: '12px',
+                                  fontSize: '0.7rem',
+                                  fontWeight: '600'
+                                }}>
+                                  NEW
+                                </div>
+                              )}
+                            </div>
+                            
+                            <div style={{ padding: '1.5rem' }}>
+                              <h4 style={{ 
+                                fontSize: '1rem', 
+                                fontWeight: '600', 
+                                color: '#333',
+                                margin: '0 0 0.5rem 0'
+                              }}>
+                                {sneaker.name}
+                              </h4>
+                              <p style={{ 
+                                color: '#666', 
+                                fontSize: '0.9rem',
+                                margin: '0 0 1rem 0'
+                              }}>
+                                {sneaker.brand}
+                              </p>
+                              <div style={{
+                                fontSize: '1.1rem',
+                                fontWeight: '700',
+                                color: '#333'
+                              }}>
+                                {sneaker.price}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

@@ -61,6 +61,19 @@
   box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
 }
 
+/* Featured Product Card Hover Effects */
+.featured-product-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+}
+
+/* Catalog Sidebar Hover Effects */
+.catalog-sidebar .categories > div:hover {
+  color: #333 !important;
+  font-weight: 600 !important;
+  padding-left: 0.5rem !important;
+}
+
 /* Responsive Tab Design */
 @media screen and (max-width: 768px) {
   .tab-buttons {
