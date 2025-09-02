@@ -1,4 +1,5 @@
 import { Link } from 'wouter'
+import { TrendingUp, Users, Smartphone, Bot, Search, Target, Map } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
@@ -38,7 +39,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/live-market">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">💰</span>
+                <span className="nav-icon"><TrendingUp size={18} /></span>
                 <span className="nav-text">Live Market</span>
               </a>
             </Link>
@@ -47,7 +48,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/women-in-sneakers">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">👩</span>
+                <span className="nav-icon"><Users size={18} /></span>
                 <span className="nav-text">Women in Sneakers</span>
               </a>
             </Link>
@@ -56,7 +57,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/ar-tryon">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">📱</span>
+                <span className="nav-icon"><Smartphone size={18} /></span>
                 <span className="nav-text">AR Try-On</span>
               </a>
             </Link>
@@ -65,7 +66,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/solebot">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">🤖</span>
+                <span className="nav-icon"><Bot size={18} /></span>
                 <span className="nav-text">SoleBot</span>
               </a>
             </Link>
@@ -74,7 +75,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/soleradar">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">🔍</span>
+                <span className="nav-icon"><Search size={18} /></span>
                 <span className="nav-text">SoleRadar</span>
               </a>
             </Link>
@@ -83,7 +84,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/style-quiz">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">🎯</span>
+                <span className="nav-icon"><Target size={18} /></span>
                 <span className="nav-text">Style Quiz</span>
               </a>
             </Link>
@@ -92,7 +93,7 @@ export default function Navbar() {
           <div className="nav-link-wrapper">
             <Link href="/sneaker-map">
               <a className="nav-link w-nav-link">
-                <span className="nav-icon">🗺️</span>
+                <span className="nav-icon"><Map size={18} /></span>
                 <span className="nav-text">Sneaker Map</span>
               </a>
             </Link>
