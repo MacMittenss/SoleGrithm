@@ -893,9 +893,11 @@ blockquote {
 
 .hero-text {
   text-transform: none;
-  font-size: 15.55vw;
+  font-size: clamp(3rem, 12vw, 10rem);
   font-weight: 600;
-  line-height: 11.44vw;
+  line-height: 0.9;
+  max-width: 95vw;
+  word-break: break-word;
 }
 
 .brands-wrapper {
