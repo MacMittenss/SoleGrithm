@@ -9,6 +9,12 @@
   letter-spacing: -0.02em;
 }
 
+/* Navbar z-index to stay above all content */
+.navbar {
+  z-index: 1000 !important;
+  position: relative !important;
+}
+
 /* Custom navbar icon expansion effect - Override all existing styles */
 .w-nav-menu .nav-link {
   position: relative !important;
