@@ -37,64 +37,64 @@ export default function Navbar() {
         <nav role="navigation" className="nav-menu w-nav-menu">
           <div className="nav-link-wrapper">
             <Link href="/live-market">
-              <a className="nav-link w-nav-link">Live Market</a>
-            </Link>
-            <Link href="/live-market">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Live Market</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">💰</span>
+                <span className="nav-text">Live Market</span>
+              </a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
             <Link href="/women-in-sneakers">
-              <a className="nav-link w-nav-link">Women in Sneakers</a>
-            </Link>
-            <Link href="/women-in-sneakers">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Women in Sneakers</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">👩</span>
+                <span className="nav-text">Women in Sneakers</span>
+              </a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
             <Link href="/ar-tryon">
-              <a className="nav-link w-nav-link">AR Try-On</a>
-            </Link>
-            <Link href="/ar-tryon">
-              <a className="nav-link move-down hide-on-tab w-nav-link">AR Try-On</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">📱</span>
+                <span className="nav-text">AR Try-On</span>
+              </a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
             <Link href="/solebot">
-              <a className="nav-link w-nav-link">SoleBot</a>
-            </Link>
-            <Link href="/solebot">
-              <a className="nav-link move-down hide-on-tab w-nav-link">SoleBot</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">🤖</span>
+                <span className="nav-text">SoleBot</span>
+              </a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
             <Link href="/soleradar">
-              <a className="nav-link w-nav-link">SoleRadar</a>
-            </Link>
-            <Link href="/soleradar">
-              <a className="nav-link move-down hide-on-tab w-nav-link">SoleRadar</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">🔍</span>
+                <span className="nav-text">SoleRadar</span>
+              </a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
             <Link href="/style-quiz">
-              <a className="nav-link w-nav-link">Style Quiz</a>
-            </Link>
-            <Link href="/style-quiz">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Style Quiz</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">🎯</span>
+                <span className="nav-text">Style Quiz</span>
+              </a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
             <Link href="/sneaker-map">
-              <a className="nav-link w-nav-link">Sneaker Map</a>
-            </Link>
-            <Link href="/sneaker-map">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Sneaker Map</a>
+              <a className="nav-link w-nav-link">
+                <span className="nav-icon">🗺️</span>
+                <span className="nav-text">Sneaker Map</span>
+              </a>
             </Link>
           </div>
         </nav>
