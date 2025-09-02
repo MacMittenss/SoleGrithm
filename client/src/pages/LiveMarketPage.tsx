@@ -227,180 +227,258 @@ export default function LiveMarketPage() {
             )}
 
             {activeTab === 'catalog' && (
-              <div className="catalog-content builder-inspired" style={{ 
-                flex: 1,
+              <div className="catalog-content builder-catalog" style={{ 
                 width: '100%',
-                height: '100vh',
-                position: 'relative',
-                overflow: 'hidden'
+                minHeight: '832px',
+                background: '#FFF',
+                position: 'relative'
               }}>
-                {/* Full-screen background image */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  backgroundImage: 'url(https://api.builder.io/api/v1/image/assets/TEMP/eb31eb5ad05104dd9ea0ff4e45358086ad4a2ff1?placeholderIfAbsent=true&apiKey=d7a59c268b1d457db5e1952ba6299412)',
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
-                }} />
                 
-                {/* Content overlay - centered catalog showcase */}
+                {/* Grain Texture Background */}
+                <img 
+                  src="https://api.builder.io/api/v1/image/assets/TEMP/9701428950dde47ae49b6aabe6b53c89bc8b7882?width=2598"
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '832px',
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    mixBlendMode: 'soft-light',
+                    objectFit: 'cover'
+                  }}
+                />
+                
+                {/* Main Content */}
                 <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '50px 52px 50px 111px',
                   position: 'relative',
                   zIndex: 10,
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '2rem',
-                  background: 'rgba(0, 0, 0, 0.2)'
+                  minHeight: '832px'
                 }}>
                   
-                  {/* Central Hero Content */}
+                  {/* Left Side - Navigation/Menu */}
                   <div style={{
-                    textAlign: 'center',
-                    maxWidth: '800px',
-                    margin: '0 auto'
+                    display: 'flex',
+                    gap: '41px'
                   }}>
                     <div style={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                      backdropFilter: 'blur(20px)',
-                      borderRadius: '30px',
-                      padding: '4rem 3rem',
-                      boxShadow: '0 25px 60px rgba(0, 0, 0, 0.15)',
-                      border: '1px solid rgba(255, 255, 255, 0.3)'
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '24px',
+                      fontFamily: '"Beatrice Trial", sans-serif',
+                      fontSize: '18px',
+                      fontWeight: '400',
+                      lineHeight: '1.2',
+                      color: '#000'
                     }}>
-                      <h1 style={{
-                        fontSize: '4.5rem',
-                        fontWeight: '900',
-                        color: '#1a1a1a',
-                        margin: '0 0 1.5rem 0',
-                        letterSpacing: '-0.04em',
-                        lineHeight: '0.9',
-                        background: 'linear-gradient(135deg, #1a1a1a 0%, #667eea 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
+                      <div style={{ cursor: 'pointer', transition: 'opacity 0.2s ease' }}>Men</div>
+                      <div style={{ cursor: 'pointer', transition: 'opacity 0.2s ease' }}>Women</div>
+                      <div style={{ cursor: 'pointer', transition: 'opacity 0.2s ease' }}>Kids</div>
+                      <div style={{ cursor: 'pointer', transition: 'opacity 0.2s ease' }}>Sale</div>
+                    </div>
+                  </div>
+                  
+                  {/* Center - Main Content */}
+                  <div style={{
+                    textAlign: 'center',
+                    maxWidth: '600px'
+                  }}>
+                    <h1 style={{
+                      fontFamily: '"Beatrice Deck Trial", serif',
+                      fontSize: '72px',
+                      fontWeight: '700',
+                      lineHeight: '0.89',
+                      color: '#000',
+                      margin: '0 0 24px 0',
+                      letterSpacing: '-0.02em'
+                    }}>
+                      Premium Sneaker Collection
+                    </h1>
+                    
+                    <p style={{
+                      fontFamily: '"Beatrice Trial", sans-serif',
+                      fontSize: '18px',
+                      fontWeight: '400',
+                      lineHeight: '1.4',
+                      color: '#666',
+                      margin: '0 0 40px 0',
+                      maxWidth: '500px',
+                      marginLeft: 'auto',
+                      marginRight: 'auto'
+                    }}>
+                      Discover the latest drops from Nike, Adidas, Jordan, and exclusive limited editions. Find your perfect style from our curated collection.
+                    </p>
+                    
+                    <div style={{
+                      display: 'flex',
+                      gap: '20px',
+                      justifyContent: 'center',
+                      flexWrap: 'wrap'
+                    }}>
+                      <button style={{
+                        background: '#000',
+                        color: '#FFF',
+                        border: 'none',
+                        padding: '16px 32px',
+                        borderRadius: '8px',
+                        fontFamily: '"Beatrice Trial", sans-serif',
+                        fontSize: '16px',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
                       }}>
-                        SNEAKER
-                        <br/>
-                        CATALOG
-                      </h1>
+                        Shop Now
+                      </button>
+                      
+                      <button style={{
+                        background: 'transparent',
+                        color: '#000',
+                        border: '1px solid #000',
+                        padding: '16px 32px',
+                        borderRadius: '8px',
+                        fontFamily: '"Beatrice Trial", sans-serif',
+                        fontSize: '16px',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}>
+                        View Catalog
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Right Side - Featured Product/Info */}
+                  <div style={{
+                    maxWidth: '300px'
+                  }}>
+                    <div style={{
+                      background: 'rgba(255, 255, 255, 0.8)',
+                      backdropFilter: 'blur(10px)',
+                      borderRadius: '16px',
+                      padding: '32px',
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
+                    }}>
+                      <div style={{
+                        width: '100%',
+                        height: '200px',
+                        background: 'linear-gradient(135deg, #f1f3f4 0%, #e8eaf6 100%)',
+                        borderRadius: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '24px',
+                        fontSize: '1.2rem',
+                        color: '#666',
+                        fontFamily: '"Beatrice Trial", sans-serif'
+                      }}>
+                        Featured Sneaker
+                      </div>
+                      
+                      <h3 style={{
+                        fontFamily: '"Beatrice Deck Trial", serif',
+                        fontSize: '24px',
+                        fontWeight: '700',
+                        color: '#000',
+                        margin: '0 0 8px 0'
+                      }}>
+                        Air Jordan 1 Retro
+                      </h3>
                       
                       <p style={{
-                        fontSize: '1.3rem',
+                        fontFamily: '"Beatrice Trial", sans-serif',
+                        fontSize: '16px',
                         color: '#666',
-                        margin: '0 0 3rem 0',
-                        lineHeight: '1.6',
-                        fontWeight: '400'
+                        margin: '0 0 20px 0'
                       }}>
-                        Discover premium sneakers from the world's top brands.<br/>
-                        Find your perfect fit and make your statement.
+                        High OG "Bred Toe"
                       </p>
                       
-                      <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <button style={{
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          color: 'white',
-                          border: 'none',
-                          padding: '1.2rem 3rem',
-                          borderRadius: '50px',
-                          fontSize: '1.1rem',
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}>
+                        <div style={{
+                          fontFamily: '"Beatrice Deck Trial", serif',
+                          fontSize: '28px',
                           fontWeight: '700',
-                          cursor: 'pointer',
-                          boxShadow: '0 15px 40px rgba(102, 126, 234, 0.4)',
-                          transition: 'all 0.3s ease',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.75rem'
+                          color: '#000'
                         }}>
-                          Browse Collection
-                          <svg width="20" height="20" fill="white">
-                            <path d="M8 0L6.5 1.5L12 7H0v2h12l-5.5 5.5L8 16l8-8z"/>
-                          </svg>
-                        </button>
+                          $170
+                        </div>
                         
                         <button style={{
-                          background: 'rgba(255, 255, 255, 0.8)',
-                          color: '#667eea',
-                          border: '2px solid rgba(102, 126, 234, 0.3)',
-                          padding: '1.2rem 3rem',
-                          borderRadius: '50px',
-                          fontSize: '1.1rem',
-                          fontWeight: '700',
+                          background: '#000',
+                          color: '#FFF',
+                          border: 'none',
+                          padding: '12px 24px',
+                          borderRadius: '6px',
+                          fontFamily: '"Beatrice Trial", sans-serif',
+                          fontSize: '14px',
+                          fontWeight: '400',
                           cursor: 'pointer',
-                          backdropFilter: 'blur(10px)',
-                          transition: 'all 0.3s ease'
+                          transition: 'all 0.2s ease'
                         }}>
-                          New Arrivals
+                          Add to Cart
                         </button>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Featured Categories */}
+                {/* Bottom Category Grid */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '50px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 11,
+                  width: '90%',
+                  maxWidth: '1200px'
+                }}>
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                    gap: '2rem',
-                    maxWidth: '1200px',
-                    margin: '4rem auto 0 auto',
-                    width: '100%'
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '20px'
                   }}>
                     {[
-                      { name: 'Air Jordan Collection', count: '120+ styles', color: '#ff6b6b' },
-                      { name: 'Yeezy Exclusives', count: '85+ styles', color: '#4ecdc4' },
-                      { name: 'Nike Classics', count: '200+ styles', color: '#45b7d1' },
-                      { name: 'Limited Editions', count: '45+ styles', color: '#96ceb4' }
+                      { name: 'Basketball', emoji: '🏀', color: '#ff6b6b' },
+                      { name: 'Running', emoji: '🏃', color: '#4ecdc4' },
+                      { name: 'Lifestyle', emoji: '✨', color: '#45b7d1' },
+                      { name: 'Limited', emoji: '🔥', color: '#96ceb4' }
                     ].map((category, index) => (
                       <div key={index} style={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        background: 'rgba(255, 255, 255, 0.9)',
                         backdropFilter: 'blur(15px)',
-                        borderRadius: '20px',
-                        padding: '2rem',
+                        borderRadius: '12px',
+                        padding: '20px',
                         textAlign: 'center',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
                         cursor: 'pointer',
                         transition: 'all 0.3s ease'
                       }}
-                      className="category-card">
+                      className="category-pill">
                         <div style={{
-                          width: '80px',
-                          height: '80px',
-                          background: `linear-gradient(135deg, ${category.color}, ${category.color}88)`,
-                          borderRadius: '50%',
-                          margin: '0 auto 1.5rem auto',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           fontSize: '2rem',
-                          boxShadow: `0 10px 25px ${category.color}40`
+                          marginBottom: '8px'
                         }}>
-                          👟
+                          {category.emoji}
                         </div>
                         
-                        <h3 style={{
-                          fontSize: '1.2rem',
-                          fontWeight: '700',
-                          color: '#1a1a1a',
-                          margin: '0 0 0.5rem 0'
+                        <div style={{
+                          fontFamily: '"Beatrice Trial", sans-serif',
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          color: '#000'
                         }}>
                           {category.name}
-                        </h3>
-                        
-                        <p style={{
-                          fontSize: '0.9rem',
-                          color: '#666',
-                          margin: 0
-                        }}>
-                          {category.count}
-                        </p>
+                        </div>
                       </div>
                     ))}
                   </div>

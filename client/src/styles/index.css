@@ -114,18 +114,41 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Full-screen catalog responsive design */
+/* Builder.io catalog hover effects */
+.category-pill:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+}
+
+.builder-catalog button:hover {
+  transform: translateY(-2px) !important;
+  opacity: 0.9 !important;
+}
+
+/* Navigation menu hover effects */
+.builder-catalog .nav-item:hover {
+  opacity: 0.7 !important;
+}
+
+/* Builder.io catalog responsive design */
 @media screen and (max-width: 768px) {
-  .catalog-content.builder-inspired h1 {
-    font-size: 3rem !important;
+  .builder-catalog > div {
+    padding: 20px !important;
+    flex-wrap: wrap !important;
+    flex-direction: column !important;
+    gap: 40px !important;
   }
   
-  .catalog-content.builder-inspired p {
-    font-size: 1.1rem !important;
+  .builder-catalog h1 {
+    font-size: 48px !important;
   }
   
-  .category-card {
-    padding: 1.5rem !important;
+  .builder-catalog p {
+    font-size: 16px !important;
+  }
+  
+  .category-pill {
+    padding: 15px !important;
   }
 }
 
