@@ -8,8 +8,32 @@ export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const brandsRef = useRef<HTMLDivElement>(null)
   const servicesRef = useRef<HTMLDivElement>(null)
+  const splineRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Load Spline 3D robot
+    const loadSpline = () => {
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = 'https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js';
+      document.head.appendChild(script);
+      
+      script.onload = () => {
+        if (splineRef.current) {
+          const splineViewer = document.createElement('spline-viewer');
+          splineViewer.setAttribute('url', 'https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode');
+          splineRef.current.innerHTML = '';
+          splineRef.current.appendChild(splineViewer);
+          
+          // Animate robot entrance
+          gsap.fromTo(splineRef.current, 
+            { opacity: 0 },
+            { opacity: 1, duration: 2, ease: "power2.out", delay: 1 }
+          );
+        }
+      };
+    };
+
     // Hero entrance animation
     if (heroRef.current) {
       const tl = gsap.timeline()
@@ -26,6 +50,9 @@ export default function HomePage() {
         { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4"
       )
     }
+    
+    // Load the 3D robot
+    loadSpline();
 
     // Brands animation on scroll
     ScrollTrigger.create({
@@ -79,7 +106,13 @@ export default function HomePage() {
           </div>
           <div className="hero-overlay"></div>
         </div>
-        <div className="spline" data-animation-type="spline">
+        <div 
+          ref={splineRef}
+          style={{ opacity: 0 }}
+          className="spline" 
+          data-animation-type="spline"
+          data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
+        >
           <canvas></canvas>
         </div>
       </section>
