@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createServer as createViteServer } from 'vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -8,24 +9,33 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 5000;
 
-// Serve static files from the root (Webflow template for now)
-app.use(express.static(path.join(__dirname, '..')));
+async function startServer() {
+  // Create Vite dev server for React app
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: 'spa',
+    root: path.join(__dirname, '..', 'client'),
+  });
+  
+  // Use Vite's connect middleware
+  app.use(vite.ssrFixStacktrace);
+  
+  // Serve static assets from images folder
+  app.use('/images', express.static(path.join(__dirname, '..', 'images')));
+  
+  // Original Webflow template available at /original
+  app.get('/original', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
+  });
+  
+  // Use Vite middleware for all other routes (React app)
+  app.use(vite.middlewares);
 
-// Serve React files when they're ready
-app.use('/client', express.static(path.join(__dirname, '..', 'client')));
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 React + GSAP app running on http://localhost:${PORT}`);
+    console.log(`⚛️  SoleGrithm hero section ready!`);
+    console.log(`📁 Original Webflow at /original`);
+  });
+}
 
-// Default route serves index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
-
-// React routes (when ready)
-app.get('/react', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
-});
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📁 Webflow template available at /`);
-  console.log(`⚛️  React app will be available at /react`);
-});
+startServer().catch(console.error);
