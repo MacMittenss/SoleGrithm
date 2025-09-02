@@ -29,14 +29,7 @@ export default function Navbar() {
     >
       <Link href="/">
         <a className="logo-link-wrapper w-nav-brand">
-          <img
-            width="Auto"
-            height="Auto"
-            alt="logo"
-            src="/images/iDesigner.png"
-            loading="eager"
-            className="logo"
-          />
+          <div className="brand-text">SoleGrithm</div>
         </a>
       </Link>
       

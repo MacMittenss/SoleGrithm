@@ -1,6 +1,15 @@
 /* Base Webflow styles integrated directly */
 
 /* Additional React-specific styles */
+
+.brand-text {
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Additional React-specific styles */
 :root {
   --black: #050505;
   --white: whitesmoke;
