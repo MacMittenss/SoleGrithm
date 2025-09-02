@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Navbar from '../components/Navbar'
+import AIRecommendationsGrid from '../components/AIRecommendationsGrid'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -204,6 +205,13 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* AI Recommendations Section */}
+      <section className="ai-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <AIRecommendationsGrid />
         </div>
       </section>
     </div>

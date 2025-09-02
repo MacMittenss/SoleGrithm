@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import WomenSneakersCommunity from '../components/WomenSneakersCommunity'
 
 export default function WomenInSneakersPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function WomenInSneakersPage() {
               Celebrating female sneakerheads and women's sneaker culture
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Community Section */}
+      <section className="community-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <WomenSneakersCommunity />
         </div>
       </section>
     </div>

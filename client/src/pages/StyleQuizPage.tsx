@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import StyleQuizForm from '../components/StyleQuizForm'
 
 export default function StyleQuizPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function StyleQuizPage() {
               Interactive sneaker style recommendations and personalization
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Quiz Section */}
+      <section className="quiz-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <StyleQuizForm />
         </div>
       </section>
     </div>

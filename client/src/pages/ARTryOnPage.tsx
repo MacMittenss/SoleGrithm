@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import ARTryOnExperience from '../components/ARTryOnExperience'
 
 export default function ARTryOnPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function ARTryOnPage() {
               Virtual sneaker experience with advanced AR technology
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* AR Experience Section */}
+      <section className="ar-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <ARTryOnExperience />
         </div>
       </section>
     </div>

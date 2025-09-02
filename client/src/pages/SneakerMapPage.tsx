@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import SneakerMapAI from '../components/SneakerMapAI'
 
 export default function SneakerMapPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function SneakerMapPage() {
               Geographic visualization of sneaker trends across major US cities
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Interactive Map Section */}
+      <section className="map-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <SneakerMapAI />
         </div>
       </section>
     </div>

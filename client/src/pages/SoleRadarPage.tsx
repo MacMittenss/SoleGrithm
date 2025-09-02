@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import SoleRadarImageSearch from '../components/SoleRadarImageSearch'
 
 export default function SoleRadarPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function SoleRadarPage() {
               Visual AI search for sneaker discovery and recognition
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* AI Image Search Section */}
+      <section className="ai-search-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <SoleRadarImageSearch />
         </div>
       </section>
     </div>

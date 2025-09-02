@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import LiveMarketPredictions from '../components/LiveMarketPredictions'
 
 export default function LiveMarketPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function LiveMarketPage() {
               Real-time sneaker trading with live price indicators and market analytics
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Market Analytics Section */}
+      <section className="market-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <LiveMarketPredictions />
         </div>
       </section>
     </div>
