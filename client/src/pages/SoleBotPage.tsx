@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import Navbar from '../components/Navbar'
+import SoleBotChat from '../components/SoleBotChat'
 
 export default function SoleBotPage() {
   const pageRef = useRef<HTMLDivElement>(null)
@@ -27,6 +28,13 @@ export default function SoleBotPage() {
               AI chat assistant for sneaker recommendations and discovery
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Chat Section */}
+      <section className="chat-section" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
+        <div className="w-layout-blockcontainer container w-container">
+          <SoleBotChat />
         </div>
       </section>
     </div>

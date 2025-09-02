@@ -1,12 +1,16 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import aiRoutes from './routes/ai.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 5000;
+
+// Middleware for JSON parsing
+app.use(express.json({ limit: '10mb' }));
 
 // Serve static files from the root (Webflow template) for /original route
 app.use('/original', express.static(path.join(__dirname, '..')));
@@ -15,6 +19,9 @@ app.use('/original', express.static(path.join(__dirname, '..')));
 app.use('/images', express.static(path.join(__dirname, '..', 'images')));
 app.use('/css', express.static(path.join(__dirname, '..', 'css')));
 app.use('/js', express.static(path.join(__dirname, '..', 'js')));
+
+// API Routes
+app.use('/api/ai', aiRoutes);
 
 // Serve React client build files
 app.use(express.static(path.join(__dirname, '..', 'dist', 'public')));
