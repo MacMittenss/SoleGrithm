@@ -9,49 +9,56 @@
   letter-spacing: -0.02em;
 }
 
-/* Custom navbar icon expansion effect */
-.nav-link {
+/* Custom navbar icon expansion effect - Override all existing styles */
+.w-nav-menu .nav-link {
   position: relative !important;
-  overflow: hidden !important;
-  transition: all 0.4s ease !important;
+  overflow: visible !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   display: flex !important;
   align-items: center !important;
   width: auto !important;
   padding: 0.5rem 0.75rem !important;
   border-radius: 8px !important;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
-.nav-icon {
+.w-nav-menu .nav-link .nav-icon {
   font-size: 1.2rem !important;
   transition: all 0.3s ease !important;
-  display: inline-block !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   min-width: 1.5rem !important;
+  height: 1.5rem !important;
 }
 
-.nav-text {
+.w-nav-menu .nav-link .nav-text {
   margin-left: 0.5rem !important;
   white-space: nowrap !important;
   opacity: 0 !important;
+  visibility: hidden !important;
   transform: translateX(-10px) !important;
-  transition: all 0.4s ease !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   max-width: 0 !important;
   overflow: hidden !important;
   font-size: 0.9rem !important;
   font-weight: 500 !important;
 }
 
-.nav-link:hover .nav-text {
+.w-nav-menu .nav-link:hover .nav-text {
   opacity: 1 !important;
+  visibility: visible !important;
   transform: translateX(0) !important;
   max-width: 200px !important;
 }
 
-.nav-link:hover {
+.w-nav-menu .nav-link:hover {
   background: rgba(255, 255, 255, 0.1) !important;
   transform: scale(1.05) !important;
 }
 
-.nav-link-wrapper {
+.w-nav-menu .nav-link-wrapper {
   margin: 0 0.25rem !important;
 }
 
