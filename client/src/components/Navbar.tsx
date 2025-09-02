@@ -36,38 +36,65 @@ export default function Navbar() {
       <div className="nav-container w-container">
         <nav role="navigation" className="nav-menu w-nav-menu">
           <div className="nav-link-wrapper">
-            <Link href="/">
-              <a className="nav-link w-nav-link">Home</a>
+            <Link href="/live-market">
+              <a className="nav-link w-nav-link">Live Market</a>
             </Link>
-            <Link href="/">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Home</a>
-            </Link>
-          </div>
-          
-          <div className="nav-link-wrapper">
-            <Link href="/about">
-              <a className="nav-link w-nav-link">About</a>
-            </Link>
-            <Link href="/about">
-              <a className="nav-link move-down hide-on-tab w-nav-link">About</a>
+            <Link href="/live-market">
+              <a className="nav-link move-down hide-on-tab w-nav-link">Live Market</a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/works">
-              <a className="nav-link w-nav-link">Works</a>
+            <Link href="/women-in-sneakers">
+              <a className="nav-link w-nav-link">Women in Sneakers</a>
             </Link>
-            <Link href="/works">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Works</a>
+            <Link href="/women-in-sneakers">
+              <a className="nav-link move-down hide-on-tab w-nav-link">Women in Sneakers</a>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/contact">
-              <a className="nav-link w-nav-link">Contact</a>
+            <Link href="/ar-tryon">
+              <a className="nav-link w-nav-link">AR Try-On</a>
             </Link>
-            <Link href="/contact">
-              <a className="nav-link move-down hide-on-tab w-nav-link">Contact</a>
+            <Link href="/ar-tryon">
+              <a className="nav-link move-down hide-on-tab w-nav-link">AR Try-On</a>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/solebot">
+              <a className="nav-link w-nav-link">SoleBot</a>
+            </Link>
+            <Link href="/solebot">
+              <a className="nav-link move-down hide-on-tab w-nav-link">SoleBot</a>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/soleradar">
+              <a className="nav-link w-nav-link">SoleRadar</a>
+            </Link>
+            <Link href="/soleradar">
+              <a className="nav-link move-down hide-on-tab w-nav-link">SoleRadar</a>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/style-quiz">
+              <a className="nav-link w-nav-link">Style Quiz</a>
+            </Link>
+            <Link href="/style-quiz">
+              <a className="nav-link move-down hide-on-tab w-nav-link">Style Quiz</a>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/sneaker-map">
+              <a className="nav-link w-nav-link">Sneaker Map</a>
+            </Link>
+            <Link href="/sneaker-map">
+              <a className="nav-link move-down hide-on-tab w-nav-link">Sneaker Map</a>
             </Link>
           </div>
         </nav>
