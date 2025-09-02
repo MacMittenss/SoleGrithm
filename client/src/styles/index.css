@@ -899,7 +899,7 @@ blockquote {
   width: 98vw;
   padding: 0 1vw;
   text-align: center;
-  word-break: break-word;
+  white-space: nowrap;
 }
 
 .brands-wrapper {
