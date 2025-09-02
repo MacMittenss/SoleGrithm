@@ -893,10 +893,12 @@ blockquote {
 
 .hero-text {
   text-transform: none;
-  font-size: clamp(3rem, 12vw, 10rem);
+  font-size: clamp(4rem, 18vw, 14rem);
   font-weight: 600;
-  line-height: 0.9;
-  max-width: 95vw;
+  line-height: 0.85;
+  width: 98vw;
+  padding: 0 1vw;
+  text-align: center;
   word-break: break-word;
 }
 
