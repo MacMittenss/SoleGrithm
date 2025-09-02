@@ -37,65 +37,51 @@ export default function Navbar() {
       <div className="nav-container w-container">
         <nav role="navigation" className="nav-menu w-nav-menu">
           <div className="nav-link-wrapper">
-            <Link href="/live-market">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><TrendingUp size={18} /></span>
-                <span className="nav-text">Live Market</span>
-              </a>
+            <Link href="/live-market" className="nav-link w-nav-link">
+              <span className="nav-icon"><TrendingUp size={18} /></span>
+              <span className="nav-text">Live Market</span>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/women-in-sneakers">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><Users size={18} /></span>
-                <span className="nav-text">Women in Sneakers</span>
-              </a>
+            <Link href="/women-in-sneakers" className="nav-link w-nav-link">
+              <span className="nav-icon"><Users size={18} /></span>
+              <span className="nav-text">Women in Sneakers</span>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/ar-tryon">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><Smartphone size={18} /></span>
-                <span className="nav-text">AR Try-On</span>
-              </a>
+            <Link href="/ar-tryon" className="nav-link w-nav-link">
+              <span className="nav-icon"><Smartphone size={18} /></span>
+              <span className="nav-text">AR Try-On</span>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/solebot">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><Bot size={18} /></span>
-                <span className="nav-text">SoleBot</span>
-              </a>
+            <Link href="/solebot" className="nav-link w-nav-link">
+              <span className="nav-icon"><Bot size={18} /></span>
+              <span className="nav-text">SoleBot</span>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/soleradar">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><Search size={18} /></span>
-                <span className="nav-text">SoleRadar</span>
-              </a>
+            <Link href="/soleradar" className="nav-link w-nav-link">
+              <span className="nav-icon"><Search size={18} /></span>
+              <span className="nav-text">SoleRadar</span>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/style-quiz">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><Target size={18} /></span>
-                <span className="nav-text">Style Quiz</span>
-              </a>
+            <Link href="/style-quiz" className="nav-link w-nav-link">
+              <span className="nav-icon"><Target size={18} /></span>
+              <span className="nav-text">Style Quiz</span>
             </Link>
           </div>
           
           <div className="nav-link-wrapper">
-            <Link href="/sneaker-map">
-              <a className="nav-link w-nav-link">
-                <span className="nav-icon"><Map size={18} /></span>
-                <span className="nav-text">Sneaker Map</span>
-              </a>
+            <Link href="/sneaker-map" className="nav-link w-nav-link">
+              <span className="nav-icon"><Map size={18} /></span>
+              <span className="nav-text">Sneaker Map</span>
             </Link>
           </div>
         </nav>

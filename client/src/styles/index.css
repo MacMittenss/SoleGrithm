@@ -21,6 +21,8 @@
   border-radius: 8px !important;
   text-decoration: none !important;
   color: inherit !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 .w-nav-menu .nav-link .nav-icon {
