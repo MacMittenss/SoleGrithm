@@ -81,17 +81,15 @@ export default function HomePage() {
           </div>
         </div>
         <div className="spline">
-          <iframe 
-            src="https://my.spline.design/nexbotrobotcharacterconcept-MuKFwn44xdQzWJqISlDVY35e/" 
-            frameBorder="0" 
-            width="100%" 
-            height="100%"
+          <spline-viewer 
+            url="https://prod.spline.design/jcL-e63yOpq6iy51/scene.splinecode"
             style={{ 
               width: '100%', 
               height: '100%', 
               background: 'transparent'
-            }}
-          />
+            } as React.CSSProperties}
+            background="transparent"
+          ></spline-viewer>
         </div>
       </section>
 
