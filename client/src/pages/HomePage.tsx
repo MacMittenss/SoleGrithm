@@ -1,5 +1,17 @@
 import Navbar from '../components/Navbar'
 
+// Declare the spline-viewer custom element for TypeScript
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': {
+        url: string;
+        style?: React.CSSProperties;
+      };
+    }
+  }
+}
+
 export default function HomePage() {
 
   return (
@@ -30,7 +42,7 @@ export default function HomePage() {
         </div>
         <div className="spline">
           <spline-viewer 
-            url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
+            url="https://prod.spline.design/587d1e78-5e34-4a9d-995a-e6d55f59d925/scene.splinecode"
             style={{ width: '100%', height: '100%' }}
           ></spline-viewer>
         </div>
