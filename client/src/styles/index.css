@@ -267,6 +267,36 @@
   -ms-overflow-style: none !important; /* Internet Explorer 10+ */
 }
 
+/* Force navigation menu to always be visible - override all Webflow collapse rules */
+.w-nav-menu {
+  display: flex !important;
+  position: relative !important;
+  float: right !important;
+}
+
+/* Override ALL Webflow collapse behaviors */
+.w-nav[data-collapse="none"] .w-nav-menu {
+  display: flex !important;
+}
+
+.w-nav[data-collapse="small"] .w-nav-menu,
+.w-nav[data-collapse="medium"] .w-nav-menu,
+.w-nav[data-collapse="all"] .w-nav-menu {
+  display: flex !important;
+}
+
+/* Hide hamburger menu button since we want nav always visible */
+.w-nav-button {
+  display: none !important;
+}
+
+/* Make sure nav items are properly laid out */
+.nav-menu {
+  display: flex !important;
+  align-items: center !important;
+  margin-right: 2.2vw !important;
+}
+
 .nav-menu::-webkit-scrollbar {
   display: none !important; /* Safari and Chrome */
 }
