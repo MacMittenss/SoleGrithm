@@ -10,6 +10,7 @@ declare global {
         url: string;
         style?: React.CSSProperties;
         background?: string;
+        className?: string;
       };
     }
   }
@@ -27,7 +28,7 @@ export default function HomePage() {
       // Split SOLEGRITHM into individual letters
       const text = heroTextRef.current
       const letters = text.textContent?.split('') || []
-      text.innerHTML = letters.map((letter, index) => 
+      text.innerHTML = letters.map((letter) => 
         `<span style="display: inline-block; opacity: 0; transform: scale(2.5) translateZ(0);">${letter}</span>`
       ).join('')
 
@@ -82,8 +83,13 @@ export default function HomePage() {
         <div className="spline">
           <spline-viewer 
             url="https://prod.spline.design/jcL-e63yOpq6iy51/scene.splinecode"
-            style={{ width: '100%', height: '100%', background: 'transparent' }}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              background: 'transparent'
+            } as React.CSSProperties}
             background="transparent"
+            className="hide-text"
           ></spline-viewer>
         </div>
       </section>

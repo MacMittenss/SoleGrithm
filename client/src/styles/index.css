@@ -3634,3 +3634,15 @@ spline-viewer > * {
 spline-viewer * {
   background-color: transparent !important;
 }
+
+/* Hide any NEXBOT text within Spline viewer */
+spline-viewer [class*="text"],
+spline-viewer [class*="Text"],
+spline-viewer [class*="label"],
+spline-viewer [class*="Label"],
+spline-viewer text,
+spline-viewer tspan {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
