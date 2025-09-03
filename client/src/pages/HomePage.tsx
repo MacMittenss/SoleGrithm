@@ -7,6 +7,7 @@ declare global {
       'spline-viewer': {
         url: string;
         style?: React.CSSProperties;
+        background?: string;
       };
     }
   }
@@ -42,7 +43,8 @@ export default function HomePage() {
         <div className="spline">
           <spline-viewer 
             url="https://prod.spline.design/jcL-e63yOpq6iy51/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', background: 'transparent' }}
+            background="transparent"
           ></spline-viewer>
         </div>
       </section>
