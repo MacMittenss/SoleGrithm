@@ -1,12 +1,23 @@
-import { Link } from 'wouter'
-import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle } from 'lucide-react'
+import { Link, useLocation } from 'wouter'
+import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle, Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
 export default function Navbar() {
   const navRef = useRef<HTMLDivElement>(null)
+  const [location] = useLocation()
+  const [isNavigating, setIsNavigating] = useState(false)
   const [aiDropdownOpen, setAiDropdownOpen] = useState(false)
   const [communityDropdownOpen, setCommunityDropdownOpen] = useState(false)
+
+  const handleNavigation = () => {
+    setIsNavigating(true)
+    // Close dropdowns when navigating
+    setAiDropdownOpen(false)
+    setCommunityDropdownOpen(false)
+    // Reset navigation state after transition
+    setTimeout(() => setIsNavigating(false), 400)
+  }
 
   useEffect(() => {
     // GSAP navbar entrance animation
@@ -57,7 +68,7 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link href="/">
-            <a style={{ textDecoration: 'none' }}>
+            <a onClick={handleNavigation} style={{ textDecoration: 'none' }}>
               <div className="brand-text">SOLEGRITHM</div>
             </a>
           </Link>
@@ -69,17 +80,19 @@ export default function Navbar() {
               return (
                 <Link key={item.name} href={item.href}>
                   <a 
+                    onClick={handleNavigation}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.5rem',
-                      color: 'var(--white)',
+                      color: location === item.href ? '#4facfe' : 'var(--white)',
                       textDecoration: 'none',
                       fontSize: '0.9rem',
                       fontWeight: '500',
                       padding: '0.5rem',
                       borderRadius: '8px',
                       transition: 'all 0.2s ease',
+                      backgroundColor: location === item.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                     }}
                   >
                     <IconComponent size={18} />
@@ -136,15 +149,17 @@ export default function Navbar() {
                     return (
                       <Link key={feature.name} href={feature.href}>
                         <a 
+                          onClick={handleNavigation}
                           style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.75rem',
-                            color: 'var(--white)',
+                            color: location === feature.href ? '#4facfe' : 'var(--white)',
                             textDecoration: 'none',
                             padding: '0.75rem',
                             borderRadius: '8px',
                             transition: 'all 0.2s ease',
+                            backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                           }}
                         >
                           <IconComponent size={20} />
@@ -204,15 +219,17 @@ export default function Navbar() {
                     return (
                       <Link key={feature.name} href={feature.href}>
                         <a 
+                          onClick={handleNavigation}
                           style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '0.75rem',
-                            color: 'var(--white)',
+                            color: location === feature.href ? '#4facfe' : 'var(--white)',
                             textDecoration: 'none',
                             padding: '0.75rem',
                             borderRadius: '8px',
                             transition: 'all 0.2s ease',
+                            backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                           }}
                         >
                           <IconComponent size={20} />
@@ -229,25 +246,46 @@ export default function Navbar() {
           {/* User Profile */}
           <Link href="/profile">
             <a 
+              onClick={handleNavigation}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                color: 'var(--white)',
+                color: location === '/profile' ? '#4facfe' : 'var(--white)',
                 textDecoration: 'none',
                 fontSize: '0.9rem',
                 fontWeight: '500',
                 padding: '0.5rem',
                 borderRadius: '8px',
                 transition: 'all 0.2s ease',
+                backgroundColor: location === '/profile' ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
               }}
             >
               <User size={18} />
               <span>Profile</span>
+              {isNavigating && (
+                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+              )}
             </a>
           </Link>
         </div>
       </nav>
+      
+      {/* Global Loading Indicator */}
+      {isNavigating && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: '64px',
+            left: 0,
+            right: 0,
+            height: '3px',
+            background: 'linear-gradient(90deg, #4facfe, #00f2fe)',
+            animation: 'pulse 1.5s ease-in-out infinite',
+            zIndex: 100,
+          }}
+        />
+      )}
     </header>
   )
 }
