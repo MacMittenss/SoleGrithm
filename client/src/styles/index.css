@@ -298,6 +298,8 @@
   overflow: visible !important;
   white-space: nowrap !important;
   width: auto !important;
+  flex-wrap: nowrap !important;
+  gap: 0.1rem !important;
 }
 
 /* Ensure nav container doesn't cut off items */
@@ -314,30 +316,81 @@
   max-width: none !important;
 }
 
+/* Force navbar to use full available width */
+.navbar {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Compact nav link styling to fit more items */
+.nav-link-wrapper {
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+}
+
+.nav-link {
+  font-size: 0.75rem !important;
+  padding: 0.4rem 0.3rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
+}
+
+.nav-text {
+  font-size: 0.75rem !important;
+  white-space: nowrap !important;
+}
+
 .nav-menu::-webkit-scrollbar {
   display: none !important; /* Safari and Chrome */
 }
 
-/* Responsive navbar adjustments */
-@media screen and (max-width: 1400px) {
+/* Ultra-compact navbar for fitting all items */
+.nav-link {
+  font-size: 0.7rem !important;
+  padding: 0.3rem 0.2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.15rem !important;
+  white-space: nowrap !important;
+}
+
+.nav-text {
+  font-size: 0.7rem !important;
+}
+
+.nav-icon {
+  font-size: 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* Even more compact on smaller screens */
+@media screen and (max-width: 1600px) {
   .nav-link {
-    padding: 0 0.5vw !important;
-    font-size: 0.8rem !important;
+    padding: 0.25rem 0.15rem !important;
+    font-size: 0.65rem !important;
   }
   
-  .w-nav-menu .nav-link-wrapper {
-    margin: 0 0.05rem !important;
+  .nav-text {
+    font-size: 0.65rem !important;
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
   .nav-link {
-    padding: 0 0.4vw !important;
-    font-size: 0.75rem !important;
+    padding: 0.2rem 0.1rem !important;
+    font-size: 0.6rem !important;
   }
   
-  .w-nav-menu .nav-link-wrapper {
-    margin: 0 0.02rem !important;
+  .nav-text {
+    font-size: 0.6rem !important;
+  }
+  
+  .nav-icon {
+    font-size: 12px !important;
+    width: 12px !important;
+    height: 12px !important;
   }
 }
 

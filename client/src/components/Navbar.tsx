@@ -35,7 +35,7 @@ export default function Navbar() {
       </Link>
       
       <div className="nav-container w-container">
-        <nav role="navigation" className="nav-menu w-nav-menu">
+        <nav role="navigation" className="nav-menu w-nav-menu flex-nowrap">
           <div className="nav-link-wrapper">
             <Link href="/catalog" className="nav-link w-nav-link">
               <span className="nav-icon"><Grid3X3 size={18} /></span>
