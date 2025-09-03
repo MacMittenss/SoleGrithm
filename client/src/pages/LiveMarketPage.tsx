@@ -228,7 +228,168 @@ export default function LiveMarketPage() {
             )}
 
             {activeTab === 'catalog' && (
-              <CatalogPage />
+              <div className="catalog-content">
+                {/* Background Texture */}
+                <div 
+                  className="absolute inset-0 w-full h-full opacity-20 mix-blend-soft-light -z-10"
+                  style={{
+                    backgroundImage: "url('https://api.builder.io/api/v1/image/assets/TEMP/9701428950dde47ae49b6aabe6b53c89bc8b7882?width=2598')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat"
+                  }}
+                />
+                
+                {/* Catalog Header */}
+                <div className="catalog-header mb-8">
+                  <div className="flex items-center justify-between px-6 md:px-12 py-8 bg-white/80 backdrop-blur-sm rounded-lg">
+                    {/* Navigation */}
+                    <nav className="hidden md:flex gap-10">
+                      <a href="#" className="text-black font-beatrice-deck text-sm font-medium tracking-wider uppercase hover:opacity-70 transition-opacity">
+                        Home
+                      </a>
+                      <a href="#" className="text-black font-beatrice-deck text-sm font-medium tracking-wider uppercase hover:opacity-70 transition-opacity">
+                        Collections
+                      </a>
+                      <a href="#" className="text-black font-beatrice-deck text-sm font-medium tracking-wider uppercase hover:opacity-70 transition-opacity">
+                        New
+                      </a>
+                    </nav>
+
+                    {/* Center Logo */}
+                    <div className="flex-1 text-center">
+                      <h1 className="text-black font-beatrice-deck text-2xl font-bold tracking-wider uppercase">
+                        SOLEGRITHM
+                      </h1>
+                    </div>
+
+                    {/* Right Icons */}
+                    <div className="flex items-center gap-6">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+                        <circle cx="11" cy="11" r="8" stroke="black" strokeWidth="2"/>
+                        <path d="m21 21-4.35-4.35" stroke="black" strokeWidth="2"/>
+                      </svg>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+                        <circle cx="8" cy="21" r="1" stroke="black" strokeWidth="2"/>
+                        <circle cx="19" cy="21" r="1" stroke="black" strokeWidth="2"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L21.16 9H5.12" stroke="black" strokeWidth="2"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="flex gap-10 px-6 md:px-12">
+                  {/* Filters Sidebar */}
+                  <div className="hidden lg:block w-80 bg-white/80 backdrop-blur-sm rounded-lg p-6">
+                    <div className="space-y-8">
+                      {/* Size Filter */}
+                      <div>
+                        <h3 className="text-black font-beatrice-deck text-sm font-bold tracking-wider uppercase mb-4">
+                          Size
+                        </h3>
+                        <div className="grid grid-cols-3 gap-2">
+                          {['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12', '13'].map((size) => (
+                            <button
+                              key={size}
+                              className="p-2 border border-gray-300 rounded hover:bg-gray-50 text-sm font-beatrice-deck font-medium"
+                            >
+                              {size}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Category Filter */}
+                      <div>
+                        <h3 className="text-black font-beatrice-deck text-sm font-bold tracking-wider uppercase mb-4">
+                          Category
+                        </h3>
+                        <div className="space-y-3">
+                          {['Basketball', 'Running', 'Lifestyle', 'Soccer', 'Skateboarding'].map((category) => (
+                            <label key={category} className="flex items-center gap-3">
+                              <input type="checkbox" className="w-4 h-4" />
+                              <span className="text-black font-beatrice-deck text-sm font-medium tracking-wider">
+                                {category}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Brand Filter */}
+                      <div>
+                        <h3 className="text-black font-beatrice-deck text-sm font-bold tracking-wider uppercase mb-4">
+                          Brand
+                        </h3>
+                        <div className="space-y-3">
+                          {['Nike', 'Adidas', 'Jordan', 'New Balance', 'Puma'].map((brand) => (
+                            <label key={brand} className="flex items-center gap-3">
+                              <input type="checkbox" className="w-4 h-4" />
+                              <span className="text-black font-beatrice-deck text-sm font-medium tracking-wider">
+                                {brand}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Product Grid */}
+                  <div className="flex-1">
+                    <div className="mb-6 flex items-center justify-between">
+                      <h2 className="text-black font-beatrice-deck text-xl font-bold tracking-wider uppercase">
+                        Sneakers
+                      </h2>
+                      <div className="flex items-center gap-4">
+                        <span className="text-gray-600 font-beatrice text-sm">
+                          Showing {mockSneakers.length} products
+                        </span>
+                        <select className="border border-gray-300 rounded px-3 py-1 text-sm font-beatrice">
+                          <option>Sort by: Featured</option>
+                          <option>Price: Low to High</option>
+                          <option>Price: High to Low</option>
+                          <option>Newest</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {mockSneakers.map((sneaker) => (
+                        <div key={sneaker.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                          <div className="aspect-square bg-gray-100 flex items-center justify-center">
+                            <span className="text-gray-500 font-beatrice text-sm">Sneaker Image</span>
+                          </div>
+                          <div className="p-4">
+                            <h3 className="font-beatrice-deck font-bold text-sm tracking-wider uppercase text-black mb-1">
+                              {sneaker.name}
+                            </h3>
+                            <p className="text-gray-600 font-beatrice text-sm mb-3">
+                              {sneaker.brand}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-gray-500 font-beatrice text-xs">Market Price</p>
+                                <p className="font-beatrice-deck font-bold text-lg text-black">
+                                  {sneaker.marketPrice}
+                                </p>
+                              </div>
+                              <div className={`px-2 py-1 rounded text-xs font-beatrice-deck font-bold ${
+                                sneaker.change.startsWith('+') 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-red-100 text-red-800'
+                              }`}>
+                                {sneaker.change}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>

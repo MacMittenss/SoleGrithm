@@ -1,6 +1,16 @@
 /* Base Webflow styles integrated directly */
+@import url("https://fonts.googleapis.com/css2?family=Beatrice+Deck+Trial:wght@400;500;700&family=Beatrice+Trial:wght@400&display=swap");
 
 /* Additional React-specific styles */
+
+/* Beatrice font definitions */
+.font-beatrice-deck {
+  font-family: 'Beatrice Deck Trial', serif !important;
+}
+
+.font-beatrice {
+  font-family: 'Beatrice Trial', sans-serif !important;
+}
 
 .brand-text {
   color: var(--white);
