@@ -1,5 +1,5 @@
 import { Link } from 'wouter'
-import { TrendingUp, Users, Smartphone, Bot, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle } from 'lucide-react'
+import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 

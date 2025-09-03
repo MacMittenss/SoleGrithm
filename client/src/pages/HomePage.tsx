@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar'
+import Spline from '@splinetool/react-spline'
 
 export default function HomePage() {
   return (
@@ -27,12 +28,14 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div 
-          className="spline" 
-          data-animation-type="spline"
-          data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
-        >
-          <canvas></canvas>
+        <div className="spline">
+          <Spline
+            scene="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          />
         </div>
       </section>
 
