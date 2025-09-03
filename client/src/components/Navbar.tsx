@@ -91,19 +91,17 @@ export default function Navbar() {
                       fontWeight: '500',
                       padding: '0.5rem',
                       borderRadius: '8px',
-                      transition: 'all 0.2s ease',
+                      transition: 'all 0.1s ease',
                       backgroundColor: location === item.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                     }}
                     onMouseEnter={(e) => {
                       if (location !== item.href) {
                         e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                        e.currentTarget.style.transform = 'translateY(-2px)';
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (location !== item.href) {
                         e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.transform = 'translateY(0px)';
                       }
                     }}
                   >
@@ -133,7 +131,7 @@ export default function Navbar() {
                   padding: '0.5rem',
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.1s ease',
                 }}
               >
                 <MessageCircle size={18} />
@@ -170,19 +168,17 @@ export default function Navbar() {
                             textDecoration: 'none',
                             padding: '0.75rem',
                             borderRadius: '8px',
-                            transition: 'all 0.2s ease',
+                            transition: 'all 0.1s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                           }}
                           onMouseEnter={(e) => {
                             if (location !== feature.href) {
                               e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                              e.currentTarget.style.transform = 'translateX(4px)';
                             }
                           }}
                           onMouseLeave={(e) => {
                             if (location !== feature.href) {
                               e.currentTarget.style.backgroundColor = 'transparent';
-                              e.currentTarget.style.transform = 'translateX(0px)';
                             }
                           }}
                         >
@@ -215,7 +211,7 @@ export default function Navbar() {
                   padding: '0.5rem',
                   borderRadius: '8px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.1s ease',
                 }}
               >
                 <Users size={18} />
@@ -252,19 +248,17 @@ export default function Navbar() {
                             textDecoration: 'none',
                             padding: '0.75rem',
                             borderRadius: '8px',
-                            transition: 'all 0.2s ease',
+                            transition: 'all 0.1s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                           }}
                           onMouseEnter={(e) => {
                             if (location !== feature.href) {
                               e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                              e.currentTarget.style.transform = 'translateX(4px)';
                             }
                           }}
                           onMouseLeave={(e) => {
                             if (location !== feature.href) {
                               e.currentTarget.style.backgroundColor = 'transparent';
-                              e.currentTarget.style.transform = 'translateX(0px)';
                             }
                           }}
                         >
@@ -293,19 +287,17 @@ export default function Navbar() {
                 fontWeight: '500',
                 padding: '0.5rem',
                 borderRadius: '8px',
-                transition: 'all 0.2s ease',
+                transition: 'all 0.1s ease',
                 backgroundColor: location === '/profile' ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
               }}
               onMouseEnter={(e) => {
                 if (location !== '/profile') {
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (location !== '/profile') {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(0px)';
                 }
               }}
             >
