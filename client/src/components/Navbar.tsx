@@ -27,49 +27,48 @@ export default function Navbar() {
   ];
 
   const aiFeatures = [
-    { name: 'SoleBot', href: '/solebot', icon: Bot, desc: 'AI Chat Assistant' },
-    { name: 'Visual Search', href: '/visual-search', icon: Eye, desc: 'AI Image Recognition' },
-    { name: 'SoleRadar', href: '/soleradar', icon: Search, desc: 'Smart Discovery' },
-    { name: 'Style Quiz', href: '/style-quiz', icon: Target, desc: 'Personal Recommendations' }
+    { name: 'SoleBot', href: '/solebot', icon: Bot },
+    { name: 'Visual Search', href: '/visual-search', icon: Eye },
+    { name: 'SoleRadar', href: '/soleradar', icon: Search },
+    { name: 'Style Quiz', href: '/style-quiz', icon: Target }
   ];
 
   const communityFeatures = [
-    { name: 'AR Try-On', href: '/ar-tryon', icon: Smartphone, desc: 'Virtual Reality' },
-    { name: 'Women in Sneakers', href: '/women-in-sneakers', icon: Users, desc: 'Community Hub' },
-    { name: 'Sneaker Map', href: '/sneaker-map', icon: Map, desc: 'Geographic Trends' }
+    { name: 'AR Try-On', href: '/ar-tryon', icon: Smartphone },
+    { name: 'Women in Sneakers', href: '/women-in-sneakers', icon: Users },
+    { name: 'Sneaker Map', href: '/sneaker-map', icon: Map }
   ];
 
   return (
     <header
       ref={navRef}
-      className="navbar-modern"
       style={{ 
         position: 'sticky',
         top: 0,
         zIndex: 50,
         backgroundColor: 'var(--black)',
         borderBottom: '1px solid rgba(255,255,255,0.1)',
-        backdropFilter: 'blur(8px)'
+        backdropFilter: 'blur(8px)',
+        width: '100%'
       }}
     >
-      <nav className="navbar-container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1rem' }}>
-        <div className="navbar-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
+      <nav style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
           
           {/* Logo */}
           <Link href="/">
-            <a className="logo-modern" style={{ textDecoration: 'none' }}>
+            <a style={{ textDecoration: 'none' }}>
               <div className="brand-text">SOLEGRITHM</div>
             </a>
           </Link>
           
           {/* Main Navigation */}
-          <div className="nav-main" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
             {mainNavigation.map((item) => {
               const IconComponent = item.icon;
               return (
                 <Link key={item.name} href={item.href}>
                   <a 
-                    className="nav-item-main"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -82,12 +81,6 @@ export default function Navbar() {
                       borderRadius: '8px',
                       transition: 'all 0.2s ease',
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}
                   >
                     <IconComponent size={18} />
                     <span>{item.name}</span>
@@ -98,19 +91,17 @@ export default function Navbar() {
             
             {/* AI Features Dropdown */}
             <div 
-              className="nav-dropdown"
               style={{ position: 'relative' }}
               onMouseEnter={() => setAiDropdownOpen(true)}
               onMouseLeave={() => setAiDropdownOpen(false)}
             >
               <button
-                className="nav-dropdown-trigger"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
                   color: 'var(--white)',
-                  backgroundColor: 'transparent',
+                  backgroundColor: aiDropdownOpen ? 'rgba(255,255,255,0.1)' : 'transparent',
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
@@ -118,7 +109,6 @@ export default function Navbar() {
                   borderRadius: '8px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  ...(aiDropdownOpen ? { backgroundColor: 'rgba(255,255,255,0.1)' } : {})
                 }}
               >
                 <Bot size={18} />
@@ -128,7 +118,6 @@ export default function Navbar() {
               
               {aiDropdownOpen && (
                 <div 
-                  className="nav-dropdown-menu"
                   style={{
                     position: 'absolute',
                     top: '100%',
@@ -137,7 +126,7 @@ export default function Navbar() {
                     border: '1px solid rgba(255,255,255,0.1)',
                     borderRadius: '12px',
                     padding: '0.5rem',
-                    minWidth: '250px',
+                    minWidth: '200px',
                     marginTop: '0.5rem',
                     boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
                   }}
@@ -147,7 +136,6 @@ export default function Navbar() {
                     return (
                       <Link key={feature.name} href={feature.href}>
                         <a 
-                          className="nav-dropdown-item"
                           style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -158,18 +146,9 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.2s ease',
                           }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                          }}
                         >
                           <IconComponent size={20} />
-                          <div>
-                            <div style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</div>
-                            <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>{feature.desc}</div>
-                          </div>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
                         </a>
                       </Link>
                     );
@@ -180,19 +159,17 @@ export default function Navbar() {
             
             {/* Community Features Dropdown */}
             <div 
-              className="nav-dropdown"
               style={{ position: 'relative' }}
               onMouseEnter={() => setCommunityDropdownOpen(true)}
               onMouseLeave={() => setCommunityDropdownOpen(false)}
             >
               <button
-                className="nav-dropdown-trigger"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
                   color: 'var(--white)',
-                  backgroundColor: 'transparent',
+                  backgroundColor: communityDropdownOpen ? 'rgba(255,255,255,0.1)' : 'transparent',
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
@@ -200,7 +177,6 @@ export default function Navbar() {
                   borderRadius: '8px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  ...(communityDropdownOpen ? { backgroundColor: 'rgba(255,255,255,0.1)' } : {})
                 }}
               >
                 <Users size={18} />
@@ -210,7 +186,6 @@ export default function Navbar() {
               
               {communityDropdownOpen && (
                 <div 
-                  className="nav-dropdown-menu"
                   style={{
                     position: 'absolute',
                     top: '100%',
@@ -219,7 +194,7 @@ export default function Navbar() {
                     border: '1px solid rgba(255,255,255,0.1)',
                     borderRadius: '12px',
                     padding: '0.5rem',
-                    minWidth: '250px',
+                    minWidth: '200px',
                     marginTop: '0.5rem',
                     boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
                   }}
@@ -229,7 +204,6 @@ export default function Navbar() {
                     return (
                       <Link key={feature.name} href={feature.href}>
                         <a 
-                          className="nav-dropdown-item"
                           style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -240,18 +214,9 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.2s ease',
                           }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'transparent';
-                          }}
                         >
                           <IconComponent size={20} />
-                          <div>
-                            <div style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</div>
-                            <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>{feature.desc}</div>
-                          </div>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
                         </a>
                       </Link>
                     );
@@ -264,7 +229,6 @@ export default function Navbar() {
           {/* User Profile */}
           <Link href="/profile">
             <a 
-              className="nav-profile"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -276,12 +240,6 @@ export default function Navbar() {
                 padding: '0.5rem',
                 borderRadius: '8px',
                 transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
               <User size={18} />
