@@ -91,33 +91,6 @@ export default function HomePage() {
             background="transparent"
             className="hide-text"
           ></spline-viewer>
-          
-          {/* Strategic overlay to cover NEXBOT text */}
-          <div style={{
-            position: 'absolute',
-            bottom: '10%',
-            right: '10%',
-            width: '200px',
-            height: '100px',
-            background: 'var(--black)',
-            zIndex: 2,
-            pointerEvents: 'none',
-            borderRadius: '8px'
-          }}></div>
-          
-          {/* Additional overlay for different screen positions */}
-          <div style={{
-            position: 'absolute',
-            bottom: '15%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '150px',
-            height: '60px',
-            background: 'var(--black)',
-            zIndex: 2,
-            pointerEvents: 'none',
-            borderRadius: '8px'
-          }}></div>
         </div>
       </section>
 
