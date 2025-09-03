@@ -295,6 +295,23 @@
   display: flex !important;
   align-items: center !important;
   margin-right: 2.2vw !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  width: auto !important;
+}
+
+/* Ensure nav container doesn't cut off items */
+.nav-container {
+  overflow: visible !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* Make navbar container wider to fit all items */
+.navbar .w-container {
+  overflow: visible !important;
+  width: 100% !important;
+  max-width: none !important;
 }
 
 .nav-menu::-webkit-scrollbar {
@@ -302,14 +319,25 @@
 }
 
 /* Responsive navbar adjustments */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
   .nav-link {
-    padding: 0 0.6vw !important;
-    font-size: 0.85rem !important;
+    padding: 0 0.5vw !important;
+    font-size: 0.8rem !important;
   }
   
   .w-nav-menu .nav-link-wrapper {
-    margin: 0 0.1rem !important;
+    margin: 0 0.05rem !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .nav-link {
+    padding: 0 0.4vw !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .w-nav-menu .nav-link-wrapper {
+    margin: 0 0.02rem !important;
   }
 }
 
