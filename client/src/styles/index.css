@@ -267,132 +267,62 @@
   -ms-overflow-style: none !important; /* Internet Explorer 10+ */
 }
 
-/* Force navigation menu to always be visible - override all Webflow collapse rules */
-.w-nav-menu {
-  display: flex !important;
-  position: relative !important;
-  float: right !important;
+/* Modern Navbar Styles - preserving dark theme */
+.navbar-modern {
+  width: 100%;
+  backdrop-filter: blur(8px);
 }
 
-/* Override ALL Webflow collapse behaviors */
-.w-nav[data-collapse="none"] .w-nav-menu {
-  display: flex !important;
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.w-nav[data-collapse="small"] .w-nav-menu,
-.w-nav[data-collapse="medium"] .w-nav-menu,
-.w-nav[data-collapse="all"] .w-nav-menu {
-  display: flex !important;
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
 }
 
-/* Hide hamburger menu button since we want nav always visible */
-.w-nav-button {
-  display: none !important;
+.logo-modern {
+  text-decoration: none;
 }
 
-/* Make sure nav items are properly laid out */
-.nav-menu {
-  display: flex !important;
-  align-items: center !important;
-  margin-right: 2.2vw !important;
-  overflow: visible !important;
-  white-space: nowrap !important;
-  width: auto !important;
-  flex-wrap: nowrap !important;
-  gap: 0.1rem !important;
+.nav-main {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
-/* Ensure nav container doesn't cut off items */
-.nav-container {
-  overflow: visible !important;
-  width: auto !important;
-  max-width: none !important;
+/* Responsive navbar - hide detailed nav on smaller screens */
+@media screen and (max-width: 1200px) {
+  .nav-main {
+    gap: 1.5rem;
+  }
+  
+  .nav-item-main span:last-child {
+    display: none;
+  }
+  
+  .nav-dropdown-trigger span:not(:first-child):not(:last-child) {
+    display: none;
+  }
 }
 
-/* Make navbar container wider to fit all items */
-.navbar .w-container {
-  overflow: visible !important;
-  width: 100% !important;
-  max-width: none !important;
-}
-
-/* Force navbar to use full available width */
-.navbar {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* Compact nav link styling to fit more items */
-.nav-link-wrapper {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-}
-
-.nav-link {
-  font-size: 0.75rem !important;
-  padding: 0.4rem 0.3rem !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.25rem !important;
-}
-
-.nav-text {
-  font-size: 0.75rem !important;
-  white-space: nowrap !important;
+@media screen and (max-width: 768px) {
+  .nav-main {
+    display: none;
+  }
+  
+  /* Mobile menu would go here if needed */
 }
 
 .nav-menu::-webkit-scrollbar {
   display: none !important; /* Safari and Chrome */
 }
 
-/* Ultra-compact navbar for fitting all items */
-.nav-link {
-  font-size: 0.7rem !important;
-  padding: 0.3rem 0.2rem !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.15rem !important;
-  white-space: nowrap !important;
-}
-
-.nav-text {
-  font-size: 0.7rem !important;
-}
-
-.nav-icon {
-  font-size: 14px !important;
-  width: 14px !important;
-  height: 14px !important;
-}
-
-/* Even more compact on smaller screens */
-@media screen and (max-width: 1600px) {
-  .nav-link {
-    padding: 0.25rem 0.15rem !important;
-    font-size: 0.65rem !important;
-  }
-  
-  .nav-text {
-    font-size: 0.65rem !important;
-  }
-}
-
-@media screen and (max-width: 1400px) {
-  .nav-link {
-    padding: 0.2rem 0.1rem !important;
-    font-size: 0.6rem !important;
-  }
-  
-  .nav-text {
-    font-size: 0.6rem !important;
-  }
-  
-  .nav-icon {
-    font-size: 12px !important;
-    width: 12px !important;
-    height: 12px !important;
-  }
-}
 
 /* Additional React-specific styles */
 :root {
