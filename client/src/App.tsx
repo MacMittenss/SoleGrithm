@@ -10,12 +10,24 @@ import SoleBotPage from './pages/SoleBotPage'
 import SoleRadarPage from './pages/SoleRadarPage'
 import StyleQuizPage from './pages/StyleQuizPage'
 import SneakerMapPage from './pages/SneakerMapPage'
+import CatalogPage from './pages/CatalogPage'
+import DiscoverPage from './pages/DiscoverPage'
+import VisualSearchPage from './pages/VisualSearchPage'
+import CollectionsPage from './pages/CollectionsPage'
+import BlogPage from './pages/BlogPage'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   return (
     <div className="app">
       <Router>
         <Route path="/" component={HomePage} />
+        <Route path="/catalog" component={CatalogPage} />
+        <Route path="/discover" component={DiscoverPage} />
+        <Route path="/visual-search" component={VisualSearchPage} />
+        <Route path="/collections" component={CollectionsPage} />
+        <Route path="/blog" component={BlogPage} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/work/:id" component={WorkDetailPage} />

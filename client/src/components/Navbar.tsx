@@ -1,5 +1,5 @@
 import { Link } from 'wouter'
-import { TrendingUp, Users, Smartphone, Bot, Search, Target, Map } from 'lucide-react'
+import { TrendingUp, Users, Smartphone, Bot, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
@@ -37,9 +37,44 @@ export default function Navbar() {
       <div className="nav-container w-container">
         <nav role="navigation" className="nav-menu w-nav-menu">
           <div className="nav-link-wrapper">
+            <Link href="/catalog" className="nav-link w-nav-link">
+              <span className="nav-icon"><Grid3X3 size={18} /></span>
+              <span className="nav-text">Catalog</span>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
             <Link href="/live-market" className="nav-link w-nav-link">
               <span className="nav-icon"><TrendingUp size={18} /></span>
               <span className="nav-text">Live Market</span>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/discover" className="nav-link w-nav-link">
+              <span className="nav-icon"><Compass size={18} /></span>
+              <span className="nav-text">Discover</span>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/visual-search" className="nav-link w-nav-link">
+              <span className="nav-icon"><Eye size={18} /></span>
+              <span className="nav-text">Visual Search</span>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/collections" className="nav-link w-nav-link">
+              <span className="nav-icon"><Heart size={18} /></span>
+              <span className="nav-text">Collections</span>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/blog" className="nav-link w-nav-link">
+              <span className="nav-icon"><BookOpen size={18} /></span>
+              <span className="nav-text">Blog</span>
             </Link>
           </div>
           
@@ -82,6 +117,13 @@ export default function Navbar() {
             <Link href="/sneaker-map" className="nav-link w-nav-link">
               <span className="nav-icon"><Map size={18} /></span>
               <span className="nav-text">Sneaker Map</span>
+            </Link>
+          </div>
+          
+          <div className="nav-link-wrapper">
+            <Link href="/profile" className="nav-link w-nav-link">
+              <span className="nav-icon"><User size={18} /></span>
+              <span className="nav-text">Profile</span>
             </Link>
           </div>
         </nav>
