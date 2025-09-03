@@ -94,6 +94,18 @@ export default function Navbar() {
                       transition: 'all 0.2s ease',
                       backgroundColor: location === item.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                     }}
+                    onMouseEnter={(e) => {
+                      if (location !== item.href) {
+                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (location !== item.href) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.transform = 'translateY(0px)';
+                      }
+                    }}
                   >
                     <IconComponent size={18} />
                     <span>{item.name}</span>
@@ -283,6 +295,18 @@ export default function Navbar() {
                 borderRadius: '8px',
                 transition: 'all 0.2s ease',
                 backgroundColor: location === '/profile' ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
+              }}
+              onMouseEnter={(e) => {
+                if (location !== '/profile') {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (location !== '/profile') {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.transform = 'translateY(0px)';
+                }
               }}
             >
               <User size={18} />
