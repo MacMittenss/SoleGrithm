@@ -40,26 +40,22 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div className="spline" style={{ 
-          background: 'radial-gradient(circle, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0.9) 100%)',
+        <div style={{
+          width: '100vw',
+          height: '60vh',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          background: 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '2rem',
+          fontWeight: 'bold',
+          zIndex: -1
         }}>
-          <spline-viewer 
-            url="https://prod.spline.design/jcL-e63yOpq6iy51/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          ></spline-viewer>
-          <div style={{
-            position: 'absolute',
-            color: 'white',
-            fontSize: '1rem',
-            textAlign: 'center',
-            zIndex: 1
-          }}>
-            <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>🤖</div>
-            <div>Loading NEXBOT...</div>
-          </div>
+          🤖 TEST: CAN YOU SEE THIS? 🤖
         </div>
       </section>
 
