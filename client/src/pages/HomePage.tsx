@@ -128,11 +128,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Test Section */}
+      <section style={{ backgroundColor: 'red', padding: '2rem', color: 'white' }}>
+        <h2>TEST SECTION - Can you see this?</h2>
+      </section>
+
       {/* Flagship Features Section */}
       <section className="section flagship-section" ref={flagshipRef} style={{
         backgroundColor: '#050505',
         padding: '6rem 0',
-        minHeight: '100vh'
+        minHeight: '50vh'
       }}>
         <div className="w-layout-blockcontainer container padding-4-5rem w-container">
           <div className="flagship-wrapper">
