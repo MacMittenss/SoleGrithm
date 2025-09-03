@@ -75,47 +75,6 @@ export default function HomePage() {
       </section>
 
       
-      <div style={{ backgroundColor: 'black', padding: '4rem 0', color: 'white', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>Our Flagship Features</h2>
-        
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', maxWidth: '1000px', margin: '0 auto', flexWrap: 'wrap' }}>
-          
-          <div style={{ 
-            background: 'rgba(255,255,255,0.1)', 
-            padding: '2rem', 
-            borderRadius: '15px',
-            width: '400px',
-            backdropFilter: 'blur(10px)'
-          }}>
-            <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>👩‍🦰</div>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Women in Sneakers</h3>
-            <p style={{ fontSize: '1rem', lineHeight: '1.5', marginBottom: '1.5rem' }}>
-              Celebrating female sneakerheads and women's sneaker culture. Join our community of passionate women.
-            </p>
-            <a href="/women-in-sneakers" style={{ color: '#ff6b9d', textDecoration: 'none' }}>
-              Explore Community →
-            </a>
-          </div>
-
-          <div style={{ 
-            background: 'rgba(255,255,255,0.1)', 
-            padding: '2rem', 
-            borderRadius: '15px',
-            width: '400px',
-            backdropFilter: 'blur(10px)'
-          }}>
-            <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>📱</div>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>AR Try-On</h3>
-            <p style={{ fontSize: '1rem', lineHeight: '1.5', marginBottom: '1.5rem' }}>
-              Virtual sneaker experience with advanced AR technology. Try on any sneaker virtually before you buy.
-            </p>
-            <a href="/ar-try-on" style={{ color: '#4facfe', textDecoration: 'none' }}>
-              Try AR Experience →
-            </a>
-          </div>
-          
-        </div>
-      </div>
     </div>
   )
 }
