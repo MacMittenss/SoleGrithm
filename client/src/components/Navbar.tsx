@@ -1,5 +1,5 @@
 import { Link } from 'wouter'
-import { TrendingUp, Users, Smartphone, Bot, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown } from 'lucide-react'
+import { TrendingUp, Users, Smartphone, Bot, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
@@ -27,7 +27,7 @@ export default function Navbar() {
   ];
 
   const aiFeatures = [
-    { name: 'SoleBot', href: '/solebot', icon: Bot },
+    { name: 'SoleBot', href: '/solebot', icon: MessageCircle },
     { name: 'Visual Search', href: '/visual-search', icon: Eye },
     { name: 'SoleRadar', href: '/soleradar', icon: Search },
     { name: 'Style Quiz', href: '/style-quiz', icon: Target }
@@ -111,7 +111,7 @@ export default function Navbar() {
                   transition: 'all 0.2s ease',
                 }}
               >
-                <Bot size={18} />
+                <MessageCircle size={18} />
                 <span>AI Features</span>
                 <ChevronDown size={16} style={{ transform: aiDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
               </button>
