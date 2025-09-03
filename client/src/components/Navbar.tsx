@@ -23,7 +23,7 @@ export default function Navbar() {
       data-animation="default"
       data-easing2="ease"
       data-easing="ease"
-      data-collapse="medium"
+      data-collapse="small"
       role="banner"
       data-no-scroll="1"
       data-duration="400"

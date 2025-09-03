@@ -249,7 +249,38 @@
 }
 
 .w-nav-menu .nav-link-wrapper {
-  margin: 0 0.25rem !important;
+  margin: 0 0.15rem !important;
+}
+
+/* Make navbar items more compact */
+.nav-link {
+  padding: 0 0.8vw !important;
+  font-size: 0.9rem !important;
+}
+
+/* Ensure nav menu can handle more items */
+.nav-menu {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+}
+
+.nav-menu::-webkit-scrollbar {
+  display: none !important; /* Safari and Chrome */
+}
+
+/* Responsive navbar adjustments */
+@media screen and (max-width: 1200px) {
+  .nav-link {
+    padding: 0 0.6vw !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .w-nav-menu .nav-link-wrapper {
+    margin: 0 0.1rem !important;
+  }
 }
 
 /* Additional React-specific styles */
