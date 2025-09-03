@@ -3640,9 +3640,38 @@ spline-viewer [class*="text"],
 spline-viewer [class*="Text"],
 spline-viewer [class*="label"],
 spline-viewer [class*="Label"],
+spline-viewer [class*="nexbot"],
+spline-viewer [class*="NEXBOT"],
+spline-viewer [class*="Nexbot"],
 spline-viewer text,
-spline-viewer tspan {
+spline-viewer tspan,
+spline-viewer div[style*="font"],
+spline-viewer span[style*="font"],
+spline-viewer p,
+spline-viewer h1,
+spline-viewer h2,
+spline-viewer h3,
+spline-viewer h4,
+spline-viewer h5,
+spline-viewer h6 {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+/* Target all potential text-containing elements in Spline */
+spline-viewer * {
+  text-indent: -9999px !important;
+}
+
+spline-viewer *[class*="text"]:before,
+spline-viewer *[class*="text"]:after {
+  display: none !important;
+}
+
+/* If text is rendered on canvas, try to hide it with canvas filters */
+spline-viewer canvas {
+  filter: contrast(1.2) brightness(1.1);
 }
