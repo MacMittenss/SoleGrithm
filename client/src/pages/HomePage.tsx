@@ -1,30 +1,6 @@
 import Navbar from '../components/Navbar'
-import { useEffect } from 'react'
 
 export default function HomePage() {
-  useEffect(() => {
-    // Initialize Spline animations (mimicking original Webflow behavior)
-    const initializeSplineAnimations = async () => {
-      const splineElements = document.querySelectorAll('[data-animation-type="spline"]');
-      
-      for (const element of splineElements) {
-        const splineUrl = element.getAttribute('data-spline-url');
-        const canvas = element.querySelector('canvas');
-        
-        if (splineUrl && canvas) {
-          try {
-            const { Application } = await import('@splinetool/runtime');
-            const app = new Application(canvas as HTMLCanvasElement);
-            await app.load(splineUrl);
-          } catch (error) {
-            console.log('Spline loading error:', error);
-          }
-        }
-      }
-    };
-
-    initializeSplineAnimations();
-  }, []);
 
   return (
     <div className="home-page">
@@ -52,12 +28,11 @@ export default function HomePage() {
             </a>
           </div>
         </div>
-        <div 
-          className="spline" 
-          data-animation-type="spline"
-          data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
-        >
-          <canvas></canvas>
+        <div className="spline">
+          <spline-viewer 
+            url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
+            style={{ width: '100%', height: '100%' }}
+          ></spline-viewer>
         </div>
       </section>
 
