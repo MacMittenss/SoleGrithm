@@ -42,7 +42,7 @@ export default function HomePage() {
         </div>
         <div className="spline">
           <spline-viewer 
-            url="https://prod.spline.design/587d1e78-5e34-4a9d-995a-e6d55f59d925/scene.splinecode"
+            url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
             style={{ width: '100%', height: '100%' }}
           ></spline-viewer>
         </div>
