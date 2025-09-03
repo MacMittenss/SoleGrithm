@@ -74,148 +74,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Flagship Features Section */}
-      <section style={{
-        backgroundColor: '#050505',
-        padding: '6rem 0',
-        minHeight: '60vh'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-          <div style={{ marginBottom: '4rem', textAlign: 'center' }}>
-            <h2 style={{ 
-              fontSize: '3rem', 
-              fontWeight: '600', 
-              color: '#ffffff', 
-              marginBottom: '1rem'
-            }}>
-              Our Flagship Features
-            </h2>
-            <p style={{ 
-              fontSize: '1.2rem', 
-              color: '#d1d5db', 
-              maxWidth: '600px', 
-              margin: '0 auto',
-              lineHeight: '1.6'
-            }}>
-              Discover the future of sneaker culture with our innovative community and technology features
-            </p>
+      <div style={{padding: '2rem', textAlign: 'center', backgroundColor: '#222'}}>
+        <h2 style={{color: 'white', marginBottom: '2rem'}}>Our Flagship Features</h2>
+        <div style={{display: 'flex', justifyContent: 'center', gap: '2rem'}}>
+          <div style={{padding: '1rem', background: '#333', borderRadius: '8px'}}>
+            <h3 style={{color: 'white'}}>Women in Sneakers</h3>
           </div>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '2rem',
-            maxWidth: '900px',
-            margin: '0 auto'
-          }}>
-            
-            {/* Women in Sneakers Card */}
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: '20px',
-              padding: '2.5rem',
-              minHeight: '300px'
-            }}>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{
-                  width: '60px',
-                  height: '60px',
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem'
-                }}>
-                  👩‍🦰
-                </div>
-              </div>
-              <h3 style={{
-                fontSize: '1.8rem',
-                fontWeight: '700',
-                color: '#ffffff',
-                marginBottom: '1rem'
-              }}>
-                Women in Sneakers
-              </h3>
-              <p style={{
-                fontSize: '1.1rem',
-                color: '#d1d5db',
-                lineHeight: '1.6',
-                marginBottom: '2rem'
-              }}>
-                Celebrating female sneakerheads and women's sneaker culture. Join our community of passionate women who share the love for exclusive kicks and street style.
-              </p>
-              <a href="/women-in-sneakers" style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#ff6b9d',
-                fontSize: '1rem',
-                fontWeight: '600',
-                textDecoration: 'none'
-              }}>
-                Explore Community →
-              </a>
-            </div>
-
-            {/* AR Try-On Card */}
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              borderRadius: '20px',
-              padding: '2.5rem',
-              minHeight: '300px'
-            }}>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{
-                  width: '60px',
-                  height: '60px',
-                  background: 'linear-gradient(135deg, #4facfe, #00f2fe)',
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.5rem'
-                }}>
-                  📱
-                </div>
-              </div>
-              <h3 style={{
-                fontSize: '1.8rem',
-                fontWeight: '700',
-                color: '#ffffff',
-                marginBottom: '1rem'
-              }}>
-                AR Try-On
-              </h3>
-              <p style={{
-                fontSize: '1.1rem',
-                color: '#d1d5db',
-                lineHeight: '1.6',
-                marginBottom: '2rem'
-              }}>
-                Virtual sneaker experience with advanced AR technology. Try on any sneaker virtually before you buy, using cutting-edge augmented reality.
-              </p>
-              <a href="/ar-try-on" style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: '#4facfe',
-                fontSize: '1rem',
-                fontWeight: '600',
-                textDecoration: 'none'
-              }}>
-                Try AR Experience →
-              </a>
-            </div>
-            
+          <div style={{padding: '1rem', background: '#333', borderRadius: '8px'}}>
+            <h3 style={{color: 'white'}}>AR Try-On</h3>
           </div>
         </div>
-      </section>
+      </div>
       
     </div>
   )
