@@ -74,6 +74,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Test Section */}
+      <section style={{ backgroundColor: 'red', padding: '2rem', color: 'white', textAlign: 'center' }}>
+        <h2>TEST SECTION AFTER BRANDS</h2>
+      </section>
+
       {/* Flagship Features Section */}
       <section style={{
         backgroundColor: '#050505',
