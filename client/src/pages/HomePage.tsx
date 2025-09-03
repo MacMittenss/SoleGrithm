@@ -13,48 +13,17 @@ export default function HomePage() {
   const splineRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Load Spline 3D robot
-    const loadSpline = () => {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js';
-      document.head.appendChild(script);
-      
-      script.onload = () => {
-        if (splineRef.current) {
-          const splineViewer = document.createElement('spline-viewer');
-          splineViewer.setAttribute('url', 'https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode');
-          splineRef.current.innerHTML = '';
-          splineRef.current.appendChild(splineViewer);
-          
-          // Animate robot entrance
-          gsap.fromTo(splineRef.current, 
-            { opacity: 0 },
-            { opacity: 1, duration: 2, ease: "power2.out", delay: 1 }
-          );
-        }
-      };
-    };
-
     // Hero entrance animation
     if (heroRef.current) {
-      const tl = gsap.timeline()
-      tl.fromTo(".hero-text", 
+      gsap.fromTo(".hero-text", 
         { scale: 0.8, opacity: 0 },
         { scale: 1, opacity: 1, duration: 1.2, ease: "back.out(1.7)" }
       )
-      .fromTo(".heading", 
+      gsap.fromTo(".heading", 
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.8"
-      )
-      .fromTo(".arrow-border-wrapper", 
-        { scale: 0, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }, "-=0.4"
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.4 }
       )
     }
-    
-    // Load the 3D robot
-    loadSpline();
 
     // Brands animation on scroll
     ScrollTrigger.create({
@@ -76,18 +45,6 @@ export default function HomePage() {
         gsap.fromTo(".flagship-card-animation", 
           { y: 80, opacity: 0 },
           { y: 0, opacity: 1, duration: 1.2, stagger: 0.3, ease: "power3.out" }
-        )
-      }
-    })
-
-    // Services animation on scroll
-    ScrollTrigger.create({
-      trigger: servicesRef.current,
-      start: "top 80%",
-      onEnter: () => {
-        gsap.fromTo(".slide-from-left-animation", 
-          { x: -100, opacity: 0 },
-          { x: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
         )
       }
     })
@@ -179,7 +136,7 @@ export default function HomePage() {
               <h2 className="section-title" style={{ 
                 fontSize: '3rem', 
                 fontWeight: '600', 
-                color: 'var(--white)', 
+                color: '#ffffff', 
                 marginBottom: '1rem',
                 letterSpacing: '0.05em'
               }}>
@@ -187,7 +144,7 @@ export default function HomePage() {
               </h2>
               <p style={{ 
                 fontSize: '1.2rem', 
-                color: 'var(--gray-300)', 
+                color: '#d1d5db', 
                 maxWidth: '600px', 
                 margin: '0 auto',
                 lineHeight: '1.6'
@@ -236,7 +193,7 @@ export default function HomePage() {
                   <h3 className="feature-title" style={{
                     fontSize: '1.8rem',
                     fontWeight: '700',
-                    color: 'var(--white)',
+                    color: '#ffffff',
                     marginBottom: '1rem',
                     letterSpacing: '0.02em'
                   }}>
@@ -244,7 +201,7 @@ export default function HomePage() {
                   </h3>
                   <p className="feature-description" style={{
                     fontSize: '1.1rem',
-                    color: 'var(--gray-300)',
+                    color: '#d1d5db',
                     lineHeight: '1.6',
                     marginBottom: '2rem'
                   }}>
@@ -299,7 +256,7 @@ export default function HomePage() {
                   <h3 className="feature-title" style={{
                     fontSize: '1.8rem',
                     fontWeight: '700',
-                    color: 'var(--white)',
+                    color: '#ffffff',
                     marginBottom: '1rem',
                     letterSpacing: '0.02em'
                   }}>
@@ -307,7 +264,7 @@ export default function HomePage() {
                   </h3>
                   <p className="feature-description" style={{
                     fontSize: '1.1rem',
-                    color: 'var(--gray-300)',
+                    color: '#d1d5db',
                     lineHeight: '1.6',
                     marginBottom: '2rem'
                   }}>
