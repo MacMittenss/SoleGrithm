@@ -129,7 +129,11 @@ export default function HomePage() {
       </section>
 
       {/* Flagship Features Section */}
-      <section className="section flagship-section" ref={flagshipRef}>
+      <section className="section flagship-section" ref={flagshipRef} style={{
+        backgroundColor: '#050505',
+        padding: '6rem 0',
+        minHeight: '100vh'
+      }}>
         <div className="w-layout-blockcontainer container padding-4-5rem w-container">
           <div className="flagship-wrapper">
             <div className="section-header" style={{ marginBottom: '4rem', textAlign: 'center' }}>
