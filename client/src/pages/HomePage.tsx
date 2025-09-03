@@ -1,48 +1,6 @@
 import Navbar from '../components/Navbar'
-import { useEffect, useRef } from 'react'
 
 export default function HomePage() {
-  const splineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Initialize Spline scene
-    const initSpline = async () => {
-      if (splineRef.current) {
-        try {
-          const { Application } = await import('@splinetool/runtime');
-          const canvas = document.createElement('canvas');
-          splineRef.current.appendChild(canvas);
-          
-          const app = new Application(canvas);
-          await app.load('https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode');
-        } catch (error) {
-          console.log('Spline loading error:', error);
-          // Fallback: show a placeholder or alternative content
-          if (splineRef.current) {
-            splineRef.current.innerHTML = `
-              <div style="
-                width: 100%; 
-                height: 100%; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center;
-                background: radial-gradient(circle, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0.9) 100%);
-                color: var(--white);
-                font-size: 1.2rem;
-              ">
-                <div style="text-align: center;">
-                  <div style="font-size: 4rem; margin-bottom: 1rem;">🤖</div>
-                  <div>AI-Powered Sneaker Discovery</div>
-                </div>
-              </div>
-            `;
-          }
-        }
-      }
-    };
-
-    initSpline();
-  }, []);
 
   return (
     <div className="home-page">
@@ -71,13 +29,27 @@ export default function HomePage() {
           </div>
         </div>
         <div 
-          ref={splineRef} 
           className="spline"
           style={{
-            width: '100%',
-            height: '100%',
+            width: '100vw',
+            height: '100vh',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            background: 'radial-gradient(circle, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0.9) 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--white)',
+            fontSize: '1.2rem',
+            zIndex: -1
           }}
-        ></div>
+        >
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🤖</div>
+            <div>AI-Powered Sneaker Discovery</div>
+          </div>
+        </div>
       </section>
 
       {/* Brands Section */}
