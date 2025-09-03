@@ -1,6 +1,30 @@
 import Navbar from '../components/Navbar'
+import { useEffect } from 'react'
 
 export default function HomePage() {
+  useEffect(() => {
+    // Initialize Spline animations (mimicking original Webflow behavior)
+    const initializeSplineAnimations = async () => {
+      const splineElements = document.querySelectorAll('[data-animation-type="spline"]');
+      
+      for (const element of splineElements) {
+        const splineUrl = element.getAttribute('data-spline-url');
+        const canvas = element.querySelector('canvas');
+        
+        if (splineUrl && canvas) {
+          try {
+            const { Application } = await import('@splinetool/runtime');
+            const app = new Application(canvas as HTMLCanvasElement);
+            await app.load(splineUrl);
+          } catch (error) {
+            console.log('Spline loading error:', error);
+          }
+        }
+      }
+    };
+
+    initializeSplineAnimations();
+  }, []);
 
   return (
     <div className="home-page">
@@ -29,26 +53,11 @@ export default function HomePage() {
           </div>
         </div>
         <div 
-          className="spline"
-          style={{
-            width: '100vw',
-            height: '100vh',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            background: 'radial-gradient(circle, rgba(5,5,5,0.8) 0%, rgba(5,5,5,0.9) 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--white)',
-            fontSize: '1.2rem',
-            zIndex: -1
-          }}
+          className="spline" 
+          data-animation-type="spline"
+          data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
         >
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🤖</div>
-            <div>AI-Powered Sneaker Discovery</div>
-          </div>
+          <canvas></canvas>
         </div>
       </section>
 
