@@ -161,6 +161,18 @@ export default function Navbar() {
                             transition: 'all 0.2s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
                           }}
+                          onMouseEnter={(e) => {
+                            if (location !== feature.href) {
+                              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                              e.currentTarget.style.transform = 'translateX(4px)';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (location !== feature.href) {
+                              e.currentTarget.style.backgroundColor = 'transparent';
+                              e.currentTarget.style.transform = 'translateX(0px)';
+                            }
+                          }}
                         >
                           <IconComponent size={20} />
                           <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
@@ -230,6 +242,18 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.2s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
+                          }}
+                          onMouseEnter={(e) => {
+                            if (location !== feature.href) {
+                              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                              e.currentTarget.style.transform = 'translateX(4px)';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (location !== feature.href) {
+                              e.currentTarget.style.backgroundColor = 'transparent';
+                              e.currentTarget.style.transform = 'translateX(0px)';
+                            }
                           }}
                         >
                           <IconComponent size={20} />
