@@ -22,7 +22,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import soleGridLogo from '@assets/S (2)_1752797110222.png';
+// import soleGridLogo from '@assets/S (2)_1752797110222.png';
 
 interface HeaderProps {
   onAIChatToggle: () => void;

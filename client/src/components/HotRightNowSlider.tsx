@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from '@/components/advanced/SplitText';
 import GradientText from '@/components/advanced/GradientText';
 import SectionWrapper from '@/components/SectionWrapper';
-import jordanLogo from '@assets/image_1755038304265.png';
+// import jordanLogo from '@assets/image_1755038304265.png';
 
 // Register GSAP plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -220,7 +220,7 @@ export default function BrandShowcase() {
     const logos: Record<string, string> = {
       'Nike': 'https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png',
       'Adidas': 'https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png',
-      'Jordan': jordanLogo,
+      'Jordan': 'https://logos-world.net/wp-content/uploads/2020/04/Jordan-Logo.png',
       'New Balance': 'https://logos-world.net/wp-content/uploads/2020/09/New-Balance-Logo.png',
       'Converse': 'https://logos-world.net/wp-content/uploads/2020/06/Converse-Logo.png',
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',

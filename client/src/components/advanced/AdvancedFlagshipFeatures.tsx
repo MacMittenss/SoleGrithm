@@ -3,13 +3,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
-import womenSneakersImage from '@assets/close-up-futuristic-sneakers (1)_1755555541238.jpg';
+// import womenSneakersImage from '@assets/close-up-futuristic-sneakers (1)_1755555541238.jpg';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 // Define arTryonImage placeholder for now
-const arTryonImage = womenSneakersImage; // You can replace this with the actual AR image
+const arTryonImage = 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80'; // Placeholder image
 
 export default function AdvancedFlagshipFeatures() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -132,7 +132,7 @@ export default function AdvancedFlagshipFeatures() {
               <div 
                 className="absolute inset-4 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105 rounded-2xl"
                 style={{
-                  backgroundImage: `url(${womenSneakersImage})`
+                  backgroundImage: `url(https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80)`
                 }}
               />
               <div className="absolute inset-4 bg-black/20 group-hover:bg-black/30 transition-all duration-500 rounded-2xl" />
