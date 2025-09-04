@@ -1034,7 +1034,7 @@ export default function Home() {
               </motion.div>
 
               {/* Visual Grid Column */}
-              <div
+              <motion.div
                 className="relative"
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1050,7 +1050,7 @@ export default function Home() {
                 >
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-4">
-                      <div
+                      <motion.div
                         className="h-32 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(255, 100, 150, 0.1), rgba(255, 150, 200, 0.1))',
@@ -1063,8 +1063,8 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                       >
                         <Heart className="w-8 h-8 text-pink-500" />
-                      </div>
-                      <div
+                      </motion.div>
+                      <motion.div
                         className="h-20 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(150, 50, 255, 0.1), rgba(200, 100, 255, 0.1))',
@@ -1077,10 +1077,10 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                       >
                         <Users className="w-6 h-6 text-purple-500" />
-                      </div>
+                      </motion.div>
                     </div>
                     <div className="space-y-4">
-                      <div
+                      <motion.div
                         className="h-20 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(100, 150, 255, 0.1), rgba(150, 200, 255, 0.1))',
@@ -1093,8 +1093,8 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, -2, 2, 0] }}
                       >
                         <Star className="w-6 h-6 text-blue-500" />
-                      </div>
-                      <div
+                      </motion.div>
+                      <motion.div
                         className="h-32 rounded-xl flex items-center justify-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(200, 100, 255, 0.1), rgba(255, 150, 255, 0.1))',
@@ -1107,11 +1107,11 @@ export default function Home() {
                         whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
                       >
                         <Sparkles className="w-8 h-8 text-purple-500" />
-                      </div>
+                      </motion.div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
