@@ -2,11 +2,6 @@ import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
-import { useQuery } from "@tanstack/react-query";
-import { BookOpen } from 'lucide-react';
-// Simplified grid layout without external dependencies
-import SplitText from "./SplitText";
-import GradientText from "./GradientText";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -16,13 +11,8 @@ export default function AdvancedLatestStories() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
 
-  // Fetch blog data
-  const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
-    queryKey: ["/api/blog"],
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const blogLoading = false;
 
   useEffect(() => {
     if (!sectionRef.current) return;
