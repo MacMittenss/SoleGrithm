@@ -8,8 +8,6 @@ export default {
       fontFamily: {
         'sans': ['"seasonSans"', '"seasonSans Fallback"', '"Manrope"', '"Inter"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
         'season': ['"seasonSans"', '"seasonSans Fallback"', '"Manrope"', '"Inter"', 'sans-serif'],
-        'beatrice-deck': ['"Beatrice Deck Trial"', 'serif'],
-        'beatrice': ['"Beatrice Trial"', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

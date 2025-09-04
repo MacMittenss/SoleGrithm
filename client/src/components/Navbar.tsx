@@ -1,331 +1,270 @@
-import { Link, useLocation } from 'wouter'
-import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle, Loader2 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
+import { useState } from "react";
+import { Link, useLocation } from "wouter";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Search, Menu, User, LogOut, Settings, Ungroup, Heart, Bot, Moon, Sun } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Navbar() {
-  const navRef = useRef<HTMLDivElement>(null)
-  const [location] = useLocation()
-  const [isNavigating, setIsNavigating] = useState(false)
-  const [aiDropdownOpen, setAiDropdownOpen] = useState(false)
-  const [communityDropdownOpen, setCommunityDropdownOpen] = useState(false)
+  const [location] = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { user, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
-  const handleNavigation = () => {
-    setIsNavigating(true)
-    // Close dropdowns when navigating
-    setAiDropdownOpen(false)
-    setCommunityDropdownOpen(false)
-    // Reset navigation state after transition
-    setTimeout(() => setIsNavigating(false), 400)
-  }
+  const navigation = [
+    { name: 'Catalog', href: '/catalog' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Ungroup', href: '/collection' },
+    { name: 'Discover', href: '/discover' }
+  ];
 
-  useEffect(() => {
-    // GSAP navbar entrance animation
-    if (navRef.current) {
-      gsap.fromTo(navRef.current, 
-        { y: -100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: "expo.out" }
-      )
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/catalog?search=${encodeURIComponent(searchQuery)}`;
     }
-  }, [])
+  };
 
-  const mainNavigation = [
-    { name: 'Catalog', href: '/catalog', icon: Grid3X3 },
-    { name: 'Live Market', href: '/live-market', icon: TrendingUp },
-    { name: 'Discover', href: '/discover', icon: Compass },
-    { name: 'Collections', href: '/collections', icon: Heart },
-    { name: 'Blog', href: '/blog', icon: BookOpen }
-  ];
-
-  const aiFeatures = [
-    { name: 'SoleBot', href: '/solebot', icon: MessageCircle },
-    { name: 'Visual Search', href: '/visual-search', icon: Eye },
-    { name: 'SoleRadar', href: '/soleradar', icon: Search },
-    { name: 'Style Quiz', href: '/style-quiz', icon: Target }
-  ];
-
-  const communityFeatures = [
-    { name: 'AR Try-On', href: '/ar-tryon', icon: Smartphone },
-    { name: 'Women in Sneakers', href: '/women-in-sneakers', icon: Users },
-    { name: 'Sneaker Map', href: '/sneaker-map', icon: Map }
-  ];
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
 
   return (
-    <header
-      ref={navRef}
-      style={{ 
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        backgroundColor: 'var(--black)',
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-        backdropFilter: 'blur(8px)',
-        width: '100%'
-      }}
-    >
-      <nav style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
-          
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/">
-            <a onClick={handleNavigation} style={{ textDecoration: 'none' }}>
-              <div className="brand-text">SOLEGRITHM</div>
-            </a>
-          </Link>
-          
-          {/* Main Navigation */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            {mainNavigation.map((item) => {
-              const IconComponent = item.icon;
-              return (
+          <div className="flex-shrink-0">
+            <Link href="/">
+              <h1 className="text-2xl font-bold tracking-tight cursor-pointer hover:text-primary transition-colors">
+                SoleGrithm
+              </h1>
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-8">
+              {navigation.map((item) => (
                 <Link key={item.name} href={item.href}>
-                  <a 
-                    onClick={handleNavigation}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      color: location === item.href ? '#4facfe' : 'var(--white)',
-                      textDecoration: 'none',
-                      fontSize: '0.9rem',
-                      fontWeight: '500',
-                      padding: '0.5rem',
-                      borderRadius: '8px',
-                      transition: 'all 0.1s ease',
-                      backgroundColor: location === item.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (location !== item.href) {
-                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (location !== item.href) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }
-                    }}
-                  >
-                    <IconComponent size={18} />
-                    <span>{item.name}</span>
+                  <a className={`px-3 py-2 text-sm font-medium transition-colors ${
+                    location === item.href 
+                      ? 'text-primary' 
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}>
+                    {item.name}
                   </a>
                 </Link>
-              );
-            })}
-            
-            {/* AI Features Dropdown */}
-            <div 
-              style={{ position: 'relative' }}
-              onMouseEnter={() => setAiDropdownOpen(true)}
-              onMouseLeave={() => setAiDropdownOpen(false)}
-            >
-              <button
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: 'var(--white)',
-                  backgroundColor: aiDropdownOpen ? 'rgba(255,255,255,0.1)' : 'transparent',
-                  border: 'none',
-                  fontSize: '0.9rem',
-                  fontWeight: '500',
-                  padding: '0.5rem',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  transition: 'all 0.1s ease',
-                }}
-              >
-                <MessageCircle size={18} />
-                <span>AI Features</span>
-                <ChevronDown size={16} style={{ transform: aiDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
-              </button>
-              
-              {aiDropdownOpen && (
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    backgroundColor: 'var(--secondary)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '12px',
-                    padding: '0.5rem',
-                    minWidth: '200px',
-                    marginTop: '0.5rem',
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
-                  }}
-                >
-                  {aiFeatures.map((feature) => {
-                    const IconComponent = feature.icon;
-                    return (
-                      <Link key={feature.name} href={feature.href}>
-                        <a 
-                          onClick={handleNavigation}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            color: location === feature.href ? '#4facfe' : 'var(--white)',
-                            textDecoration: 'none',
-                            padding: '0.75rem',
-                            borderRadius: '8px',
-                            transition: 'all 0.1s ease',
-                            backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                          }}
-                          onMouseEnter={(e) => {
-                            if (location !== feature.href) {
-                              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (location !== feature.href) {
-                              e.currentTarget.style.backgroundColor = 'transparent';
-                            }
-                          }}
-                        >
-                          <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
-                        </a>
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-            
-            {/* Community Features Dropdown */}
-            <div 
-              style={{ position: 'relative' }}
-              onMouseEnter={() => setCommunityDropdownOpen(true)}
-              onMouseLeave={() => setCommunityDropdownOpen(false)}
-            >
-              <button
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: 'var(--white)',
-                  backgroundColor: communityDropdownOpen ? 'rgba(255,255,255,0.1)' : 'transparent',
-                  border: 'none',
-                  fontSize: '0.9rem',
-                  fontWeight: '500',
-                  padding: '0.5rem',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  transition: 'all 0.1s ease',
-                }}
-              >
-                <Users size={18} />
-                <span>Community</span>
-                <ChevronDown size={16} style={{ transform: communityDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
-              </button>
-              
-              {communityDropdownOpen && (
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    backgroundColor: 'var(--secondary)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '12px',
-                    padding: '0.5rem',
-                    minWidth: '200px',
-                    marginTop: '0.5rem',
-                    boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
-                  }}
-                >
-                  {communityFeatures.map((feature) => {
-                    const IconComponent = feature.icon;
-                    return (
-                      <Link key={feature.name} href={feature.href}>
-                        <a 
-                          onClick={handleNavigation}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            color: location === feature.href ? '#4facfe' : 'var(--white)',
-                            textDecoration: 'none',
-                            padding: '0.75rem',
-                            borderRadius: '8px',
-                            transition: 'all 0.1s ease',
-                            backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                          }}
-                          onMouseEnter={(e) => {
-                            if (location !== feature.href) {
-                              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (location !== feature.href) {
-                              e.currentTarget.style.backgroundColor = 'transparent';
-                            }
-                          }}
-                        >
-                          <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
-                        </a>
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
+              ))}
             </div>
           </div>
-          
-          {/* User Profile */}
-          <Link href="/profile">
-            <a 
-              onClick={handleNavigation}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: location === '/profile' ? '#4facfe' : 'var(--white)',
-                textDecoration: 'none',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                padding: '0.5rem',
-                borderRadius: '8px',
-                transition: 'all 0.1s ease',
-                backgroundColor: location === '/profile' ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-              }}
-              onMouseEnter={(e) => {
-                if (location !== '/profile') {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (location !== '/profile') {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }
+
+          {/* Search Bar (Desktop) */}
+          <div className="hidden md:block flex-1 max-w-md mx-8">
+            <form onSubmit={handleSearch} className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search sneakers..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 w-full"
+              />
+            </form>
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="p-2"
+            >
+              {theme === 'light' ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+            </Button>
+
+            {/* AI Chat Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="p-2"
+              onClick={() => {
+                // This will be handled by the AIChat component
+                const event = new CustomEvent('toggle-ai-chat');
+                window.dispatchEvent(event);
               }}
             >
-              <User size={18} />
-              <span>Profile</span>
-              {isNavigating && (
-                <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
-              )}
-            </a>
-          </Link>
+              <Bot className="h-4 w-4" />
+            </Button>
+
+            {/* User Menu */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.photoURL || ''} alt={user.displayName || 'User'} />
+                      <AvatarFallback>
+                        {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium">{user.displayName || 'User'}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <User className="mr-2 h-4 w-4" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/collection">
+                      <Ungroup className="mr-2 h-4 w-4" />
+                      My Ungroup
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/collection?tab=wishlist">
+                      <Heart className="mr-2 h-4 w-4" />
+                      Wishlist
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                onClick={() => {
+                  const event = new CustomEvent('open-auth-modal');
+                  window.dispatchEvent(event);
+                }}
+                variant="outline"
+                size="sm"
+              >
+                Sign In
+              </Button>
+            )}
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <div className="flex flex-col space-y-4 mt-8">
+                    {/* Mobile Search */}
+                    <form onSubmit={handleSearch} className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        placeholder="Search sneakers..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 w-full"
+                      />
+                    </form>
+
+                    {/* Mobile Navigation */}
+                    <div className="space-y-2">
+                      {navigation.map((item) => (
+                        <Link key={item.name} href={item.href}>
+                          <a 
+                            className={`block px-3 py-2 text-base font-medium transition-colors ${
+                              location === item.href 
+                                ? 'text-primary' 
+                                : 'text-muted-foreground hover:text-primary'
+                            }`}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {item.name}
+                          </a>
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Mobile User Actions */}
+                    {user ? (
+                      <div className="space-y-2 pt-4 border-t">
+                        <div className="flex items-center space-x-3 p-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={user.photoURL || ''} />
+                            <AvatarFallback>
+                              {user.displayName?.charAt(0) || 'U'}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium">{user.displayName}</p>
+                            <p className="text-xs text-muted-foreground">{user.email}</p>
+                          </div>
+                        </div>
+                        <Link href="/profile">
+                          <a className="block px-3 py-2 text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+                            Profile
+                          </a>
+                        </Link>
+                        <Link href="/collection">
+                          <a className="block px-3 py-2 text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+                            My Ungroup
+                          </a>
+                        </Link>
+                        <Button onClick={handleSignOut} variant="ghost" className="w-full justify-start">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Sign out
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          const event = new CustomEvent('open-auth-modal');
+                          window.dispatchEvent(event);
+                        }}
+                        className="w-full"
+                      >
+                        Sign In
+                      </Button>
+                    )}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
         </div>
       </nav>
-      
-      {/* Global Loading Indicator */}
-      {isNavigating && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: '64px',
-            left: 0,
-            right: 0,
-            height: '3px',
-            background: 'linear-gradient(90deg, #4facfe, #00f2fe)',
-            animation: 'pulse 1.5s ease-in-out infinite',
-            zIndex: 100,
-          }}
-        />
-      )}
     </header>
-  )
+  );
 }
