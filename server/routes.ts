@@ -5,30 +5,7 @@ import path from "path";
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Serve the SoleGrithm website as the main site
-  app.get("/", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "public", "index.html"));
-  });
-
-  // Serve other SoleGrithm pages
-  app.get("/about", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "public", "about.html"));
-  });
-
-  app.get("/works", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "public", "works.html"));
-  });
-
-  app.get("/contact", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "public", "contact.html"));
-  });
-
-  // Serve the original VITURE HTML file for reference
-  app.get("/viture", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "public", "viture-original.html"));
-  });
-
-  // Serve all static assets (CSS, JS, Images)
+  // Serve all static assets (CSS, JS, Images) for backwards compatibility
   app.use("/css", express.static(path.join(process.cwd(), "public", "css")));
   app.use("/js", express.static(path.join(process.cwd(), "public", "js")));
   app.use("/images", express.static(path.join(process.cwd(), "public", "images")));
