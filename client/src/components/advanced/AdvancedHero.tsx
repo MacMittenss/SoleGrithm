@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
-import futuristicSneakerImage from '@assets/transparent-Photoroom_1755556579483.png';
+// import futuristicSneakerImage from '@assets/transparent-Photoroom_1755556579483.png';
 import SplitText from './SplitText';
 import GradientText from './GradientText';
 import BlurryGradient from './BlurryGradient';
@@ -31,7 +31,7 @@ export default function AdvancedHero() {
           scrub: true,
           pin: true,
         },
-        opacity: 0,
+        opacity: 1,
         y: -100,
         scale: 0.8,
         stagger: 0.2
