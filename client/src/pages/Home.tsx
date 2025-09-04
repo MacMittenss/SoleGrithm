@@ -855,7 +855,7 @@ export default function Home() {
             </div>
 
             {/* Social Features */}
-            <div variants={itemVariants} className="space-y-6">
+            <motion.div variants={itemVariants} className="space-y-6">
               <h3 className="text-2xl font-semibold">Connect & Share</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
@@ -892,7 +892,7 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -980,7 +980,7 @@ export default function Home() {
                 </div>
 
                 {/* Feature badges */}
-                <div
+                <motion.div
                   className="flex flex-wrap gap-3"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -992,7 +992,7 @@ export default function Home() {
                     { label: 'Exclusive Collections', color: 'rgba(150, 50, 255, 0.1)' },
                     { label: 'Inspiring Stories', color: 'rgba(100, 150, 255, 0.1)' }
                   ].map((badge, index) => (
-                    <div
+                    <motion.div
                       key={badge.label}
                       className="px-4 py-2 rounded-full border border-white/20 text-sm font-medium text-white"
                       style={{ background: badge.color }}
@@ -1003,9 +1003,9 @@ export default function Home() {
                       whileHover={{ scale: 1.05 }}
                     >
                       {badge.label}
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
 
                 {/* CTA Button */}
                 <motion.div
@@ -1134,7 +1134,7 @@ export default function Home() {
       <ARDemo />
 
       {/* Sole Map - Global Trends Section - Using ARDemo styling */}
-      <section 
+      <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-green-500/5 to-blue-500/5"
         initial="hidden"
         animate="visible"
@@ -1142,15 +1142,15 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
-            <div
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+            <motion.div
               className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <TrendingUp className="w-4 h-4" />
               Sole Map
-            </div>
+            </motion.div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Global Trends Experience
             </h2>
@@ -1158,7 +1158,7 @@ export default function Home() {
               Explore real-time sneaker trends across the globe with interactive visualization. 
               Discover regional preferences and track sneaker culture worldwide.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Interactive Map Visualization */}
@@ -1196,7 +1196,7 @@ export default function Home() {
                       { label: "Emerging", color: "bg-blue-400" },
                       { label: "Stable", color: "bg-green-400" }
                     ].map((feature, index) => (
-                      <div
+                      <motion.div
                         key={feature.label}
                         className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
                         variants={itemVariants}
@@ -1204,7 +1204,7 @@ export default function Home() {
                       >
                         <div className={`w-4 h-4 ${feature.color} rounded-full mx-auto mb-2`} />
                         <p className="text-xs font-medium">{feature.label}</p>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -1212,18 +1212,18 @@ export default function Home() {
             </div>
 
             {/* Trending Cities */}
-            <div className="space-y-6" variants={itemVariants}>
+            <motion.div className="space-y-6" variants={itemVariants}>
               <h3 className="text-xl sm:text-2xl font-semibold text-center">
                 Trending Cities
               </h3>
               
-              <div className="space-y-4" variants={containerVariants}>
+              <motion.div className="space-y-4" variants={containerVariants}>
                 {[
                   { city: "New York", trend: "Nike Dunk Low", activity: 95 },
                   { city: "Los Angeles", trend: "Jordan 1 High", activity: 87 },
                   { city: "Atlanta", trend: "Yeezy 350", activity: 76 }
                 ].map((location, index) => (
-                  <div
+                  <motion.div
                     key={location.city}
                     className="p-4 rounded-xl border bg-card hover:border-primary/50 transition-all"
                     variants={cardVariants}
@@ -1244,13 +1244,13 @@ export default function Home() {
                         }`} />
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Live Market Section - Advanced */}
       <SectionWrapper
@@ -1275,12 +1275,12 @@ export default function Home() {
       </SectionWrapper>
 
       {/* Quick Stats with Animated Counters */}
-      <section 
+      <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-background via-muted/30 to-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div 
+          <motion.div 
             className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
             variants={containerVariants}
           >
@@ -1290,7 +1290,7 @@ export default function Home() {
               { value: "25K+", label: "Community Reviews", delay: 0.2 },
               { value: "98%", label: "Satisfaction Rate", delay: 0.3 }
             ].map((stat, index) => (
-              <div
+              <motion.div
                 key={stat.label}
                 className="text-center group"
                 variants={{
@@ -1317,11 +1317,11 @@ export default function Home() {
                 <div className="text-xs sm:text-sm text-muted-foreground font-medium group-hover:text-foreground transition-colors">
                   {stat.label}
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Call to Action - Get Started */}
       <section className="py-16 sm:py-24 bg-gradient-to-br from-primary/5 via-orange-500/5 to-background">
