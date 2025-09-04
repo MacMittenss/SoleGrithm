@@ -2,8 +2,6 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { MapPin, TrendingUp, Users, Zap } from 'lucide-react';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
 
 interface CityData {
   name: string;
@@ -291,13 +289,16 @@ export default function AdvancedSoleMap() {
             {/* Main Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <SplitText type="words" delay={0.3} stagger={0.08}>
-                  Sneaker Culture
-                </SplitText>
+                <span>Sneaker Culture</span>
                 <br />
-                <GradientText className="block">
+                <span className="block" style={{
+                  background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
                   Worldwide
-                </GradientText>
+                </span>
               </h2>
               
               <motion.p

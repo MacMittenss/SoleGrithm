@@ -3,8 +3,6 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { Bookmark, Heart, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
 
 interface Collection {
   id: number;
@@ -168,13 +166,16 @@ export default function AdvancedCollections() {
 
           {/* Main Title */}
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            <SplitText type="words" delay={0.3} stagger={0.08}>
-              Curated Collections
-            </SplitText>
+            <span>Curated Collections</span>
             <br />
-            <GradientText className="block">
+            <span className="block" style={{
+              background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
               by AI & Community
-            </GradientText>
+            </span>
           </h2>
           
           <motion.p

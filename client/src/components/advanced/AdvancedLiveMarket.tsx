@@ -3,8 +3,6 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ArrowRight, BarChart3 } from 'lucide-react';
 import { Link } from 'wouter';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
 
 interface MarketData {
   name: string;
@@ -198,13 +196,16 @@ export default function AdvancedLiveMarket() {
             {/* Main Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <SplitText type="words" delay={0.3} stagger={0.08}>
-                  Real-time Market
-                </SplitText>
+                <span>Real-time Market</span>
                 <br />
-                <GradientText className="block">
+                <span className="block" style={{
+                  background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
                   Intelligence
-                </GradientText>
+                </span>
               </h2>
               
               <motion.p

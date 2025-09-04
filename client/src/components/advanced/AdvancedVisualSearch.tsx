@@ -3,8 +3,6 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { Camera, Search, Zap, ArrowRight, Eye, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
 
 export default function AdvancedVisualSearch() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -96,13 +94,16 @@ export default function AdvancedVisualSearch() {
             {/* Main Title */}
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <SplitText type="words" delay={0.3} stagger={0.08}>
-                  Snap, Search,
-                </SplitText>
+                <span>Snap, Search,</span>
                 <br />
-                <GradientText className="block">
+                <span className="block" style={{
+                  background: 'linear-gradient(90deg, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
                   Discover
-                </GradientText>
+                </span>
               </h2>
               
               <motion.p

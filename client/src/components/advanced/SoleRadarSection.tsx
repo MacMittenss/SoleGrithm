@@ -4,8 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
 import { Compass, Target, Zap, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
-import SplitText from "./SplitText";
-import GradientText from "./GradientText";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
