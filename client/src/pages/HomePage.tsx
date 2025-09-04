@@ -2,6 +2,16 @@ import Navbar from '../components/Navbar'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
+// Advanced components from commit hash fcf268da2fcf4194463596d93eb53afdedadda5a
+import AdvancedPreloader from '../components/advanced/AdvancedPreloader'
+import AdvancedLiveMarket from '../components/advanced/AdvancedLiveMarket'
+import AdvancedSoleMap from '../components/advanced/AdvancedSoleMap'
+import AdvancedVisualSearch from '../components/advanced/AdvancedVisualSearch'
+import AdvancedCollections from '../components/advanced/AdvancedCollections'
+import AdvancedLatestStories from '../components/advanced/AdvancedLatestStories'
+import SoleRadarSection from '../components/advanced/SoleRadarSection'
+import AdvancedFooter from '../components/advanced/AdvancedFooter'
+
 // Declare the spline-viewer custom element for TypeScript
 declare global {
   namespace JSX {
@@ -56,9 +66,13 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
+      {/* Advanced Preloader */}
+      <AdvancedPreloader />
+      
+      {/* Keep Current Navbar */}
       <Navbar />
       
-      {/* Hero Section */}
+      {/* Keep Current Hero Section */}
       <section className="hero-section">
         <div className="fingerprint"></div>
         <div className="circle"></div>
@@ -95,7 +109,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Brands Section */}
+      {/* Keep Current Brands Section */}
       <section id="brands" className="section">
         <div className="w-layout-blockcontainer container padding-4-5rem w-container">
           <div className="space-7rem"></div>
@@ -133,7 +147,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Flagship Features Section */}
+      {/* Keep Current Flagship Features Section */}
       <section style={{
         backgroundColor: '#050505',
         padding: '6rem 0',
@@ -409,386 +423,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="section">
-        <div className="w-layout-blockcontainer container w-container">
-          <div className="about-hero-wrapper">
-            <div className="about-hero-flex">
-              <div className="hero-about-image">
-                <img
-                  alt="About image"
-                  loading="lazy"
-                  src="/images/vr-lady.jpg"
-                  className="hero-about-image"
-                />
-              </div>
-              <div>
-                <h3 className="heading-2">About SOLEGRITHM</h3>
-                <p className="paragraph">
-                  SOLEGRITHM is the ultimate AI-powered sneaker community platform, where passion meets technology. 
-                  We're revolutionizing sneaker culture by combining social networking, e-commerce, and cutting-edge 
-                  artificial intelligence to create personalized experiences for every sneaker enthusiast.
-                </p>
-                <p className="paragraph">
-                  From AI-driven recommendations to virtual try-on experiences, we're building the future of 
-                  sneaker discovery and community connection. Join thousands of sneakerheads who trust SOLEGRITHM 
-                  for authentic releases, market insights, and cultural trends.
-                </p>
-                <a href="/about" className="link-button w-inline-block">
-                  <div className="link-button-text">Learn More</div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Advanced Live Market Section */}
+      <AdvancedLiveMarket />
 
-      {/* Services Section */}
-      <section className="section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
-          <div className="services-wrapper">
-            <h2 className="heading-2">Our Services</h2>
-            <div className="services-flex">
-              <div className="services-card">
-                <div className="services-icon">
-                  <img
-                    width="Auto"
-                    height="Auto"
-                    alt="AI service icon"
-                    src="/images/Vectors-Wrapper.svg"
-                    loading="lazy"
-                    className="services-icon"
-                  />
-                </div>
-                <div className="services-title-flex">
-                  <h3 className="services-title">AI Discovery</h3>
-                  <div className="services-text-block">
-                    <p className="paragraph">
-                      Intelligent sneaker recommendations powered by machine learning algorithms 
-                      that understand your style preferences and predict market trends.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="services-card">
-                <div className="services-icon">
-                  <img
-                    width="Auto"
-                    height="Auto"
-                    alt="Community service icon"
-                    src="/images/Vectors-Wrapper_1.svg"
-                    loading="lazy"
-                    className="services-icon"
-                  />
-                </div>
-                <div className="services-title-flex">
-                  <h3 className="services-title">Community Platform</h3>
-                  <div className="services-text-block">
-                    <p className="paragraph">
-                      Connect with fellow sneaker enthusiasts, share collections, trade rare finds, 
-                      and participate in exclusive community events and releases.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="services-card">
-                <div className="services-icon">
-                  <img
-                    width="Auto"
-                    height="Auto"
-                    alt="Market service icon" 
-                    src="/images/Vectors-Wrapper_2.svg"
-                    loading="lazy"
-                    className="services-icon"
-                  />
-                </div>
-                <div className="services-title-flex">
-                  <h3 className="services-title">Live Market Data</h3>
-                  <div className="services-text-block">
-                    <p className="paragraph">
-                      Real-time price tracking, market analysis, and investment insights 
-                      to help you make informed decisions in the sneaker resale market.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="services-card">
-                <div className="services-icon">
-                  <img
-                    width="Auto"
-                    height="Auto"
-                    alt="AR service icon"
-                    src="/images/Vectors-Wrapper_3.svg" 
-                    loading="lazy"
-                    className="services-icon"
-                  />
-                </div>
-                <div className="services-title-flex">
-                  <h3 className="services-title">AR Try-On</h3>
-                  <div className="services-text-block">
-                    <p className="paragraph">
-                      Virtual try-on experiences using augmented reality technology, 
-                      allowing you to see how sneakers look and fit before purchase.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Advanced SoleMap Section */}
+      <AdvancedSoleMap />
 
-      {/* Works Section */}
-      <section className="section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
-          <div className="works-wrapper">
-            <div className="works-title-grid">
-              <h2 className="heading-2">Featured Collections</h2>
-              <div className="works-description">
-                <p className="paragraph">
-                  Explore our curated collections showcasing the best in sneaker culture, 
-                  from limited releases to timeless classics.
-                </p>
-              </div>
-            </div>
-            
-            <div className="works-grid">
-              <div className="works-block">
-                <div className="works-link-wrapper">
-                  <div className="works-image-wrapper">
-                    <img
-                      alt="Sneaker collection"
-                      loading="lazy"
-                      src="/images/AppleWatch.jpg"
-                      className="works-image-wrapper"
-                    />
-                    <div className="works-hover">
-                      <div className="works-icon-wrapper">
-                        <img
-                          width="Auto"
-                          height="Auto"
-                          alt="view icon"
-                          src="/images/arrow_outward.svg"
-                          loading="lazy"
-                          className="arrow"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="works-text-block">
-                    <div className="works-flex">
-                      <div className="works-title-wrapper">
-                        <h3 className="works-title">Jordan Retro Collection</h3>
-                        <div className="works-badge">Limited Edition</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="works-block">
-                <div className="works-link-wrapper">
-                  <div className="works-image-wrapper">
-                    <img
-                      alt="Sneaker design"
-                      loading="lazy" 
-                      src="/images/CreativeDesignStudioX.jpg"
-                      className="works-image-wrapper"
-                    />
-                    <div className="works-hover">
-                      <div className="works-icon-wrapper">
-                        <img
-                          width="Auto"
-                          height="Auto"
-                          alt="view icon"
-                          src="/images/arrow_outward.svg"
-                          loading="lazy"
-                          className="arrow"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="works-text-block">
-                    <div className="works-flex">
-                      <div className="works-title-wrapper">
-                        <h3 className="works-title">Nike Air Collection</h3>
-                        <div className="works-badge">Trending</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="works-block">
-                <div className="works-link-wrapper">
-                  <div className="works-image-wrapper">
-                    <img
-                      alt="Portfolio piece"
-                      loading="lazy"
-                      src="/images/Poster_Mockup.jpg"
-                      className="works-image-wrapper"
-                    />
-                    <div className="works-hover">
-                      <div className="works-icon-wrapper">
-                        <img
-                          width="Auto"
-                          height="Auto"
-                          alt="view icon"
-                          src="/images/arrow_outward.svg"
-                          loading="lazy"
-                          className="arrow"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="works-text-block">
-                    <div className="works-flex">
-                      <div className="works-title-wrapper">
-                        <h3 className="works-title">Adidas Boost Series</h3>
-                        <div className="works-badge">Featured</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Advanced Visual Search Section */}
+      <AdvancedVisualSearch />
 
-      {/* Contact Section */}
-      <section className="section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
-          <div className="contact-wrapper">
-            <div className="contact-flex">
-              <div>
-                <h2 className="heading-2">Get In Touch</h2>
-                <p className="paragraph">
-                  Ready to join the SOLEGRITHM community? Have questions about our platform or need support? 
-                  We'd love to hear from you.
-                </p>
-                <div className="contact-info">
-                  <p className="paragraph">
-                    <strong>Email:</strong> hello@solegrithm.com
-                  </p>
-                  <p className="paragraph">
-                    <strong>Community:</strong> Join our Discord for real-time discussions
-                  </p>
-                </div>
-              </div>
-              <div className="contact-form-wrapper">
-                <form className="contact-form">
-                  <div className="form-field">
-                    <label htmlFor="name">Name</label>
-                    <input
-                      className="text-field w-input"
-                      maxLength={256}
-                      name="name"
-                      placeholder="Your Name"
-                      type="text"
-                      id="name"
-                      required
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      className="text-field w-input"
-                      maxLength={256}
-                      name="email"
-                      placeholder="your@email.com"
-                      type="email"
-                      id="email"
-                      required
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="message">Message</label>
-                    <textarea
-                      className="text-field text-area w-input"
-                      maxLength={5000}
-                      name="message"
-                      placeholder="Tell us about your sneaker passion..."
-                      id="message"
-                      required
-                    />
-                  </div>
-                  <input
-                    type="submit"
-                    className="submit-button w-button"
-                    value="Send Message"
-                  />
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Advanced Collections Section */}
+      <AdvancedCollections />
 
-      {/* Footer Section */}
-      <footer className="footer-wrapper">
-        <div className="footer-top">
-          <div className="w-layout-blockcontainer container w-container">
-            <div className="footer-flex">
-              <div className="footer-block">
-                <div className="footer-logo">
-                  <div className="brand-text">SOLEGRITHM</div>
-                </div>
-                <p className="footer-bottom-text">
-                  The ultimate AI-powered sneaker community platform. 
-                  Discover, collect, and connect with sneaker culture like never before.
-                </p>
-              </div>
-              
-              <div className="footer-block">
-                <h4 className="footer-title">Platform</h4>
-                <div className="footer-right-flex">
-                  <a href="/catalog" className="footer-link">Catalog</a>
-                  <a href="/live-market" className="footer-link">Live Market</a>
-                  <a href="/discover" className="footer-link">Discover</a>
-                  <a href="/collections" className="footer-link">Collections</a>
-                  <a href="/blog" className="footer-link">Blog</a>
-                </div>
-              </div>
-              
-              <div className="footer-block">
-                <h4 className="footer-title">AI Features</h4>
-                <div className="footer-right-flex">
-                  <a href="/solebot" className="footer-link">SoleBot</a>
-                  <a href="/visual-search" className="footer-link">Visual Search</a>
-                  <a href="/soleradar" className="footer-link">SoleRadar</a>
-                  <a href="/style-quiz" className="footer-link">Style Quiz</a>
-                </div>
-              </div>
-              
-              <div className="footer-block">
-                <h4 className="footer-title">Community</h4>
-                <div className="footer-right-flex">
-                  <a href="/ar-tryon" className="footer-link">AR Try-On</a>
-                  <a href="/women-in-sneakers" className="footer-link">Women in Sneakers</a>
-                  <a href="/sneaker-map" className="footer-link">Sneaker Map</a>
-                  <a href="/about" className="footer-link">About</a>
-                  <a href="/contact" className="footer-link">Contact</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <div className="w-layout-blockcontainer container w-container">
-            <div className="footer-flex-bottom">
-              <div className="footer-line"></div>
-              <p className="footer-bottom-text">
-                © 2025 SOLEGRITHM. All rights reserved. | Privacy Policy | Terms of Service
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Advanced Latest Stories Section */}
+      <AdvancedLatestStories />
+
+      {/* SoleRadar Section */}
+      <SoleRadarSection />
+
+      {/* Advanced Footer Section */}
+      <AdvancedFooter />
 
     </div>
   )
