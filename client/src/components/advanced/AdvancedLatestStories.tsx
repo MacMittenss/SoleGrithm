@@ -1,11 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen } from 'lucide-react';
-import { MasonryGrid } from "@/components/ui/masonry-grid";
-import PinterestBlogCard from "@/components/PinterestBlogCard";
+// Simplified grid layout without external dependencies
 import SplitText from "./SplitText";
 import GradientText from "./GradientText";
 
@@ -187,20 +186,35 @@ export default function AdvancedLatestStories() {
               ))}
             </div>
           ) : (
-            Array.isArray(blogPosts) && blogPosts.length > 0 ? (
-              <MasonryGrid
-                columns={{ default: 2, sm: 3, md: 4, lg: 4 }}
-                gap="1rem"
-                className="max-w-6xl mx-auto"
-              >
-                {blogPosts.slice(0, 8).map((post: any, index: number) => (
-                  <div key={post.id}>
-                    <PinterestBlogCard 
-                      post={post}
-                    />
+            (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {[
+                  {id: 1, title: "The Rise of AI in Sneaker Design", excerpt: "How artificial intelligence is revolutionizing the way we create and discover sneakers...", date: "Sep 3, 2025", author: "Alex Chen"},
+                  {id: 2, title: "Market Report: Q3 2025 Trends", excerpt: "Analyzing the hottest releases and market movements from this quarter...", date: "Sep 1, 2025", author: "Maria Rodriguez"},
+                  {id: 3, title: "Women Leading Sneaker Culture", excerpt: "Spotlight on female entrepreneurs shaping the future of streetwear...", date: "Aug 30, 2025", author: "Jordan Smith"},
+                  {id: 4, title: "Sustainability in Sneaker Manufacturing", excerpt: "How brands are adopting eco-friendly practices in sneaker production...", date: "Aug 28, 2025", author: "Sam Wilson"},
+                  {id: 5, title: "AR Try-On Technology Deep Dive", excerpt: "Behind the scenes look at how our virtual fitting technology works...", date: "Aug 25, 2025", author: "Taylor Kim"},
+                  {id: 6, title: "Community Spotlight: Rising Collectors", excerpt: "Meet the next generation of passionate sneaker collectors...", date: "Aug 22, 2025", author: "Casey Johnson"}
+                ].map((post) => (
+                  <div
+                    key={post.id}
+                    className="group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-300"
+                  >
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-gray-300 leading-relaxed">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between text-xs text-gray-400">
+                        <span>{post.author}</span>
+                        <span>{post.date}</span>
+                      </div>
+                    </div>
                   </div>
                 ))}
-              </MasonryGrid>
+              </div>
             ) : (
               <div className="text-center py-16">
                 <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />

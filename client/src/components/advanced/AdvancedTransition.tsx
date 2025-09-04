@@ -1,4 +1,4 @@
-import React from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface AdvancedTransitionProps {
@@ -8,7 +8,7 @@ interface AdvancedTransitionProps {
 }
 
 export default function AdvancedTransition({ children, id, nextId }: AdvancedTransitionProps) {
-  const targetRef = React.useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
     target: targetRef,
