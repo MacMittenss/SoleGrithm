@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
 // Advanced components from commit hash fcf268da2fcf4194463596d93eb53afdedadda5a
-import AdvancedPreloader from '../components/advanced/AdvancedPreloader'
 import AdvancedLiveMarket from '../components/advanced/AdvancedLiveMarket'
 import AdvancedSoleMap from '../components/advanced/AdvancedSoleMap'
 import AdvancedVisualSearch from '../components/advanced/AdvancedVisualSearch'
