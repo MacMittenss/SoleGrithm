@@ -66,9 +66,6 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
-      {/* Advanced Preloader */}
-      <AdvancedPreloader />
-      
       {/* Keep Current Navbar */}
       <Navbar />
       
