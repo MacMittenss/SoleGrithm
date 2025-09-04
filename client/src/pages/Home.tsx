@@ -332,7 +332,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="relative max-w-7xl mx-auto px-6 sm:px-8">
             {/* Header Section */}
             <div className="text-center mb-16">
               <h2 
@@ -444,11 +444,7 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Hover overlay - simplified */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ pointerEvents: 'none', zIndex: 1 }}
-                  />
+                  {/* Hover overlay removed */}
                 </div>
               )) : (
                 // Loading skeleton
@@ -551,28 +547,11 @@ export default function Home() {
         }}
         data-testid="section-style-quiz"
       >
-        {/* Background effects - simplified */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.02) 0%, rgba(100, 50, 255, 0.01) 35%, rgba(255, 100, 150, 0.02) 100%)',
-            zIndex: -1,
-          }}
-        />
+        {/* Background effects removed */}
 
-        {/* Floating geometric shapes */}
-        <motion.div
-          className="absolute top-20 left-20 w-32 h-32 rounded-full border border-purple-500/20"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
-          animate={{ rotate: [45, 135, 45] }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        {/* Floating geometric shapes removed */}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Content Column */}
             <div ref={styleQuizContentRef} className="space-y-8">
@@ -615,7 +594,7 @@ export default function Home() {
 
                 {/* Enhanced Form */}
                 <motion.form 
-                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  className="relative p-8 rounded-3xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
                   }}
@@ -662,7 +641,7 @@ export default function Home() {
               {/* Interactive Sneaker Column */}
               <div className="relative">
                 {/* Enhanced Interactive Card */}
-                <div className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                <div className="relative p-8 rounded-3xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
                   }}>
@@ -758,7 +737,7 @@ export default function Home() {
                 <div className="mockup-phone-camera"></div> 
                 <div className="mockup-phone-display bg-gradient-to-b from-blue-500/10 to-purple-500/10 relative overflow-hidden">
                   {/* Phone Interface */}
-                  <div className="absolute inset-0 p-3">
+                  <div className="relative p-3">
                     {/* Status Bar */}
                     <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-white text-xs">
                       <span>9:41</span>
@@ -913,28 +892,11 @@ export default function Home() {
           }}
           data-testid="section-women-sneakers"
         >
-          {/* Background effects - simplified */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 100, 150, 0.02) 0%, rgba(150, 50, 255, 0.01) 35%, rgba(255, 150, 200, 0.02) 100%)',
-              zIndex: -1,
-            }}
-          />
+          {/* Background effects removed */}
 
-          {/* Floating geometric shapes */}
-          <motion.div
-            className="absolute top-20 right-20 w-32 h-32 rounded-full border border-pink-500/20"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          />
-          <motion.div
-            className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-purple-500/20"
-            animate={{ rotate: [45, 135, 45] }}
-            transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-          />
+          {/* Floating geometric shapes removed */}
 
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="relative max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
               <motion.div
@@ -1045,7 +1007,7 @@ export default function Home() {
               >
                 {/* Enhanced Visual Grid */}
                 <div
-                  className="relative p-8 rounded-3xl backdrop-blur-xl border border-white/10"
+                  className="relative p-8 rounded-3xl border border-white/10"
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
                   }}
@@ -1200,7 +1162,7 @@ export default function Home() {
                     ].map((feature, index) => (
                       <motion.div
                         key={feature.label}
-                        className="text-center p-3 rounded-xl bg-card/50 backdrop-blur-sm border"
+                        className="text-center p-3 rounded-xl bg-card/50 border"
                         variants={itemVariants}
                         whileHover={{ scale: 1.05, y: -2 }}
                       >
@@ -1422,7 +1384,7 @@ export default function Home() {
                   transition: { duration: 0.2 }
                 }}
               >
-                <Card className="p-4 sm:p-6 text-center border-0 shadow-lg bg-card/50 backdrop-blur-sm hover:shadow-xl transition-shadow group">
+                <Card className="p-4 sm:p-6 text-center border-0 shadow-lg bg-card/50 hover:shadow-xl transition-shadow group">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary/10 to-orange-500/10 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                     <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary group-hover:text-orange-500 transition-colors" />
                   </div>

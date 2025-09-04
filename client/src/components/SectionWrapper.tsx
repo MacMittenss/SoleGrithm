@@ -35,10 +35,7 @@ export default function SectionWrapper({
     offset: ["start end", "end start"]
   });
 
-  // Smooth entrance animations
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [100, 0, 0, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 1.05]);
+  // Simplified animations without complex transforms
 
   // Simplified content visibility - no complex overlay masking
 
@@ -108,15 +105,10 @@ export default function SectionWrapper({
           ref={contentRef}
           className="relative h-full"
           style={{
-            y: sticky ? 0 : y,
-            opacity: sticky ? 1 : opacity,
-            scale: sticky ? 1 : scale,
-            zIndex: 20,
+            opacity: 1,
           }}
           initial={{
-            opacity: sticky ? 1 : 0,
-            y: sticky ? 0 : 50,
-            scale: sticky ? 1 : 0.95,
+            opacity: 1,
           }}
         >
           {children}
