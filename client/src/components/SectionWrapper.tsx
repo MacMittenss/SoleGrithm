@@ -1,6 +1,4 @@
-import React, { useRef, useEffect, ReactNode } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { gsap } from 'gsap';
+import React, { ReactNode } from 'react';
 
 interface SectionWrapperProps {
   children: ReactNode;
@@ -25,56 +23,6 @@ export default function SectionWrapper({
   onEnter,
   onLeave,
 }: SectionWrapperProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const maskRef = useRef<HTMLDivElement>(null);
-  
-  const isInView = useInView(sectionRef, { once: false, amount: 0.4, margin: "-20% 0px -20% 0px" });
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Simplified animations without complex transforms
-
-  // Simplified content visibility - no complex overlay masking
-
-  useEffect(() => {
-    if (isInView && onEnter) {
-      onEnter();
-    } else if (!isInView && onLeave) {
-      onLeave();
-    }
-  }, [isInView, onEnter, onLeave]);
-
-  // GSAP-style section reveal animation
-  useEffect(() => {
-    if (!contentRef.current || !isInView) return;
-
-    const ctx = gsap.context(() => {
-      const elements = contentRef.current?.querySelectorAll('[data-animate]');
-      if (!elements || elements.length === 0) return;
-
-      gsap.set(elements, {
-        y: 100,
-        opacity: 0,
-        scale: 0.95,
-      });
-
-      gsap.to(elements, {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.2,
-        ease: 'power3.out',
-        stagger: 0.1,
-        delay: 0.1,
-      });
-    }, contentRef);
-
-    return () => ctx.revert();
-  }, [isInView]);
-
   const sectionStyle: React.CSSProperties = {
     height: sticky ? undefined : height,
     background: background || 'transparent',
@@ -91,29 +39,17 @@ export default function SectionWrapper({
     : {};
 
   return (
-    <motion.section
-      ref={sectionRef}
+    <section
       id={id}
       className={`relative ${className}`}
       style={sectionStyle}
       data-testid={`section-${id}`}
     >
-      {/* Overlay functionality removed to prevent homepage visibility issues */}
-
       <div style={stickyStyle} className={sticky ? 'flex flex-col' : ''}>
-        <motion.div
-          ref={contentRef}
-          className="relative h-full"
-          style={{
-            opacity: 1,
-          }}
-          initial={{
-            opacity: 1,
-          }}
-        >
+        <div className="relative h-full">
           {children}
-        </motion.div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

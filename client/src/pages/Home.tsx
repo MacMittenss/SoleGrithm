@@ -582,7 +582,7 @@ export default function Home() {
                   
                   <motion.p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 1, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: false, amount: 0.3 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
@@ -598,7 +598,7 @@ export default function Home() {
                   style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
                   }}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 1, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1 }}
@@ -762,7 +762,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.1 }}
@@ -771,7 +771,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.2 }}
@@ -782,7 +782,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.3 }}
@@ -791,7 +791,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.4 }}
@@ -800,7 +800,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.5 }}
@@ -811,7 +811,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.6 }}
@@ -820,7 +820,7 @@ export default function Home() {
                               className="w-full h-full object-cover rounded-sm" 
                               src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
                               alt="Community post"
-                              initial={{ opacity: 0, scale: 0.8 }}
+                              initial={{ opacity: 1, scale: 0.8 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true, amount: 0.3 }}
                               transition={{ duration: 0.6, delay: 0.7 }}
@@ -901,7 +901,7 @@ export default function Home() {
               {/* Content Column */}
               <motion.div
                 className="space-y-8"
-                initial={{ opacity: 0, x: -100 }}
+                initial={{ opacity: 1, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false, amount: 0.3 }}
                 transition={{ duration: 1, delay: 0.2 }}
@@ -933,7 +933,7 @@ export default function Home() {
                   
                   <motion.p
                     className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 1, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: false, amount: 0.3 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
@@ -946,7 +946,7 @@ export default function Home() {
                 {/* Feature badges */}
                 <motion.div
                   className="flex flex-wrap gap-3"
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 1, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1 }}
@@ -960,7 +960,7 @@ export default function Home() {
                       key={badge.label}
                       className="px-4 py-2 rounded-full border border-white/20 text-sm font-medium text-white"
                       style={{ background: badge.color }}
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 1, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: false, amount: 0.3 }}
                       transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
@@ -973,7 +973,7 @@ export default function Home() {
 
                 {/* CTA Button */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 1, y: 0 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1.5 }}
@@ -1000,7 +1000,7 @@ export default function Home() {
               {/* Visual Grid Column */}
               <motion.div
                 className="relative"
-                initial={{ opacity: 0, x: 100 }}
+                initial={{ opacity: 1, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false, amount: 0.3 }}
                 transition={{ duration: 1, delay: 0.4 }}
@@ -1020,7 +1020,7 @@ export default function Home() {
                           background: 'linear-gradient(135deg, rgba(255, 100, 150, 0.1), rgba(255, 150, 200, 0.1))',
                           border: '1px solid rgba(255, 255, 255, 0.1)',
                         }}
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 1, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false, amount: 0.3 }}
                         transition={{ duration: 0.6, delay: 0.6 }}
@@ -1034,7 +1034,7 @@ export default function Home() {
                           background: 'linear-gradient(135deg, rgba(150, 50, 255, 0.1), rgba(200, 100, 255, 0.1))',
                           border: '1px solid rgba(255, 255, 255, 0.1)',
                         }}
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 1, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false, amount: 0.3 }}
                         transition={{ duration: 0.6, delay: 0.8 }}
@@ -1050,7 +1050,7 @@ export default function Home() {
                           background: 'linear-gradient(135deg, rgba(100, 150, 255, 0.1), rgba(150, 200, 255, 0.1))',
                           border: '1px solid rgba(255, 255, 255, 0.1)',
                         }}
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 1, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false, amount: 0.3 }}
                         transition={{ duration: 0.6, delay: 0.7 }}
@@ -1064,7 +1064,7 @@ export default function Home() {
                           background: 'linear-gradient(135deg, rgba(200, 100, 255, 0.1), rgba(255, 150, 255, 0.1))',
                           border: '1px solid rgba(255, 255, 255, 0.1)',
                         }}
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 1, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: false, amount: 0.3 }}
                         transition={{ duration: 0.6, delay: 0.9 }}
