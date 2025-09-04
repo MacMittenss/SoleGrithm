@@ -935,7 +935,7 @@ export default function Home() {
           <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               {/* Content Column */}
-              <div
+              <motion.div
                 className="space-y-8"
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -943,7 +943,7 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 {/* Badge */}
-                <div
+                <motion.div
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
                   style={{
                     background: 'rgba(255, 100, 150, 0.1)',
@@ -953,7 +953,7 @@ export default function Home() {
                 >
                   <Heart className="w-4 h-4 text-pink-500" />
                   <span className="text-sm font-medium">WOMEN IN SNEAKERS</span>
-                </div>
+                </motion.div>
 
                 {/* Main Title */}
                 <div>
@@ -1008,14 +1008,14 @@ export default function Home() {
                 </div>
 
                 {/* CTA Button */}
-                <div
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: 1.5 }}
                 >
                   <Link href="/women-in-sneakers">
-                    <button
+                    <motion.button
                       className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
                       style={{
                         background: 'linear-gradient(to right, #ff6496 0%, #9650ff 61%, #ff9650 100%)',
@@ -1028,10 +1028,10 @@ export default function Home() {
                         Explore Women in Sneakers
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
-                    </button>
+                    </motion.button>
                   </Link>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Visual Grid Column */}
               <div
