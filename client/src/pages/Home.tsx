@@ -76,13 +76,13 @@ export default function Home() {
     offset: ["start start", "end start"]
   });
   
-  // Transform values for parallax effects
+  // Transform values for parallax effects - opacity always visible
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 1]);
   
-  // Animation variants for mobile-first design
+  // Animation variants for mobile-first design - all start visible
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
@@ -93,7 +93,7 @@ export default function Home() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 1, y: 0 },
     visible: {
       opacity: 1,
       y: 0,
@@ -105,7 +105,7 @@ export default function Home() {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
+    hidden: { opacity: 1, scale: 1 },
     visible: {
       opacity: 1,
       scale: 1,
@@ -155,14 +155,14 @@ export default function Home() {
 
     const ctx = gsap.context(() => {
       // Set initial states for all content elements  
-      gsap.set(trendingContentRef.current?.children || [], { opacity: 0, y: 50 });
+      gsap.set(trendingContentRef.current?.children || [], { opacity: 1, y: 0 });
 
       // Split heading into words (manual splitter like flagship)
       const heading = trendingHeaderRef.current;
       if (heading) {
         const words = heading.innerText.split(" ");
         heading.innerHTML = words.map(w => `<span class="trending-word">${w}</span>`).join(" ");
-        gsap.set(".trending-word", { opacity: 0, y: 50 });
+        gsap.set(".trending-word", { opacity: 1, y: 0 });
         
         // Make sure header is visible initially for text splitting
         gsap.set(heading, { opacity: 1 });
@@ -307,7 +307,7 @@ export default function Home() {
       {/* Trending Now Section - Pinned Animation */}
       <div
         ref={trendingSectionRef}
-        className="relative min-h-screen py-32 overflow-hidden"
+        className="relative min-h-screen py-32"
         style={{
           background: 'transparent',
         }}
