@@ -444,10 +444,10 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Hover overlay */}
+                  {/* Hover overlay - simplified */}
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ pointerEvents: 'none' }}
+                    className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ pointerEvents: 'none', zIndex: 1 }}
                   />
                 </div>
               )) : (
@@ -551,11 +551,12 @@ export default function Home() {
         }}
         data-testid="section-style-quiz"
       >
-        {/* Background effects */}
+        {/* Background effects - simplified */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
+            background: 'radial-gradient(ellipse at 70% 50%, rgba(150, 0, 255, 0.02) 0%, rgba(100, 50, 255, 0.01) 35%, rgba(255, 100, 150, 0.02) 100%)',
+            zIndex: -1,
           }}
         />
 
@@ -912,11 +913,12 @@ export default function Home() {
           }}
           data-testid="section-women-sneakers"
         >
-          {/* Background effects */}
+          {/* Background effects - simplified */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 100, 150, 0.08) 0%, rgba(150, 50, 255, 0.04) 35%, rgba(255, 150, 200, 0.06) 100%)',
+              background: 'radial-gradient(ellipse at 30% 70%, rgba(255, 100, 150, 0.02) 0%, rgba(150, 50, 255, 0.01) 35%, rgba(255, 150, 200, 0.02) 100%)',
+              zIndex: -1,
             }}
           />
 
@@ -1355,21 +1357,21 @@ export default function Home() {
 
 
       {/* Final Features Section */}
-      <section 
+      <motion.section 
         className="py-16 sm:py-24 bg-gradient-to-br from-muted/20 to-background"
         variants={itemVariants}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
+          <motion.div className="text-center mb-12 sm:mb-16" variants={itemVariants}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
               Why SoleGrithm?
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               The most comprehensive platform for sneaker enthusiasts
             </p>
-          </div>
+          </motion.div>
 
-          <div 
+          <motion.div 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
             variants={containerVariants}
           >
@@ -1433,9 +1435,9 @@ export default function Home() {
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
       </div>
     </>
   );

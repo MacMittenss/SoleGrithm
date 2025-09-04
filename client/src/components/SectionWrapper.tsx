@@ -40,22 +40,7 @@ export default function SectionWrapper({
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 1.05]);
 
-  // VITURE-style horizontal wipe transition - overlay slides in from right during scroll
-  const wipeProgress = useTransform(scrollYProgress, [0.7, 1], [0, 1]);
-  
-  // Black overlay that slides in from right to cover the current section
-  const overlayTransform = useTransform(
-    wipeProgress,
-    [0, 0.5, 1],
-    ['translateX(100%)', 'translateX(0%)', 'translateX(-100%)']
-  );
-
-  // Content that gets masked out by the overlay
-  const contentOpacity = useTransform(
-    wipeProgress,
-    [0, 0.3, 0.7, 1],
-    [1, 1, 0.3, 0]
-  );
+  // Simplified content visibility - no complex overlay masking
 
   useEffect(() => {
     if (isInView && onEnter) {
@@ -116,18 +101,7 @@ export default function SectionWrapper({
       style={sectionStyle}
       data-testid={`section-${id}`}
     >
-      {/* VITURE-style horizontal overlay transition */}
-      {maskTransition && (
-        <motion.div
-          ref={maskRef}
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundColor: '#000000',
-            transform: overlayTransform,
-            zIndex: 100,
-          }}
-        />
-      )}
+      {/* Overlay functionality removed to prevent homepage visibility issues */}
 
       <div style={stickyStyle} className={sticky ? 'flex flex-col' : ''}>
         <motion.div
@@ -135,9 +109,9 @@ export default function SectionWrapper({
           className="relative h-full"
           style={{
             y: sticky ? 0 : y,
-            opacity: maskTransition ? contentOpacity : (sticky ? 1 : opacity),
+            opacity: sticky ? 1 : opacity,
             scale: sticky ? 1 : scale,
-            zIndex: maskTransition ? 10 : 20,
+            zIndex: 20,
           }}
           initial={{
             opacity: sticky ? 1 : 0,
