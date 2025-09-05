@@ -12,6 +12,7 @@ import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
+import SoleRadarSection from "@/components/advanced/SoleRadarSection";
 import AdvancedFooter from "@/components/advanced/AdvancedFooter";
 
 // Legacy components
@@ -144,7 +145,8 @@ export default function Home() {
       {/* Advanced Latest Stories with GSAP Pinned Animation */}
       <AdvancedLatestStories />
 
-      {/* NOTE: SoleRadarSection removed due to DOM manipulation errors */}
+      {/* Sole Radar Section - AI Discovery (blur and overlay animations removed) */}
+      <SoleRadarSection />
 
       {/* Advanced Live Market Section */}
       <AdvancedLiveMarket />

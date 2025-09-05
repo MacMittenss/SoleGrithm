@@ -18,7 +18,6 @@ export default function SoleRadarSection() {
   const featuresRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const curtainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -133,7 +132,7 @@ export default function SoleRadarSection() {
           ease: "back.out(1.2)" // Slight bounce effect for growth
         }, "+=0.03"); // Minimal delay
 
-      // Curtain overlay animations removed to prevent popping conflicts
+      // Curtain overlay completely removed to prevent DOM manipulation conflicts
 
     }, sectionRef);
 
@@ -150,21 +149,19 @@ export default function SoleRadarSection() {
       }}
       data-testid="section-sole-radar"
     >
-      {/* Background gradient effects - Same as discover culture section */}
+      {/* Background gradient effects - Without blur filters */}
       <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
-        {/* Purple/Pink/Blue gradient orbs like discover culture section */}
+        {/* Purple/Pink/Blue gradient orbs - No blur filters */}
         <div 
           className="absolute top-32 left-1/4 w-80 h-80 rounded-full opacity-20"
           style={{
             background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
-            filter: 'blur(100px)',
           }}
         />
         <div 
           className="absolute bottom-20 right-1/4 w-60 h-60 rounded-full opacity-15"
           style={{
             background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
-            filter: 'blur(80px)',
           }}
         />
       </div>
@@ -317,19 +314,6 @@ export default function SoleRadarSection() {
         </div>
       </div>
 
-      {/* Curtain Overlay - Style Quiz background that starts as horizontal bar at bottom */}
-      <div
-        ref={curtainRef}
-        className="fixed pointer-events-none"
-        style={{
-          backgroundColor: '#000000',
-          zIndex: 1000,
-          width: '300vw', // Much wider to ensure full coverage when upright
-          height: '600vh', // Back to reasonable thickness
-          bottom: '0%', // Start at bottom of viewport
-          left: '-100vw', // Position further left to cover gaps when vertical
-        }}
-      />
     </div>
   );
 }
