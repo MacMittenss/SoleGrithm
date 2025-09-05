@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
 import AdvancedLatestStories from "@/components/advanced/AdvancedLatestStories";
+import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 
 // Legacy components
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -80,9 +81,12 @@ export default function Home() {
       {/* Advanced Latest Stories with GSAP Pinned Animation */}
       <AdvancedLatestStories />
 
+      {/* Advanced Live Market Section */}
+      <AdvancedLiveMarket />
+
       {/* Test message */}
       <div className="text-center p-8">
-        <p className="text-white text-xl">Testing: Added AdvancedLatestStories</p>
+        <p className="text-white text-xl">Found issue: SoleRadarSection crashes - Testing AdvancedLiveMarket</p>
       </div>
       </div>
     </>
