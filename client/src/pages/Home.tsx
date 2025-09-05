@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Advanced components with VITURE-style animations
 import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
+import AdvancedLatestStories from "@/components/advanced/AdvancedLatestStories";
 
 // Legacy components
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -76,9 +77,12 @@ export default function Home() {
         <HotRightNowSlider />
       </div>
 
+      {/* Advanced Latest Stories with GSAP Pinned Animation */}
+      <AdvancedLatestStories />
+
       {/* Test message */}
       <div className="text-center p-8">
-        <p className="text-white text-xl">Testing: Hero + Flagship + HotRightNow loaded</p>
+        <p className="text-white text-xl">Testing: Added AdvancedLatestStories</p>
       </div>
       </div>
     </>
