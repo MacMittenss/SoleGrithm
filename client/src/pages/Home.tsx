@@ -12,9 +12,11 @@ import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
 import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
+import AdvancedFooter from "@/components/advanced/AdvancedFooter";
 
 // Legacy components
 import HotRightNowSlider from "@/components/HotRightNowSlider";
+import ARDemo from "@/components/ARDemo";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -39,6 +41,10 @@ import {
   Target,
   BookOpen
 } from "lucide-react";
+
+// Typography components for Style Quiz
+import SplitText from "@/components/advanced/SplitText";
+import GradientText from "@/components/advanced/GradientText";
 import { useAuth } from '@/hooks/useAuth';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import womenSneakersImage from "@assets/generated_images/Woman_in_stylish_sneakers_90ff70fb.png";
@@ -49,6 +55,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
+  
+  // Refs for Style Quiz GSAP animations
+  const styleQuizRef = useRef(null);
+  const styleQuizContentRef = useRef(null);
   
   // Initialize smooth scrolling
   useSmoothScroll();
@@ -147,6 +157,188 @@ export default function Home() {
 
       {/* Advanced Collections */}
       <AdvancedCollections />
+
+      {/* Style Quiz Section - Curtain Reveal Animation */}
+      <section
+        ref={styleQuizRef}
+        className="relative py-32 overflow-hidden min-h-screen"
+        style={{
+          background: '#000000', // Black background to match curtain
+        }}
+        data-testid="section-style-quiz"
+      >
+        <div className="relative max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Content Column */}
+            <div ref={styleQuizContentRef} className="space-y-8">
+                {/* Badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{
+                    background: 'rgba(150, 0, 255, 0.1)',
+                    border: '1px solid rgba(150, 0, 255, 0.2)',
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  initial={{ opacity: 1 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                >
+                  <Sparkles className="w-4 h-4 text-purple-500" />
+                  <span className="text-sm font-medium">STYLE QUIZ AI</span>
+                </motion.div>
+
+                {/* Main Title */}
+                <div>
+                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    <SplitText type="words" delay={0.3}>
+                      Discover Your
+                    </SplitText>
+                    <br />
+                    <GradientText className="block">
+                      Perfect Style
+                    </GradientText>
+                  </h2>
+                  
+                  <motion.p
+                    className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
+                    initial={{ opacity: 1, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  >
+                    Take our quick style quiz and get personalized sneaker recommendations 
+                    tailored just for you with AI-powered precision.
+                  </motion.p>
+                </div>
+
+                {/* Enhanced Form */}
+                <motion.form 
+                  className="relative p-8 rounded-3xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}
+                  initial={{ opacity: 1, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                >
+                  <div className="mb-6">
+                    <label className="block text-white py-2 font-semibold mb-3" htmlFor="stylequiz">
+                      Ready to find your style?
+                    </label>
+                    <motion.input
+                      className="w-full p-4 rounded-xl border border-white/20 bg-white/5 text-white placeholder-gray-400 leading-tight focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      id="stylequiz"
+                      type="text"
+                      placeholder="Enter your name to get started..."
+                      data-testid="input-style-quiz-name"
+                      whileFocus={{ scale: 1.02 }}
+                    />
+                  </div>
+
+                  <div className="pt-4">
+                    <Link href="/quiz">
+                      <motion.button
+                        className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full w-full"
+                        style={{
+                          background: 'linear-gradient(to right, #9600ff 0%, #6450ff 61%, #ff6496 100%)',
+                        }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        data-testid="button-start-style-quiz"
+                      >
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          Start Style Quiz
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </motion.button>
+                    </Link>
+                  </div>
+                </motion.form>
+              </div>
+
+              {/* Interactive Sneaker Column */}
+              <div className="relative">
+                {/* Enhanced Interactive Card */}
+                <div className="relative p-8 rounded-3xl border border-white/10"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02))',
+                  }}>
+                  <div className="text-center space-y-6">
+                    {/* Enhanced Sneaker Icon */}
+                    <div className="w-32 h-32 mx-auto rounded-2xl flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(150, 0, 255, 0.1), rgba(100, 50, 255, 0.1))',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                      }}>
+                      <ShoppingBag className="w-16 h-16 text-purple-500" />
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 text-white">AI Style Matching</h3>
+                      <p className="text-gray-400 mb-6">
+                        Click to explore interactive style preferences
+                      </p>
+                      
+                      {/* Enhanced Interactive Elements */}
+                      <div className="grid grid-cols-2 gap-3">
+                        <div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          data-testid="style-option-casual"
+                        >
+                          <Heart className="w-6 h-6 text-pink-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Casual</p>
+                        </div>
+                        
+                        <div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          data-testid="style-option-athletic"
+                        >
+                          <Zap className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Athletic</p>
+                        </div>
+                        
+                        <div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          data-testid="style-option-streetwear"
+                        >
+                          <Star className="w-6 h-6 text-blue-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Street</p>
+                        </div>
+                        
+                        <div
+                          className="p-4 rounded-xl border border-white/10 cursor-pointer"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))',
+                          }}
+                          data-testid="style-option-formal"
+                        >
+                          <Sparkles className="w-6 h-6 text-purple-500 mx-auto mb-2" />
+                          <p className="text-sm font-medium text-white">Formal</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {/* AR Try-On Section */}
+      <ARDemo />
+
+      {/* Footer Section */}
+      <AdvancedFooter />
       </div>
     </>
   );
