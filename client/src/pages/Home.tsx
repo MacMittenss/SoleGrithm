@@ -8,6 +8,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
 
+// Legacy components
+import HotRightNowSlider from "@/components/HotRightNowSlider";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -68,9 +71,14 @@ export default function Home() {
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
       <AdvancedFlagshipFeatures />
 
+      {/* What's Hot Right Now Slider */}
+      <div>
+        <HotRightNowSlider />
+      </div>
+
       {/* Test message */}
       <div className="text-center p-8">
-        <p className="text-white text-xl">Testing: Hero + Flagship Features loaded</p>
+        <p className="text-white text-xl">Testing: Hero + Flagship + HotRightNow loaded</p>
       </div>
       </div>
     </>
