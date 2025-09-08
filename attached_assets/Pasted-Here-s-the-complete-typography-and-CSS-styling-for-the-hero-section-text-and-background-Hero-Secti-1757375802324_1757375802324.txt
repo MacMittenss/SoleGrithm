@@ -1,0 +1,125 @@
+Here's the complete typography and CSS styling for the hero section text and background:
+
+Hero Section Background
+.hero-section {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+Hero Text Typography
+Main Title ("SOLEGRITHM"):
+
+.hero-text {
+  text-transform: none;
+  font-size: clamp(2rem, 16vw, 18rem); /* Responsive: min 2rem, scales to 16vw, max 18rem */
+  font-weight: 600; /* Semi-bold */
+  line-height: 0.8; /* Very tight line height */
+  width: 98vw;
+  padding: 0 1vw;
+  text-align: center;
+  white-space: nowrap;
+}
+Welcome Text ("Welcome To"):
+
+.heading {
+  align-self: flex-start;
+  /* Inherits from h5 global styles: */
+  letter-spacing: 0.14vw;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.89vw;
+  font-weight: 400;
+  line-height: 1.44vw;
+}
+Background Elements
+Circle Element:
+
+.circle {
+  z-index: -1;
+  border: 1px solid var(--white);
+  opacity: 0.2;
+  border-radius: 100%;
+  width: 70vw;
+  height: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 10vw;
+}
+Fingerprint Background:
+
+.fingerprint {
+  z-index: -1;
+  opacity: 0.05;
+  background-image: url("../images/fingerprint.svg");
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 100%;
+  width: 70vw;
+  height: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -35vw;
+  margin-left: -35vw;
+}
+Hero Wrapper:
+
+.hero-wrapper {
+  grid-column-gap: 1.11vw;
+  grid-row-gap: 1.11vw;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+Responsive Typography Breakpoints
+Tablet (≤991px):
+
+.hero-text {
+  font-size: 8rem;
+  line-height: 6rem;
+}
+.hero-wrapper {
+  width: 41rem;
+  height: 40vh;
+}
+Mobile (≤767px):
+
+.hero-text {
+  font-size: 5.5rem;
+  line-height: 4rem;
+}
+.hero-wrapper {
+  width: 28.5rem;
+  height: 35vh;
+}
+Small Mobile (≤479px):
+
+.hero-text {
+  font-size: 16vw;
+  line-height: 13vw;
+}
+.hero-wrapper {
+  width: 80vw;
+  height: 30vh;
+}
+Key Typography Features
+Font Family: Inter (inherited from body)
+Color: Uses CSS custom properties (var(--white) = whitesmoke)
+Responsive Scaling: Uses clamp() for fluid typography with viewport units
+Letter Spacing: Negative for main title (-0.07vw), positive for small text (0.14vw)
+Text Transform: None for main title, uppercase for welcome text
+Line Height: Very tight (0.8) for dramatic effect on main title

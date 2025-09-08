@@ -604,53 +604,48 @@ button, input, textarea, select {
 
 /* Hero Section Styles */
 .hero-section {
-  position: relative;
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  align-items: center;
+  flex-flow: column;
   justify-content: center;
-  background-color: var(--black);
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
   overflow: hidden;
 }
 
 .hero-wrapper {
-  position: relative !important;
-  z-index: 10 !important;
-  text-align: center !important;
-  padding: 2rem !important;
+  grid-column-gap: 1.11vw;
+  grid-row-gap: 1.11vw;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
 }
 
 .heading {
-  font-family: Inter, sans-serif !important;
-  font-size: 1.2rem !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.2em !important;
-  text-transform: uppercase !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  text-align: center !important;
-  margin: 0 !important;
-  margin-bottom: 1rem !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
+  align-self: flex-start;
+  letter-spacing: 0.14vw;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.89vw;
+  font-weight: 400;
+  line-height: 1.44vw;
 }
 
 .hero-text {
-  font-family: Inter, sans-serif !important;
-  font-size: 5.55vw !important;
-  font-weight: 600 !important;
-  line-height: 6.11vw !important;
-  letter-spacing: -0.07vw !important;
-  text-transform: capitalize !important;
-  color: var(--white) !important;
-  text-align: center !important;
-  margin: 0 !important;
-  margin-bottom: 2rem !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
+  text-transform: none;
+  font-size: clamp(2rem, 16vw, 18rem);
+  font-weight: 600;
+  line-height: 0.8;
+  width: 98vw;
+  padding: 0 1vw;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .spline {
@@ -775,33 +770,35 @@ button, input, textarea, select {
 }
 
 .fingerprint {
-  z-index: 1 !important;
-  opacity: 0.3 !important;
-  background-image: url("/images/fingerprint.svg") !important;
-  background-position: 50% !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  border-radius: 100% !important;
-  width: 70vw !important;
-  height: 70vw !important;
-  margin-top: -35vw !important;
-  margin-left: -35vw !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
+  z-index: -1;
+  opacity: 0.05;
+  background-image: url("/images/fingerprint.svg");
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 100%;
+  width: 70vw;
+  height: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -35vw;
+  margin-left: -35vw;
 }
 
 .circle {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 800px !important;
-  height: 800px !important;
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 50% !important;
-  z-index: 2 !important;
-  pointer-events: none !important;
+  z-index: -1;
+  border: 1px solid var(--white);
+  opacity: 0.2;
+  border-radius: 100%;
+  width: 70vw;
+  height: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 10vw;
 }
 
 /* Responsive Design */
@@ -815,10 +812,14 @@ button, input, textarea, select {
     gap: 20px;
   }
   
-  /* Tablet and smaller */
-  .fingerprint {
-    bottom: 20vw;
-    top: auto;
+  /* Tablet responsive */
+  .hero-text {
+    font-size: 8rem;
+    line-height: 6rem;
+  }
+  .hero-wrapper {
+    width: 41rem;
+    height: 40vh;
   }
   
   .padding-4-5rem {
@@ -846,30 +847,32 @@ button, input, textarea, select {
     gap: 16px;
   }
   
+  /* Mobile responsive */
   .hero-text {
-    font-size: 36px;
-    line-height: 42px;
+    font-size: 5.5rem;
+    line-height: 4rem;
+  }
+  .hero-wrapper {
+    width: 28.5rem;
+    height: 35vh;
   }
   
-  /* Mobile */
-  .fingerprint {
-    bottom: 20vw;
-  }
 }
 
 /* Small mobile */
 @media screen and (max-width: 479px) {
-  .fingerprint {
-    bottom: auto;
+  /* Small mobile responsive */
+  .hero-text {
+    font-size: 16vw;
+    line-height: 13vw;
+  }
+  .hero-wrapper {
+    width: 80vw;
+    height: 30vh;
   }
   
   .heading {
     font-size: 12px;
-  }
-  
-  .circle {
-    width: 400px;
-    height: 400px;
   }
   
   .w-container {
