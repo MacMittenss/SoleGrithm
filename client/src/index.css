@@ -618,35 +618,36 @@ button, input, textarea, select {
 }
 
 .hero-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  z-index: 10;
   position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
 }
 
 .heading {
-  color: var(--white);
-  text-align: center;
-  margin-bottom: 10px;
   font-family: Inter, sans-serif;
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: 400;
-  line-height: 1.2;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
 .hero-text {
+  font-family: Inter, sans-serif;
+  font-size: 5.55vw;
+  font-weight: 600;
+  line-height: 6.11vw;
+  letter-spacing: -0.07vw;
+  text-transform: capitalize;
   color: var(--white);
   text-align: center;
-  margin-bottom: 40px;
-  font-family: 'Beatrice Deck Trial', serif;
-  font-size: clamp(4rem, 12vw, 12rem);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.05em;
+  margin: 0;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .spline {
@@ -655,7 +656,8 @@ button, input, textarea, select {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 5;
+  pointer-events: none;
 }
 
 .arrow-border-wrapper {
@@ -770,21 +772,30 @@ button, input, textarea, select {
 }
 
 .fingerprint {
-  top: 20%;
-  left: 10%;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwQzc3LjYxNDIgMTAgMTAwIDMyLjM4NTggMTAwIDYwQzEwMCA4Ny42MTQyIDc3LjYxNDIgMTEwIDUwIDExMEMyMi4zODU4IDExMCAwIDg3LjYxNDIgMCA2MEMwIDMyLjM4NTggMjIuMzg1OCAxMCA1MCAxMFoiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiLz4KPHA+PC9wYXRoPgo8L3N2Zz4K');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.05;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .circle {
-  bottom: 20%;
-  right: 10%;
-  width: 300px;
-  height: 300px;
-  border: 1px solid rgba(255,255,255,0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Responsive Design */
@@ -804,11 +815,12 @@ button, input, textarea, select {
   }
   
   .hero-text {
-    font-size: clamp(3rem, 10vw, 8rem);
+    font-size: 48px;
+    line-height: 56px;
   }
   
   .heading {
-    font-size: 1.5rem;
+    font-size: 14px;
   }
 }
 
@@ -823,11 +835,17 @@ button, input, textarea, select {
   }
   
   .hero-text {
-    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-size: 36px;
+    line-height: 42px;
   }
   
   .heading {
-    font-size: 1.2rem;
+    font-size: 12px;
+  }
+  
+  .circle {
+    width: 400px;
+    height: 400px;
   }
   
   .w-container {
