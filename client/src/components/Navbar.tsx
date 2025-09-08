@@ -32,7 +32,7 @@ export default function Navbar() {
   const mainNavigation = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Live Market', href: '/live-market', icon: TrendingUp },
-    { name: 'Collections', href: '/collection', icon: Heart },
+    { name: 'Collections', href: '/collections', icon: Heart },
     { name: 'Blog', href: '/blog', icon: BookOpen }
   ];
 

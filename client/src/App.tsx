@@ -101,11 +101,14 @@ function App() {
                   <Route path="/sneakers/:slug" component={SneakerDetail} />
                   <Route path="/discover" component={Discover} />
                   <Route path="/quiz" component={SneakerQuiz} />
+                  <Route path="/style-quiz" component={SneakerQuiz} />
                   <Route path="/visual-search" component={VisualSearch} />
                   <Route path="/collections" component={Collections} />
+                  <Route path="/soleradar" component={Discover} />
                   <Route path="/review-summary" component={ReviewSummaryDemo} />
                   <Route path="/ar-tryon" component={ARTryOn} />
                   <Route path="/trend-map" component={TrendMap} />
+                  <Route path="/sneaker-map" component={TrendMap} />
                   <Route path="/testing" component={Testing} />
                   <Route path="/women-in-sneakers" component={WomenInSneakers} />
                   <Route component={NotFound} />
