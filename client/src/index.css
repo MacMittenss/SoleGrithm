@@ -389,10 +389,7 @@ button, input, textarea, select {
     @apply hover:scale-105 hover:shadow-xl;
   }
 
-  /* Hero section styling */
-  .hero-text {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
+  /* Hero section styling - moved to main definition below */
 
   /* Flight Club inspired spacing */
   .section-spacing {
