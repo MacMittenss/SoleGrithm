@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter'
-import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle, Loader2, Home } from 'lucide-react'
+import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle, Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
@@ -30,13 +30,15 @@ export default function Navbar() {
   }, [])
 
   const mainNavigation = [
-    { name: 'Home', href: '/', icon: Home },
+    { name: 'Catalog', href: '/catalog', icon: Grid3X3 },
     { name: 'Live Market', href: '/live-market', icon: TrendingUp },
+    { name: 'Discover', href: '/discover', icon: Compass },
     { name: 'Collections', href: '/collections', icon: Heart },
     { name: 'Blog', href: '/blog', icon: BookOpen }
   ];
 
   const aiFeatures = [
+    { name: 'SoleBot', href: '/solebot', icon: MessageCircle },
     { name: 'Visual Search', href: '/visual-search', icon: Eye },
     { name: 'SoleRadar', href: '/soleradar', icon: Search },
     { name: 'Style Quiz', href: '/style-quiz', icon: Target }
@@ -66,9 +68,9 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link href="/">
-            <div onClick={handleNavigation} style={{ textDecoration: 'none', cursor: 'pointer' }} className="brand-text">
-              SOLEGRITHM
-            </div>
+            <a onClick={handleNavigation} style={{ textDecoration: 'none' }}>
+              <div className="brand-text">SOLEGRITHM</div>
+            </a>
           </Link>
           
           {/* Main Navigation */}
@@ -77,7 +79,7 @@ export default function Navbar() {
               const IconComponent = item.icon;
               return (
                 <Link key={item.name} href={item.href}>
-                  <div 
+                  <a 
                     onClick={handleNavigation}
                     style={{
                       display: 'flex',
@@ -87,12 +89,10 @@ export default function Navbar() {
                       textDecoration: 'none',
                       fontSize: '0.9rem',
                       fontWeight: '500',
-                      fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
                       padding: '0.5rem',
                       borderRadius: '8px',
                       transition: 'all 0.1s ease',
                       backgroundColor: location === item.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                      cursor: 'pointer'
                     }}
                     onMouseEnter={(e) => {
                       if (location !== item.href) {
@@ -107,7 +107,7 @@ export default function Navbar() {
                   >
                     <IconComponent size={18} />
                     <span>{item.name}</span>
-                  </div>
+                  </a>
                 </Link>
               );
             })}
@@ -128,7 +128,6 @@ export default function Navbar() {
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
-                  fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
                   padding: '0.5rem',
                   borderRadius: '8px',
                   cursor: 'pointer',
@@ -159,7 +158,7 @@ export default function Navbar() {
                     const IconComponent = feature.icon;
                     return (
                       <Link key={feature.name} href={feature.href}>
-                        <div 
+                        <a 
                           onClick={handleNavigation}
                           style={{
                             display: 'flex',
@@ -171,7 +170,6 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.1s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                            cursor: 'pointer'
                           }}
                           onMouseEnter={(e) => {
                             if (location !== feature.href) {
@@ -185,8 +183,8 @@ export default function Navbar() {
                           }}
                         >
                           <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' }}>{feature.name}</span>
-                        </div>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
+                        </a>
                       </Link>
                     );
                   })}
@@ -210,7 +208,6 @@ export default function Navbar() {
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
-                  fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
                   padding: '0.5rem',
                   borderRadius: '8px',
                   cursor: 'pointer',
@@ -241,7 +238,7 @@ export default function Navbar() {
                     const IconComponent = feature.icon;
                     return (
                       <Link key={feature.name} href={feature.href}>
-                        <div 
+                        <a 
                           onClick={handleNavigation}
                           style={{
                             display: 'flex',
@@ -253,7 +250,6 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.1s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                            cursor: 'pointer'
                           }}
                           onMouseEnter={(e) => {
                             if (location !== feature.href) {
@@ -267,8 +263,8 @@ export default function Navbar() {
                           }}
                         >
                           <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' }}>{feature.name}</span>
-                        </div>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
+                        </a>
                       </Link>
                     );
                   })}
@@ -279,7 +275,7 @@ export default function Navbar() {
           
           {/* User Profile */}
           <Link href="/profile">
-            <div 
+            <a 
               onClick={handleNavigation}
               style={{
                 display: 'flex',
@@ -293,7 +289,6 @@ export default function Navbar() {
                 borderRadius: '8px',
                 transition: 'all 0.1s ease',
                 backgroundColor: location === '/profile' ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
-                cursor: 'pointer'
               }}
               onMouseEnter={(e) => {
                 if (location !== '/profile') {
@@ -311,7 +306,7 @@ export default function Navbar() {
               {isNavigating && (
                 <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
               )}
-            </div>
+            </a>
           </Link>
         </div>
       </nav>
@@ -325,25 +320,12 @@ export default function Navbar() {
             left: 0,
             right: 0,
             height: '3px',
-            background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
-            zIndex: 1000,
-            animation: 'slideIn 0.4s ease-out'
+            background: 'linear-gradient(90deg, #4facfe, #00f2fe)',
+            animation: 'pulse 1.5s ease-in-out infinite',
+            zIndex: 100,
           }}
         />
       )}
-      
-      <style>
-        {`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes slideIn {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(0); }
-        }
-        `}
-      </style>
     </header>
   )
 }
