@@ -1,81 +1,12 @@
-import React, { useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
-// import futuristicSneakerImage from '@assets/transparent-Photoroom_1755556579483.png';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
-import BlurryGradient from './BlurryGradient';
-import MarqueeText from './MarqueeText';
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 export default function AdvancedHero() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const heroTextRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!heroRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Hero fade/scale out animation - target h1 and p elements directly
-      gsap.to(".hero h1, .hero p", {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-          pin: true,
-        },
-        opacity: 1,
-        y: -100,
-        scale: 0.8,
-        stagger: 0.2
-      });
-
-
-
-      // Subtle shimmer effect on background orbs
-      const backgroundOrbs = heroRef.current?.querySelectorAll('[data-shimmer]');
-      if (backgroundOrbs) {
-        gsap.to(backgroundOrbs, {
-          opacity: 'random(0.15, 0.35)',
-          duration: 'random(3, 5)',
-          ease: 'sine.inOut',
-          repeat: -1,
-          yoyo: true,
-          stagger: 1.5,
-        });
-      }
-
-      // Background animation removed - now using static homepage background
-
-      // Soft floating elements animation
-      const floatingElements = heroRef.current?.querySelectorAll('[data-float]');
-      if (floatingElements) {
-        gsap.to(floatingElements, {
-          x: 'random(-8, 8)',
-          y: 'random(-8, 8)',
-          rotation: 'random(-2, 2)',
-          duration: 'random(6, 8)',
-          ease: 'sine.inOut',
-          repeat: -1,
-          yoyo: true,
-          stagger: 1.2,
-        });
-      }
-    });
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <div
-      ref={heroRef}
       className="hero relative min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
       style={{
         background: 'transparent',
@@ -102,8 +33,7 @@ export default function AdvancedHero() {
             background: 'linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)',
             filter: 'blur(100px)',
           }}
-          data-float
-          data-shimmer
+
         />
         
         <div
@@ -112,8 +42,7 @@ export default function AdvancedHero() {
             background: 'linear-gradient(to right, #581dff 0%, #fe7a60 61%, #ff2900 100%)',
             filter: 'blur(80px)',
           }}
-          data-float
-          data-shimmer
+
         />
         
         {/* Additional subtle accent orbs */}
@@ -123,8 +52,7 @@ export default function AdvancedHero() {
             background: 'radial-gradient(circle, #fe7a60 0%, transparent 70%)',
             filter: 'blur(60px)',
           }}
-          data-shimmer
-          data-float
+
         />
         
         <div
@@ -133,8 +61,7 @@ export default function AdvancedHero() {
             background: 'radial-gradient(circle, #581dff 0%, transparent 70%)',
             filter: 'blur(40px)',
           }}
-          data-shimmer
-          data-float
+
         />
 
         {/* Dynamic color accent orbs */}
@@ -144,8 +71,7 @@ export default function AdvancedHero() {
             background: 'radial-gradient(circle, #ff6b35 0%, transparent 80%)',
             filter: 'blur(35px)',
           }}
-          data-shimmer
-          data-float
+
         />
         
         <div
@@ -154,14 +80,12 @@ export default function AdvancedHero() {
             background: 'radial-gradient(circle, #a855f7 0%, transparent 80%)',
             filter: 'blur(30px)',
           }}
-          data-shimmer
-          data-float
+
         />
       </div>
 
       {/* Hero Text Content */}
       <div
-        ref={heroTextRef}
         className="relative z-10 w-full h-full flex items-end justify-between pb-64 pl-24 pr-16"
       >
         {/* Left - Text Content */}
@@ -192,7 +116,7 @@ export default function AdvancedHero() {
               borderRadius: '40% 60% 70% 30% / 50% 30% 70% 50%',
               filter: 'blur(30px)',
             }}
-            data-shimmer
+  
           />
           
           {/* Secondary accent form */}
@@ -203,8 +127,8 @@ export default function AdvancedHero() {
               borderRadius: '60% 40% 30% 70% / 30% 70% 50% 50%',
               filter: 'blur(25px)',
             }}
-            data-shimmer
-            data-float
+  
+  
           />
 
           {/* Geometric accent lines */}
@@ -218,15 +142,15 @@ export default function AdvancedHero() {
           {/* Small floating accent dots */}
           <div 
             className="absolute top-8 left-8 w-3 h-3 rounded-full bg-orange-400 opacity-70"
-            data-float
+  
           />
           <div 
             className="absolute bottom-16 left-24 w-2 h-2 rounded-full bg-purple-500 opacity-60"
-            data-float
+  
           />
           <div 
             className="absolute top-32 right-4 w-2.5 h-2.5 rounded-full bg-red-400 opacity-65"
-            data-float
+  
           />
         </div>
       </div>
