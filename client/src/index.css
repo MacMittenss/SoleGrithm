@@ -622,29 +622,29 @@ button, input, textarea, select {
 }
 
 .heading {
-  font-family: Inter, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  margin: 0;
-  margin-bottom: 1rem;
+  font-family: Inter, sans-serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-align: center !important;
+  margin: 0 !important;
+  margin-bottom: 1rem !important;
 }
 
 .hero-text {
-  font-family: Inter, sans-serif;
-  font-size: 5.55vw;
-  font-weight: 600;
-  line-height: 6.11vw;
-  letter-spacing: -0.07vw;
-  text-transform: capitalize;
-  color: var(--white);
-  text-align: center;
-  margin: 0;
-  margin-bottom: 2rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: Inter, sans-serif !important;
+  font-size: 5.55vw !important;
+  font-weight: 600 !important;
+  line-height: 6.11vw !important;
+  letter-spacing: -0.07vw !important;
+  text-transform: capitalize !important;
+  color: var(--white) !important;
+  text-align: center !important;
+  margin: 0 !important;
+  margin-bottom: 2rem !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
 .spline {

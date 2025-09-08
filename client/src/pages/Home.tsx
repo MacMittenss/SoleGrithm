@@ -171,14 +171,22 @@ export default function Home() {
             </h1>
             <a href="#brands" className="arrow-border-wrapper w-inline-block">
               <div className="icon-wrapper">
-                <img
-                  width="Auto"
-                  height="Auto"
-                  alt="arrow up"
-                  src="/images/arrow_outward.svg"
-                  loading="eager"
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                   className="arrow"
-                />
+                >
+                  <path
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             </a>
           </div>
@@ -205,54 +213,30 @@ export default function Home() {
           <div className="brands-wrapper">
             <div className="brands-grid">
               <div className="logos-wrapper">
-                <img alt="brand logo" src="/images/load.png" loading="eager" />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>NIKE</div>
               </div>
               <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname3.png"
-                  alt="brand logo"
-                />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>ADIDAS</div>
               </div>
               <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname2.png"
-                  alt="brand logo"
-                />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>JORDAN</div>
               </div>
               <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname1.png"
-                  alt="brand logo"
-                />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>PUMA</div>
               </div>
             </div>
             <div className="brands-grid">
               <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname1.png"
-                  alt="brand logo"
-                />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>CONVERSE</div>
               </div>
               <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname2.png"
-                  alt="brand logo"
-                />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>VANS</div>
               </div>
               <div className="logos-wrapper">
-                <img
-                  loading="eager"
-                  src="/images/logowithname3.png"
-                  alt="brand logo"
-                />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>REEBOK</div>
               </div>
               <div className="logos-wrapper">
-                <img alt="brand logo" src="/images/load.png" loading="eager" />
+                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>BALENCIAGA</div>
               </div>
             </div>
           </div>
