@@ -33,7 +33,7 @@ export default function Navbar() {
     { name: 'Catalog', href: '/catalog', icon: Grid3X3 },
     { name: 'Live Market', href: '/live-market', icon: TrendingUp },
     { name: 'Discover', href: '/discover', icon: Compass },
-    { name: 'Collections', href: '/collection', icon: Heart },
+    { name: 'Collections', href: '/collections', icon: Heart },
     { name: 'Blog', href: '/blog', icon: BookOpen }
   ];
 
@@ -320,23 +320,12 @@ export default function Navbar() {
             left: 0,
             right: 0,
             height: '3px',
-            background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
-            zIndex: 1000,
-            animation: 'slideIn 0.4s ease-out'
+            background: 'linear-gradient(90deg, #4facfe, #00f2fe)',
+            animation: 'pulse 1.5s ease-in-out infinite',
+            zIndex: 100,
           }}
         />
       )}
-      
-      <style jsx>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes slideIn {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(0); }
-        }
-      `}</style>
     </header>
   )
 }
