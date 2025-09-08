@@ -5,7 +5,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Advanced components with VITURE-style animations
-import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
 import AdvancedLatestStories from "@/components/advanced/AdvancedLatestStories";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
@@ -51,11 +50,29 @@ import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import womenSneakersImage from "@assets/generated_images/Woman_in_stylish_sneakers_90ff70fb.png";
 import arTryonImage from "@assets/generated_images/AR_sneaker_try-on_technology_732da862.png";
 
+// Declare the spline-viewer custom element for TypeScript
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "spline-viewer": {
+        url: string;
+        style?: React.CSSProperties;
+        background?: string;
+        className?: string;
+      };
+    }
+  }
+}
+
 export default function Home() {
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
   const [isLoading, setIsLoading] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
+  
+  // Refs for new hero GSAP animations
+  const heroTextRef = useRef<HTMLHeadingElement>(null);
+  const welcomeTextRef = useRef<HTMLHeadingElement>(null);
   
   // Refs for Style Quiz GSAP animations
   const styleQuizRef = useRef(null);
@@ -89,6 +106,47 @@ export default function Home() {
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
 
+  useEffect(() => {
+    // Robot-synced zoom animation for SOLEGRITHM text
+    if (heroTextRef.current && welcomeTextRef.current) {
+      const tl = gsap.timeline({ delay: 1.2 }); // Start when robot animation starts
+
+      // Split SOLEGRITHM into individual letters
+      const text = heroTextRef.current;
+      const letters = text.textContent?.split("") || [];
+      text.innerHTML = letters
+        .map(
+          (letter) =>
+            `<span style="display: inline-block; opacity: 0; transform: scale(2.5) translateZ(0);">${letter}</span>`
+        )
+        .join("");
+
+      // Set welcome text initial state
+      gsap.set(welcomeTextRef.current, { opacity: 0, scale: 2.5 });
+
+      // Animate welcome text with zoom-out effect
+      tl.to(welcomeTextRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 2.5,
+        ease: "expo.out",
+      })
+
+        // Animate SOLEGRITHM letters with synchronized zoom-out
+        .to(
+          text.querySelectorAll("span"),
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 2.5,
+            ease: "expo.out",
+            stagger: 0.02,
+          },
+          "-=2.3"
+        ); // Start slightly after welcome text
+    }
+  }, []);
+
   return (
     <>
       <div 
@@ -99,8 +157,108 @@ export default function Home() {
           minHeight: '100vh',
         }}
       >
-      {/* Hero Section - Advanced VITURE-style */}
-      <AdvancedHero />
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="fingerprint"></div>
+        <div className="circle"></div>
+        <div className="w-layout-blockcontainer container w-container">
+          <div className="hero-wrapper">
+            <h5 ref={welcomeTextRef} className="heading">
+              Welcome To
+            </h5>
+            <h1 ref={heroTextRef} className="hero-text">
+              SOLEGRITHM
+            </h1>
+            <a href="#brands" className="arrow-border-wrapper w-inline-block">
+              <div className="icon-wrapper">
+                <img
+                  width="Auto"
+                  height="Auto"
+                  alt="arrow up"
+                  src="/images/arrow_outward.svg"
+                  loading="eager"
+                  className="arrow"
+                />
+              </div>
+            </a>
+          </div>
+        </div>
+        <div className="spline">
+          <iframe
+            src="https://my.spline.design/nexbotrobotcharacterconcept-MuKFwn44xdQzWJqISlDVY35e/"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+            style={{
+              width: "100%",
+              height: "100%",
+              background: "transparent",
+            }}
+          />
+        </div>
+      </section>
+
+      {/* Brands Section */}
+      <section id="brands" className="section">
+        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+          <div className="space-7rem"></div>
+          <div className="brands-wrapper">
+            <div className="brands-grid">
+              <div className="logos-wrapper">
+                <img alt="brand logo" src="/images/load.png" loading="eager" />
+              </div>
+              <div className="logos-wrapper">
+                <img
+                  loading="eager"
+                  src="/images/logowithname3.png"
+                  alt="brand logo"
+                />
+              </div>
+              <div className="logos-wrapper">
+                <img
+                  loading="eager"
+                  src="/images/logowithname2.png"
+                  alt="brand logo"
+                />
+              </div>
+              <div className="logos-wrapper">
+                <img
+                  loading="eager"
+                  src="/images/logowithname1.png"
+                  alt="brand logo"
+                />
+              </div>
+            </div>
+            <div className="brands-grid">
+              <div className="logos-wrapper">
+                <img
+                  loading="eager"
+                  src="/images/logowithname1.png"
+                  alt="brand logo"
+                />
+              </div>
+              <div className="logos-wrapper">
+                <img
+                  loading="eager"
+                  src="/images/logowithname2.png"
+                  alt="brand logo"
+                />
+              </div>
+              <div className="logos-wrapper">
+                <img
+                  loading="eager"
+                  src="/images/logowithname3.png"
+                  alt="brand logo"
+                />
+              </div>
+              <div className="logos-wrapper">
+                <img alt="brand logo" src="/images/load.png" loading="eager" />
+              </div>
+            </div>
+          </div>
+          <div className="space-7rem"></div>
+        </div>
+      </section>
 
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
       <AdvancedFlagshipFeatures />
