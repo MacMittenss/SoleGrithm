@@ -68,9 +68,9 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link href="/">
-            <a onClick={handleNavigation} style={{ textDecoration: 'none' }}>
-              <div className="brand-text">SOLEGRITHM</div>
-            </a>
+            <div onClick={handleNavigation} style={{ textDecoration: 'none', cursor: 'pointer' }} className="brand-text">
+              SOLEGRITHM
+            </div>
           </Link>
           
           {/* Main Navigation */}
@@ -79,7 +79,7 @@ export default function Navbar() {
               const IconComponent = item.icon;
               return (
                 <Link key={item.name} href={item.href}>
-                  <a 
+                  <div 
                     onClick={handleNavigation}
                     style={{
                       display: 'flex',
@@ -93,6 +93,7 @@ export default function Navbar() {
                       borderRadius: '8px',
                       transition: 'all 0.1s ease',
                       backgroundColor: location === item.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
+                      cursor: 'pointer'
                     }}
                     onMouseEnter={(e) => {
                       if (location !== item.href) {
@@ -107,7 +108,7 @@ export default function Navbar() {
                   >
                     <IconComponent size={18} />
                     <span>{item.name}</span>
-                  </a>
+                  </div>
                 </Link>
               );
             })}
@@ -158,7 +159,7 @@ export default function Navbar() {
                     const IconComponent = feature.icon;
                     return (
                       <Link key={feature.name} href={feature.href}>
-                        <a 
+                        <div 
                           onClick={handleNavigation}
                           style={{
                             display: 'flex',
@@ -170,6 +171,7 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.1s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
+                            cursor: 'pointer'
                           }}
                           onMouseEnter={(e) => {
                             if (location !== feature.href) {
@@ -184,7 +186,7 @@ export default function Navbar() {
                         >
                           <IconComponent size={20} />
                           <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
-                        </a>
+                        </div>
                       </Link>
                     );
                   })}
@@ -238,7 +240,7 @@ export default function Navbar() {
                     const IconComponent = feature.icon;
                     return (
                       <Link key={feature.name} href={feature.href}>
-                        <a 
+                        <div 
                           onClick={handleNavigation}
                           style={{
                             display: 'flex',
@@ -250,6 +252,7 @@ export default function Navbar() {
                             borderRadius: '8px',
                             transition: 'all 0.1s ease',
                             backgroundColor: location === feature.href ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
+                            cursor: 'pointer'
                           }}
                           onMouseEnter={(e) => {
                             if (location !== feature.href) {
@@ -264,7 +267,7 @@ export default function Navbar() {
                         >
                           <IconComponent size={20} />
                           <span style={{ fontWeight: '500', fontSize: '0.9rem' }}>{feature.name}</span>
-                        </a>
+                        </div>
                       </Link>
                     );
                   })}
@@ -275,7 +278,7 @@ export default function Navbar() {
           
           {/* User Profile */}
           <Link href="/profile">
-            <a 
+            <div 
               onClick={handleNavigation}
               style={{
                 display: 'flex',
@@ -289,6 +292,7 @@ export default function Navbar() {
                 borderRadius: '8px',
                 transition: 'all 0.1s ease',
                 backgroundColor: location === '/profile' ? 'rgba(79, 172, 254, 0.1)' : 'transparent',
+                cursor: 'pointer'
               }}
               onMouseEnter={(e) => {
                 if (location !== '/profile') {
@@ -306,7 +310,7 @@ export default function Navbar() {
               {isNavigating && (
                 <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
               )}
-            </a>
+            </div>
           </Link>
         </div>
       </nav>
@@ -327,7 +331,8 @@ export default function Navbar() {
         />
       )}
       
-      <style jsx>{`
+      <style>
+        {`
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
@@ -336,7 +341,8 @@ export default function Navbar() {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(0); }
         }
-      `}</style>
+        `}
+      </style>
     </header>
   )
 }
