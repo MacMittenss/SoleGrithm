@@ -5,7 +5,7 @@ import { queryClient } from "@/lib/queryClient";
 import { ThemeProvider } from "next-themes";
 // Auth will be handled via Firebase directly
 import { Toaster } from "@/components/ui/toaster";
-import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
 import AIChat from "@/components/AIChat";
 import { MobileNavigation } from "@/components/navigation/MobileNavigation";
 import { SkipLinks } from "@/components/accessibility/SkipToContent";
@@ -60,7 +60,7 @@ function App() {
             <div className="min-h-screen bg-background text-foreground">
               <SkipLinks />
               <ScrollToTop />
-              <Header onAIChatToggle={() => setIsAIChatOpen(!isAIChatOpen)} />
+              <Navbar />
               <MobileNavigation />
               
               <main id="main-content">
