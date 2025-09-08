@@ -1,11 +1,147 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 import { Compass, Target, Zap, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
+import SplitText from "./SplitText";
+import GradientText from "./GradientText";
 
-export default function SoleRadarSection() { 
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
+export default function SoleRadarSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Split title into words for word-by-word reveal
+      const title = titleRef.current;
+      if (title && title.innerText) {
+        const words = title.innerText.split(" ");
+        // Clear existing content safely
+        title.innerHTML = '';
+        // Add new word spans
+        title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
+      }
+
+      // Pin when section reaches top after animation starts
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=180%", // Exact duration: badge(0.2s) + words(0.3s+0.05s) + subtitle(0.3s+0.05s) + features(0.4s+0.05s) + button(0.4s+0.03s) + grid(0.4s+0.03s) = ~1.8s total
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+      });
+
+      // Set initial hidden states ONLY when animation is about to start
+      gsap.set(badgeRef.current, { 
+        opacity: 0, 
+        y: 30 // Smaller movement
+      });
+      gsap.set(".sole-radar .word", { 
+        opacity: 0, 
+        y: 50, // Smaller movement to reduce popping
+        scale: 0.95
+      });
+      gsap.set(subtitleRef.current, { 
+        opacity: 0, 
+        y: 30 // Smaller movement
+      });
+      gsap.set(featuresRef.current, {
+        opacity: 0,
+        y: 30, // Much smaller movement
+        scale: 0.95
+      });
+      gsap.set(buttonRef.current, {
+        opacity: 0,
+        y: 30,
+        scale: 0.95
+      });
+      gsap.set(gridRef.current, {
+        opacity: 0,
+        y: 30,
+        scale: 0.95
+      });
+
+      // Timeline using .to() approach - properly reveals content
+      let headerTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top", // Animate only when section is pinned to top
+          toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
+        }
+      });
+
+      // Header animation sequence - reveal elements
+      headerTl
+        // Badge first to visible state
+        .to(badgeRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.2, // Much faster
+          ease: "expo.out"
+        })
+        // Animate title words to visible state
+        .to(".sole-radar .word", {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.03, // Much faster stagger
+          duration: 0.3, // Much faster
+          ease: "expo.out"
+        }, "+=0.05") // Minimal pause
+        // Then animate subtitle to visible state
+        .to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3, // Much faster
+          ease: "expo.out"
+        }, "+=0.05") // Minimal pause
+        // Then animate features to visible state
+        .to(featuresRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4, // Much faster
+          ease: "back.out(1.2)" // Slight bounce effect for growth
+        }, "+=0.05") // Minimal pause
+        // Then animate button to visible state
+        .to(buttonRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4, // Much faster
+          ease: "back.out(1.2)"
+        }, "+=0.03") // Minimal delay
+        // Finally animate grid to visible state
+        .to(gridRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4, // Much faster
+          ease: "back.out(1.2)" // Slight bounce effect for growth
+        }, "+=0.03"); // Minimal delay
+
+      // Curtain overlay completely removed to prevent DOM manipulation conflicts
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []); 
 
   return (
     <div
+      ref={sectionRef}
       className="sole-radar relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Same as discover culture section
@@ -30,9 +166,17 @@ export default function SoleRadarSection() {
         />
       </div>
 
-      {/* Static geometric shapes */}
-      <div className="absolute top-20 right-20 w-32 h-32 rounded-full border border-green-500/20" />
-      <div className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-orange-500/20" />
+      {/* Floating geometric shapes */}
+      <motion.div
+        className="absolute top-20 right-20 w-32 h-32 rounded-full border border-green-500/20"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+      />
+      <motion.div
+        className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-orange-500/20"
+        animate={{ rotate: [45, 135, 45] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -40,6 +184,7 @@ export default function SoleRadarSection() {
           <div className="space-y-8">
             {/* Badge */}
             <div
+              ref={badgeRef}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
               style={{
                 background: 'rgba(0, 255, 150, 0.1)',
@@ -53,6 +198,7 @@ export default function SoleRadarSection() {
             {/* Main Title */}
             <div>
               <h2 
+                ref={titleRef}
                 className="font-bold leading-tight mb-6 text-white"
                 style={{ 
                   fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
@@ -63,6 +209,7 @@ export default function SoleRadarSection() {
               </h2>
               
               <p
+                ref={subtitleRef}
                 className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
               >
                 AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
@@ -71,7 +218,7 @@ export default function SoleRadarSection() {
             </div>
 
             {/* Feature list */}
-            <div className="space-y-4">
+            <div ref={featuresRef} className="space-y-4">
               {[
                 { icon: Compass, title: 'AI Style Matching', desc: 'Advanced analysis of your unique style preferences' },
                 { icon: Target, title: 'Smart Recommendations', desc: 'Personalized suggestions based on your history' },
@@ -96,7 +243,7 @@ export default function SoleRadarSection() {
             </div>
 
             {/* CTA Button */}
-            <div>
+            <div ref={buttonRef}>
               <Link href="/discover">
                 <button
                   className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
@@ -115,7 +262,7 @@ export default function SoleRadarSection() {
           </div>
 
           {/* Features Grid Column */}
-          <div className="relative">
+          <div ref={gridRef} className="relative">
             {/* Features Grid */}
             <div className="grid grid-cols-2 gap-8">
               {[

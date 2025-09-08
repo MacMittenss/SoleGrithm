@@ -1,18 +1,116 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 import { useQuery } from "@tanstack/react-query";
 import { BookOpen } from 'lucide-react';
 import { MasonryGrid } from "@/components/ui/masonry-grid";
 import PinterestBlogCard from "@/components/PinterestBlogCard";
+import SplitText from "./SplitText";
+import GradientText from "./GradientText";
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 export default function AdvancedLatestStories() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+
   // Fetch blog data
   const { data: blogPosts, isLoading: blogLoading, error: blogError } = useQuery({
     queryKey: ["/api/blog"],
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Split title into words for word-by-word reveal
+      const title = titleRef.current;
+      if (title && title.innerText) {
+        const words = title.innerText.split(" ");
+        // Clear existing content safely
+        title.innerHTML = '';
+        // Add new word spans
+        title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
+      }
+
+      // Pin exactly for animation duration - no more, no less
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=120%", // Exact duration: words(0.3s) + subtitle(0.3s+0.05s) + cards(0.4s+0.05s) = ~1.1s total
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+      });
+
+      // Set initial hidden states ONLY when animation is about to start
+      gsap.set(".latest-stories .word", { 
+        opacity: 0, 
+        y: 50, // Smaller movement to reduce popping
+        scale: 0.95
+      });
+      gsap.set(subtitleRef.current, { 
+        opacity: 0, 
+        y: 30 // Smaller movement
+      });
+      gsap.set(cardsRef.current, {
+        opacity: 0,
+        y: 30, // Much smaller movement
+        scale: 0.95
+      });
+
+      // Timeline using .to() approach - properly reveals content
+      let headerTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top", // Animate only when section is pinned to top
+          toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
+        }
+      });
+
+      // Header animation sequence - reveal elements
+      headerTl
+        // Animate title words to visible state
+        .to(".latest-stories .word", {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.03, // Much faster stagger
+          duration: 0.3, // Much faster duration
+          ease: "expo.out"
+        })
+        // Then animate subtitle to visible state
+        .to(subtitleRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3, // Much faster
+          ease: "expo.out"
+        }, "+=0.05") // Minimal pause
+        // Then animate cards to visible state
+        .to(cardsRef.current, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4, // Much faster
+          ease: "back.out(1.2)" // Slight bounce effect for growth
+        }, "+=0.05"); // Minimal pause
+
+      // Background animation removed - now using static homepage background
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [blogPosts]); // Re-run when blog posts change
+
   return (
     <div
+      ref={sectionRef}
       className="latest-stories relative py-32 overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Fully opaque background
@@ -39,14 +137,23 @@ export default function AdvancedLatestStories() {
         />
       </div>
 
-      {/* Static geometric shapes */}
-      <div className="absolute top-20 left-20 w-32 h-32 rounded-full border border-blue-500/20" />
-      <div className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20" />
+      {/* Floating geometric shapes */}
+      <motion.div
+        className="absolute top-20 left-20 w-32 h-32 rounded-full border border-blue-500/20"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-20 w-24 h-24 rotate-45 border border-pink-500/20"
+        animate={{ rotate: [45, 135, 45] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 w-full">
         {/* Header Section */}
         <div className="text-center mb-16">
           <h2 
+            ref={titleRef}
             className="font-bold leading-tight mb-6 text-white"
             style={{ 
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
@@ -57,6 +164,7 @@ export default function AdvancedLatestStories() {
           </h2>
           
           <p
+            ref={subtitleRef}
             className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
             style={{}}
           >
@@ -65,7 +173,7 @@ export default function AdvancedLatestStories() {
         </div>
 
         {/* Blog Posts Grid */}
-        <div>
+        <div ref={cardsRef}>
           {blogLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {Array.from({ length: 6 }).map((_, i) => (
