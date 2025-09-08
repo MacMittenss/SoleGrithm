@@ -1,78 +1,14 @@
-import React, { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
-// import womenSneakersImage from '@assets/close-up-futuristic-sneakers (1)_1755555541238.jpg';
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 // Define arTryonImage placeholder for now
 const arTryonImage = 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80'; // Placeholder image
 
 export default function AdvancedFlagshipFeatures() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Set initial states for elements
-      gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
-
-      // Split heading into words (manual splitter like reference)
-      const heading = titleRef.current;
-      if (heading) {
-        const words = heading.innerText.split(" ");
-        heading.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
-      }
-
-      // Timeline for display section reveal (like reference)
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center",
-          scrub: true,
-          pin: true,
-        }
-      });
-
-      tl.from(".flagship-features .word", {
-        opacity: 0,
-        y: 50,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power2.out"
-      })
-      .to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1
-      })
-      .to(cardsRef.current?.children || [], {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        stagger: 0.2,
-        y: 0
-      });
-
-      // Background animation removed - now using static homepage background
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <div
-      ref={sectionRef}
       className="flagship-features relative min-h-screen bg-black pt-8 pb-16 px-8 lg:px-16 overflow-hidden"
       style={{
         background: 'transparent',
@@ -102,7 +38,6 @@ export default function AdvancedFlagshipFeatures() {
         {/* Section Title */}
         <div className="text-center mb-8">
           <h2 
-            ref={titleRef}
             className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4"
             style={{ 
               fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
@@ -111,7 +46,6 @@ export default function AdvancedFlagshipFeatures() {
             Our Flagship Features
           </h2>
           <p 
-            ref={subtitleRef}
             className="text-lg text-gray-300 max-w-3xl mx-auto"
           >
             Discover the cutting-edge technologies and exclusive experiences that make SoleGrithm the future of sneaker culture
@@ -119,7 +53,6 @@ export default function AdvancedFlagshipFeatures() {
         </div>
         
         <div 
-          ref={cardsRef}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8"
         >
           
