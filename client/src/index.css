@@ -774,7 +774,7 @@ button, input, textarea, select {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUwIDEwQzc3LjYxNDIgMTAgMTAwIDMyLjM4NTggMTAwIDYwQzEwMCA4Ny42MTQyIDc3LjYxNDIgMTEwIDUwIDExMEMyMi4zODU4IDExMCAwIDg3LjYxNDIgMCA2MEMwIDMyLjM4NTggMjIuMzg1OCAxMCA1MCAxMFoiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiLz4KPHA+PC9wYXRoPgo8L3N2Zz4K');
+  background-image: url('/images/fingerprint.svg');
   background-repeat: repeat;
   background-size: 200px 200px;
   opacity: 0.05;
