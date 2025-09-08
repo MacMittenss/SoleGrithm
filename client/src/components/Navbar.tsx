@@ -113,47 +113,6 @@ export default function Navbar() {
               );
             })}
             
-            {/* Search Bar */}
-            <div style={{ position: 'relative', marginLeft: '1rem', marginRight: '1rem' }}>
-              <input
-                type="text"
-                placeholder="Search sneakers..."
-                style={{
-                  width: '300px',
-                  padding: '0.5rem 2.5rem 0.5rem 0.75rem',
-                  fontSize: '0.9rem',
-                  fontWeight: '500',
-                  fontFamily: 'Inter, sans-serif',
-                  letterSpacing: '0.07vw',
-                  color: 'var(--white)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '8px',
-                  outline: 'none',
-                  transition: 'all 0.2s ease',
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-                  e.currentTarget.style.borderColor = '#4facfe';
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                }}
-              />
-              <Search 
-                size={18} 
-                style={{
-                  position: 'absolute',
-                  right: '0.75rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: 'rgba(255, 255, 255, 0.6)',
-                  pointerEvents: 'none'
-                }}
-              />
-            </div>
-            
             {/* AI Features Dropdown */}
             <div 
               style={{ position: 'relative' }}
