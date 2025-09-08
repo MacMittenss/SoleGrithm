@@ -30,15 +30,13 @@ export default function Navbar() {
   }, [])
 
   const mainNavigation = [
-    { name: 'Catalog', href: '/catalog', icon: Grid3X3 },
+    { name: 'Home', href: '/', icon: Users },
     { name: 'Live Market', href: '/live-market', icon: TrendingUp },
-    { name: 'Discover', href: '/discover', icon: Compass },
     { name: 'Collections', href: '/collection', icon: Heart },
     { name: 'Blog', href: '/blog', icon: BookOpen }
   ];
 
   const aiFeatures = [
-    { name: 'SoleBot', href: '/solebot', icon: MessageCircle },
     { name: 'Visual Search', href: '/visual-search', icon: Eye },
     { name: 'SoleRadar', href: '/soleradar', icon: Search },
     { name: 'Style Quiz', href: '/style-quiz', icon: Target }
