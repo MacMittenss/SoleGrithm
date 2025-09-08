@@ -1,10 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { gsap } from 'gsap';
+import React, { useState } from 'react';
 import { Camera, Search, Zap, ArrowRight, Sparkles, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
 
 export default function AdvancedVisualSearch() {
   const containerRef = useRef<HTMLDivElement>(null);

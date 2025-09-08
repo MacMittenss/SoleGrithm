@@ -1,10 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { gsap } from 'gsap';
+import React, { useState } from 'react';
 import { TrendingUp, Zap, ArrowRight, BarChart3 } from 'lucide-react';
 import { Link } from 'wouter';
-import SplitText from './SplitText';
-import GradientText from './GradientText';
 
 interface MarketData {
   name: string;
