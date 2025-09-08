@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter'
-import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle, Loader2 } from 'lucide-react'
+import { TrendingUp, Users, Smartphone, Search, Target, Map, Grid3X3, BookOpen, Eye, Heart, User, Compass, ChevronDown, MessageCircle, Loader2, Home } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 
@@ -30,7 +30,7 @@ export default function Navbar() {
   }, [])
 
   const mainNavigation = [
-    { name: 'Home', href: '/', icon: Users },
+    { name: 'Home', href: '/', icon: Home },
     { name: 'Live Market', href: '/live-market', icon: TrendingUp },
     { name: 'Collections', href: '/collection', icon: Heart },
     { name: 'Blog', href: '/blog', icon: BookOpen }
