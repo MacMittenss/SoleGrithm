@@ -121,8 +121,8 @@ export default function Home() {
         )
         .join("");
 
-      // Set welcome text initial state
-      gsap.set(welcomeTextRef.current, { opacity: 0, scale: 2.5 });
+      // Set welcome text initial state - make visible immediately for debugging
+      gsap.set(welcomeTextRef.current, { opacity: 1, scale: 1 });
 
       // Animate welcome text with zoom-out effect
       tl.to(welcomeTextRef.current, {
