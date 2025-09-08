@@ -775,8 +775,8 @@ button, input, textarea, select {
 }
 
 .fingerprint {
-  z-index: -1 !important;
-  opacity: 0.05 !important;
+  z-index: 1 !important;
+  opacity: 0.3 !important;
   background-image: url("/images/fingerprint.svg") !important;
   background-position: 50% !important;
   background-repeat: no-repeat !important;
@@ -798,7 +798,7 @@ button, input, textarea, select {
   transform: translate(-50%, -50%) !important;
   width: 800px !important;
   height: 800px !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
   border-radius: 50% !important;
   z-index: 2 !important;
   pointer-events: none !important;
