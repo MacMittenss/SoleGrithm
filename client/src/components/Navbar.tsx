@@ -87,7 +87,8 @@ export default function Navbar() {
                       textDecoration: 'none',
                       fontSize: '0.9rem',
                       fontWeight: '500',
-                      fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
+                      fontFamily: 'Inter, sans-serif',
+                      letterSpacing: '0.07vw',
                       padding: '0.5rem',
                       borderRadius: '8px',
                       transition: 'all 0.1s ease',
@@ -128,7 +129,8 @@ export default function Navbar() {
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
-                  fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
+                  fontFamily: 'Inter, sans-serif',
+                  letterSpacing: '0.07vw',
                   padding: '0.5rem',
                   borderRadius: '8px',
                   cursor: 'pointer',
@@ -185,7 +187,7 @@ export default function Navbar() {
                           }}
                         >
                           <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' }}>{feature.name}</span>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: 'Inter, sans-serif', letterSpacing: '0.07vw' }}>{feature.name}</span>
                         </div>
                       </Link>
                     );
@@ -210,7 +212,8 @@ export default function Navbar() {
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
-                  fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
+                  fontFamily: 'Inter, sans-serif',
+                  letterSpacing: '0.07vw',
                   padding: '0.5rem',
                   borderRadius: '8px',
                   cursor: 'pointer',
@@ -267,7 +270,7 @@ export default function Navbar() {
                           }}
                         >
                           <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' }}>{feature.name}</span>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: 'Inter, sans-serif', letterSpacing: '0.07vw' }}>{feature.name}</span>
                         </div>
                       </Link>
                     );
