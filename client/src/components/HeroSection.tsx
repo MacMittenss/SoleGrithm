@@ -1,7 +1,9 @@
 export default function HeroSection() {
   return (
     <section className="hero-section-black">
-      {/* Black background only */}
+      <div className="fingerprint"></div>
+      <div className="circle"></div>
+      {/* Black background with SVG patterns */}
     </section>
   );
 }
