@@ -14,6 +14,9 @@ import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import SoleRadarSection from "@/components/advanced/SoleRadarSection";
 import AdvancedFooter from "@/components/advanced/AdvancedFooter";
 
+// GitHub Hero Section
+import HeroSection from "@/components/HeroSection";
+
 // Legacy components
 import HotRightNowSlider from "@/components/HotRightNowSlider";
 import ARDemo from "@/components/ARDemo";
@@ -70,10 +73,6 @@ export default function Home() {
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
   
-  // Refs for new hero GSAP animations
-  const heroTextRef = useRef<HTMLHeadingElement>(null);
-  const welcomeTextRef = useRef<HTMLHeadingElement>(null);
-  
   // Refs for Style Quiz GSAP animations
   const styleQuizRef = useRef(null);
   const styleQuizContentRef = useRef(null);
@@ -106,40 +105,6 @@ export default function Home() {
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
 
-  useEffect(() => {
-    // Robot-synced zoom animation for SOLEGRITHM text
-    if (heroTextRef.current && welcomeTextRef.current) {
-      const tl = gsap.timeline({ delay: 1.2 }); // Start when robot animation starts
-
-      // Keep text visible for now - disable letter splitting
-      const text = heroTextRef.current;
-      // text.innerHTML = text.textContent || "SOLEGRITHM";
-
-      // Set welcome text initial state - make visible immediately 
-      gsap.set(welcomeTextRef.current, { opacity: 1, scale: 1 });
-
-      // Animate welcome text with zoom-out effect
-      tl.to(welcomeTextRef.current, {
-        opacity: 1,
-        scale: 1,
-        duration: 2.5,
-        ease: "expo.out",
-      })
-
-        // Animate SOLEGRITHM letters with synchronized zoom-out
-        .to(
-          text.querySelectorAll("span"),
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 2.5,
-            ease: "expo.out",
-            stagger: 0.02,
-          },
-          "-=2.3"
-        ); // Start slightly after welcome text
-    }
-  }, []);
 
   return (
     <>
@@ -151,86 +116,64 @@ export default function Home() {
           minHeight: '100vh',
         }}
       >
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="fingerprint"></div>
-        <div className="circle"></div>
-        <div className="w-layout-blockcontainer container w-container">
-          <div className="hero-wrapper">
-            <h5 ref={welcomeTextRef} className="heading">
-              Welcome To
-            </h5>
-            <h1 ref={heroTextRef} className="hero-text">
-              SOLEGRITHM
-            </h1>
-            <a href="#brands" className="arrow-border-wrapper w-inline-block">
-              <div className="icon-wrapper">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="arrow"
-                >
-                  <path
-                    d="M7 17L17 7M17 7H7M17 7V17"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div className="spline">
-          <iframe
-            src="https://my.spline.design/nexbotrobotcharacterconcept-MuKFwn44xdQzWJqISlDVY35e/"
-            frameBorder="0"
-            width="100%"
-            height="100%"
-            style={{
-              width: "100%",
-              height: "100%",
-              background: "transparent",
-            }}
-          />
-        </div>
-      </section>
+      {/* Hero Section from GitHub */}
+      <HeroSection />
 
-      {/* Brands Section */}
+      {/* Brands Section from GitHub */}
       <section id="brands" className="section">
         <div className="w-layout-blockcontainer container padding-4-5rem w-container">
           <div className="space-7rem"></div>
           <div className="brands-wrapper">
             <div className="brands-grid">
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>NIKE</div>
+                <img alt="brand logo" src="/images/load.png" loading="eager" />
               </div>
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>ADIDAS</div>
+                <img
+                  loading="eager"
+                  src="/images/logowithname3.png"
+                  alt="brand logo"
+                />
               </div>
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>JORDAN</div>
+                <img
+                  loading="eager"
+                  src="/images/logowithname2.png"
+                  alt="brand logo"
+                />
               </div>
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>PUMA</div>
+                <img
+                  loading="eager"
+                  src="/images/logowithname1.png"
+                  alt="brand logo"
+                />
               </div>
             </div>
             <div className="brands-grid">
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>CONVERSE</div>
+                <img
+                  loading="eager"
+                  src="/images/logowithname1.png"
+                  alt="brand logo"
+                />
               </div>
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>VANS</div>
+                <img
+                  loading="eager"
+                  src="/images/logowithname2.png"
+                  alt="brand logo"
+                />
               </div>
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>REEBOK</div>
+                <img
+                  loading="eager"
+                  src="/images/logowithname3.png"
+                  alt="brand logo"
+                />
               </div>
               <div className="logos-wrapper">
-                <div style={{ width: '80px', height: '40px', background: 'rgba(255,255,255,0.1)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666' }}>BALENCIAGA</div>
+                <img alt="brand logo" src="/images/load.png" loading="eager" />
               </div>
             </div>
           </div>
