@@ -646,16 +646,19 @@ button, input, textarea, select {
 .hero-section h1,
 .hero-section .hero-text {
   text-transform: none !important;
-  font-size: clamp(2rem, 16vw, 18rem) !important;
+  font-size: clamp(2rem, 14vw, 16rem) !important;
   font-weight: 600 !important;
   line-height: 0.8 !important;
-  width: 98vw !important;
-  padding: 0 1vw !important;
+  width: 100% !important;
+  max-width: 80vw !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
   text-align: center !important;
   white-space: nowrap !important;
   letter-spacing: -0.07vw !important;
-  margin: 0 !important;
   color: white !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 
 .spline {
