@@ -864,39 +864,36 @@ button, input, textarea, select {
 }
 
 .fingerprint {
-  z-index: -1;
-  opacity: 0.15;
+  z-index: 0;
+  opacity: 0.3;
   background-image: url("/images/fingerprint.svg");
-  background-position: 50%;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   border-radius: 100%;
-  width: 80vw;
-  height: 80vw;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
-  top: 10vh;
-  left: 50%;
-  transform: translateX(-50%) rotate(180deg);
+  top: 0;
+  left: 0;
+  transform: rotate(180deg);
+  pointer-events: none;
 }
 
 .circle {
-  z-index: -1;
-  opacity: 0.12;
+  z-index: 0;
+  opacity: 0.25;
   background-image: url("/images/circle.svg");
-  background-position: 50%;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   border-radius: 100%;
-  width: 90vw;
-  height: 90vw;
-  margin-left: auto;
-  margin-right: auto;
+  width: 120vw;
+  height: 120vh;
   position: absolute;
-  top: 5vh;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -10vh;
+  left: -10vw;
+  pointer-events: none;
 }
 
 /* Responsive Design */
