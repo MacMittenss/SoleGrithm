@@ -793,8 +793,8 @@ button, input, textarea, select {
 
 .fingerprint {
   z-index: -1;
-  opacity: 0.05;
-  background-image: url("../images/fingerprint.svg");
+  opacity: 0.15;
+  background-image: url("/images/fingerprint.svg");
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -805,7 +805,8 @@ button, input, textarea, select {
   margin-right: auto;
   position: absolute;
   top: 10vw;
-  transform: rotate(180deg);
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
 }
 
 .circle {
