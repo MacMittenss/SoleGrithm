@@ -20,8 +20,16 @@ export default function HeroSection() {
         )
         .join("");
 
-      // Set welcome text initial state
-      gsap.set(welcomeTextRef.current, { opacity: 0, scale: 2.5 });
+      // Set welcome text initial state (preserve typography)
+      gsap.set(welcomeTextRef.current, { 
+        opacity: 0, 
+        scale: 2.5,
+        fontSize: "0.89vw",
+        letterSpacing: "0.14vw",
+        textTransform: "uppercase",
+        fontWeight: "400",
+        lineHeight: "1.44vw"
+      });
 
       // Animate welcome text with zoom-out effect
       tl.to(welcomeTextRef.current, {

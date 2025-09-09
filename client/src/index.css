@@ -627,45 +627,34 @@ button, input, textarea, select {
   position: relative;
 }
 
-.heading {
-  align-self: flex-start;
-  letter-spacing: 0.14vw;
-  text-transform: uppercase;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 0.89vw;
-  font-weight: 400;
-  line-height: 1.44vw;
+.heading,
+.hero-section h5,
+.hero-section .heading {
+  align-self: flex-start !important;
+  letter-spacing: 0.14vw !important;
+  text-transform: uppercase !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  font-size: 0.89vw !important;
+  font-weight: 400 !important;
+  line-height: 1.44vw !important;
+  color: white !important;
 }
 
-h5 {
-  letter-spacing: 0.14vw;
-  text-transform: uppercase;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 0.89vw;
-  font-weight: 400;
-  line-height: 1.44vw;
-}
-
-.hero-text {
-  text-transform: none;
-  font-size: clamp(2rem, 16vw, 18rem);
-  font-weight: 600;
-  line-height: 0.8;
-  width: 98vw;
-  padding: 0 1vw;
-  text-align: center;
-  white-space: nowrap;
-}
-
-h1 {
-  letter-spacing: -0.07vw;
-  text-transform: capitalize;
-  margin: 0;
-  font-size: 5.55vw;
-  font-weight: 600;
-  line-height: 6.11vw;
+.hero-text,
+.hero-section h1,
+.hero-section .hero-text {
+  text-transform: none !important;
+  font-size: clamp(2rem, 16vw, 18rem) !important;
+  font-weight: 600 !important;
+  line-height: 0.8 !important;
+  width: 98vw !important;
+  padding: 0 1vw !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.07vw !important;
+  margin: 0 !important;
+  color: white !important;
 }
 
 .spline {
