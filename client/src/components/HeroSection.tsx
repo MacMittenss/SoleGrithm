@@ -59,38 +59,35 @@ export default function HeroSection() {
       <div className="circle"></div>
       <div className="w-layout-blockcontainer container w-container">
         <div className="hero-wrapper">
-          <h5 ref={welcomeTextRef} className="heading">
-            Welcome To
-          </h5>
-          <h1 ref={heroTextRef} className="hero-text">
-            SOLEGRITHM
-          </h1>
+          <h5 ref={welcomeTextRef} className="heading">Welcome</h5>
+          <h1 ref={heroTextRef} className="hero-text">iDESIGNER</h1>
           <a href="#brands" className="arrow-border-wrapper w-inline-block">
-            <div className="icon-wrapper">
+            <div
+              data-w-id="022bdf7a-1da5-487f-e90a-10a13619b2dd"
+              className="icon-wrapper"
+            >
               <img
                 width="Auto"
                 height="Auto"
                 alt="arrow up"
-                src="/images/arrow_outward.svg"
+                src="images/arrow_outward.svg"
                 loading="eager"
+                data-w-id="022bdf7a-1da5-487f-e90a-10a13619b2de"
                 className="arrow"
               />
             </div>
           </a>
         </div>
+        <div className="hero-overlay"></div>
       </div>
-      <div className="spline">
-        <iframe
-          src="https://my.spline.design/nexbotrobotcharacterconcept-MuKFwn44xdQzWJqISlDVY35e/"
-          frameBorder="0"
-          width="100%"
-          height="100%"
-          style={{
-            width: "100%",
-            height: "100%",
-            background: "transparent",
-          }}
-        />
+      <div
+        data-w-id="769eaa28-9e57-8d2b-bd19-a0fd96681ba3"
+        style={{opacity: 0}}
+        className="spline"
+        data-animation-type="spline"
+        data-spline-url="https://prod.spline.design/fP0LH65i8bXQDQjZ/scene.splinecode"
+      >
+        <canvas></canvas>
       </div>
     </section>
   );
