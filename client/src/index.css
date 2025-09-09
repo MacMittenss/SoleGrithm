@@ -609,6 +609,12 @@ button, input, textarea, select {
   align-items: center;
   width: 100%;
   display: flex;
+}
+
+.hero-section-black {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
   position: relative;
   overflow: hidden;
 }
