@@ -650,16 +650,17 @@ button, input, textarea, select {
   font-size: clamp(2rem, 16vw, 18rem) !important;
   font-weight: 600 !important;
   line-height: 0.8 !important;
-  width: 100% !important;
-  max-width: 80vw !important;
+  width: 100vw !important;
+  margin: 0 !important;
   padding: 0 !important;
-  margin: 0 auto !important;
   text-align: center !important;
   white-space: nowrap !important;
   letter-spacing: -0.07vw !important;
   color: white !important;
-  position: relative !important;
-  z-index: 10 !important;
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 1 !important;
 }
 
 .spline {
