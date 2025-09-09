@@ -111,18 +111,12 @@ export default function Home() {
     if (heroTextRef.current && welcomeTextRef.current) {
       const tl = gsap.timeline({ delay: 1.2 }); // Start when robot animation starts
 
-      // Split SOLEGRITHM into individual letters
+      // Keep text visible for now - disable letter splitting
       const text = heroTextRef.current;
-      const letters = text.textContent?.split("") || [];
-      text.innerHTML = letters
-        .map(
-          (letter) =>
-            `<span style="display: inline-block; opacity: 0; transform: scale(2.5) translateZ(0);">${letter}</span>`
-        )
-        .join("");
+      // text.innerHTML = text.textContent || "SOLEGRITHM";
 
-      // Set welcome text initial state
-      gsap.set(welcomeTextRef.current, { opacity: 0, scale: 2.5 });
+      // Set welcome text initial state - make visible immediately 
+      gsap.set(welcomeTextRef.current, { opacity: 1, scale: 1 });
 
       // Animate welcome text with zoom-out effect
       tl.to(welcomeTextRef.current, {

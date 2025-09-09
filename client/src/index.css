@@ -635,6 +635,8 @@ button, input, textarea, select {
   font-size: 0.89vw;
   font-weight: 400;
   line-height: 1.44vw;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .hero-text {
@@ -646,6 +648,8 @@ button, input, textarea, select {
   padding: 0 1vw;
   text-align: center;
   white-space: nowrap;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .spline {
