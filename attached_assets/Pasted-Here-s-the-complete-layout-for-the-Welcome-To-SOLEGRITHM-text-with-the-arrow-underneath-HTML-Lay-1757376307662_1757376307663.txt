@@ -1,0 +1,126 @@
+Here's the complete layout for the "Welcome To SOLEGRITHM" text with the arrow underneath:
+
+HTML Layout Structure
+<div className="hero-wrapper">
+  <h5 ref={welcomeTextRef} className="heading">
+    Welcome To
+  </h5>
+  <h1 ref={heroTextRef} className="hero-text">
+    SOLEGRITHM
+  </h1>
+  <a href="#brands" className="arrow-border-wrapper w-inline-block">
+    <div className="icon-wrapper">
+      <img
+        width="Auto"
+        height="Auto"
+        alt="arrow up"
+        src="/images/arrow_outward.svg"
+        loading="eager"
+        className="arrow"
+      />
+    </div>
+  </a>
+</div>
+CSS Layout Styling
+Container:
+
+.hero-wrapper {
+  grid-column-gap: 1.11vw;
+  grid-row-gap: 1.11vw;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+Welcome Text:
+
+.heading {
+  align-self: flex-start;
+  /* Plus h5 styles: */
+  letter-spacing: 0.14vw;
+  text-transform: uppercase;
+  font-size: 0.89vw;
+  font-weight: 400;
+  line-height: 1.44vw;
+}
+Main Title:
+
+.hero-text {
+  text-transform: none;
+  font-size: clamp(2rem, 16vw, 18rem);
+  font-weight: 600;
+  line-height: 0.8;
+  width: 98vw;
+  padding: 0 1vw;
+  text-align: center;
+  white-space: nowrap;
+}
+Arrow Button Container:
+
+.arrow-border-wrapper {
+  z-index: 10;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  border-radius: 100%;
+  justify-content: center;
+  align-self: flex-end;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+Arrow Icon Container:
+
+.icon-wrapper {
+  background-color: var(--white);
+  cursor: pointer;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  min-width: 2.8vw;
+  max-width: 2.8vw;
+  min-height: 2.8vw;
+  max-height: 2.8vw;
+  display: flex;
+}
+Arrow Icon:
+
+.arrow {
+  min-width: 0.9vw;
+  max-width: 0.9vw;
+  min-height: 0.9vw;
+  max-height: 0.9vw;
+}
+Layout Flow
+Flexbox Column Layout: Everything stacked vertically in hero-wrapper
+Welcome Text: Aligned to flex-start (left-aligned within centered container)
+Main Title: Centered and spans full width
+Arrow: Aligned to flex-end (right-aligned within centered container)
+Responsive Adjustments
+Tablet (≤991px):
+
+.hero-wrapper {
+  width: 41rem;
+  height: 40vh;
+}
+.icon-wrapper {
+  min-width: 2.5rem;
+  max-width: 2.5rem;
+  min-height: 2.5rem;
+  max-height: 2.5rem;
+}
+.arrow-border-wrapper {
+  min-width: 2.5rem;
+  max-width: 2.5rem;
+  min-height: 2.5rem;
+  max-height: 2.5rem;
+}
+Mobile (≤767px):
+
+.arrow-border-wrapper {
+  border-width: 0; /* Removes border on mobile */
+}
+The layout creates a vertically centered column with the welcome text starting left, the main title centered, and the arrow positioned to the right, all while maintaining responsive scaling across devices.

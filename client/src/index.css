@@ -659,31 +659,36 @@ button, input, textarea, select {
 }
 
 .arrow-border-wrapper {
-  display: inline-block;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  text-decoration: none;
+  z-index: 10;
+  border: 1px solid var(--black);
+  cursor: pointer;
+  border-radius: 100%;
+  justify-content: center;
+  align-self: flex-end;
+  align-items: center;
+  display: flex;
+  position: relative;
 }
 
-.arrow-border-wrapper:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px);
-}
 
 .icon-wrapper {
-  display: flex;
-  align-items: center;
+  background-color: var(--white);
+  cursor: pointer;
+  border-radius: 100%;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  align-items: center;
+  min-width: 2.8vw;
+  max-width: 2.8vw;
+  min-height: 2.8vw;
+  max-height: 2.8vw;
+  display: flex;
 }
 
 .arrow {
-  width: 24px;
-  height: 24px;
-  filter: brightness(0) invert(1);
+  min-width: 0.9vw;
+  max-width: 0.9vw;
+  min-height: 0.9vw;
+  max-height: 0.9vw;
 }
 
 /* Brands Section */
@@ -821,6 +826,18 @@ button, input, textarea, select {
     width: 41rem;
     height: 40vh;
   }
+  .icon-wrapper {
+    min-width: 2.5rem;
+    max-width: 2.5rem;
+    min-height: 2.5rem;
+    max-height: 2.5rem;
+  }
+  .arrow-border-wrapper {
+    min-width: 2.5rem;
+    max-width: 2.5rem;
+    min-height: 2.5rem;
+    max-height: 2.5rem;
+  }
   
   .padding-4-5rem {
     padding-left: 2rem;
@@ -855,6 +872,9 @@ button, input, textarea, select {
   .hero-wrapper {
     width: 28.5rem;
     height: 35vh;
+  }
+  .arrow-border-wrapper {
+    border-width: 0; /* Removes border on mobile */
   }
   
 }
