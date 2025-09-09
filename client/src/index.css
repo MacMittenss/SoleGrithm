@@ -642,25 +642,15 @@ button, input, textarea, select {
   text-align: center !important;
 }
 
-.hero-text,
-.hero-section h1,
-.hero-section .hero-text {
-  font-family: "Inter", sans-serif !important;
-  text-transform: none !important;
-  font-size: clamp(2rem, 16vw, 18rem) !important;
-  font-weight: 600 !important;
-  line-height: 0.8 !important;
-  width: 100vw !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-align: center !important;
-  white-space: nowrap !important;
-  letter-spacing: -0.07vw !important;
-  color: white !important;
-  position: absolute !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  z-index: 1 !important;
+.hero-text {
+  text-transform: none;
+  font-size: clamp(2rem, 16vw, 18rem);
+  font-weight: 600;
+  line-height: 0.8;
+  width: 98vw;
+  padding: 0 1vw;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .spline {
