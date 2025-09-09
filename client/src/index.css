@@ -636,8 +636,16 @@ button, input, textarea, select {
   font-size: 0.89vw;
   font-weight: 400;
   line-height: 1.44vw;
-  opacity: 1 !important;
-  visibility: visible !important;
+}
+
+h5 {
+  letter-spacing: 0.14vw;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.89vw;
+  font-weight: 400;
+  line-height: 1.44vw;
 }
 
 .hero-text {
@@ -649,8 +657,15 @@ button, input, textarea, select {
   padding: 0 1vw;
   text-align: center;
   white-space: nowrap;
-  opacity: 1 !important;
-  visibility: visible !important;
+}
+
+h1 {
+  letter-spacing: -0.07vw;
+  text-transform: capitalize;
+  margin: 0;
+  font-size: 5.55vw;
+  font-weight: 600;
+  line-height: 6.11vw;
 }
 
 .spline {
