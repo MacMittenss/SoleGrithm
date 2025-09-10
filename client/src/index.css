@@ -642,9 +642,9 @@ button, input, textarea, select {
   color: white !important;
   text-align: center !important;
   position: absolute !important;
-  left: 50% !important;
+  left: 20% !important;
   top: 35% !important;
-  transform: translateX(-100%) !important;
+  transform: translateX(0) !important;
   z-index: 2 !important;
 }
 
