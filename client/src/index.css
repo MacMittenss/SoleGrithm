@@ -770,14 +770,6 @@ button, input, textarea, select {
 }
 
 /* Enhanced Typography for New Design */
-.hero-section h1 {
-  letter-spacing: -0.07vw;
-  text-transform: none;
-  margin: 0;
-  font-size: 5.55vw;
-  font-weight: 600;
-  line-height: 6.11vw;
-}
 
 .hero-section h2 {
   letter-spacing: -0.07vw;
