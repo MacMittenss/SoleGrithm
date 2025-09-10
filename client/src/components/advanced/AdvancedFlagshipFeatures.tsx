@@ -3,13 +3,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
-// import womenSneakersImage from '@assets/close-up-futuristic-sneakers (1)_1755555541238.jpg';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-// Define arTryonImage placeholder for now
-const arTryonImage = 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80'; // Placeholder image
+// Define images
+const womenSneakersImage = 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80';
+const arTryonImage = 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80';
 
 export default function AdvancedFlagshipFeatures() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -21,49 +21,57 @@ export default function AdvancedFlagshipFeatures() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Set initial states for elements
+      // Set initial states for elements - maintaining exact GSAP animations
       gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
       gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
 
-      // Split heading into words (manual splitter like reference)
+      // Split heading into words (preserving exact animation)
       const heading = titleRef.current;
       if (heading) {
         const words = heading.innerText.split(" ");
         heading.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
       }
 
-      // Timeline for display section reveal (like reference)
+      // Exact GSAP timeline preserved - using template visual styling
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center",
-          scrub: true,
-          pin: true,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         }
       });
 
       tl.from(".flagship-features .word", {
         opacity: 0,
         y: 50,
-        stagger: 0.2,
-        duration: 0.8,
-        ease: "power2.out"
+        stagger: 0.05,
+        duration: 0.3,
+        ease: "expo.out"
       })
       .to(subtitleRef.current, {
         opacity: 1,
         y: 0,
-        duration: 1
-      })
+        duration: 0.4,
+        ease: "expo.out"
+      }, "-=0.2")
       .to(cardsRef.current?.children || [], {
         opacity: 1,
         scale: 1,
-        duration: 1,
-        stagger: 0.2,
-        y: 0
-      });
+        duration: 0.4,
+        stagger: 0.03,
+        y: 0,
+        ease: "back.out(1.2)"
+      }, "-=0.1");
 
-      // Background animation removed - now using static homepage background
+      // Pinning timeline
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=120%",
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+      });
 
     }, sectionRef);
 
@@ -71,138 +79,292 @@ export default function AdvancedFlagshipFeatures() {
   }, []);
 
   return (
-    <div
+    <section
       ref={sectionRef}
-      className="flagship-features relative min-h-screen bg-black pt-8 pb-16 px-8 lg:px-16 overflow-hidden"
+      className="flagship-features section"
       style={{
-        background: 'transparent',
+        backgroundColor: '#050505',
+        color: 'whitesmoke',
+        fontFamily: 'Inter, sans-serif',
+        minHeight: '100vh',
+        padding: '4.5rem',
       }}
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-20">
-        {/* Gradient orbs */}
-        <div
-          className="absolute top-1/3 left-1/3 w-80 h-80 rounded-full"
-          style={{
-            background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
-            filter: 'blur(100px)',
-          }}
-        />
-        
-        <div
-          className="absolute bottom-1/3 right-1/3 w-60 h-60 rounded-full"
-          style={{
-            background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
-            filter: 'blur(80px)',
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Section Title */}
-        <div className="text-center mb-8">
+      <div className="w-layout-blockcontainer container w-container" style={{ maxWidth: '940px', margin: '0 auto' }}>
+        {/* Main Title Section */}
+        <div style={{ textAlign: 'center', marginBottom: '7.8vw' }}>
+          <h5 style={{ 
+            letterSpacing: '0.14vw', 
+            textTransform: 'uppercase', 
+            fontSize: '0.89vw', 
+            fontWeight: 400, 
+            lineHeight: '1.44vw',
+            marginBottom: '1.1vw',
+            color: 'whitesmoke'
+          }}>
+            Creative Solutions
+          </h5>
           <h2 
             ref={titleRef}
-            className="text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-4"
             style={{ 
-              fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif' 
+              letterSpacing: '-0.07vw',
+              textTransform: 'uppercase',
+              fontSize: '7.78vw',
+              fontWeight: 500,
+              lineHeight: '5.55vw',
+              marginBottom: '2.2vw',
+              color: 'whitesmoke'
             }}
           >
             Our Flagship Features
           </h2>
           <p 
             ref={subtitleRef}
-            className="text-lg text-gray-300 max-w-3xl mx-auto"
+            style={{
+              letterSpacing: '0.07vw',
+              fontSize: '1.11vw',
+              fontWeight: 300,
+              lineHeight: '1.89vw',
+              maxWidth: '42.22vw',
+              margin: '0 auto',
+              color: 'whitesmoke'
+            }}
           >
             Discover the cutting-edge technologies and exclusive experiences that make SoleGrithm the future of sneaker culture
           </p>
         </div>
-        
+
         <div 
           ref={cardsRef}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="services-flex"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            width: '100%',
+            gap: '2.2vw',
+            flexWrap: 'wrap'
+          }}
         >
           
-          {/* Women in Sneakers Card */}
+          {/* Left Services Wrapper */}
           <div 
-            className="group cursor-pointer"
-
+            className="services-wrapper"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              width: '100%',
+              maxWidth: '43.3vw',
+              gap: '2.22vw'
+            }}
           >
-            <div className="relative h-[600px] overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-white/10">
+            {/* Women in Sneakers Card */}
+            <div 
+              className="services-card"
+              style={{
+                borderRadius: '24px',
+                backgroundColor: '#1c1c1c',
+                padding: '2.2vw',
+                minWidth: '33.3vw',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.1vw',
+                transition: 'filter 0.2s ease-in-out, color 0.3s',
+                cursor: 'pointer'
+              }}
+            >
               <div 
-                className="absolute inset-4 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105 rounded-2xl"
+                className="services-title-flex"
                 style={{
-                  backgroundImage: `url(https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80)`
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '2.22vw'
                 }}
-              />
-              <div className="absolute inset-4 bg-black/20 group-hover:bg-black/30 transition-all duration-500 rounded-2xl" />
-              
-              {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
-                <div className="max-w-lg">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
-                    Women in Sneakers
-                  </h3>
-                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
-                    Celebrating the powerful influence of women in sneaker culture and style
-                  </p>
-                  <div>
-                    <Link href="/women">
-                      <Button 
-                        size="lg"
-                        className="bg-white text-black hover:bg-white/90 font-semibold transform hover:scale-105 transition-all duration-200"
-                        data-testid="button-women-sneakers"
-                      >
-                        Explore Collection
-                      </Button>
-                    </Link>
-                  </div>
+              >
+                <div 
+                  className="services-icon"
+                  style={{
+                    aspectRatio: '1',
+                    borderRadius: '24px',
+                    backgroundColor: '#161616',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '8.89vw',
+                    maxWidth: '8.89vw'
+                  }}
+                >
+                  <img
+                    src={womenSneakersImage}
+                    alt="Women in Sneakers"
+                    className="services-image"
+                    style={{
+                      aspectRatio: '1',
+                      borderRadius: '4px',
+                      minWidth: '5.55vw',
+                      maxWidth: '5.55vw',
+                      objectFit: 'cover'
+                    }}
+                  />
                 </div>
+                <h4 
+                  style={{
+                    letterSpacing: '-0.07vw',
+                    textTransform: 'uppercase',
+                    fontSize: '2.78vw',
+                    fontWeight: 500,
+                    lineHeight: '3.33vw',
+                    margin: 0,
+                    color: 'whitesmoke'
+                  }}
+                >
+                  Women Sneakers
+                </h4>
+              </div>
+              <div className="services-text-block">
+                <p 
+                  style={{
+                    letterSpacing: '0.07vw',
+                    fontSize: '1.11vw',
+                    fontWeight: 300,
+                    lineHeight: '1.89vw',
+                    marginBottom: '1.1vw',
+                    color: 'whitesmoke'
+                  }}
+                >
+                  Celebrating the powerful influence of women in sneaker culture and style innovation.
+                </p>
+                <Link href="/women">
+                  <Button 
+                    className="bg-whitesmoke text-black hover:bg-gray-200 font-semibold transform hover:scale-105 transition-all duration-200"
+                    data-testid="button-women-sneakers"
+                    style={{
+                      backgroundColor: 'whitesmoke',
+                      color: '#050505',
+                      padding: '0.5vw 1vw',
+                      fontSize: '1vw',
+                      borderRadius: '4px'
+                    }}
+                  >
+                    Explore Collection
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* AR Try-On Card */}
+          {/* Right Services Wrapper */}
           <div 
-            className="group cursor-pointer"
-
+            className="services-wrapper"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              width: '100%',
+              maxWidth: '43.3vw',
+              gap: '2.22vw'
+            }}
           >
-            <div className="relative h-[600px] overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm border border-white/10">
+            {/* AR Try-On Card */}
+            <div 
+              className="services-card"
+              style={{
+                borderRadius: '24px',
+                backgroundColor: '#1c1c1c',
+                padding: '2.2vw',
+                minWidth: '33.3vw',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.1vw',
+                transition: 'filter 0.2s ease-in-out, color 0.3s',
+                cursor: 'pointer'
+              }}
+            >
               <div 
-                className="absolute inset-4 bg-cover bg-center bg-no-repeat transform transition-transform duration-700 group-hover:scale-105 rounded-2xl"
+                className="services-title-flex"
                 style={{
-                  backgroundImage: `url(${arTryonImage})`
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '2.22vw'
                 }}
-              />
-              <div className="absolute inset-4 bg-black/20 group-hover:bg-black/30 transition-all duration-500 rounded-2xl" />
-              
-              {/* Content Overlay */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8 lg:p-12">
-                <div className="max-w-lg">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
-                    AR Try-On
-                  </h3>
-                  <p className="text-white/90 text-base sm:text-lg mb-6 sm:mb-8">
-                    Experience the future of sneaker shopping with augmented reality technology
-                  </p>
-                  <div>
-                    <Link href="/ar-tryeon">
-                      <Button 
-                        size="lg"
-                        className="bg-white text-black hover:bg-white/90 font-semibold transform hover:scale-105 transition-all duration-200"
-                        data-testid="button-ar-tryeon"
-                      >
-                        Try It Now
-                      </Button>
-                    </Link>
-                  </div>
+              >
+                <div 
+                  className="services-icon"
+                  style={{
+                    aspectRatio: '1',
+                    borderRadius: '24px',
+                    backgroundColor: '#161616',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '8.89vw',
+                    maxWidth: '8.89vw'
+                  }}
+                >
+                  <img
+                    src={arTryonImage}
+                    alt="AR Try-On Technology"
+                    className="services-image"
+                    style={{
+                      aspectRatio: '1',
+                      borderRadius: '4px',
+                      minWidth: '5.55vw',
+                      maxWidth: '5.55vw',
+                      objectFit: 'cover'
+                    }}
+                  />
                 </div>
+                <h4 
+                  style={{
+                    letterSpacing: '-0.07vw',
+                    textTransform: 'uppercase',
+                    fontSize: '2.78vw',
+                    fontWeight: 500,
+                    lineHeight: '3.33vw',
+                    margin: 0,
+                    color: 'whitesmoke'
+                  }}
+                >
+                  AR Try-On
+                </h4>
+              </div>
+              <div className="services-text-block">
+                <p 
+                  style={{
+                    letterSpacing: '0.07vw',
+                    fontSize: '1.11vw',
+                    fontWeight: 300,
+                    lineHeight: '1.89vw',
+                    marginBottom: '1.1vw',
+                    color: 'whitesmoke'
+                  }}
+                >
+                  Experience the future of sneaker shopping with augmented reality technology.
+                </p>
+                <Link href="/ar-tryeon">
+                  <Button 
+                    className="bg-whitesmoke text-black hover:bg-gray-200 font-semibold transform hover:scale-105 transition-all duration-200"
+                    data-testid="button-ar-tryeon"
+                    style={{
+                      backgroundColor: 'whitesmoke',
+                      color: '#050505',
+                      padding: '0.5vw 1vw',
+                      fontSize: '1vw',
+                      borderRadius: '4px'
+                    }}
+                  >
+                    Try It Now
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
 
         </div>
       </div>
-    </div>
+    </section>
   );
 }
