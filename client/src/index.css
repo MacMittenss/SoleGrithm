@@ -613,6 +613,7 @@ button, input, textarea, select {
   display: flex;
   position: relative;
   overflow: hidden;
+  background-color: var(--black);
 }
 
 .hero-wrapper {

@@ -83,7 +83,7 @@ export default function AdvancedFlagshipFeatures() {
       ref={sectionRef}
       className="flagship-features section"
       style={{
-        backgroundColor: '#050505',
+        backgroundColor: 'var(--black)',
         color: 'whitesmoke',
         fontFamily: 'Inter, sans-serif',
         minHeight: '100vh',
