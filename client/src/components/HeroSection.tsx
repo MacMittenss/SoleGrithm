@@ -80,26 +80,17 @@ export default function HeroSection() {
         </div>
       </div>
       <div className="spline">
-        <div style={{ 
-          width: "100%", 
-          height: "100%", 
-          background: "transparent",
-          display: "flex",
-          alignItems: "center", 
-          justifyContent: "center",
-          zIndex: 15
-        }}>
-          {/* Fallback content when 3D fails to load */}
-          <div style={{
-            width: "300px",
-            height: "300px",
-            background: "linear-gradient(45deg, #8B5CF6, #EC4899)",
-            borderRadius: "50%",
-            opacity: 0.3,
-            filter: "blur(50px)",
-            animation: "pulse 2s ease-in-out infinite alternate"
-          }} />
-        </div>
+        <iframe
+          src="https://my.spline.design/nexbotrobotcharacterconcept-MuKFwn44xdQzWJqISlDVY35e/"
+          frameBorder="0"
+          width="100%"
+          height="100%"
+          style={{
+            width: "100%",
+            height: "100%",
+            background: "transparent",
+          }}
+        />
       </div>
     </section>
   );
