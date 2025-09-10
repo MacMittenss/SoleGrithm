@@ -645,6 +645,7 @@ button, input, textarea, select {
 }
 
 .hero-text {
+  font-family: 'Inter', sans-serif;
   text-transform: none;
   font-size: clamp(2rem, 16vw, 18rem);
   font-weight: 900;
@@ -654,6 +655,7 @@ button, input, textarea, select {
   text-align: center;
   white-space: nowrap;
   color: #F5F5F5;
+  font-synthesis-weight: none;
 }
 
 .spline {
