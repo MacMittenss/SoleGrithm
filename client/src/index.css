@@ -864,13 +864,12 @@ button, input, textarea, select {
 }
 
 .fingerprint {
-  z-index: 0;
-  opacity: 0.3;
-  background-image: url("/images/fingerprint.svg");
+  z-index: 1;
+  opacity: 0.8;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)), url("/images/fingerprint.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 100%;
+  background-size: contain;
   width: 100vw;
   height: 100vh;
   position: absolute;
@@ -878,22 +877,26 @@ button, input, textarea, select {
   left: 0;
   transform: rotate(180deg);
   pointer-events: none;
+  /* Debug border to see if element is positioned correctly */
+  border: 2px solid red;
 }
 
 .circle {
-  z-index: 0;
-  opacity: 0.25;
+  z-index: 1;
+  opacity: 0.5;
   background-image: url("/images/circle.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   border-radius: 100%;
-  width: 120vw;
-  height: 120vh;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
-  top: -10vh;
-  left: -10vw;
+  top: 0;
+  left: 0;
   pointer-events: none;
+  /* Debug border to see if element is positioned correctly */
+  border: 2px solid blue;
 }
 
 /* Responsive Design */
