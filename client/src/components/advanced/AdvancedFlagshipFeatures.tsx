@@ -1,86 +1,15 @@
-import React, { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 // Define images
 const womenSneakersImage = 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=80';
 const arTryonImage = 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80';
 
 export default function AdvancedFlagshipFeatures() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Set initial states for elements - maintaining exact GSAP animations
-      gsap.set(subtitleRef.current, { opacity: 0, y: 20 });
-      gsap.set(cardsRef.current?.children || [], { opacity: 0, y: 50, scale: 0.8 });
-
-      // Split heading into words (preserving exact animation)
-      const heading = titleRef.current;
-      if (heading) {
-        const words = heading.innerText.split(" ");
-        heading.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
-      }
-
-      // Exact GSAP timeline preserved - using template visual styling
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        }
-      });
-
-      tl.from(".flagship-features .word", {
-        opacity: 0,
-        y: 50,
-        stagger: 0.05,
-        duration: 0.3,
-        ease: "expo.out"
-      })
-      .to(subtitleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.4,
-        ease: "expo.out"
-      }, "-=0.2")
-      .to(cardsRef.current?.children || [], {
-        opacity: 1,
-        scale: 1,
-        duration: 0.4,
-        stagger: 0.03,
-        y: 0,
-        ease: "back.out(1.2)"
-      }, "-=0.1");
-
-      // Pinning timeline
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=120%",
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-      });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
-      ref={sectionRef}
       className="flagship-features section"
       style={{
         backgroundColor: 'var(--black)',
@@ -105,7 +34,6 @@ export default function AdvancedFlagshipFeatures() {
             Creative Solutions
           </h5>
           <h2 
-            ref={titleRef}
             style={{ 
               letterSpacing: '-0.07vw',
               textTransform: 'uppercase',
@@ -119,7 +47,6 @@ export default function AdvancedFlagshipFeatures() {
             Our Flagship Features
           </h2>
           <p 
-            ref={subtitleRef}
             style={{
               letterSpacing: '0.07vw',
               fontSize: '1.11vw',
@@ -135,7 +62,6 @@ export default function AdvancedFlagshipFeatures() {
         </div>
 
         <div 
-          ref={cardsRef}
           className="services-flex"
           style={{
             display: 'flex',
