@@ -57,7 +57,7 @@ export default function BrandsSection() {
   }, []);
 
   function getBrandLogo(brandName: string): string {
-    // Using logos-world.net consistently (same source as working Gucci logo)
+    // Using actual brand logos in their original colors - no color modification
     const logos: Record<string, string> = {
       'Nike': 'https://logos-world.net/wp-content/uploads/2020/04/Nike-Logo.png',
       'Adidas': 'https://logos-world.net/wp-content/uploads/2020/04/Adidas-Logo.png',
@@ -67,21 +67,21 @@ export default function BrandsSection() {
       'Vans': 'https://logos-world.net/wp-content/uploads/2020/04/Vans-Logo.png',
       'Puma': 'https://logos-world.net/wp-content/uploads/2020/04/Puma-Logo.png',
       'Reebok': 'https://logos-world.net/wp-content/uploads/2020/04/Reebok-Logo.png',
-      'ASICS': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff">ASICS</text></svg>')}`,
-      'Balenciaga': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="normal" fill="#ffffff">BALENCIAGA</text></svg>')}`,
-      'Golden Goose': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#ffffff">GOLDEN GOOSE</text></svg>')}`,
-      'Off-White': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="#ffffff">OFF-WHITE</text></svg>')}`,
+      'ASICS': 'https://logos-world.net/wp-content/uploads/2020/04/Asics-Logo.png',
+      'Balenciaga': 'https://logos-world.net/wp-content/uploads/2020/04/Balenciaga-Logo.png',
+      'Golden Goose': 'https://logos-world.net/wp-content/uploads/2020/06/Golden-Goose-Logo.png',
+      'Off-White': 'https://logos-world.net/wp-content/uploads/2020/04/Off-White-Logo.png',
       'Gucci': 'https://logos-world.net/wp-content/uploads/2020/04/Gucci-Logo.png',
-      'Saint Laurent': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40"><text x="90" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#ffffff">SAINT LAURENT</text></svg>')}`,
-      'Common Projects': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40"><text x="100" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="normal" fill="#ffffff">COMMON PROJECTS</text></svg>')}`,
-      'GOAT': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><text x="50" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="bold" fill="#ffffff">GOAT</text></svg>')}`,
-      'StockX': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#00AC7C">StockX</text></svg>')}`,
-      'Flight Club': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40"><text x="70" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#ffffff">FLIGHT CLUB</text></svg>')}`,
-      'Stadium Goods': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40"><text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#ffffff">STADIUM GOODS</text></svg>')}`,
-      'Grailed': `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#ffffff">GRAILED</text></svg>')}`
+      'Saint Laurent': 'https://logos-world.net/wp-content/uploads/2020/04/Yves-Saint-Laurent-Logo.png',
+      'Common Projects': 'https://logos-world.net/wp-content/uploads/2020/11/Common-Projects-Logo.png',
+      'GOAT': 'https://logos-world.net/wp-content/uploads/2021/02/GOAT-Logo.png',
+      'StockX': 'https://logos-world.net/wp-content/uploads/2021/03/StockX-Logo.png',
+      'Flight Club': 'https://logos-world.net/wp-content/uploads/2020/12/Flight-Club-Logo.png',
+      'Stadium Goods': 'https://logos-world.net/wp-content/uploads/2020/12/Stadium-Goods-Logo.png',
+      'Grailed': 'https://logos-world.net/wp-content/uploads/2020/11/Grailed-Logo.png'
     };
 
-    return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="transparent"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#ffffff">${brandName}</text></svg>`)}`;
+    return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="transparent"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="currentColor">${brandName}</text></svg>`)}`;
   }
 
   // GSAP ScrollTrigger Animation Setup - same as HotRightNowSlider
