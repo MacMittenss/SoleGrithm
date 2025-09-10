@@ -643,7 +643,7 @@ button, input, textarea, select {
 }
 
 .hero-text {
-  font-family: Inter, sans-serif;
+  font-family: Inter, sans-serif !important;
   text-transform: none;
   font-size: clamp(2rem, 16vw, 18rem);
   font-weight: 900;
