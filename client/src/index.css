@@ -660,8 +660,7 @@ button, input, textarea, select {
   color: white !important;
   position: absolute !important;
   left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
+  transform: translateX(-50%) !important;
   z-index: 1 !important;
   -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3) !important;
   text-shadow: 
