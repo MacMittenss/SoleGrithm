@@ -658,7 +658,7 @@ button, input, textarea, select {
   white-space: nowrap !important;
   letter-spacing: -0.07vw !important;
   color: white !important;
-  position: absolute !important;
+  position: fixed !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
   z-index: 1 !important;
