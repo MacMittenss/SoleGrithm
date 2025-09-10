@@ -641,6 +641,11 @@ button, input, textarea, select {
   line-height: 1.44vw !important;
   color: white !important;
   text-align: center !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 35% !important;
+  transform: translateX(-50%) !important;
+  z-index: 2 !important;
 }
 
 .hero-text,
@@ -659,7 +664,7 @@ button, input, textarea, select {
   letter-spacing: -0.07vw !important;
   color: white !important;
   position: absolute !important;
-  left: 50% !important;
+  left: 25% !important;
   transform: translateX(-50%) !important;
   z-index: 1 !important;
   -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3) !important;
