@@ -646,7 +646,7 @@ button, input, textarea, select {
 .hero-section .hero-text {
   text-transform: none;
   font-size: clamp(2rem, 16vw, 18rem);
-  font-weight: 600;
+  font-weight: 900;
   line-height: 0.8;
   width: 98vw;
   padding: 0 1vw;
