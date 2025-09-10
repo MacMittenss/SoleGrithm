@@ -635,14 +635,13 @@ button, input, textarea, select {
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 1vw;
+  font-size: 2vw;
   font-weight: 400;
   line-height: 1.44vw;
   color: #F5F5F5;
   text-align: left;
   width: 98vw;
   padding: 0 1vw;
-  padding-left: 25vw;
 }
 
 .hero-text {
