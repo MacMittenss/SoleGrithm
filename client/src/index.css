@@ -649,7 +649,7 @@ button, input, textarea, select {
   font-family: "Inter", sans-serif !important;
   text-transform: none !important;
   font-size: clamp(2rem, 16vw, 18rem) !important;
-  font-weight: 600 !important;
+  font-weight: 800 !important;
   line-height: 0.8 !important;
   width: 100vw !important;
   margin: 0 !important;
