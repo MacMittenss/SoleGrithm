@@ -608,6 +608,7 @@ button, input, textarea, select {
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100vh;
   display: flex;
   position: relative;
   overflow: hidden;
