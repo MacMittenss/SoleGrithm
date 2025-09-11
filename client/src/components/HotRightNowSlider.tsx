@@ -238,7 +238,7 @@ export default function BrandShowcase() {
 
   return (
     <section 
-      className="min-h-screen bg-black text-white py-24"
+      className="min-h-screen text-white py-24"
       style={{ backgroundColor: 'var(--black)' }}
     >
       <div className="max-w-7xl mx-auto px-8">
