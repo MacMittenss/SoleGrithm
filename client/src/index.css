@@ -797,7 +797,7 @@ button, input, textarea, select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80vw;
+  width: 95vw;
   height: 100vh;
   margin-left: auto;
   margin-right: auto;
@@ -1135,7 +1135,7 @@ button, input, textarea, select {
     line-height: 6rem;
   }
   .hero-wrapper {
-    width: 41rem;
+    width: 60rem;
     height: 40vh;
   }
   .icon-wrapper {
@@ -1182,7 +1182,7 @@ button, input, textarea, select {
     line-height: 4rem;
   }
   .hero-wrapper {
-    width: 28.5rem;
+    width: 40rem;
     height: 35vh;
   }
   .arrow-border-wrapper {
