@@ -181,98 +181,131 @@ export default function BrandShowcase() {
     return logos[brandName] || `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40"><rect width="120" height="40" fill="transparent"/><text x="60" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#ffffff">${brandName}</text></svg>`)}`;
   }
 
+  // Debug logging
+  console.log('HotRightNowSlider: isLoading =', isLoading);
+  console.log('HotRightNowSlider: featuredBrands =', featuredBrands);
+
   // Loading state
   if (isLoading) {
+    console.log('HotRightNowSlider: Showing loading state');
     return (
-      <section className="py-12 sm:py-16 bg-neutral-50 dark:bg-neutral-900 w-full">
-        <div className="w-full">
-          <div className="mb-8 text-center">
-            <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-48 mb-2 animate-pulse mx-auto" />
-          </div>
-          <div className="flex gap-4 overflow-hidden w-full justify-center">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="flex-shrink-0 w-28 sm:w-32 lg:w-36 animate-pulse">
-                <div className="h-12 bg-neutral-200 dark:bg-neutral-700 rounded mb-2 flex items-center justify-center">
-                  <div className="h-6 w-16 bg-neutral-300 dark:bg-neutral-600 rounded" />
-                </div>
+      <SectionWrapper
+        id="featured-brands-loading"
+        sticky={false}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
+        <div className="w-layout-blockcontainer container w-container">
+          <div className="padding-8">
+            <div className="layout-center">
+              <div className="align-center">
+                <h2 style={{ color: 'white' }}>Loading Iconic Brands...</h2>
+                <div className="h-5 bg-neutral-200 dark:bg-neutral-700 w-48 mb-2 animate-pulse mx-auto mt-4" />
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      </section>
+      </SectionWrapper>
     );
   }
 
-  if (!featuredBrands?.length) return null;
-
-  return (
-    <SectionWrapper
-      id="featured-brands"
-      sticky={true}
-      maskTransition={false}
-      className="relative"
-      height="100vh"
-    >
-      <div className="w-layout-blockcontainer container w-container">
-        <div className="padding-8">
-          <div 
-            ref={sectionRef}
-            className="layout-center brands-template"
-            data-testid="featured-brands-section"
-          >
-            <div className="align-center">
-              <div 
-                ref={headingRef}
-                className="fade-in-heading"
-              >
-                <h2>Iconic Brands We Work With</h2>
-              </div>
-              <div className="margin-top-1-5">
-                <div className="max-w-40-5 spacing-auto">
-                  <div className="fade-in-description">
-                    <div className="subhead color-secondary-light">
-                      Discover the most influential sneaker brands shaping culture and setting trends worldwide
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Brands Grid */}
-            <div className="margin-top-6">
-              <div 
-                ref={gridRef}
-                className="brands-template-grid fade-in-grid"
-              >
-                {featuredBrands.map((brand: any, index: number) => (
-                  <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
-                    <div
-                      className="brand-logo-container"
-                      data-testid={`brand-logo-${brand.slug}`}
-                    >
-                      <img
-                        src={brand.logoUrl}
-                        alt={`${brand.name} logo`}
-                        className="w-auto max-w-full h-8 object-contain filter brightness-0 invert"
-                        loading="lazy"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `data:image/svg+xml,${encodeURIComponent(`
-                            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
-                              <rect width="120" height="40" fill="transparent"/>
-                              <text x="60" y="25" font-family="Epilogue, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">${brand.name}</text>
-                            </svg>
-                          `)}`;
-                        }}
-                      />
-                    </div>
-                  </Link>
-                ))}
+  if (!featuredBrands?.length) {
+    console.log('HotRightNowSlider: No featured brands found, brands array:', featuredBrands);
+    return (
+      <SectionWrapper
+        id="featured-brands-empty"
+        sticky={false}
+        maskTransition={false}
+        className="relative"
+        height="100vh"
+      >
+        <div className="w-layout-blockcontainer container w-container">
+          <div className="padding-8">
+            <div className="layout-center">
+              <div className="align-center">
+                <h2 style={{ color: 'white' }}>No Brands Available</h2>
+                <p style={{ color: '#afb6c0' }}>Unable to load brand information</p>
               </div>
             </div>
           </div>
         </div>
+      </SectionWrapper>
+    );
+  }
+
+  console.log('HotRightNowSlider: Rendering with', featuredBrands.length, 'brands');
+
+  return (
+    <section 
+      className="min-h-screen bg-black text-white py-24"
+      style={{ backgroundColor: 'var(--black)' }}
+    >
+      <div className="max-w-7xl mx-auto px-8">
+        <div 
+          ref={sectionRef}
+          className="text-center"
+          data-testid="featured-brands-section"
+        >
+          {/* Section Header */}
+          <div 
+            ref={headingRef}
+            className="mb-16"
+          >
+            <h2 
+              className="text-4xl md:text-6xl font-bold mb-6"
+              style={{ 
+                color: 'var(--contrast--primary-light)',
+                textTransform: 'uppercase',
+                letterSpacing: '-0.25px'
+              }}
+            >
+              Iconic Brands We Work With
+            </h2>
+            <p 
+              className="text-xl max-w-3xl mx-auto"
+              style={{ 
+                color: 'var(--contrast--secondary-light)',
+                fontSize: '1.5rem',
+                lineHeight: '2rem'
+              }}
+            >
+              Discover the most influential sneaker brands shaping culture and setting trends worldwide
+            </p>
+          </div>
+          
+          {/* Brands Grid */}
+          <div 
+            ref={gridRef}
+            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto"
+          >
+            {featuredBrands.map((brand: any, index: number) => (
+              <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
+                <div
+                  className="flex items-center justify-center p-6 hover:bg-white/5 rounded-lg transition-all duration-300 hover:scale-105"
+                  data-testid={`brand-logo-${brand.slug}`}
+                >
+                  <img
+                    src={brand.logoUrl}
+                    alt={`${brand.name} logo`}
+                    className="w-auto max-w-full h-8 object-contain filter brightness-0 invert"
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `data:image/svg+xml,${encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
+                          <rect width="120" height="40" fill="transparent"/>
+                          <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">${brand.name}</text>
+                        </svg>
+                      `)}`;
+                    }}
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }
