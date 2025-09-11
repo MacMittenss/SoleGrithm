@@ -79,7 +79,7 @@ export default function HeroSection() {
           </a>
         </div>
       </div>
-      <div className="spline" style={{ display: "none" }}>
+      <div className="spline">
         <iframe
           src="https://my.spline.design/nexbotrobotcharacterconcept-MuKFwn44xdQzWJqISlDVY35e/"
           frameBorder="0"
