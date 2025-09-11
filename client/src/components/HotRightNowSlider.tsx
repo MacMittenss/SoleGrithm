@@ -75,97 +75,35 @@ export default function BrandShowcase() {
     }));
   }, []);
 
-  // GSAP ScrollTrigger Animation Setup
+  // Template-style fade-in animations
   useEffect(() => {
-    if (!sectionRef.current || !gridRef.current || !headingRef.current || isLoading || !featuredBrands.length) return;
+    if (!sectionRef.current || !gridRef.current || !headingRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Get brand logo elements once
-      const logoItems = gridRef.current?.querySelectorAll('[data-brand-logo]');
-      
-      // Set initial states for brand logo elements
-      if (logoItems) {
-        gsap.set(logoItems, { opacity: 0, y: 50, scale: 0.8 });
-      }
-
-      // Stage 1: Pin the section when header reaches top
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=100vh", // Pin for additional viewport height
-        pin: true,
-        pinSpacing: false,
-        anticipatePin: 1,
-      });
-
-      // Stage 2: Header animation first (scrubbed to scroll)
-      gsap.fromTo(headingRef.current,
-        {
-          opacity: 0,
-          y: 100,
-          scale: 0.8,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center",
-            end: "top top",
-            scrub: true,
+    // Template-style fade-in animations using Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
           }
-        }
-      );
-
-      // Stage 3: Brand logos animation (delayed, only after significant scroll progress)
-      if (logoItems) {
-        gsap.fromTo(logoItems,
-          {
-            opacity: 0,
-            y: 50,
-            scale: 0.8,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            stagger: {
-              amount: 1.2, // Total time to stagger all elements
-              from: "start", // Start from first element
-              ease: "power2.out"
-            },
-            ease: "back.out(1.7)",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top+=50vh", // Start only after header is pinned AND 50vh of additional scrolling
-              end: "+=50vh",
-              scrub: false, // Don't scrub to allow proper staggering
-              toggleActions: "play none none reverse"
-            },
-          }
-        );
-      }
-
-      // Background animation removed - now using static homepage background
-
-      // Floating elements animation
-      const backgroundElements = sectionRef.current?.querySelectorAll('[data-bg-animate]');
-      if (backgroundElements) {
-        gsap.to(backgroundElements, {
-          rotation: 360,
-          duration: 20,
-          repeat: -1,
-          ease: "none",
         });
-      }
+      },
+      { threshold: 0.1 }
+    );
 
-    }, sectionRef);
+    // Observe elements for fade-in animations
+    const headingElement = headingRef.current;
+    const gridElement = gridRef.current;
+    const descriptionElement = sectionRef.current.querySelector('.fade-in-description');
 
-    return () => ctx.revert();
-  }, [isLoading, featuredBrands]);
+    if (headingElement) observer.observe(headingElement);
+    if (gridElement) observer.observe(gridElement);
+    if (descriptionElement) observer.observe(descriptionElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   function getBrandDescription(brandName: string, type: string): string {
     const descriptions: Record<string, string> = {
@@ -275,95 +213,64 @@ export default function BrandShowcase() {
       className="relative"
       height="100vh"
     >
-      <div
-        ref={sectionRef}
-        className="min-h-screen flex items-center overflow-hidden px-8 lg:px-16"
-        style={{
-          background: 'transparent',
-        }}
-        data-testid="featured-brands-section"
-      >
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div
-            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full"
-            style={{
-              background: 'radial-gradient(circle, #fe7a60 0%, transparent 70%)',
-              filter: 'blur(80px)',
-            }}
-            data-bg-animate
-          />
-          <div
-            className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full"
-            style={{
-              background: 'radial-gradient(circle, #581dff 0%, transparent 70%)',
-              filter: 'blur(60px)',
-            }}
-            data-bg-animate
-          />
-        </div>
-
-        {/* Main Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto">
-          {/* Section Header */}
-          <div
-            ref={headingRef}
-            className="text-center mb-16"
+      <div className="w-layout-blockcontainer container w-container">
+        <div className="padding-8">
+          <div 
+            ref={sectionRef}
+            className="layout-center brands-template"
+            data-testid="featured-brands-section"
           >
-
-
-            <h2 className="text-9xl md:text-9xl lg:text-10xl font-bold leading-[0.8] mb-6 text-white">
-              <SplitText type="words" delay={0.2}>
-                Iconic Brands
-              </SplitText>
-              <br />
-              <GradientText className="block">
-                We Work With
-              </GradientText>
-            </h2>
-
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto font-light">
-              <SplitText type="words" delay={0.4}>
-                Discover the most influential sneaker brands shaping culture and setting trends worldwide
-              </SplitText>
-            </p>
-          </div>
-
-          {/* Brands Grid - Template Styling Applied */}
-          <div className="space-7rem"></div>
-          <div className="brands-wrapper">
-            <div 
-              ref={gridRef}
-              className="brands-grid slide-up-animation"
-            >
-              {featuredBrands.map((brand: any, index: number) => (
-                <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
-                  <div
-                    data-brand-logo
-                    className="logos-wrapper"
-                    data-testid={`brand-logo-${brand.slug}`}
-                  >
-                    <img
-                      src={brand.logoUrl}
-                      alt={`${brand.name} logo`}
-                      className="w-auto max-w-full h-6 md:h-8 object-contain transition-all duration-500 hover:scale-110"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = `data:image/svg+xml,${encodeURIComponent(`
-                          <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
-                            <rect width="120" height="40" fill="transparent"/>
-                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">${brand.name}</text>
-                          </svg>
-                        `)}`;
-                      }}
-                    />
+            <div className="align-center">
+              <div 
+                ref={headingRef}
+                className="fade-in-heading"
+              >
+                <h2>Iconic Brands We Work With</h2>
+              </div>
+              <div className="margin-top-1-5">
+                <div className="max-w-40-5 spacing-auto">
+                  <div className="fade-in-description">
+                    <div className="subhead color-secondary-light">
+                      Discover the most influential sneaker brands shaping culture and setting trends worldwide
+                    </div>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Brands Grid */}
+            <div className="margin-top-6">
+              <div 
+                ref={gridRef}
+                className="brands-template-grid fade-in-grid"
+              >
+                {featuredBrands.map((brand: any, index: number) => (
+                  <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
+                    <div
+                      className="brand-logo-container"
+                      data-testid={`brand-logo-${brand.slug}`}
+                    >
+                      <img
+                        src={brand.logoUrl}
+                        alt={`${brand.name} logo`}
+                        className="w-auto max-w-full h-8 object-contain filter brightness-0 invert"
+                        loading="lazy"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = `data:image/svg+xml,${encodeURIComponent(`
+                            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
+                              <rect width="120" height="40" fill="transparent"/>
+                              <text x="60" y="25" font-family="Epilogue, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">${brand.name}</text>
+                            </svg>
+                          `)}`;
+                        }}
+                      />
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="space-7rem"></div>
         </div>
       </div>
     </SectionWrapper>
