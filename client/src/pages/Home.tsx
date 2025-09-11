@@ -16,6 +16,7 @@ import AdvancedFooter from "@/components/advanced/AdvancedFooter";
 
 // GitHub Hero Section
 import HeroSection from "@/components/HeroSection";
+import BrandsSection from "@/components/BrandsSection";
 
 // Legacy components
 import HotRightNowSlider from "@/components/HotRightNowSlider";
@@ -121,6 +122,9 @@ export default function Home() {
 
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
       <AdvancedFlagshipFeatures />
+
+      {/* Iconic Brands Section */}
+      <BrandsSection />
 
       {/* What's Hot Right Now Slider */}
       <div>
