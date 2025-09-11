@@ -828,11 +828,14 @@ button, input, textarea, select {
   font-size: clamp(2rem, 16vw, 18rem);
   font-weight: 900;
   line-height: 0.8;
-  width: 98vw;
-  padding: 0 2vw;
+  width: 100%;
+  padding: 0;
   text-align: center;
   white-space: nowrap;
   color: #F5F5F5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-synthesis-weight: none;
 }
 
