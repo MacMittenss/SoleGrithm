@@ -829,13 +829,15 @@ button, input, textarea, select {
   font-size: clamp(2rem, 16vw, 18rem);
   font-weight: 900;
   line-height: 0.8;
-  width: 100vw;
+  width: max-content;
+  min-width: 100vw;
   padding: 0;
   margin: 0;
   margin-left: -2vw;
   text-align: left;
   white-space: nowrap;
   color: #F5F5F5;
+  overflow: visible;
   font-synthesis-weight: none;
 }
 
