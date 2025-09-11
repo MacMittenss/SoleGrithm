@@ -797,12 +797,13 @@ button, input, textarea, select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 95vw;
+  width: 100vw;
   height: 100vh;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   position: relative;
+  overflow: visible;
 }
 
 .heading,
@@ -1138,7 +1139,7 @@ button, input, textarea, select {
     line-height: 6rem;
   }
   .hero-wrapper {
-    width: 60rem;
+    width: 100vw;
     height: 40vh;
   }
   .icon-wrapper {
@@ -1185,7 +1186,7 @@ button, input, textarea, select {
     line-height: 4rem;
   }
   .hero-wrapper {
-    width: 40rem;
+    width: 100vw;
     height: 35vh;
   }
   .arrow-border-wrapper {
@@ -1202,7 +1203,7 @@ button, input, textarea, select {
     line-height: 13vw;
   }
   .hero-wrapper {
-    width: 80vw;
+    width: 100vw;
     height: 30vh;
   }
   
