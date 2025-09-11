@@ -329,37 +329,41 @@ export default function BrandShowcase() {
             </p>
           </div>
 
-          {/* Brands Grid - All Brands */}
-          <div
-            ref={gridRef}
-            className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-6 max-w-7xl mx-auto items-center"
-          >
-            {featuredBrands.map((brand: any, index: number) => (
-              <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
-                <div
-                  data-brand-logo
-                  className="group cursor-pointer flex items-center justify-center h-12 md:h-16"
-                  data-testid={`brand-logo-${brand.slug}`}
-                >
-                  <img
-                    src={brand.logoUrl}
-                    alt={`${brand.name} logo`}
-                    className="w-auto max-w-full h-6 md:h-8 object-contain opacity-80 filter brightness-0 invert hover:opacity-100 transition-all duration-500 hover:scale-110"
-                    loading="lazy"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = `data:image/svg+xml,${encodeURIComponent(`
-                        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
-                          <rect width="120" height="40" fill="transparent"/>
-                          <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">${brand.name}</text>
-                        </svg>
-                      `)}`;
-                    }}
-                  />
-                </div>
-              </Link>
-            ))}
+          {/* Brands Grid - Template Styling Applied */}
+          <div className="space-7rem"></div>
+          <div className="brands-wrapper">
+            <div 
+              ref={gridRef}
+              className="brands-grid slide-up-animation"
+            >
+              {featuredBrands.map((brand: any, index: number) => (
+                <Link key={brand.id} href={`/catalog?brand=${brand.slug}`}>
+                  <div
+                    data-brand-logo
+                    className="logos-wrapper"
+                    data-testid={`brand-logo-${brand.slug}`}
+                  >
+                    <img
+                      src={brand.logoUrl}
+                      alt={`${brand.name} logo`}
+                      className="w-auto max-w-full h-6 md:h-8 object-contain transition-all duration-500 hover:scale-110"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `data:image/svg+xml,${encodeURIComponent(`
+                          <svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
+                            <rect width="120" height="40" fill="transparent"/>
+                            <text x="60" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">${brand.name}</text>
+                          </svg>
+                        `)}`;
+                      }}
+                    />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
+          <div className="space-7rem"></div>
         </div>
       </div>
     </SectionWrapper>
