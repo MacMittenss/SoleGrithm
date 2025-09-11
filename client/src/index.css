@@ -149,8 +149,6 @@ body {
 
 .container.w-container {
   max-width: 90rem;
-  margin-left: auto;
-  margin-right: auto;
   padding-left: 3rem;
   padding-right: 3rem;
   display: block;
@@ -768,8 +766,6 @@ button, input, textarea, select {
 
 .w-container {
   max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
   padding-left: 20px;
   padding-right: 20px;
 }
