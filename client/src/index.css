@@ -142,8 +142,6 @@ body {
 /* New Template CSS Classes for Brands Section */
 .w-layout-blockcontainer {
   max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
   display: block;
 }
 
@@ -759,8 +757,6 @@ button, input, textarea, select {
 /* Webflow Layout Classes */
 .w-layout-blockcontainer {
   max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
   display: block;
 }
 
@@ -974,8 +970,6 @@ button, input, textarea, select {
 /* Layout Containers */
 .w-layout-blockcontainer {
   max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
   display: block;
 }
 
