@@ -832,6 +832,7 @@ button, input, textarea, select {
   width: 100vw;
   padding: 0;
   margin: 0;
+  margin-left: -2vw;
   text-align: left;
   white-space: nowrap;
   color: #F5F5F5;
