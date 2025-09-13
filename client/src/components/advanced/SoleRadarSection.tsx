@@ -1,319 +1,255 @@
-import React, { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { Compass, Target, Zap, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
-import SplitText from "./SplitText";
-import GradientText from "./GradientText";
-
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
 
 export default function SoleRadarSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Split title into words for word-by-word reveal
-      const title = titleRef.current;
-      if (title && title.innerText) {
-        const words = title.innerText.split(" ");
-        // Clear existing content safely
-        title.innerHTML = '';
-        // Add new word spans
-        title.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
-      }
-
-      // Pin when section reaches top after animation starts
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=180%", // Exact duration: badge(0.2s) + words(0.3s+0.05s) + subtitle(0.3s+0.05s) + features(0.4s+0.05s) + button(0.4s+0.03s) + grid(0.4s+0.03s) = ~1.8s total
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-      });
-
-      // Set initial hidden states ONLY when animation is about to start
-      gsap.set(badgeRef.current, { 
-        opacity: 0, 
-        y: 30 // Smaller movement
-      });
-      gsap.set(".sole-radar .word", { 
-        opacity: 0, 
-        y: 50, // Smaller movement to reduce popping
-        scale: 0.95
-      });
-      gsap.set(subtitleRef.current, { 
-        opacity: 0, 
-        y: 30 // Smaller movement
-      });
-      gsap.set(featuresRef.current, {
-        opacity: 0,
-        y: 30, // Much smaller movement
-        scale: 0.95
-      });
-      gsap.set(buttonRef.current, {
-        opacity: 0,
-        y: 30,
-        scale: 0.95
-      });
-      gsap.set(gridRef.current, {
-        opacity: 0,
-        y: 30,
-        scale: 0.95
-      });
-
-      // Timeline using .to() approach - properly reveals content
-      let headerTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top", // Animate only when section is pinned to top
-          toggleActions: "play none none reverse", // Smooth play and reverse - prevents popping
-        }
-      });
-
-      // Header animation sequence - reveal elements
-      headerTl
-        // Badge first to visible state
-        .to(badgeRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.2, // Much faster
-          ease: "expo.out"
-        })
-        // Animate title words to visible state
-        .to(".sole-radar .word", {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.03, // Much faster stagger
-          duration: 0.3, // Much faster
-          ease: "expo.out"
-        }, "+=0.05") // Minimal pause
-        // Then animate subtitle to visible state
-        .to(subtitleRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.3, // Much faster
-          ease: "expo.out"
-        }, "+=0.05") // Minimal pause
-        // Then animate features to visible state
-        .to(featuresRef.current, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.4, // Much faster
-          ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.05") // Minimal pause
-        // Then animate button to visible state
-        .to(buttonRef.current, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.4, // Much faster
-          ease: "back.out(1.2)"
-        }, "+=0.03") // Minimal delay
-        // Finally animate grid to visible state
-        .to(gridRef.current, {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.4, // Much faster
-          ease: "back.out(1.2)" // Slight bounce effect for growth
-        }, "+=0.03"); // Minimal delay
-
-      // Curtain overlay completely removed to prevent DOM manipulation conflicts
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []); 
-
   return (
-    <div
-      ref={sectionRef}
-      className="sole-radar relative py-32 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(20, 20, 30, 1))', // Same as discover culture section
-        minHeight: '100vh', // Ensure full viewport coverage
-      }}
+    <section 
+      className="section"
+      style={{ backgroundColor: '#050505', color: 'whitesmoke', minHeight: '100vh' }}
       data-testid="section-sole-radar"
     >
-      {/* Background gradient effects - Without blur filters */}
-      <div className="absolute top-16 bottom-0 left-0 right-0 overflow-hidden">
-        {/* Purple/Pink/Blue gradient orbs - No blur filters */}
-        <div 
-          className="absolute top-32 left-1/4 w-80 h-80 rounded-full opacity-20"
-          style={{
-            background: 'linear-gradient(to right, #8B5CF6 0%, #EC4899 61%, #06B6D4 100%)',
-          }}
-        />
-        <div 
-          className="absolute bottom-20 right-1/4 w-60 h-60 rounded-full opacity-15"
-          style={{
-            background: 'linear-gradient(to right, #06B6D4 0%, #8B5CF6 61%, #EC4899 100%)',
-          }}
-        />
-      </div>
+      <div className="w-layout-blockcontainer container w-container">
+        <div style={{ minHeight: '11.11vw' }}></div>
+        
+        {/* Header Section */}
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'flex-start', 
+          width: '100%',
+          marginBottom: '2.2vw'
+        }}>
+          <h5 style={{ 
+            color: 'whitesmoke',
+            letterSpacing: '.14vw',
+            textTransform: 'uppercase',
+            marginTop: 0,
+            marginBottom: 0,
+            fontSize: '.89vw',
+            fontWeight: 400,
+            lineHeight: '1.44vw'
+          }}>
+            AI DISCOVERY
+          </h5>
+          <h2 style={{ 
+            color: 'whitesmoke',
+            letterSpacing: '-.07vw',
+            textTransform: 'capitalize',
+            marginTop: 0,
+            marginBottom: 0,
+            fontSize: '4.44vw',
+            fontWeight: 500,
+            lineHeight: '5vw'
+          }}>
+            Smart Style Discovery
+          </h2>
+        </div>
 
-      {/* Floating geometric shapes */}
-      <motion.div
-        className="absolute top-20 right-20 w-32 h-32 rounded-full border border-green-500/20"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-      />
-      <motion.div
-        className="absolute bottom-20 left-20 w-24 h-24 rotate-45 border border-orange-500/20"
-        animate={{ rotate: [45, 135, 45] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-      />
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'flex-start', 
+          width: '50%',
+          marginBottom: '4.4vw'
+        }}>
+          <p style={{ 
+            color: 'whitesmoke',
+            letterSpacing: '.07vw',
+            marginBottom: 0,
+            fontSize: '1.11vw',
+            fontWeight: 300,
+            lineHeight: '1.89vw',
+            maxWidth: '42.22vw'
+          }}>
+            AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
+            preferences, and trends to deliver perfectly curated recommendations.
+          </p>
+        </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Content Column */}
-          <div className="space-y-8">
-            {/* Badge */}
-            <div
-              ref={badgeRef}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-              style={{
-                background: 'rgba(0, 255, 150, 0.1)',
-                border: '1px solid rgba(0, 255, 150, 0.2)',
-              }}
-            >
-              <Compass className="w-4 h-4 text-green-500" />
-              <span className="text-sm font-medium text-white">SOLE RADAR AI</span>
-            </div>
-
-            {/* Main Title */}
-            <div>
-              <h2 
-                ref={titleRef}
-                className="font-bold leading-tight mb-6 text-white"
-                style={{ 
-                  fontFamily: '"seasonSans", "seasonSans Fallback", "Manrope", "Inter", sans-serif',
-                  fontSize: 'calc(4rem * 1.4)', // 1.4 times bigger
-                }}
-              >
-                Smart Style Discovery
-              </h2>
-              
-              <p
-                ref={subtitleRef}
-                className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
-              >
-                AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
-                preferences, and trends to deliver perfectly curated recommendations.
-              </p>
-            </div>
-
-            {/* Feature list */}
-            <div ref={featuresRef} className="space-y-4">
-              {[
-                { icon: Compass, title: 'AI Style Matching', desc: 'Advanced analysis of your unique style preferences' },
-                { icon: Target, title: 'Smart Recommendations', desc: 'Personalized suggestions based on your history' },
-                { icon: Zap, title: 'Instant Discovery', desc: 'Lightning-fast results in under 1 second' }
-              ].map((feature, index) => (
-                <div key={feature.title} className="flex items-start gap-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mt-1"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(0, 255, 150, 0.1), rgba(50, 255, 100, 0.1))',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                    }}
-                  >
-                    <feature.icon className="w-6 h-6 text-green-500" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg mb-1 text-white">{feature.title}</h4>
-                    <p className="text-gray-400">{feature.desc}</p>
-                  </div>
+        {/* Two Column Layout */}
+        <div style={{ 
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '4rem',
+          alignItems: 'start',
+          width: '100%'
+        }}>
+          
+          {/* Left Column - Features List */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {[
+              { 
+                icon: Compass, 
+                title: 'AI Style Matching', 
+                desc: 'Advanced analysis of your unique style preferences and fashion trends' 
+              },
+              { 
+                icon: Target, 
+                title: 'Smart Recommendations', 
+                desc: 'Personalized suggestions based on your browsing history and preferences' 
+              },
+              { 
+                icon: Zap, 
+                title: 'Instant Discovery', 
+                desc: 'Lightning-fast results powered by machine learning algorithms' 
+              }
+            ].map((feature, index) => (
+              <div key={feature.title} style={{ 
+                display: 'flex', 
+                alignItems: 'flex-start', 
+                gap: '1.5rem' 
+              }}>
+                <div style={{
+                  width: '3rem',
+                  height: '3rem',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(0, 255, 150, 0.1)',
+                  border: '1px solid rgba(0, 255, 150, 0.2)',
+                  marginTop: '0.25rem'
+                }}>
+                  <feature.icon style={{ width: '1.5rem', height: '1.5rem', color: '#00ff96' }} />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <h4 style={{ 
+                    color: 'whitesmoke',
+                    fontSize: '1.11vw',
+                    fontWeight: 600,
+                    marginTop: 0,
+                    marginBottom: '0.5rem',
+                    lineHeight: '1.4'
+                  }}>
+                    {feature.title}
+                  </h4>
+                  <p style={{ 
+                    color: '#a0a0a0',
+                    fontSize: '0.89vw',
+                    fontWeight: 300,
+                    marginTop: 0,
+                    marginBottom: 0,
+                    lineHeight: '1.6'
+                  }}>
+                    {feature.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
 
             {/* CTA Button */}
-            <div ref={buttonRef}>
+            <div style={{ marginTop: '2rem' }}>
               <Link href="/discover">
                 <button
-                  className="group relative px-8 py-4 text-lg font-semibold text-white overflow-hidden rounded-full"
                   style={{
+                    padding: '1rem 2rem',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    color: '#000',
                     background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
+                    border: 'none',
+                    borderRadius: '50px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    transition: 'transform 0.2s ease'
                   }}
                   data-testid="button-start-discovery"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
                 >
-                  <span className="relative z-10 flex items-center gap-2">
-                    Start Discovery
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                  Start Discovery
+                  <ArrowRight style={{ width: '1.25rem', height: '1.25rem' }} />
                 </button>
               </Link>
             </div>
           </div>
 
-          {/* Features Grid Column */}
-          <div ref={gridRef} className="relative">
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 gap-8">
-              {[
-                {
-                  icon: Compass,
-                  title: "AI Style Matching",
-                  description: "Our AI analyzes your preferences and suggests sneakers that match your unique style perfectly."
-                },
-                {
-                  icon: Target,
-                  title: "Smart Recommendations",
-                  description: "Get personalized sneaker suggestions based on your browsing history and style preferences."
-                },
-                {
-                  icon: Zap,
-                  title: "Instant Discovery",
-                  description: "Find your perfect sneakers in seconds with our lightning-fast AI algorithm and search."
-                },
-                {
-                  icon: Heart,
-                  title: "Style Evolution",
-                  description: "Track your style journey and discover new trends that align with your evolving taste."
-                }
-              ].map((feature, index) => (
-                <div
-                  key={feature.title}
-                  className="text-center space-y-4"
-                  data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
-                >
-                  <div 
-                    className="flex items-center justify-center w-16 h-16 mx-auto rounded-xl"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(0, 255, 150, 0.1), rgba(50, 255, 100, 0.1))',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                    }}
-                  >
-                    <feature.icon className="w-8 h-8 text-green-500" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">
-                    {feature.description}
-                  </p>
+          {/* Right Column - Features Grid */}
+          <div style={{ 
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '2rem'
+          }}>
+            {[
+              {
+                icon: Compass,
+                title: "AI Style Matching",
+                description: "Our AI analyzes your preferences and suggests sneakers that match your unique style perfectly."
+              },
+              {
+                icon: Target,
+                title: "Smart Recommendations",
+                description: "Get personalized sneaker suggestions based on your browsing history and style preferences."
+              },
+              {
+                icon: Zap,
+                title: "Instant Discovery",
+                description: "Find your perfect sneakers in seconds with our lightning-fast AI algorithm and search."
+              },
+              {
+                icon: Heart,
+                title: "Style Evolution",
+                description: "Track your style journey and discover new trends that align with your evolving taste."
+              }
+            ].map((feature, index) => (
+              <div
+                key={feature.title}
+                style={{ 
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}
+                data-testid={`feature-${feature.title.toLowerCase().replace(' ', '-')}`}
+              >
+                <div style={{
+                  width: '4rem',
+                  height: '4rem',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(0, 255, 150, 0.1)',
+                  border: '1px solid rgba(0, 255, 150, 0.2)'
+                }}>
+                  <feature.icon style={{ width: '2rem', height: '2rem', color: '#00ff96' }} />
                 </div>
-              ))}
-            </div>
+                <h3 style={{ 
+                  color: 'whitesmoke',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  marginTop: 0,
+                  marginBottom: 0,
+                  lineHeight: '1.4'
+                }}>
+                  {feature.title}
+                </h3>
+                <p style={{ 
+                  color: '#a0a0a0',
+                  fontSize: '0.875rem',
+                  fontWeight: 300,
+                  marginTop: 0,
+                  marginBottom: 0,
+                  lineHeight: '1.6',
+                  textAlign: 'center'
+                }}>
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-    </div>
+        <div style={{ minHeight: '7.8vw' }}></div>
+      </div>
+    </section>
   );
 }
