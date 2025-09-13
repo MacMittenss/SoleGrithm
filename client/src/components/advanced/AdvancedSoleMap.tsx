@@ -105,9 +105,12 @@ export default function AdvancedSoleMap() {
           ease: "back.out(1.2)",
           stagger: 0.1
         }, "-=0.2")
-        .from(".feature-item", {
+        .fromTo(".feature-item", {
           opacity: 0,
-          y: 20,
+          y: 20
+        }, {
+          opacity: 1,
+          y: 0,
           duration: 0.4,
           ease: "expo.out",
           stagger: 0.1
@@ -367,7 +370,9 @@ export default function AdvancedSoleMap() {
                   borderRadius: '8px',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  opacity: 1,
+                  transform: 'translateY(0)'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
