@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, TrendingUp, Users, Zap } from 'lucide-react';
@@ -66,6 +66,38 @@ export default function AdvancedSoleMap() {
   const rotationRef = useRef(0);
   const lastPointerRef = useRef({ x: 0, y: 0 });
 
+  // Energy lines data - paths that shoot across the globe
+  const energyLines = useMemo(() => [
+    {
+      id: 1,
+      start: { lat: 40.7, lng: -74.0, name: "New York" }, // NYC
+      end: { lat: 51.5, lng: -0.1, name: "London" },
+      color: "#00ff88",
+      delay: 0
+    },
+    {
+      id: 2,
+      start: { lat: 35.7, lng: 139.7, name: "Tokyo" },
+      end: { lat: 34.0, lng: -118.2, name: "Los Angeles" },
+      color: "#ff4444",
+      delay: 1.5
+    },
+    {
+      id: 3,
+      start: { lat: 48.9, lng: 2.3, name: "Paris" },
+      end: { lat: -33.9, lng: 151.2, name: "Sydney" },
+      color: "#4488ff",
+      delay: 3.0
+    },
+    {
+      id: 4,
+      start: { lat: 1.3, lng: 103.8, name: "Singapore" },
+      end: { lat: 55.8, lng: 37.6, name: "Moscow" },
+      color: "#ffaa00",
+      delay: 4.5
+    }
+  ], []);
+
   // 2.5D SVG Globe with orthographic projection
   const globeRadius = 160;
   const globeCenterX = 200;
@@ -121,6 +153,58 @@ export default function AdvancedSoleMap() {
     cityData.slice(0, -1).map((city, index) => 
       generateArc(city, cityData[index + 1], rotation)
     ), [cityData, rotation]
+  );
+
+  // Generate energy line paths
+  const generateEnergyPath = useCallback((startPos: any, endPos: any, currentRotation: number) => {
+    const points = [];
+    const steps = 50;
+    
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      
+      // Interpolate latitude and longitude
+      const lat = startPos.lat + (endPos.lat - startPos.lat) * t;
+      const lng = startPos.lng + (endPos.lng - startPos.lng) * t;
+      
+      // Add curve height for great circle effect
+      const height = Math.sin(t * Math.PI) * 15;
+      
+      // Convert to 3D position with curve
+      const latRad = (lat * Math.PI) / 180;
+      const lngRad = ((lng + currentRotation) * Math.PI) / 180;
+      
+      const x = (globeRadius + height) * Math.cos(latRad) * Math.sin(lngRad);
+      const y = -(globeRadius + height) * Math.sin(latRad);
+      const z = (globeRadius + height) * Math.cos(latRad) * Math.cos(lngRad);
+      
+      // Project to 2D
+      if (z > 0) { // Only front-facing points
+        points.push({
+          x: globeCenterX + x,
+          y: globeCenterY + y,
+          visible: true
+        });
+      }
+    }
+    
+    // Create SVG path
+    if (points.length < 2) return "";
+    
+    const pathData = points.reduce((path, point, index) => {
+      const command = index === 0 ? "M" : "L";
+      return `${path} ${command} ${point.x} ${point.y}`;
+    }, "");
+    
+    return pathData.trim();
+  }, []);
+
+  // Energy line paths
+  const energyPaths = useMemo(() => 
+    energyLines.map(line => ({
+      ...line,
+      path: generateEnergyPath(line.start, line.end, rotation)
+    })).filter(line => line.path !== ""), [energyLines, generateEnergyPath, rotation]
   );
 
   // Pointer interaction handlers
@@ -347,6 +431,36 @@ export default function AdvancedSoleMap() {
                   <stop offset="50%" stopColor="rgba(255, 255, 255, 0.6)" />
                   <stop offset="100%" stopColor="rgba(255, 255, 255, 0.2)" />
                 </linearGradient>
+                
+                {/* Energy line filters for glowing effect */}
+                <filter id="energyGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge> 
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                
+                {/* Energy line gradients */}
+                {energyLines.map(line => (
+                  <linearGradient key={`gradient-${line.id}`} id={`energyGradient-${line.id}`}>
+                    <stop offset="0%" stopColor="transparent" />
+                    <stop offset="10%" stopColor="transparent" />
+                    <stop offset="30%" stopColor={line.color} stopOpacity="0.8" />
+                    <stop offset="70%" stopColor={line.color} stopOpacity="1" />
+                    <stop offset="90%" stopColor="transparent" />
+                    <stop offset="100%" stopColor="transparent" />
+                    <animateTransform
+                      attributeName="gradientTransform"
+                      attributeType="XML"
+                      type="translate"
+                      values="0 0; 100 0; 200 0"
+                      dur="3s"
+                      repeatCount="indefinite"
+                      begin={`${line.delay}s`}
+                    />
+                  </linearGradient>
+                ))}
               </defs>
 
               {/* Globe sphere */}
@@ -372,6 +486,57 @@ export default function AdvancedSoleMap() {
                     strokeDasharray="4,4"
                     className="globe-arc"
                   />
+                )
+              ))}
+
+              {/* Animated Energy Lines */}
+              {energyPaths.map((energyLine) => (
+                energyLine.path && (
+                  <g key={`energy-${energyLine.id}`}>
+                    {/* Background path for subtle glow */}
+                    <path
+                      d={energyLine.path}
+                      stroke={energyLine.color}
+                      strokeWidth="6"
+                      fill="none"
+                      opacity="0.3"
+                      filter="url(#energyGlow)"
+                    />
+                    {/* Main animated energy path */}
+                    <path
+                      d={energyLine.path}
+                      stroke={`url(#energyGradient-${energyLine.id})`}
+                      strokeWidth="3"
+                      fill="none"
+                      opacity="0.9"
+                      filter="url(#energyGlow)"
+                      data-testid={`energy-line-${energyLine.id}`}
+                    >
+                      <animate
+                        attributeName="stroke-dashoffset"
+                        values="100;0"
+                        dur="3s"
+                        repeatCount="indefinite"
+                        begin={`${energyLine.delay}s`}
+                      />
+                    </path>
+                    {/* Bright center line */}
+                    <path
+                      d={energyLine.path}
+                      stroke={energyLine.color}
+                      strokeWidth="1"
+                      fill="none"
+                      opacity="1"
+                    >
+                      <animate
+                        attributeName="opacity"
+                        values="0.3;1;0.3"
+                        dur="3s"
+                        repeatCount="indefinite"
+                        begin={`${energyLine.delay}s`}
+                      />
+                    </path>
+                  </g>
                 )
               ))}
 
