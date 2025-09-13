@@ -201,15 +201,14 @@ export default function AdvancedLiveMarket() {
       }}
       data-testid="section-live-market"
     >
-      {/* Template-style container */}
+      {/* Template-style container - Single Column Layout */}
       <div style={{ 
         maxWidth: '1200px', 
         margin: '0 auto', 
         padding: '0 2rem',
-        display: 'grid',
-        gridTemplateColumns: '1fr 400px',
-        gap: '6rem',
-        alignItems: 'start'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4rem'
       }}>
         
         {/* Left Content Column - Rearranged Layout */}
@@ -428,28 +427,20 @@ export default function AdvancedLiveMarket() {
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Right Column - Chart Component (Bottom Right Positioned) */}
-        <div style={{ 
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          height: '100%',
-          minHeight: '500px'
-        }}>
+          {/* Chart Component - Moved Next to Other Elements */}
           <div
             className="chart-container"
             style={{ 
               position: 'relative',
               width: '100%',
+              maxWidth: '600px',
               padding: '2rem',
               borderRadius: '16px',
               backgroundColor: 'rgba(255, 255, 255, 0.03)',
               border: '1px solid rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
-              alignSelf: 'flex-end'
+              alignSelf: 'center'
             }}
           >
             {/* Chart Header - Template Style */}
