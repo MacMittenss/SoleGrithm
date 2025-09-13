@@ -224,7 +224,8 @@ export default function AdvancedLiveMarket() {
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 color: '#999999',
-                marginBottom: '1rem'
+                marginBottom: '1rem',
+                fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
               }}
             >
               Live Market Intelligence
@@ -233,10 +234,10 @@ export default function AdvancedLiveMarket() {
               className="main-title"
               style={{ 
                 fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-                fontWeight: 700,
+                fontWeight: 600,
                 lineHeight: 1.1,
                 marginBottom: '1.5rem',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+                fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
               }}
             >
               Real-time Market
@@ -257,7 +258,8 @@ export default function AdvancedLiveMarket() {
                 lineHeight: 1.6,
                 color: '#cccccc',
                 maxWidth: '32rem',
-                fontWeight: 300
+                fontWeight: 300,
+                fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
               }}
             >
               Advanced pricing analytics and market intelligence powered by real-time data 
@@ -283,7 +285,8 @@ export default function AdvancedLiveMarket() {
                   gap: '0.5rem',
                   transition: 'all 0.3s ease',
                   letterSpacing: '0.025em',
-                  alignSelf: 'flex-start'
+                  alignSelf: 'flex-start',
+                  fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
                 }}
                 data-testid="button-explore-live-market"
                 onMouseEnter={(e) => {
