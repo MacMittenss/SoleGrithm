@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, TrendingUp, Users, Zap } from 'lucide-react';
 
 interface CityData {
   name: string;
-  coordinate: [number, number];
+  coordinate: [number, number]; // [lat, lng] for 3D positioning
   trend: string;
   sales: string;
   popular: string;
@@ -23,40 +23,144 @@ export default function AdvancedSoleMap() {
   const [cityData] = useState<CityData[]>([
     {
       name: "New York",
-      coordinate: [25, 30],
+      coordinate: [40.7128, -74.0060],
       trend: "+24%",
       sales: "8.2K",
       popular: "Jordan 1"
     },
     {
       name: "Los Angeles", 
-      coordinate: [15, 60],
+      coordinate: [34.0522, -118.2437],
       trend: "+18%",
       sales: "6.7K",
       popular: "Yeezy 350"
     },
     {
       name: "Chicago",
-      coordinate: [35, 45],
+      coordinate: [41.8781, -87.6298],
       trend: "+31%",
       sales: "5.1K", 
       popular: "Air Force 1"
     },
     {
       name: "Miami",
-      coordinate: [45, 75],
+      coordinate: [25.7617, -80.1918],
       trend: "+15%",
       sales: "4.3K",
       popular: "Dunk Low"
     },
     {
       name: "Atlanta",
-      coordinate: [40, 65],
+      coordinate: [33.7490, -84.3880],
       trend: "+22%",
       sales: "3.8K",
       popular: "Travis Scott"
     }
   ]);
+
+  // State for globe rotation and interaction
+  const [rotation, setRotation] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const animationRef = useRef<number>();
+  const rotationRef = useRef(0);
+  const lastPointerRef = useRef({ x: 0, y: 0 });
+
+  // 2.5D SVG Globe with orthographic projection
+  const globeRadius = 160;
+  const globeCenterX = 200;
+  const globeCenterY = 200;
+
+  // Utility function for orthographic projection
+  const projectToGlobe = (lat: number, lng: number, rotationOffset: number = 0) => {
+    const latRad = (lat * Math.PI) / 180;
+    const lngRad = ((lng + rotationOffset) * Math.PI) / 180;
+    
+    const x = globeRadius * Math.cos(latRad) * Math.sin(lngRad);
+    const y = -globeRadius * Math.sin(latRad);
+    const z = globeRadius * Math.cos(latRad) * Math.cos(lngRad);
+    
+    return {
+      x: globeCenterX + x,
+      y: globeCenterY + y,
+      z: z,
+      visible: z > 0 // Only show points on the front face
+    };
+  };
+
+  // Generate great circle arc between two points
+  const generateArc = (city1: CityData, city2: CityData, rotationOffset: number) => {
+    const segments = 20;
+    const points = [];
+    
+    for (let i = 0; i <= segments; i++) {
+      const t = i / segments;
+      // Simple interpolation for demonstration
+      const lat = city1.coordinate[0] + t * (city2.coordinate[0] - city1.coordinate[0]);
+      const lng = city1.coordinate[1] + t * (city2.coordinate[1] - city1.coordinate[1]);
+      
+      const projected = projectToGlobe(lat, lng, rotationOffset);
+      if (projected.visible) {
+        points.push(`${projected.x},${projected.y}`);
+      }
+    }
+    
+    return points.length > 1 ? `M ${points.join(' L ')}` : '';
+  };
+
+  // Memoize projected city positions
+  const projectedCities = useMemo(() => 
+    cityData.map(city => ({
+      ...city,
+      ...projectToGlobe(city.coordinate[0], city.coordinate[1], rotation)
+    })), [cityData, rotation]
+  );
+
+  // Memoize arc paths
+  const arcPaths = useMemo(() => 
+    cityData.slice(0, -1).map((city, index) => 
+      generateArc(city, cityData[index + 1], rotation)
+    ), [cityData, rotation]
+  );
+
+  // Pointer interaction handlers
+  const handlePointerDown = (e: React.PointerEvent) => {
+    setIsDragging(true);
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging) return;
+    
+    const deltaX = e.clientX - lastPointerRef.current.x;
+    rotationRef.current += deltaX * 0.5;
+    setRotation(rotationRef.current);
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handlePointerUp = () => {
+    setIsDragging(false);
+  };
+
+  // Auto-rotation animation (pauses during interaction)
+  useEffect(() => {
+    const animate = () => {
+      if (!isDragging) {
+        rotationRef.current += 0.3;
+        setRotation(rotationRef.current);
+      }
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    
+    animationRef.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isDragging]);
 
   // Template-inspired GSAP animation
   useEffect(() => {
@@ -98,13 +202,6 @@ export default function AdvancedSoleMap() {
           duration: 0.8,
           ease: "expo.out"
         }, "-=0.4")
-        .from(".map-point", {
-          opacity: 0,
-          scale: 0,
-          duration: 0.3,
-          ease: "back.out(1.2)",
-          stagger: 0.1
-        }, "-=0.2")
         .fromTo(".feature-item", {
           opacity: 0,
           y: 20
@@ -114,24 +211,7 @@ export default function AdvancedSoleMap() {
           duration: 0.4,
           ease: "expo.out",
           stagger: 0.1
-        }, "-=0.3")
-        .from(".map-line", {
-          opacity: 0,
-          strokeDashoffset: "100%",
-          duration: 1,
-          ease: "power2.out",
-          stagger: 0.2
-        }, "-=0.8");
-      
-      // Continuous pulse animation for map points
-      gsap.to(".map-pulse", {
-        scale: 2,
-        opacity: 0,
-        duration: 2,
-        repeat: -1,
-        ease: 'power2.out',
-        stagger: 0.3
-      });
+        }, "-=0.3");
     }, sectionRef);
 
     return () => ctx.revert();
@@ -231,7 +311,7 @@ export default function AdvancedSoleMap() {
           marginBottom: '3rem'
         }}>
           
-          {/* Interactive Map */}
+          {/* Interactive 2.5D SVG Globe */}
           <div
             ref={mapRef}
             className="map-container"
@@ -240,107 +320,150 @@ export default function AdvancedSoleMap() {
               aspectRatio: '4/3',
               borderRadius: '12px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              padding: '2rem',
-              backgroundColor: 'rgba(255, 255, 255, 0.02)'
+              backgroundColor: 'rgba(255, 255, 255, 0.02)',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
-            {/* Simplified US map outline */}
-            <svg 
-              viewBox="0 0 100 100" 
-              style={{ 
-                width: '100%', 
-                height: '100%', 
-                opacity: 0.15
-              }}
-              fill="none"
-              stroke="#ffffff"
-              strokeWidth="0.5"
-            >
-              <path d="M 20 20 Q 50 15 80 25 L 85 40 Q 80 60 75 75 L 45 80 Q 25 75 15 60 L 20 20 Z" />
-              <path d="M 15 75 Q 20 85 35 82 L 40 90 Q 25 95 15 85 Z" />
-              <path d="M 75 15 Q 85 12 90 20 L 88 25 Q 82 22 75 15 Z" />
-            </svg>
-
-            {/* Connecting lines between cities */}
-            <svg 
-              style={{ 
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                width: '100%', 
-                height: '100%', 
-                pointerEvents: 'none' 
-              }}
+            <svg
+              width="400"
+              height="400"
+              viewBox="0 0 400 400"
+              style={{ maxWidth: '100%', maxHeight: '100%', cursor: isDragging ? 'grabbing' : 'grab' }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
             >
               <defs>
+                <radialGradient id="globeGradient" cx="0.3" cy="0.3" r="0.7">
+                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
+                  <stop offset="70%" stopColor="rgba(255, 255, 255, 0.05)" />
+                  <stop offset="100%" stopColor="rgba(0, 0, 0, 0.3)" />
+                </radialGradient>
                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
-                  <stop offset="50%" stopColor="#ffffff" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.2" />
+                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0.2)" />
+                  <stop offset="50%" stopColor="rgba(255, 255, 255, 0.6)" />
+                  <stop offset="100%" stopColor="rgba(255, 255, 255, 0.2)" />
                 </linearGradient>
               </defs>
-              
-              {cityData.slice(0, -1).map((city, index) => (
-                <line
-                  key={`line-${index}`}
-                  x1={`${city.coordinate[1]}%`}
-                  y1={`${city.coordinate[0]}%`}
-                  x2={`${cityData[index + 1].coordinate[1]}%`}
-                  y2={`${cityData[index + 1].coordinate[0]}%`}
-                  stroke="url(#lineGradient)"
-                  strokeWidth="1"
-                  strokeDasharray="3,3"
-                  className="map-line"
-                />
+
+              {/* Globe sphere */}
+              <circle
+                cx={globeCenterX}
+                cy={globeCenterY}
+                r={globeRadius}
+                fill="url(#globeGradient)"
+                stroke="rgba(255, 255, 255, 0.1)"
+                strokeWidth="1"
+              />
+
+              {/* Connection lines between cities */}
+              {arcPaths.map((path, index) => (
+                path && (
+                  <path
+                    key={`arc-${index}`}
+                    d={path}
+                    stroke="url(#lineGradient)"
+                    strokeWidth="2"
+                    fill="none"
+                    opacity="0.6"
+                    strokeDasharray="4,4"
+                    className="globe-arc"
+                  />
+                )
+              ))}
+
+              {/* City markers */}
+              {projectedCities.map((city, index) => (
+                city.visible && (
+                  <g key={city.name}>
+                    {/* Pulsing ring */}
+                    <circle
+                      cx={city.x}
+                      cy={city.y}
+                      r={hoveredCity === city.name ? "12" : "8"}
+                      fill="none"
+                      stroke={hoveredCity === city.name ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.4)"}
+                      strokeWidth="1"
+                      className="globe-pulse"
+                      style={{ transition: 'all 0.3s ease' }}
+                    />
+                    
+                    {/* City point */}
+                    <circle
+                      cx={city.x}
+                      cy={city.y}
+                      r={hoveredCity === city.name ? "6" : "4"}
+                      fill="#ffffff"
+                      className="globe-point"
+                      style={{ 
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                      }}
+                      data-testid={`city-marker-${city.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      onMouseEnter={() => setHoveredCity(city.name)}
+                      onMouseLeave={() => setHoveredCity(null)}
+                    />
+                    
+                    {/* City label */}
+                    <text
+                      x={city.x}
+                      y={city.y - (hoveredCity === city.name ? 20 : 15)}
+                      textAnchor="middle"
+                      fill="#ffffff"
+                      fontSize={hoveredCity === city.name ? "12" : "11"}
+                      fontWeight="600"
+                      style={{
+                        textShadow: '0 0 3px rgba(0,0,0,0.8)',
+                        fontFamily: '"Work Sans", sans-serif',
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      {city.name}
+                    </text>
+
+                    {/* Tooltip on hover */}
+                    {hoveredCity === city.name && (
+                      <g>
+                        <rect
+                          x={city.x - 50}
+                          y={city.y + 15}
+                          width="100"
+                          height="50"
+                          fill="rgba(0, 0, 0, 0.9)"
+                          stroke="rgba(255, 255, 255, 0.2)"
+                          strokeWidth="1"
+                          rx="4"
+                        />
+                        <text
+                          x={city.x}
+                          y={city.y + 30}
+                          textAnchor="middle"
+                          fill="#ffffff"
+                          fontSize="10"
+                          fontWeight="500"
+                          style={{ fontFamily: '"Work Sans", sans-serif' }}
+                        >
+                          {city.trend} • {city.sales} sales
+                        </text>
+                        <text
+                          x={city.x}
+                          y={city.y + 45}
+                          textAnchor="middle"
+                          fill="#cccccc"
+                          fontSize="9"
+                          style={{ fontFamily: '"Work Sans", sans-serif' }}
+                        >
+                          Popular: {city.popular}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                )
               ))}
             </svg>
-
-            {/* Animated city points */}
-            {cityData.map((city, index) => (
-              <div
-                key={city.name}
-                style={{
-                  position: 'absolute',
-                  left: `${city.coordinate[1]}%`,
-                  top: `${city.coordinate[0]}%`,
-                }}
-              >
-                {/* Pulsing background */}
-                <div
-                  className="map-pulse"
-                  style={{
-                    position: 'absolute',
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    backgroundColor: '#ffffff',
-                    opacity: 0.3
-                  }}
-                />
-                
-                {/* Main point */}
-                <div
-                  className="map-point"
-                  style={{
-                    position: 'relative',
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    backgroundColor: '#ffffff',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                  title={`${city.name}: ${city.trend} • ${city.sales} sales • Popular: ${city.popular}`}
-                />
-              </div>
-            ))}
-
           </div>
           
           {/* Feature Cards Column */}
