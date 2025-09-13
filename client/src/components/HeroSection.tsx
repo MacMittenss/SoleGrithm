@@ -166,14 +166,6 @@ export default function HeroSection() {
       <div 
         ref={splineContainerRef}
         className="spline"
-        style={{
-          position: 'relative',
-          height: '100%',
-          width: '100%',
-          zIndex: 1,
-          pointerEvents: 'none',
-          background: 'transparent'
-        }}
       >
         {/* Fallback/loading state */}
         {(!shouldRender3D || robotError || !robotLoaded) && (
@@ -212,8 +204,6 @@ export default function HeroSection() {
               width: "100%",
               height: "100%",
               background: "transparent",
-              border: 'none',
-              pointerEvents: 'none'
             }}
           />
         )}
