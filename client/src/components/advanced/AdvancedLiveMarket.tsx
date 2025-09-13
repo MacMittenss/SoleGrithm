@@ -212,11 +212,11 @@ export default function AdvancedLiveMarket() {
         alignItems: 'start'
       }}>
         
-        {/* Left Content Column - Template Style */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+        {/* Left Content Column - Rearranged Layout */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           
           {/* Header Section - Template Typography */}
-          <div style={{ marginBottom: '2rem' }}>
+          <div style={{ marginBottom: '1rem' }}>
             <div 
               className="sub-title"
               style={{ 
@@ -266,25 +266,74 @@ export default function AdvancedLiveMarket() {
             </p>
           </div>
 
-          {/* Stats Grid - Template Style */}
+          {/* CTA Button Moved Up - Template Style */}
+          <div className="cta-button">
+            <Link href="/live-market">
+              <button
+                style={{
+                  padding: '1rem 2.5rem',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  color: '#000000',
+                  backgroundColor: '#ffffff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'all 0.3s ease',
+                  letterSpacing: '0.025em',
+                  alignSelf: 'flex-start'
+                }}
+                data-testid="button-explore-live-market"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#ffffff';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Explore Live Market
+                <ArrowRight style={{ width: '1rem', height: '1rem' }} />
+              </button>
+            </Link>
+          </div>
+
+          {/* Stats Grid - Rearranged with 2x2 Layout */}
           <div style={{ 
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(2, 1fr)',
             gap: '2rem',
-            marginBottom: '2rem'
+            marginBottom: '1rem'
           }}>
             {[
-              { number: '50K+', label: 'Sneakers Tracked' },
-              { number: '15+', label: 'Data Sources' }, 
-              { number: '99%', label: 'Accuracy Rate' }
+              { number: '50K+', label: 'Sneakers Tracked', icon: '📊' },
+              { number: '15+', label: 'Data Sources', icon: '🔗' }, 
+              { number: '99%', label: 'Accuracy Rate', icon: '✅' },
+              { number: '24/7', label: 'Live Updates', icon: '🔄' }
             ].map((stat, index) => (
               <div 
                 key={stat.label}
                 className="stat-item"
-                style={{ textAlign: 'left' }}
+                style={{ 
+                  textAlign: 'left',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)'
+                }}
               >
                 <div style={{ 
-                  fontSize: '2.5rem',
+                  fontSize: '1.5rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  {stat.icon}
+                </div>
+                <div style={{ 
+                  fontSize: '2rem',
                   fontWeight: 700,
                   marginBottom: '0.5rem',
                   color: '#ffffff',
@@ -304,97 +353,80 @@ export default function AdvancedLiveMarket() {
             ))}
           </div>
 
-          {/* Market Data Cards - Template Style */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
-            {marketData.slice(0, 3).map((item, index) => (
+          {/* Market Data - Rearranged as Horizontal Cards */}
+          <div style={{ 
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '1rem'
+          }}>
+            {marketData.slice(0, 4).map((item, index) => (
               <div
                 key={item.name}
                 className="market-item"
                 style={{ 
-                  padding: '1.5rem',
-                  borderRadius: '12px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  padding: '1.25rem',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                   backdropFilter: 'blur(10px)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ 
+                  fontSize: '0.85rem',
+                  fontWeight: 500,
+                  color: '#ffffff',
+                  marginBottom: '0.5rem',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}>
+                  {item.name}
+                </div>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '0.5rem'
+                }}>
                   <span style={{ 
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    color: '#ffffff'
-                  }}>
-                    {item.name}
-                  </span>
-                  <span style={{ 
-                    fontSize: '1.25rem',
+                    fontSize: '1.1rem',
                     fontWeight: 600,
                     color: '#ffffff'
                   }}>
                     {item.price}
                   </span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ 
-                    fontSize: '0.8rem',
-                    color: '#999999'
-                  }}>
-                    {item.volume}
-                  </span>
-                  <span style={{ 
-                    fontSize: '0.8rem',
+                    fontSize: '0.75rem',
                     fontWeight: 500,
-                    color: item.trend === 'up' ? '#22c55e' : '#ef4444'
+                    color: item.trend === 'up' ? '#22c55e' : '#ef4444',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '4px',
+                    backgroundColor: item.trend === 'up' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)'
                   }}>
                     {item.change}
                   </span>
                 </div>
+                <div style={{ 
+                  fontSize: '0.75rem',
+                  color: '#999999'
+                }}>
+                  {item.volume}
+                </div>
               </div>
             ))}
-          </div>
-
-          {/* CTA Button - Template Style */}
-          <div className="cta-button">
-            <Link href="/live-market">
-              <button
-                style={{
-                  padding: '1rem 2rem',
-                  fontSize: '0.9rem',
-                  fontWeight: 500,
-                  color: '#000000',
-                  backgroundColor: '#ffffff',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  transition: 'all 0.3s ease',
-                  letterSpacing: '0.025em'
-                }}
-                data-testid="button-explore-live-market"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f5f5f5';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                Explore Live Market
-                <ArrowRight style={{ width: '1rem', height: '1rem' }} />
-              </button>
-            </Link>
           </div>
         </div>
 
