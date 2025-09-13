@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, TrendingUp, Users, Zap } from 'lucide-react';
+import SneakerGlobe from '@/components/ui/sneaker-globe';
 
 interface CityData {
   name: string;
@@ -311,7 +312,7 @@ export default function AdvancedSoleMap() {
           marginBottom: '3rem'
         }}>
           
-          {/* Interactive 2.5D SVG Globe */}
+          {/* Interactive 3D Globe */}
           <div
             ref={mapRef}
             className="map-container"
@@ -327,143 +328,7 @@ export default function AdvancedSoleMap() {
               justifyContent: 'center'
             }}
           >
-            <svg
-              width="400"
-              height="400"
-              viewBox="0 0 400 400"
-              style={{ maxWidth: '100%', maxHeight: '100%', cursor: isDragging ? 'grabbing' : 'grab' }}
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-            >
-              <defs>
-                <radialGradient id="globeGradient" cx="0.3" cy="0.3" r="0.7">
-                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
-                  <stop offset="70%" stopColor="rgba(255, 255, 255, 0.05)" />
-                  <stop offset="100%" stopColor="rgba(0, 0, 0, 0.3)" />
-                </radialGradient>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0.2)" />
-                  <stop offset="50%" stopColor="rgba(255, 255, 255, 0.6)" />
-                  <stop offset="100%" stopColor="rgba(255, 255, 255, 0.2)" />
-                </linearGradient>
-              </defs>
-
-              {/* Globe sphere */}
-              <circle
-                cx={globeCenterX}
-                cy={globeCenterY}
-                r={globeRadius}
-                fill="url(#globeGradient)"
-                stroke="rgba(255, 255, 255, 0.1)"
-                strokeWidth="1"
-              />
-
-              {/* Connection lines between cities */}
-              {arcPaths.map((path, index) => (
-                path && (
-                  <path
-                    key={`arc-${index}`}
-                    d={path}
-                    stroke="url(#lineGradient)"
-                    strokeWidth="2"
-                    fill="none"
-                    opacity="0.6"
-                    strokeDasharray="4,4"
-                    className="globe-arc"
-                  />
-                )
-              ))}
-
-              {/* City markers */}
-              {projectedCities.map((city, index) => (
-                city.visible && (
-                  <g key={city.name}>
-                    {/* Pulsing ring */}
-                    <circle
-                      cx={city.x}
-                      cy={city.y}
-                      r={hoveredCity === city.name ? "12" : "8"}
-                      fill="none"
-                      stroke={hoveredCity === city.name ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.4)"}
-                      strokeWidth="1"
-                      className="globe-pulse"
-                      style={{ transition: 'all 0.3s ease' }}
-                    />
-                    
-                    {/* City point */}
-                    <circle
-                      cx={city.x}
-                      cy={city.y}
-                      r={hoveredCity === city.name ? "6" : "4"}
-                      fill="#ffffff"
-                      className="globe-point"
-                      style={{ 
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease'
-                      }}
-                      data-testid={`city-marker-${city.name.toLowerCase().replace(/\s+/g, '-')}`}
-                      onMouseEnter={() => setHoveredCity(city.name)}
-                      onMouseLeave={() => setHoveredCity(null)}
-                    />
-                    
-                    {/* City label */}
-                    <text
-                      x={city.x}
-                      y={city.y - (hoveredCity === city.name ? 20 : 15)}
-                      textAnchor="middle"
-                      fill="#ffffff"
-                      fontSize={hoveredCity === city.name ? "12" : "11"}
-                      fontWeight="600"
-                      style={{
-                        textShadow: '0 0 3px rgba(0,0,0,0.8)',
-                        fontFamily: '"Work Sans", sans-serif',
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      {city.name}
-                    </text>
-
-                    {/* Tooltip on hover */}
-                    {hoveredCity === city.name && (
-                      <g>
-                        <rect
-                          x={city.x - 50}
-                          y={city.y + 15}
-                          width="100"
-                          height="50"
-                          fill="rgba(0, 0, 0, 0.9)"
-                          stroke="rgba(255, 255, 255, 0.2)"
-                          strokeWidth="1"
-                          rx="4"
-                        />
-                        <text
-                          x={city.x}
-                          y={city.y + 30}
-                          textAnchor="middle"
-                          fill="#ffffff"
-                          fontSize="10"
-                          fontWeight="500"
-                          style={{ fontFamily: '"Work Sans", sans-serif' }}
-                        >
-                          {city.trend} • {city.sales} sales
-                        </text>
-                        <text
-                          x={city.x}
-                          y={city.y + 45}
-                          textAnchor="middle"
-                          fill="#cccccc"
-                          fontSize="9"
-                          style={{ fontFamily: '"Work Sans", sans-serif' }}
-                        >
-                          Popular: {city.popular}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                )
-              ))}
-            </svg>
+            <SneakerGlobe className="w-full h-full" />
           </div>
           
           {/* Feature Cards Column */}
