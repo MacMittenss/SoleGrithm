@@ -112,13 +112,14 @@ export default function AdvancedSoleMap() {
           ease: "expo.out",
           stagger: 0.05
         }, "-=0.3")
-        .from(".feature-item", {
-          opacity: 0,
-          y: 30,
-          duration: 0.5,
-          ease: "expo.out",
-          stagger: 0.1
-        }, "-=0.2")
+        // Feature items will be visible immediately
+        // .from(".feature-item", {
+        //   opacity: 0,
+        //   y: 30,
+        //   duration: 0.5,
+        //   ease: "expo.out",
+        //   stagger: 0.1
+        // }, "-=0.2")
         .from(".map-line", {
           opacity: 0,
           strokeDashoffset: "100%",
