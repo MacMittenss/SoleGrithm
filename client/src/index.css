@@ -781,7 +781,7 @@ button, input, textarea, select {
 }
 
 .hero-wrapper {
-  z-index: 20;
+  z-index: 10;
   flex-direction: column;
   justify-content: center;
   align-items: center;
