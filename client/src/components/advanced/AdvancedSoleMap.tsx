@@ -111,7 +111,21 @@ export default function AdvancedSoleMap() {
           duration: 0.4,
           ease: "expo.out",
           stagger: 0.05
-        }, "-=0.3");
+        }, "-=0.3")
+        .from(".feature-item", {
+          opacity: 0,
+          y: 30,
+          duration: 0.5,
+          ease: "expo.out",
+          stagger: 0.1
+        }, "-=0.2")
+        .from(".map-line", {
+          opacity: 0,
+          strokeDashoffset: "100%",
+          duration: 1,
+          ease: "power2.out",
+          stagger: 0.2
+        }, "-=0.8");
       
       // Continuous pulse animation for map points
       gsap.to(".map-pulse", {
@@ -251,6 +265,40 @@ export default function AdvancedSoleMap() {
               <path d="M 75 15 Q 85 12 90 20 L 88 25 Q 82 22 75 15 Z" />
             </svg>
 
+            {/* Connecting lines between cities */}
+            <svg 
+              style={{ 
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                width: '100%', 
+                height: '100%', 
+                pointerEvents: 'none' 
+              }}
+            >
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
+                  <stop offset="50%" stopColor="#ffffff" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.2" />
+                </linearGradient>
+              </defs>
+              
+              {cityData.slice(0, -1).map((city, index) => (
+                <line
+                  key={`line-${index}`}
+                  x1={`${city.coordinate[1]}%`}
+                  y1={`${city.coordinate[0]}%`}
+                  x2={`${cityData[index + 1].coordinate[1]}%`}
+                  y2={`${cityData[index + 1].coordinate[0]}%`}
+                  stroke="url(#lineGradient)"
+                  strokeWidth="1"
+                  strokeDasharray="3,3"
+                  className="map-line"
+                />
+              ))}
+            </svg>
+
             {/* Animated city points */}
             {cityData.map((city, index) => (
               <div
@@ -348,6 +396,96 @@ export default function AdvancedSoleMap() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Feature Information Section */}
+        <div style={{ 
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2rem',
+          marginTop: '4rem'
+        }}>
+          {[
+            { 
+              icon: TrendingUp, 
+              title: 'Real-time Trends', 
+              desc: 'Live data from major sneaker hubs worldwide with up-to-the-minute pricing and popularity metrics.' 
+            },
+            { 
+              icon: Zap, 
+              title: 'Market Intelligence', 
+              desc: 'AI-powered regional insights that analyze buying patterns and predict emerging trends.' 
+            },
+            { 
+              icon: Users, 
+              title: 'Community Heatmaps', 
+              desc: 'Interactive visualizations showing where sneakerheads gather and what drives local culture.' 
+            }
+          ].map((feature, index) => (
+            <div
+              key={feature.title}
+              className="feature-item"
+              style={{
+                padding: '2rem',
+                borderRadius: '8px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+              }}
+            >
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '1rem', 
+                marginBottom: '1rem' 
+              }}>
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <feature.icon style={{ width: '1.5rem', height: '1.5rem', color: '#ffffff' }} />
+                </div>
+                <h4 
+                  style={{ 
+                    fontSize: '1.25rem',
+                    fontWeight: 600,
+                    color: '#ffffff',
+                    margin: 0,
+                    fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
+                  }}
+                >
+                  {feature.title}
+                </h4>
+              </div>
+              <p 
+                style={{ 
+                  fontSize: '0.9rem',
+                  lineHeight: 1.6,
+                  color: '#cccccc',
+                  margin: 0,
+                  fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
+                }}
+              >
+                {feature.desc}
+              </p>
+            </div>
+          ))}
         </div>
 
       </div>
