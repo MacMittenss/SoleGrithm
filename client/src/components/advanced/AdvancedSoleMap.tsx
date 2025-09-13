@@ -105,21 +105,13 @@ export default function AdvancedSoleMap() {
           ease: "back.out(1.2)",
           stagger: 0.1
         }, "-=0.2")
-        .from(".stats-item", {
+        .from(".feature-item", {
           opacity: 0,
           y: 20,
           duration: 0.4,
           ease: "expo.out",
-          stagger: 0.05
+          stagger: 0.1
         }, "-=0.3")
-        // Feature items will be visible immediately
-        // .from(".feature-item", {
-        //   opacity: 0,
-        //   y: 30,
-        //   duration: 0.5,
-        //   ease: "expo.out",
-        //   stagger: 0.1
-        // }, "-=0.2")
         .from(".map-line", {
           opacity: 0,
           strokeDashoffset: "100%",
@@ -230,9 +222,9 @@ export default function AdvancedSoleMap() {
         {/* Map Section */}
         <div style={{ 
           display: 'grid',
-          gridTemplateColumns: '1fr 300px',
+          gridTemplateColumns: '1fr 350px',
           gap: '3rem',
-          alignItems: 'center',
+          alignItems: 'start',
           marginBottom: '3rem'
         }}>
           
@@ -348,16 +340,28 @@ export default function AdvancedSoleMap() {
 
           </div>
           
-          {/* Stats Panel */}
+          {/* Feature Cards Column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             {[
-              { icon: Users, value: '2.3M', label: 'Community Members' },
-              { icon: TrendingUp, value: '127%', label: 'Growth Rate' },
-              { icon: Zap, value: '50+', label: 'Cities Tracked' }
-            ].map((stat, index) => (
+              { 
+                icon: TrendingUp, 
+                title: 'Real-time Trends', 
+                desc: 'Live data from major sneaker hubs worldwide with up-to-the-minute pricing and popularity metrics.' 
+              },
+              { 
+                icon: Zap, 
+                title: 'Market Intelligence', 
+                desc: 'AI-powered regional insights that analyze buying patterns and predict emerging trends.' 
+              },
+              { 
+                icon: Users, 
+                title: 'Community Heatmaps', 
+                desc: 'Interactive visualizations showing where sneakerheads gather and what drives local culture.' 
+              }
+            ].map((feature, index) => (
               <div
-                key={stat.label}
-                className="stats-item"
+                key={feature.title}
+                className="feature-item"
                 style={{
                   padding: '1.5rem',
                   borderRadius: '8px',
@@ -367,126 +371,59 @@ export default function AdvancedSoleMap() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                  <stat.icon style={{ width: '1.25rem', height: '1.25rem', color: '#ffffff' }} />
-                  <span
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '0.75rem', 
+                  marginBottom: '0.75rem' 
+                }}>
+                  <div
                     style={{
-                      fontSize: '1.5rem',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '6px',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <feature.icon style={{ width: '1.25rem', height: '1.25rem', color: '#ffffff' }} />
+                  </div>
+                  <h4 
+                    style={{ 
+                      fontSize: '1rem',
                       fontWeight: 600,
                       color: '#ffffff',
+                      margin: 0,
                       fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
                     }}
                   >
-                    {stat.value}
-                  </span>
+                    {feature.title}
+                  </h4>
                 </div>
-                <div 
+                <p 
                   style={{ 
-                    fontSize: '0.875rem', 
-                    color: '#999999',
-                    fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
-                  }}
-                >
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Feature Information Section */}
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '2rem',
-          marginTop: '4rem'
-        }}>
-          {[
-            { 
-              icon: TrendingUp, 
-              title: 'Real-time Trends', 
-              desc: 'Live data from major sneaker hubs worldwide with up-to-the-minute pricing and popularity metrics.' 
-            },
-            { 
-              icon: Zap, 
-              title: 'Market Intelligence', 
-              desc: 'AI-powered regional insights that analyze buying patterns and predict emerging trends.' 
-            },
-            { 
-              icon: Users, 
-              title: 'Community Heatmaps', 
-              desc: 'Interactive visualizations showing where sneakerheads gather and what drives local culture.' 
-            }
-          ].map((feature, index) => (
-            <div
-              key={feature.title}
-              className="feature-item"
-              style={{
-                padding: '2rem',
-                borderRadius: '8px',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.02)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-              }}
-            >
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '1rem', 
-                marginBottom: '1rem' 
-              }}>
-                <div
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
-                  <feature.icon style={{ width: '1.5rem', height: '1.5rem', color: '#ffffff' }} />
-                </div>
-                <h4 
-                  style={{ 
-                    fontSize: '1.25rem',
-                    fontWeight: 600,
-                    color: '#ffffff',
+                    fontSize: '0.85rem',
+                    lineHeight: 1.5,
+                    color: '#cccccc',
                     margin: 0,
                     fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
                   }}
                 >
-                  {feature.title}
-                </h4>
+                  {feature.desc}
+                </p>
               </div>
-              <p 
-                style={{ 
-                  fontSize: '0.9rem',
-                  lineHeight: 1.6,
-                  color: '#cccccc',
-                  margin: 0,
-                  fontFamily: '"Work Sans", "Inter", "-apple-system", "BlinkMacSystemFont", sans-serif'
-                }}
-              >
-                {feature.desc}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
       </div>
