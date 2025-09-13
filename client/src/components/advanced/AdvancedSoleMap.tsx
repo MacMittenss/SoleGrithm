@@ -105,14 +105,13 @@ export default function AdvancedSoleMap() {
           ease: "back.out(1.2)",
           stagger: 0.1
         }, "-=0.2")
-        // Temporarily disable feature animation to ensure visibility
-        // .from(".feature-item", {
-        //   opacity: 0,
-        //   y: 20,
-        //   duration: 0.4,
-        //   ease: "expo.out",
-        //   stagger: 0.1
-        // }, "-=0.3")
+        .from(".feature-item", {
+          opacity: 0,
+          y: 20,
+          duration: 0.4,
+          ease: "expo.out",
+          stagger: 0.1
+        }, "-=0.3")
         .from(".map-line", {
           opacity: 0,
           strokeDashoffset: "100%",
