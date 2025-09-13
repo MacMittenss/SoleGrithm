@@ -98,6 +98,39 @@ export default function AdvancedSoleMap() {
     }
   ], []);
 
+  // Simplified continent outlines (lat, lng coordinates)
+  const continentOutlines = useMemo(() => ({
+    // North America (simplified)
+    northAmerica: [
+      [71, -156], [69, -133], [60, -135], [50, -125], [40, -125], [32, -117], 
+      [25, -97], [25, -82], [30, -81], [35, -75], [45, -67], [60, -69], [71, -156]
+    ],
+    // South America
+    southAmerica: [
+      [12, -70], [5, -60], [-5, -35], [-20, -40], [-35, -58], [-55, -68], 
+      [-55, -65], [-40, -65], [-20, -45], [0, -50], [12, -70]
+    ],
+    // Europe
+    europe: [
+      [71, -10], [71, 30], [60, 30], [50, 45], [40, 45], [36, 10], 
+      [40, -10], [50, -5], [60, 5], [71, -10]
+    ],
+    // Africa
+    africa: [
+      [37, -18], [37, 50], [15, 52], [-10, 40], [-35, 20], [-35, 35], 
+      [-20, 50], [15, 52], [37, -18]
+    ],
+    // Asia
+    asia: [
+      [75, 60], [75, 180], [50, 180], [35, 140], [25, 100], [40, 75], 
+      [50, 60], [75, 60]
+    ],
+    // Australia
+    australia: [
+      [-10, 115], [-10, 155], [-40, 155], [-40, 115], [-10, 115]
+    ]
+  }), []);
+
   // 2.5D SVG Globe with orthographic projection
   const globeRadius = 160;
   const globeCenterX = 200;
@@ -206,6 +239,41 @@ export default function AdvancedSoleMap() {
       path: generateEnergyPath(line.start, line.end, rotation)
     })).filter(line => line.path !== ""), [energyLines, generateEnergyPath, rotation]
   );
+
+  // Generate continent outline paths
+  const generateContinentPath = useCallback((coordinates: number[][], currentRotation: number) => {
+    const visiblePoints = [];
+    
+    for (const [lat, lng] of coordinates) {
+      const projected = projectToGlobe(lat, lng, currentRotation);
+      if (projected.visible && !isNaN(projected.x) && !isNaN(projected.y)) {
+        visiblePoints.push({ x: projected.x, y: projected.y });
+      }
+    }
+    
+    // Need at least 2 points for a valid path
+    if (visiblePoints.length < 2) {
+      return '';
+    }
+    
+    // Create SVG path string
+    let pathString = `M ${visiblePoints[0].x} ${visiblePoints[0].y}`;
+    for (let i = 1; i < visiblePoints.length; i++) {
+      pathString += ` L ${visiblePoints[i].x} ${visiblePoints[i].y}`;
+    }
+    
+    return pathString;
+  }, []);
+
+  // Memoize continent paths
+  const continentPaths = useMemo(() => ({
+    northAmerica: generateContinentPath(continentOutlines.northAmerica, rotation),
+    southAmerica: generateContinentPath(continentOutlines.southAmerica, rotation),
+    europe: generateContinentPath(continentOutlines.europe, rotation),
+    africa: generateContinentPath(continentOutlines.africa, rotation),
+    asia: generateContinentPath(continentOutlines.asia, rotation),
+    australia: generateContinentPath(continentOutlines.australia, rotation)
+  }), [continentOutlines, generateContinentPath, rotation]);
 
   // Pointer interaction handlers
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -472,6 +540,21 @@ export default function AdvancedSoleMap() {
                 stroke="rgba(255, 255, 255, 0.1)"
                 strokeWidth="1"
               />
+
+              {/* Continent outlines */}
+              {Object.entries(continentPaths).map(([continent, path]) => (
+                path && (
+                  <path
+                    key={continent}
+                    d={path}
+                    stroke="rgba(255, 255, 255, 0.4)"
+                    strokeWidth="1"
+                    fill="none"
+                    opacity="0.7"
+                    data-testid={`continent-${continent}`}
+                  />
+                )
+              ))}
 
               {/* Connection lines between cities */}
               {arcPaths.map((path, index) => (
