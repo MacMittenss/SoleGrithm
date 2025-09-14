@@ -292,7 +292,6 @@ export default function Collections() {
               <CardContent className="py-8">
                 <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Shuffle className="w-8 h-8 text-white" />
-              </div>
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-white">Discover More</h3>
                 <p className="text-sm text-white/60 mb-4">
