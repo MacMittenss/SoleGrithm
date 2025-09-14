@@ -10,7 +10,6 @@ export default function LiveMarket() {
       {/* Animated Works Section */}
       <section className="section" data-testid="works-section">
         <div className="w-layout-blockcontainer container w-container">
-          <div className="space-7rem"></div>
           <div className="works-title-wrapper" data-testid="works-title-wrapper">
             <h2 className="works-title" data-testid="works-title-1">MARKET INSIGHTS</h2>
             <h2 className="works-title outline-white" data-testid="works-title-2">MARKET INSIGHTS</h2>
@@ -19,13 +18,12 @@ export default function LiveMarket() {
             <h2 className="works-title" data-testid="works-title-5">MARKET INSIGHTS</h2>
             <h2 className="works-title outline-white" data-testid="works-title-6">MARKET INSIGHTS</h2>
           </div>
-          <div className="space-7rem"></div>
         </div>
       </section>
 
       {/* Services Section */}
       <section className="section" data-testid="services-section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+        <div className="w-layout-blockcontainer container w-container">
           <div className="services-flex">
             <div className="services-wrapper slide-from-left-animation">
               {/* Price Alerts Card */}
@@ -72,7 +70,7 @@ export default function LiveMarket() {
 
       {/* Portfolio Section */}
       <section className="section" data-testid="portfolio-section">
-        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+        <div className="w-layout-blockcontainer container w-container">
           <div className="portfolio-wrapper">
             <div className="portfolio-header">
               <h2 className="portfolio-title" data-testid="portfolio-title">FEATURED COLLECTIONS</h2>
