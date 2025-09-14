@@ -120,7 +120,7 @@ export default function AdvancedCollections() {
           <h5 className="heading">
             AI-POWERED COLLECTIONS
           </h5>
-          <h2 style={{ 
+          <h2 className="font-c" style={{ 
             color: 'var(--white)',
             letterSpacing: '-.07vw',
             textTransform: 'capitalize',

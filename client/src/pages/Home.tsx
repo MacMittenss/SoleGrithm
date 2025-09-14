@@ -196,7 +196,7 @@ export default function Home() {
             <h5 className="heading">
               STYLE QUIZ AI
             </h5>
-            <h2 style={{ 
+            <h2 className="font-c" style={{ 
               color: 'var(--white)',
               letterSpacing: '-.07vw',
               textTransform: 'capitalize',

@@ -146,7 +146,7 @@ export default function HeroSection() {
           <h5 ref={welcomeTextRef} className="heading">
             Welcome To
           </h5>
-          <h1 ref={heroTextRef} className="hero-text">
+          <h1 ref={heroTextRef} className="font-c hero-text">
             SOLEGRITHM
           </h1>
           <a href="#brands" className="arrow-border-wrapper w-inline-block">
