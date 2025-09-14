@@ -109,27 +109,30 @@ export default function Collections() {
   ) || [];
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-4">
-            <Sparkles className="w-4 h-4 mr-2" />
-            AI-Powered Curation
-          </Badge>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
-            Curated Collections
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover expertly curated sneaker collections powered by AI analysis of market trends, 
-            release history, and cultural significance. Each collection tells a story.
-          </p>
-        </div>
+    <div className="min-h-screen bg-black">
+      <div className="w-layout-blockcontainer container w-container">
+        {/* Header Section */}
+        <section className="section">
+          <div className="text-center">
+            <Badge variant="outline" className="mb-4 bg-white/10 border-white/20 text-white">
+              <Sparkles className="w-4 h-4 mr-2" />
+              AI-Powered Curation
+            </Badge>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6 text-white font-anton">
+              CURATED COLLECTIONS
+            </h1>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto">
+              Discover expertly curated sneaker collections powered by AI analysis of market trends, 
+              release history, and cultural significance. Each collection tells a story.
+            </p>
+          </div>
+        </section>
 
-        {/* Controls */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          {/* Category Filter */}
-          <div className="flex flex-wrap gap-2">
+        {/* Controls Section */}
+        <section className="section">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-2">
             {categories.map((category) => {
               const Icon = category.icon;
               return (
@@ -138,7 +141,7 @@ export default function Collections() {
                   variant={selectedCategory === category.id ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setSelectedCategory(category.id)}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20"
                 >
                   <Icon className="w-4 h-4" />
                   {category.label}
@@ -147,38 +150,42 @@ export default function Collections() {
             })}
           </div>
 
-          {/* View Mode Toggle */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('grid')}
-            >
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+              >
               <Grid3X3 className="w-4 h-4" />
             </Button>
-            <Button
-              variant={viewMode === 'list' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('list')}
-            >
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+              >
               <List className="w-4 h-4" />
             </Button>
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* Collections Grid/List */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <section className="section">
+          {isLoading ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="bg-muted rounded-lg h-96" />
+                <div className="bg-white/10 rounded-lg h-96" />
               </div>
             ))}
-          </div>
-        ) : (
-          <div className={`grid gap-8 ${viewMode === 'grid' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
-            {filteredCollections.map((collection: Collection) => (
-              <Card key={collection.id} className="overflow-hidden hover:shadow-xl transition-all duration-300">
+            </div>
+          ) : (
+            <div className={`grid gap-8 ${viewMode === 'grid' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
+              {filteredCollections.map((collection: Collection) => (
+                <Card key={collection.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-white/10 border-white/20 text-white">
                 <CardHeader className="pb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -187,7 +194,7 @@ export default function Collections() {
                       </div>
                       <div>
                         <CardTitle className="text-xl">{collection.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-sm text-white/60 mt-1">
                           {collection.totalCount} sneakers • {collection.avgPrice} avg
                         </p>
                       </div>
@@ -202,7 +209,7 @@ export default function Collections() {
                     </Button>
                   </div>
                   
-                  <p className="text-muted-foreground">{collection.description}</p>
+                  <p className="text-white/80">{collection.description}</p>
                   
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mt-3">
@@ -225,12 +232,12 @@ export default function Collections() {
 
                 <CardContent className="space-y-6">
                   {/* AI Rationale */}
-                  <div className="bg-muted/50 rounded-lg p-4">
+                  <div className="bg-white/5 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Sparkles className="w-4 h-4 text-primary" />
                       <span className="text-sm font-medium">AI Insight</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-white/60">
                       {collection.aiRationale}
                     </p>
                   </div>
@@ -250,7 +257,7 @@ export default function Collections() {
                           </div>
                           <div className="text-xs">
                             <div className="font-medium truncate">{sneaker.name}</div>
-                            <div className="text-muted-foreground">${sneaker.retailPrice}</div>
+                            <div className="text-white/60">${sneaker.retailPrice}</div>
                           </div>
                         </div>
                       ))}
@@ -274,24 +281,28 @@ export default function Collections() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        )}
+            </div>
+          )}
+        </section>
 
         {/* Generate New Collection */}
-        <div className="mt-16 text-center">
-          <Card className="max-w-md mx-auto">
-            <CardContent className="py-8">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shuffle className="w-8 h-8 text-primary" />
+        <section className="section">
+          <div className="text-center">
+            <Card className="max-w-md mx-auto bg-white/10 border-white/20 text-white">
+              <CardContent className="py-8">
+                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shuffle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Discover More</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Let our AI generate a personalized collection just for you
-              </p>
-              <Button 
-                onClick={() => generateNewCollection()}
-                disabled={generateCollectionMutation.isPending}
-              >
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-white">Discover More</h3>
+                <p className="text-sm text-white/60 mb-4">
+                  Let our AI generate a personalized collection just for you
+                </p>
+                <Button 
+                  onClick={() => generateNewCollection()}
+                  disabled={generateCollectionMutation.isPending}
+                  className="bg-white text-black hover:bg-white/90"
+                >
                 {generateCollectionMutation.isPending ? (
                   <>
                     <Sparkles className="w-4 h-4 mr-2 animate-spin" />
@@ -304,14 +315,15 @@ export default function Collections() {
                   </>
                 )}
               </Button>
-              {generateCollectionMutation.isError && (
-                <p className="text-sm text-red-500 mt-2">
-                  AI generation unavailable - using enhanced curated selection
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+                {generateCollectionMutation.isError && (
+                  <p className="text-sm text-red-400 mt-2">
+                    AI generation unavailable - using enhanced curated selection
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </section>
       </div>
     </div>
   );
