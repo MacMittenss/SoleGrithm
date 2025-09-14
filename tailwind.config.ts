@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['"seasonSans"', '"seasonSans Fallback"', '"Manrope"', '"Inter"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
-        'season': ['"seasonSans"', '"seasonSans Fallback"', '"Manrope"', '"Inter"', 'sans-serif'],
+        'sans': ['"Work Sans"', '"Work Sans Fallback"', '"Inter"', '"Manrope"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        'work': ['"Work Sans"', '"Work Sans Fallback"', '"Inter"', '"Manrope"', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
