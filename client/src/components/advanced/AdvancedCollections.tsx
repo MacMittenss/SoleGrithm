@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { Bookmark, Heart, Share, ArrowRight, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'wouter';
 import SplitText from './SplitText';
 import GradientText from './GradientText';
 
@@ -183,7 +184,7 @@ export default function AdvancedCollections() {
                 className="relative rounded-2xl p-6 border border-white/20 overflow-hidden transition-all duration-300 group-hover:border-white/40"
                 style={{
                   backgroundColor: 'var(--secondary)',
-                  height: '22vw',
+                  height: '28vw',
                   display: 'flex',
                   flexDirection: 'column'
                 }}
@@ -272,26 +273,21 @@ export default function AdvancedCollections() {
           ))}
         </motion.div>
 
-        {/* Call to action - Visible Template Button */}
+        {/* Call to action - Functional Template Button */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
           width: '100%',
           marginTop: '4vw'
         }}>
-          <button
-            className="button-with-circle-icon"
-            style={{
-              cursor: 'pointer',
-              backgroundColor: 'transparent'
-            }}
-            data-testid="button-explore-collections"
-          >
-            <div className="button-text" style={{ color: 'var(--white)' }}>Explore All Collections</div>
-            <div className="button-arrow-wrapper">
-              <ArrowRight className="arrow" />
+          <Link href="/collections">
+            <div className="button-with-circle-icon" data-testid="button-explore-collections">
+              <div className="button-text" style={{ color: 'var(--white)' }}>Explore All Collections</div>
+              <div className="button-arrow-wrapper">
+                <ArrowRight className="arrow" />
+              </div>
             </div>
-          </button>
+          </Link>
         </div>
         <div className="space-7rem"></div>
       </div>
