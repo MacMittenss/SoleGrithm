@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: 'Work Sans';
-  src: url('@assets/WorkSans-SemiBold_1757877912989.woff2') format('woff2');
+  src: url('@assets/WorkSans-SemiBold_1757886807038.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -64,6 +64,34 @@ body.anton-all .no-anton ::placeholder {
   letter-spacing: normal !important;
   text-transform: none !important;
   font-weight: initial !important;
+}
+
+/* Work Sans for specific areas - navbar, subheaders, components, footer */
+body.anton-all nav,
+body.anton-all nav *,
+body.anton-all header,
+body.anton-all header *,
+body.anton-all footer,
+body.anton-all footer *,
+body.anton-all .subheader,
+body.anton-all .subheader *,
+body.anton-all .component-text,
+body.anton-all .component-text *,
+body.anton-all .nav-link,
+body.anton-all .heading,
+body.anton-all h5,
+body.anton-all .utilities-wrapper-paragraph,
+body.anton-all .utilities-wrapper-paragraph *,
+body.anton-all p,
+body.anton-all span:not(.main-he-span),
+body.anton-all .description,
+body.anton-all .feature-text,
+body.anton-all button,
+body.anton-all input,
+body.anton-all label {
+  font-family: "Work Sans", "Work Sans Fallback", "Inter", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
 }
 
 /* Keep existing .font-c for backward compatibility */
