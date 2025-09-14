@@ -40,22 +40,26 @@
   }
 }
 
-/* Worksans Font Classes - Template Style */
+/* Template Style - Exact Specifications */
 .font-c {
   letter-spacing: -0.025em;
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Worksans, Arial, sans-serif;
-  font-weight: 600;
+  font-family: Anton, Arial, sans-serif;
+  font-weight: 400;
 }
 
 .font-c.hero-text {
-  text-align: center;
-  letter-spacing: -.01em;
+  font-family: Anton, Arial, sans-serif;
+  font-weight: 400;
   font-size: min(14vw, 10rem);
-  font-weight: 600;
-  line-height: 0.95em;
+  letter-spacing: -.01em;
+  line-height: .95em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .font-c.size-screen {
