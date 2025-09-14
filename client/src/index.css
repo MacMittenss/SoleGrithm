@@ -920,6 +920,155 @@ button, input, textarea, select {
     @apply transition-all duration-300 ease-in-out;
     @apply hover:shadow-2xl hover:-translate-y-1;
   }
+
+  /* Portfolio Section Styles */
+  .portfolio-wrapper {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+
+  .portfolio-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .portfolio-title {
+    letter-spacing: -0.25px;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 4rem;
+    color: var(--white);
+    font-family: Anton, Arial, sans-serif;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .portfolio-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(22, 22, 22, 0.9), rgba(40, 40, 40, 0.8));
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+
+  .portfolio-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.8) 100%);
+    z-index: 1;
+  }
+
+  .card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    z-index: 2;
+    color: var(--white);
+  }
+
+  .card-title {
+    font-family: Anton, Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+
+  .card-description {
+    font-family: "Work Sans", "Work Sans Fallback", "Inter", "Manrope", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .card-price {
+    font-family: "Work Sans", "Work Sans Fallback", "Inter", "Manrope", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1rem;
+  }
+
+  .card-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: "Work Sans", "Work Sans Fallback", "Inter", "Manrope", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .card-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+  }
+
+  /* Responsive Portfolio Grid */
+  @media screen and (max-width: 991px) {
+    .portfolio-title {
+      font-size: 2.5rem;
+      line-height: 3rem;
+    }
+    
+    .portfolio-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .portfolio-title {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+    
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+    }
+  }
 }
 
 @layer components {

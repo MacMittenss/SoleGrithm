@@ -96,6 +96,150 @@ export default function LiveMarket() {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <section className="section" data-testid="portfolio-section">
+        <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+          <div className="portfolio-wrapper">
+            <div className="portfolio-header">
+              <h2 className="portfolio-title" data-testid="portfolio-title">FEATURED COLLECTIONS</h2>
+            </div>
+            <div className="portfolio-grid" data-testid="portfolio-grid">
+              {/* Jordan Classics Card */}
+              <motion.div 
+                className="portfolio-card" 
+                data-testid="card-jordan-classics"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <div className="card-overlay"></div>
+                <div className="card-content">
+                  <h3 className="card-title" data-testid="title-jordan-classics">Jordan Classics</h3>
+                  <p className="card-description" data-testid="desc-jordan-classics">
+                    Iconic Air Jordan legacy releases from every era
+                  </p>
+                  <div className="card-price" data-testid="price-jordan-classics">$150 - $2,500</div>
+                  <button className="card-button" data-testid="button-jordan-classics">
+                    View Collection
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Yeezy Drop Card */}
+              <motion.div 
+                className="portfolio-card" 
+                data-testid="card-yeezy-drop"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <div className="card-overlay"></div>
+                <div className="card-content">
+                  <h3 className="card-title" data-testid="title-yeezy-drop">Yeezy Drop</h3>
+                  <p className="card-description" data-testid="desc-yeezy-drop">
+                    Latest Adidas Yeezy releases and rare colorways
+                  </p>
+                  <div className="card-price" data-testid="price-yeezy-drop">$200 - $1,800</div>
+                  <button className="card-button" data-testid="button-yeezy-drop">
+                    View Collection
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Nike SB Card */}
+              <motion.div 
+                className="portfolio-card" 
+                data-testid="card-nike-sb"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <div className="card-overlay"></div>
+                <div className="card-content">
+                  <h3 className="card-title" data-testid="title-nike-sb">Nike SB</h3>
+                  <p className="card-description" data-testid="desc-nike-sb">
+                    Premium skateboarding collection and limited drops
+                  </p>
+                  <div className="card-price" data-testid="price-nike-sb">$90 - $800</div>
+                  <button className="card-button" data-testid="button-nike-sb">
+                    View Collection
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Off-White Collab Card */}
+              <motion.div 
+                className="portfolio-card" 
+                data-testid="card-off-white"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <div className="card-overlay"></div>
+                <div className="card-content">
+                  <h3 className="card-title" data-testid="title-off-white">Off-White Collab</h3>
+                  <p className="card-description" data-testid="desc-off-white">
+                    Luxury collaboration pieces and designer exclusives
+                  </p>
+                  <div className="card-price" data-testid="price-off-white">$500 - $5,000</div>
+                  <button className="card-button" data-testid="button-off-white">
+                    View Collection
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Retro Runners Card */}
+              <motion.div 
+                className="portfolio-card" 
+                data-testid="card-retro-runners"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <div className="card-overlay"></div>
+                <div className="card-content">
+                  <h3 className="card-title" data-testid="title-retro-runners">Retro Runners</h3>
+                  <p className="card-description" data-testid="desc-retro-runners">
+                    Vintage running shoes and classic athletic designs
+                  </p>
+                  <div className="card-price" data-testid="price-retro-runners">$80 - $600</div>
+                  <button className="card-button" data-testid="button-retro-runners">
+                    View Collection
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Court Classics Card */}
+              <motion.div 
+                className="portfolio-card" 
+                data-testid="card-court-classics"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+              >
+                <div className="card-overlay"></div>
+                <div className="card-content">
+                  <h3 className="card-title" data-testid="title-court-classics">Court Classics</h3>
+                  <p className="card-description" data-testid="desc-court-classics">
+                    Tennis and court shoes from iconic sports brands
+                  </p>
+                  <div className="card-price" data-testid="price-court-classics">$70 - $450</div>
+                  <button className="card-button" data-testid="button-court-classics">
+                    View Collection
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Market Overview Section */}
       <section className="section">
         <div className="w-layout-blockcontainer container padding-4-5rem w-container">
