@@ -10,7 +10,8 @@ export default function LiveMarket() {
       {/* Animated Works Section */}
       <section className="section" data-testid="works-section">
         <div className="w-layout-blockcontainer container w-container">
-          <div className="space-3rem"></div>
+          <div className="space-7rem"></div>
+          <div className="space-1rem"></div>
           <div className="works-title-wrapper" data-testid="works-title-wrapper">
             <h2 className="works-title" data-testid="works-title-1">MARKET INSIGHTS</h2>
             <h2 className="works-title outline-white" data-testid="works-title-2">MARKET INSIGHTS</h2>
