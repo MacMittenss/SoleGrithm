@@ -183,7 +183,9 @@ export default function AdvancedCollections() {
                 className="relative rounded-2xl p-6 border border-white/20 overflow-hidden transition-all duration-300 group-hover:border-white/40"
                 style={{
                   backgroundColor: 'var(--secondary)',
-                  minHeight: '20vw'
+                  height: '22vw',
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}
               >
                 {/* Content */}
@@ -270,19 +272,26 @@ export default function AdvancedCollections() {
           ))}
         </motion.div>
 
-        {/* Call to action - Template Button Style */}
+        {/* Call to action - Visible Template Button */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
           width: '100%',
           marginTop: '4vw'
         }}>
-          <div className="button-with-circle-icon">
-            <div className="button-text">Explore All Collections</div>
+          <button
+            className="button-with-circle-icon"
+            style={{
+              cursor: 'pointer',
+              backgroundColor: 'transparent'
+            }}
+            data-testid="button-explore-collections"
+          >
+            <div className="button-text" style={{ color: 'var(--white)' }}>Explore All Collections</div>
             <div className="button-arrow-wrapper">
               <ArrowRight className="arrow" />
             </div>
-          </div>
+          </button>
         </div>
         <div className="space-7rem"></div>
       </div>
