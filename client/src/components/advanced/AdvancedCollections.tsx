@@ -103,49 +103,12 @@ export default function AdvancedCollections() {
   return (
     <motion.section
       ref={containerRef}
-      className="relative py-32 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(50, 50, 50, 0.98), rgba(20, 30, 50, 0.95))',
-        y,
-        opacity,
-      }}
+      className="section background-black"
+      style={{ y, opacity }}
       data-testid="section-collections"
     >
-      {/* Background effects */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at 80% 20%, rgba(255, 41, 0, 0.06) 0%, rgba(88, 29, 255, 0.04) 35%, rgba(254, 122, 96, 0.06) 100%)',
-        }}
-      />
-
-      {/* Floating geometric shapes */}
-      <motion.div
-        className="absolute top-1/4 left-10 w-20 h-20 border border-orange-500/30"
-        animate={{ 
-          rotate: [0, 180, 360], 
-          scale: [1, 1.1, 1] 
-        }}
-        transition={{ 
-          duration: 20, 
-          repeat: Infinity, 
-          ease: 'linear' 
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-10 w-16 h-16 rounded-full border border-purple-500/30"
-        animate={{ 
-          y: [0, -20, 0], 
-          opacity: [0.3, 0.7, 0.3] 
-        }}
-        transition={{ 
-          duration: 8, 
-          repeat: Infinity, 
-          ease: 'easeInOut' 
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+        <div className="space-7rem"></div>
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -167,8 +130,17 @@ export default function AdvancedCollections() {
           </motion.div>
 
           {/* Main Title */}
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            <SplitText type="words" delay={0.3} staggerDelay={0.08}>
+          <h2 style={{ 
+            color: 'var(--white)',
+            letterSpacing: '-.07vw',
+            textTransform: 'capitalize',
+            marginTop: 0,
+            marginBottom: 0,
+            fontSize: '4.44vw',
+            fontWeight: 500,
+            lineHeight: '5vw'
+          }}>
+            <SplitText type="words" delay={0.3}>
               Curated Collections
             </SplitText>
             <br />
@@ -178,7 +150,16 @@ export default function AdvancedCollections() {
           </h2>
           
           <motion.p
-            className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto"
+            style={{ 
+              color: 'var(--white)',
+              letterSpacing: '.07vw',
+              marginBottom: 0,
+              fontSize: '1.11vw',
+              fontWeight: 300,
+              lineHeight: '1.89vw',
+              maxWidth: '42.22vw',
+              margin: '0 auto'
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -191,7 +172,12 @@ export default function AdvancedCollections() {
         {/* Collections Grid */}
         <motion.div
           ref={gridRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16"
+          className="utilities-grid-thirds"
+          style={{ 
+            gridTemplateColumns: '1fr 1fr 1fr 1fr',
+            gap: '2rem',
+            marginBottom: '4.4vw'
+          }}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 0.5 }}
@@ -319,6 +305,7 @@ export default function AdvancedCollections() {
             </span>
           </Button>
         </motion.div>
+        <div className="space-7rem"></div>
       </div>
     </motion.section>
   );
