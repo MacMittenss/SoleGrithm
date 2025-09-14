@@ -518,7 +518,7 @@ export default function Home() {
 
       {/* Why SoleGrithm Section */}
       <motion.section 
-        className="py-16 sm:py-24 bg-gradient-to-br from-muted/20 to-background"
+        className="py-16 sm:py-24 bg-black"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -532,10 +532,10 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-white">
               Why SoleGrithm?
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto">
               The most comprehensive platform for sneaker enthusiasts
             </p>
           </motion.div>
@@ -593,14 +593,14 @@ export default function Home() {
                   transition: { duration: 0.2 }
                 }}
               >
-                <Card className="p-4 sm:p-6 text-center border-0 shadow-lg bg-card/50 hover:shadow-xl transition-shadow group">
+                <Card className="p-4 sm:p-6 text-center border border-white/10 shadow-lg bg-black/80 hover:shadow-xl transition-shadow group">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary/10 to-orange-500/10 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
                     <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary group-hover:text-orange-500 transition-colors" />
                   </div>
-                  <h3 className="font-semibold text-base sm:text-lg mb-2 group-hover:text-primary transition-colors">
+                  <h3 className="font-semibold text-base sm:text-lg mb-2 text-white group-hover:text-primary transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors">
+                  <p className="text-white/70 text-xs sm:text-sm group-hover:text-white transition-colors">
                     {feature.description}
                   </p>
                 </Card>
