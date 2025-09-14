@@ -358,13 +358,13 @@ export default function Home() {
       <ARDemo />
 
       {/* Community & Social Section */}
-      <section className="py-16 sm:py-24">
+      <section className="py-16 sm:py-24 bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6 text-white">
               Join the Community
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto">
               Connect with sneaker enthusiasts worldwide
             </p>
           </div>
@@ -475,38 +475,38 @@ export default function Home() {
 
             {/* Social Features */}
             <motion.div className="space-y-6">
-              <h3 className="text-2xl font-semibold">Connect & Share</h3>
+              <h3 className="text-2xl font-semibold text-white">Connect & Share</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
                   <div className="w-8 h-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center">
-                    <Heart className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <Heart className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-medium">Share Your Collection</h4>
-                    <p className="text-sm text-muted-foreground">Showcase your sneaker collection to the community</p>
+                    <h4 className="font-medium text-white">Share Your Collection</h4>
+                    <p className="text-sm text-white/70">Showcase your sneaker collection to the community</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
                   <div className="w-8 h-8 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center">
-                    <Star className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    <Star className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-medium">Rate & Review</h4>
-                    <p className="text-sm text-muted-foreground">Help others with authentic sneaker reviews</p>
+                    <h4 className="font-medium text-white">Rate & Review</h4>
+                    <p className="text-sm text-white/70">Help others with authentic sneaker reviews</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
                   <div className="w-8 h-8 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg flex items-center justify-center">
-                    <Zap className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    <Zap className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-medium">Trend Alerts</h4>
-                    <p className="text-sm text-muted-foreground">Get notified about price drops and new releases</p>
+                    <h4 className="font-medium text-white">Trend Alerts</h4>
+                    <p className="text-sm text-white/70">Get notified about price drops and new releases</p>
                   </div>
                 </div>
               </div>
               <Link href="/auth">
-                <Button size="lg" className="w-full" data-testid="button-join-community">
+                <Button size="lg" className="w-full bg-white text-black hover:bg-white/90" data-testid="button-join-community">
                   Join Community
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
