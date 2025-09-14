@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import LiveMarketOverview from '@/components/LiveMarketOverview';
+import BrandsGrid from '@/components/BrandsGrid';
 
 export default function LiveMarket() {
   return (
@@ -27,6 +28,9 @@ export default function LiveMarket() {
           <div className="hero-overlay"></div>
         </div>
       </section>
+
+      {/* Brands Grid Section */}
+      <BrandsGrid />
 
       {/* Market Overview Section */}
       <section className="section">
