@@ -125,6 +125,67 @@ body.anton-all label:not(.hero-section label) {
   line-height: 1em;
 }
 
+/* Template styling classes from Webflow */
+.section {
+  @apply py-16 sm:py-24;
+}
+
+.padding-9rem {
+  @apply py-36;
+}
+
+.padding-13-5rem {
+  @apply py-48;
+}
+
+.space-page-top {
+  @apply pt-16;
+}
+
+.space-7rem {
+  @apply py-28;
+}
+
+.space-4rem {
+  @apply py-16;
+}
+
+.space-2rem {
+  @apply py-8;
+}
+
+.about-hero-flex {
+  @apply flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16;
+}
+
+.about-hero-wrapper {
+  @apply flex-1 text-center lg:text-left;
+}
+
+.about-hero-block {
+  @apply mb-6;
+}
+
+.font-huge {
+  @apply text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight;
+}
+
+.max-width-30rem {
+  @apply max-w-lg text-lg leading-relaxed;
+}
+
+.hero-stats-wrapper {
+  @apply flex-shrink-0;
+}
+
+.stats-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-6;
+}
+
+.stat-card {
+  @apply p-6 bg-card border rounded-lg text-center;
+}
+
 .font-c.size-md._w-ch {
   max-width: 8ch;
 }
