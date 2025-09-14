@@ -42,26 +42,34 @@
 
 /* Template Style - Global Anton Typography */
 
-/* Global heading rule - applies to all h1-h4 when anton-all class is on body */
-body.anton-all :where(h1,h2,h3,h4),
-:where([data-anton], .anton) {
+/* Site-wide Anton when enabled - applies to ALL elements */
+body.anton-all, 
+body.anton-all *,
+body.anton-all *::before,
+body.anton-all *::after,
+body.anton-all ::placeholder {
   font-family: Anton, Arial, sans-serif !important;
   font-weight: 400 !important;
-  letter-spacing: -.02em !important;
-  text-transform: uppercase !important;
+  letter-spacing: -0.08em !important;
+  text-transform: none !important;
 }
 
-/* Opt-out for special cases */
-.no-anton {
-  font-family: inherit !important;
+/* Opt-out for exceptions */
+body.anton-all .no-anton,
+body.anton-all .no-anton *,
+body.anton-all .no-anton *::before,
+body.anton-all .no-anton *::after,
+body.anton-all .no-anton ::placeholder {
+  font-family: "Work Sans", "Work Sans Fallback", "Inter", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
   letter-spacing: normal !important;
   text-transform: none !important;
+  font-weight: initial !important;
 }
 
 /* Keep existing .font-c for backward compatibility */
 .font-c {
   letter-spacing: -.08em;
-  text-transform: uppercase;
+  text-transform: none;
   margin-top: 0;
   margin-bottom: 0;
   font-family: Anton, Arial, sans-serif !important;
@@ -75,7 +83,7 @@ body.anton-all :where(h1,h2,h3,h4),
   letter-spacing: -.08em !important;
   line-height: .95em !important;
   text-align: center !important;
-  text-transform: uppercase !important;
+  text-transform: none !important;
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
