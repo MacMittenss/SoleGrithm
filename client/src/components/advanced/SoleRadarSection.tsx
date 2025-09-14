@@ -5,36 +5,24 @@ import { Link } from 'wouter';
 export default function SoleRadarSection() {
   return (
     <section 
-      className="section"
-      style={{ backgroundColor: '#050505', color: 'whitesmoke', minHeight: '100vh' }}
+      className="section background-black"
       data-testid="section-sole-radar"
     >
-      <div className="w-layout-blockcontainer container w-container">
-        <div style={{ minHeight: '11.11vw' }}></div>
+      <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+        <div className="space-7rem"></div>
         
         {/* Header Section - Centered */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
+        <div className="utilities-wrapper-title" style={{ 
           width: '100%',
-          marginBottom: '2.2vw',
-          textAlign: 'center'
+          textAlign: 'center',
+          alignItems: 'center',
+          marginBottom: '2.2vw'
         }}>
-          <h5 style={{ 
-            color: 'whitesmoke',
-            letterSpacing: '.14vw',
-            textTransform: 'uppercase',
-            marginTop: 0,
-            marginBottom: 0,
-            fontSize: '.89vw',
-            fontWeight: 400,
-            lineHeight: '1.44vw'
-          }}>
+          <h5 className="heading">
             AI DISCOVERY
           </h5>
           <h2 style={{ 
-            color: 'whitesmoke',
+            color: 'var(--white)',
             letterSpacing: '-.07vw',
             textTransform: 'capitalize',
             marginTop: 0,
@@ -48,22 +36,21 @@ export default function SoleRadarSection() {
         </div>
 
         {/* Description - Centered */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
+        <div className="utilities-wrapper-paragraph" style={{ 
           width: '100%',
-          marginBottom: '3vw',
-          textAlign: 'center'
+          textAlign: 'center',
+          alignItems: 'center',
+          marginBottom: '3vw'
         }}>
           <p style={{ 
-            color: 'whitesmoke',
+            color: 'var(--white)',
             letterSpacing: '.07vw',
             marginBottom: 0,
             fontSize: '1.11vw',
             fontWeight: 300,
             lineHeight: '1.89vw',
-            maxWidth: '60vw'
+            maxWidth: '42.22vw',
+            margin: '0 auto'
           }}>
             AI-powered personalized sneaker discovery. Advanced algorithms analyze your style,
             preferences, and trends to deliver perfectly curated recommendations.
@@ -78,46 +65,17 @@ export default function SoleRadarSection() {
           marginBottom: '4vw'
         }}>
           <Link href="/discover">
-            <button
-              style={{
-                padding: '1.2rem 3rem',
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                color: '#000',
-                background: 'linear-gradient(to right, #00ff96 0%, #32ff64 61%, #ff9650 100%)',
-                border: 'none',
-                borderRadius: '50px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 4px 20px rgba(0, 255, 150, 0.3)'
-              }}
-              data-testid="button-start-discovery"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 255, 150, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 255, 150, 0.3)';
-              }}
-            >
-              Start Discovery
-              <ArrowRight style={{ width: '1.25rem', height: '1.25rem' }} />
-            </button>
+            <div className="button-with-circle-icon">
+              <div className="button-text">Start Discovery</div>
+              <div className="button-arrow-wrapper">
+                <ArrowRight className="arrow" />
+              </div>
+            </div>
           </Link>
         </div>
 
         {/* Features - 3 Column Grid Layout */}
-        <div style={{ 
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gap: '3rem',
-          alignItems: 'start',
-          width: '100%'
-        }}>
+        <div className="utilities-grid-thirds">
           {[
             {
               icon: Compass,
