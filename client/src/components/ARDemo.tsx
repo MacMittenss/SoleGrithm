@@ -118,7 +118,7 @@ export default function ARDemo() {
           variants={itemVariants}
         >
           <motion.h2 
-            className="pb-2 text-3xl md:text-6xl font-bold max-w-[900px] mx-auto text-slate-700"
+            className="pb-2 text-3xl md:text-6xl font-bold max-w-[900px] mx-auto text-white"
             variants={itemVariants}
           >
             <motion.span
@@ -138,7 +138,7 @@ export default function ARDemo() {
             </motion.span>
           </motion.h2>
           <motion.p 
-            className="pb-10 text-lg text-gray-600 max-w-[600px] mx-auto"
+            className="pb-10 text-lg text-white/70 max-w-[600px] mx-auto"
             variants={itemVariants}
           >
             Experience sneakers on your feet with advanced AR technology. See the perfect fit instantly.
@@ -151,7 +151,7 @@ export default function ARDemo() {
           variants={itemVariants}
         >
           <motion.div 
-            className="mx-auto w-full max-w-[1000px] rounded-2xl shadow-2xl bg-white overflow-hidden"
+            className="mx-auto w-full max-w-[1000px] rounded-2xl shadow-2xl bg-black/80 border border-white/10 overflow-hidden"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -165,7 +165,7 @@ export default function ARDemo() {
                   whileHover={{ x: -5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <span className="ml-auto">Real-Time Tracking</span>
                     <motion.div 
                       className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
@@ -174,7 +174,7 @@ export default function ARDemo() {
                       1
                     </motion.div>
                   </h3>
-                  <p className="text-sm text-gray-500">Advanced foot tracking technology provides precise sneaker placement and realistic fit visualization.</p>
+                  <p className="text-sm text-white/70">Advanced foot tracking technology provides precise sneaker placement and realistic fit visualization.</p>
                 </motion.div>
                 
                 <motion.div 
@@ -183,7 +183,7 @@ export default function ARDemo() {
                   whileHover={{ x: -5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <span className="ml-auto">Size Prediction</span>
                     <motion.div 
                       className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
@@ -192,7 +192,7 @@ export default function ARDemo() {
                       2
                     </motion.div>
                   </h3>
-                  <p className="text-sm text-gray-500">AI-powered size recommendations based on your foot measurements and preferred fit style.</p>
+                  <p className="text-sm text-white/70">AI-powered size recommendations based on your foot measurements and preferred fit style.</p>
                 </motion.div>
                 
                 <motion.div
@@ -200,7 +200,7 @@ export default function ARDemo() {
                   whileHover={{ x: -5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <span className="ml-auto">Style Comparison</span>
                     <motion.div 
                       className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
@@ -209,7 +209,7 @@ export default function ARDemo() {
                       3
                     </motion.div>
                   </h3>
-                  <p className="text-sm text-gray-500">Compare multiple sneaker styles side-by-side to find your perfect match.</p>
+                  <p className="text-sm text-white/70">Compare multiple sneaker styles side-by-side to find your perfect match.</p>
                 </motion.div>
               </div>
 
@@ -311,7 +311,7 @@ export default function ARDemo() {
                           ))}
                         </motion.div>
 
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-white/70">
                           Move your phone to see different angles
                         </p>
                       </motion.div>
@@ -339,7 +339,7 @@ export default function ARDemo() {
                                 <Play className="w-8 h-8 text-white ml-1" />
                               </motion.div>
                               <h4 className="text-lg font-semibold text-slate-700 mb-2">Start AR Try-On</h4>
-                              <p className="text-sm text-gray-600 px-4 text-center">
+                              <p className="text-sm text-white/70 px-4 text-center">
                                 Point your camera at your feet to begin
                               </p>
                             </div>
@@ -368,7 +368,7 @@ export default function ARDemo() {
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <motion.div 
                       className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: -5 }}
@@ -377,7 +377,7 @@ export default function ARDemo() {
                     </motion.div>
                     <span>HD Rendering</span>
                   </h3>
-                  <p className="text-sm text-gray-500">Ultra-high quality 3D models with realistic materials and lighting for authentic visualization.</p>
+                  <p className="text-sm text-white/70">Ultra-high quality 3D models with realistic materials and lighting for authentic visualization.</p>
                 </motion.div>
                 
                 <motion.div 
@@ -386,7 +386,7 @@ export default function ARDemo() {
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <motion.div 
                       className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: -5 }}
@@ -395,7 +395,7 @@ export default function ARDemo() {
                     </motion.div>
                     <span>Social Sharing</span>
                   </h3>
-                  <p className="text-sm text-gray-500">Share your virtual try-on experiences with friends and get feedback before making a purchase.</p>
+                  <p className="text-sm text-white/70">Share your virtual try-on experiences with friends and get feedback before making a purchase.</p>
                 </motion.div>
                 
                 <motion.div
@@ -403,7 +403,7 @@ export default function ARDemo() {
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="mb-2 text-base font-semibold leading-tight text-gray-900 items-center flex gap-2">
+                  <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <motion.div 
                       className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: -5 }}
@@ -412,7 +412,7 @@ export default function ARDemo() {
                     </motion.div>
                     <span>Save Favorites</span>
                   </h3>
-                  <p className="text-sm text-gray-500">Bookmark your favorite combinations and create personalized collections for future reference.</p>
+                  <p className="text-sm text-white/70">Bookmark your favorite combinations and create personalized collections for future reference.</p>
                 </motion.div>
               </div>
             </div>
@@ -440,7 +440,7 @@ export default function ARDemo() {
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </motion.div>
-          <p className="text-sm text-gray-600 mt-3">
+          <p className="text-sm text-white/70 mt-3">
             Full AR experience available on mobile devices
           </p>
         </motion.div>
