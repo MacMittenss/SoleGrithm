@@ -357,6 +357,165 @@ export default function Home() {
       {/* AR Try-On Section */}
       <ARDemo />
 
+      {/* Community & Social Section */}
+      <section className="py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4 sm:mb-6">
+              Join the Community
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Connect with sneaker enthusiasts worldwide
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
+            {/* DaisyUI iPhone Mockup */}
+            <div className="flex justify-center">
+              <div className="mockup-phone scale-75 sm:scale-90">
+                <div className="mockup-phone-camera"></div> 
+                <div className="mockup-phone-display bg-gradient-to-b from-blue-500/10 to-purple-500/10 relative overflow-hidden">
+                  {/* Phone Interface */}
+                  <div className="relative p-3">
+                    {/* Status Bar */}
+                    <div className="absolute top-3 left-3 right-3 flex justify-between items-center text-white text-xs">
+                      <span>9:41</span>
+                      <div className="flex items-center gap-1">
+                        <div className="w-4 h-2 border border-white rounded-sm">
+                          <div className="w-full h-full bg-white rounded-sm"></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* App Header */}
+                    <div className="absolute top-8 left-3 right-3">
+                      <h3 className="text-white text-sm font-semibold text-center mb-3">Community</h3>
+                    </div>
+                    
+                    {/* Image Gallery - Centered with spacing */}
+                    <div className="absolute top-16 left-6 right-6 bottom-8 flex items-center justify-center">
+                      <div className="w-full h-full max-h-56">
+                        <div className="grid grid-cols-3 gap-1 h-full">
+                          <div className="grid gap-1">
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.1 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.2 }}
+                            />
+                          </div>
+                          <div className="grid gap-1">
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.3 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.4 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.5 }}
+                            />
+                          </div>
+                          <div className="grid gap-1">
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.6 }}
+                            />
+                            <motion.img 
+                              className="w-full h-full object-cover rounded-sm" 
+                              src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg" 
+                              alt="Community post"
+                              initial={{ opacity: 1, scale: 0.8 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true, amount: 0.3 }}
+                              transition={{ duration: 0.6, delay: 0.7 }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Features */}
+            <motion.div className="space-y-6">
+              <h3 className="text-2xl font-semibold">Connect & Share</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center">
+                    <Heart className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Share Your Collection</h4>
+                    <p className="text-sm text-muted-foreground">Showcase your sneaker collection to the community</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg flex items-center justify-center">
+                    <Star className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Rate & Review</h4>
+                    <p className="text-sm text-muted-foreground">Help others with authentic sneaker reviews</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg flex items-center justify-center">
+                    <Zap className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Trend Alerts</h4>
+                    <p className="text-sm text-muted-foreground">Get notified about price drops and new releases</p>
+                  </div>
+                </div>
+              </div>
+              <Link href="/auth">
+                <Button size="lg" className="w-full" data-testid="button-join-community">
+                  Join Community
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer Section */}
       <AdvancedFooter />
       </div>
