@@ -40,7 +40,25 @@
   }
 }
 
-/* Template Style - Exact Specifications - Updated */
+/* Template Style - Global Anton Typography */
+
+/* Global heading rule - applies to all h1-h4 when anton-all class is on body */
+body.anton-all :where(h1,h2,h3,h4),
+:where([data-anton], .anton) {
+  font-family: Anton, Arial, sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: -.08em !important;
+  text-transform: uppercase !important;
+}
+
+/* Opt-out for special cases */
+.no-anton {
+  font-family: inherit !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Keep existing .font-c for backward compatibility */
 .font-c {
   letter-spacing: -.08em;
   text-transform: uppercase;
