@@ -1031,6 +1031,128 @@ button, input, textarea, select {
   }
 }
 
+/* Services Section Styles */
+.services-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4rem;
+  width: 100%;
+}
+
+.services-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.services-wrapper h5 {
+  color: var(--contrast--secondary-light, #afb6c0);
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.14vw;
+  margin: 0;
+}
+
+.services-title {
+  font-family: Anton, Arial, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 3.5rem;
+  line-height: 1em;
+  letter-spacing: -0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0;
+}
+
+.services-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.services-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.services-title-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.services-icon {
+  color: var(--white);
+  width: 24px;
+  height: 24px;
+}
+
+.services-card h4 {
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.services-text-block p {
+  color: var(--contrast--secondary-light, #afb6c0);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.slide-from-left-animation {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.slide-from-right-animation {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.slide-from-left-animation.visible,
+.slide-from-right-animation.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media screen and (max-width: 991px) {
+  .services-flex {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .services-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .services-card {
+    padding: 1.5rem;
+  }
+  
+  .services-title {
+    font-size: 2rem;
+  }
+  
+  .services-flex {
+    gap: 2rem;
+  }
+}
+
 /* New Hero Section and Brands Styles */
 .brand-text {
   color: var(--white);
