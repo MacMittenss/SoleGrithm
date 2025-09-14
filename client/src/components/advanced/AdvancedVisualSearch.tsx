@@ -55,23 +55,12 @@ export default function AdvancedVisualSearch() {
   return (
     <motion.section
       ref={containerRef}
-      className="relative py-32 overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(30, 30, 30, 0.98), rgba(10, 20, 40, 0.95))',
-        y,
-        opacity,
-      }}
+      className="section background-black"
+      style={{ y, opacity }}
       data-testid="section-visual-search"
     >
-      {/* Background effects */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 30%, rgba(0, 150, 255, 0.08) 0%, rgba(100, 50, 255, 0.04) 35%, rgba(255, 100, 150, 0.06) 100%)',
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="w-layout-blockcontainer container padding-4-5rem w-container">
+        <div className="space-7rem"></div>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content Column */}
           <motion.div
@@ -95,8 +84,17 @@ export default function AdvancedVisualSearch() {
 
             {/* Main Title */}
             <div>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                <SplitText type="words" delay={0.3} staggerDelay={0.08}>
+              <h2 style={{ 
+                color: 'var(--white)',
+                letterSpacing: '-.07vw',
+                textTransform: 'capitalize',
+                marginTop: 0,
+                marginBottom: 0,
+                fontSize: '4.44vw',
+                fontWeight: 500,
+                lineHeight: '5vw'
+              }}>
+                <SplitText type="words" delay={0.3}>
                   Snap, Search,
                 </SplitText>
                 <br />
@@ -106,7 +104,15 @@ export default function AdvancedVisualSearch() {
               </h2>
               
               <motion.p
-                className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-xl"
+                style={{ 
+                  color: 'var(--white)',
+                  letterSpacing: '.07vw',
+                  marginBottom: 0,
+                  fontSize: '1.11vw',
+                  fontWeight: 300,
+                  lineHeight: '1.89vw',
+                  maxWidth: '42.22vw'
+                }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.8 }}
@@ -298,6 +304,7 @@ export default function AdvancedVisualSearch() {
             </motion.div>
           </motion.div>
         </div>
+        <div className="space-7rem"></div>
       </div>
     </motion.section>
   );
