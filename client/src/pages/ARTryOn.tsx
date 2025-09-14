@@ -333,8 +333,8 @@ export default function ARTryOn() {
           <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <Smartphone className="w-8 h-8 text-red-500" />
           </div>
-          <h1 className="text-2xl font-bold mb-4">Device Not Compatible</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold mb-4 text-white">Device Not Compatible</h1>
+          <p className="text-white/70">
             AR Try-On requires a device with camera access. Please use a modern smartphone or tablet.
           </p>
         </div>
@@ -347,14 +347,14 @@ export default function ARTryOn() {
       <div className="w-layout-blockcontainer container w-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <Badge variant="outline" className="mb-4">
+          <Badge variant="outline" className="mb-4 border-white/20 text-white bg-white/5">
             <Eye className="w-4 h-4 mr-2" />
             Augmented Reality
           </Badge>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6 text-white">
             AR Try-On Experience
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-white/70 max-w-3xl mx-auto">
             See how sneakers look on your feet before you buy. Use your camera to virtually 
             try on any sneaker with real-time AR fitting technology.
           </p>
@@ -363,7 +363,7 @@ export default function ARTryOn() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* AR Camera View */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="bg-black/80 border-white/10 text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Camera className="w-5 h-5" />
@@ -488,7 +488,7 @@ export default function ARTryOn() {
 
           {/* Sneaker Selection */}
           <div>
-            <Card>
+            <Card className="bg-black/80 border-white/10 text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="w-5 h-5" />
@@ -541,7 +541,7 @@ export default function ARTryOn() {
             </Card>
 
             {/* AR Tips */}
-            <Card className="mt-6">
+            <Card className="mt-6 bg-black/80 border-white/10 text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Zap className="w-5 h-5" />
