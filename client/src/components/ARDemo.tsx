@@ -168,7 +168,7 @@ export default function ARDemo() {
                   <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <span className="ml-auto">Real-Time Tracking</span>
                     <motion.div 
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                     >
                       1
@@ -186,7 +186,7 @@ export default function ARDemo() {
                   <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <span className="ml-auto">Size Prediction</span>
                     <motion.div 
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                     >
                       2
@@ -203,7 +203,7 @@ export default function ARDemo() {
                   <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <span className="ml-auto">Style Comparison</span>
                     <motion.div 
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                     >
                       3
@@ -277,10 +277,10 @@ export default function ARDemo() {
                             
                             {/* AR UI Elements */}
                             <div className="absolute top-12 left-4 right-4 flex justify-between">
-                              <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                              <Badge variant="secondary" className="text-xs bg-white/90 text-black">
                                 AR Active
                               </Badge>
-                              <Badge variant="secondary" className="text-xs bg-black/50 text-white">
+                              <Badge variant="secondary" className="text-xs bg-white/90 text-black">
                                 Size: 9.5
                               </Badge>
                             </div>
@@ -338,7 +338,7 @@ export default function ARDemo() {
                               >
                                 <Play className="w-8 h-8 text-white ml-1" />
                               </motion.div>
-                              <h4 className="text-lg font-semibold text-slate-700 mb-2">Start AR Try-On</h4>
+                              <h4 className="text-lg font-semibold text-black mb-2">Start AR Try-On</h4>
                               <p className="text-sm text-white/70 px-4 text-center">
                                 Point your camera at your feet to begin
                               </p>
@@ -370,7 +370,7 @@ export default function ARDemo() {
                 >
                   <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <motion.div 
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: -5 }}
                     >
                       4
@@ -388,7 +388,7 @@ export default function ARDemo() {
                 >
                   <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <motion.div 
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: -5 }}
                     >
                       5
@@ -405,7 +405,7 @@ export default function ARDemo() {
                 >
                   <h3 className="mb-2 text-base font-semibold leading-tight text-white items-center flex gap-2">
                     <motion.div 
-                      className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-bold"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black text-sm font-bold"
                       whileHover={{ scale: 1.1, rotate: -5 }}
                     >
                       6
