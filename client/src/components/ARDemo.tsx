@@ -106,12 +106,12 @@ export default function ARDemo() {
   return (
     <motion.section 
       ref={sectionRef}
-      className="py-20 sm:py-36 bg-gray-50"
+      className="section background-black py-20 sm:py-36"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      <div className="mx-auto sm:px-7 px-4 max-w-screen-xl">
+      <div className="w-layout-blockcontainer container w-container mx-auto sm:px-7 px-4 max-w-screen-xl">
         {/* Header */}
         <motion.div 
           className="text-center mb-12 sm:mb-20 flex flex-col"

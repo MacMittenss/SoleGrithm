@@ -328,8 +328,8 @@ export default function ARTryOn() {
 
   if (!isCompatible) {
     return (
-      <div className="min-h-screen bg-background py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="section background-black min-h-screen">
+        <div className="w-layout-blockcontainer container w-container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
           <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <Smartphone className="w-8 h-8 text-red-500" />
           </div>
@@ -338,13 +338,13 @@ export default function ARTryOn() {
             AR Try-On requires a device with camera access. Please use a modern smartphone or tablet.
           </p>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section background-black min-h-screen">
+      <div className="w-layout-blockcontainer container w-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-8">
           <Badge variant="outline" className="mb-4">
@@ -577,6 +577,6 @@ export default function ARTryOn() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
