@@ -8,6 +8,7 @@ export default {
       fontFamily: {
         'sans': ['"Work Sans"', '"Work Sans Fallback"', '"Inter"', '"Manrope"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
         'work': ['"Work Sans"', '"Work Sans Fallback"', '"Inter"', '"Manrope"', 'sans-serif'],
+        'anton': ['Anton', 'Arial', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
