@@ -5,6 +5,14 @@
 
 /* Work Sans SemiBold font definitions */
 @font-face {
+  font-family: 'Worksans';
+  src: url('@assets/WorkSans-SemiBold_1757877912989.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Work Sans';
   src: url('@assets/WorkSans-SemiBold_1757877912989.woff2') format('woff2');
   font-weight: 600;
@@ -32,13 +40,13 @@
   }
 }
 
-/* Anton Font Classes - Template Style */
+/* Worksans Font Classes - Template Style */
 .font-c {
   letter-spacing: -0.025em;
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Anton, Arial, sans-serif;
+  font-family: Worksans, Arial, sans-serif;
   font-weight: 400;
 }
 
