@@ -1707,3 +1707,66 @@ button, input, textarea, select {
 .fade-in-grid.visible {
   transition-delay: 0.4s;
 }
+
+/* Animated Works Section Styles */
+.works-title-wrapper {
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.works-title {
+  font-family: Anton, Arial, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: min(12vw, 8rem);
+  line-height: 0.95em;
+  letter-spacing: -0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin: 0;
+  padding-right: 4rem;
+  flex-shrink: 0;
+  animation: scroll-horizontal 20s linear infinite;
+}
+
+.works-title.outline-white {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--white);
+  text-stroke: 2px var(--white);
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Responsive adjustments for works section */
+@media screen and (max-width: 991px) {
+  .works-title {
+    font-size: min(14vw, 6rem);
+    padding-right: 3rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .works-title {
+    font-size: min(16vw, 4rem);
+    padding-right: 2rem;
+    animation-duration: 15s;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .works-title {
+    font-size: min(18vw, 3rem);
+    padding-right: 1.5rem;
+    animation-duration: 12s;
+  }
+}
