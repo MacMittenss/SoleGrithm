@@ -8,7 +8,7 @@ export default function LiveMarket() {
     <div data-testid="page-live-market">
 
       {/* Animated Works Section */}
-      <section className="section" data-testid="works-section">
+      <section className="section no-bottom-padding" data-testid="works-section">
         <div className="w-layout-blockcontainer container w-container">
           <div className="space-7rem"></div>
           <div className="space-1rem"></div>

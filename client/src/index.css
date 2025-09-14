@@ -1445,6 +1445,10 @@ button, input, textarea, select {
   background-color: var(--black);
 }
 
+.section.no-bottom-padding {
+  padding-bottom: 0;
+}
+
 .padding-4-5rem {
   padding-left: 4.5rem;
   padding-right: 4.5rem;
