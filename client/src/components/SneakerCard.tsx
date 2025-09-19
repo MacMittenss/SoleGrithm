@@ -120,7 +120,7 @@ export default function SneakerCard({ sneaker, enableHoverPreview = false }: Sne
       <Link href={`/sneakers/${sneaker.slug}`}>
         <Card 
           ref={cardRef}
-          className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 sneaker-card"
+          className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105 sneaker-card bg-black text-white border-white/10"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
@@ -164,9 +164,9 @@ export default function SneakerCard({ sneaker, enableHoverPreview = false }: Sne
           </div>
         </div>
         
-        <CardContent className="p-6">
+  <CardContent className="p-6 text-white">
           <div className="space-y-2">
-            <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+            <h3 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors bg-black text-white px-2 py-1 rounded">
               {sneaker.name}
             </h3>
             

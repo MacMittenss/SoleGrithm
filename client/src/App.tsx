@@ -24,7 +24,6 @@ import PostDetail from "@/pages/PostDetail";
 import NotFound from "@/pages/not-found";
 import Discover from "@/pages/Discover";
 import SneakerQuiz from "@/pages/SneakerQuiz";
-import VisualSearch from "@/pages/VisualSearch";
 import Collections from "@/pages/Collections";
 import ARTryOn from "@/pages/ARTryOn";
 import ReviewSummaryDemo from "@/pages/ReviewSummaryDemo";
@@ -102,7 +101,6 @@ function App() {
                   <Route path="/discover" component={Discover} />
                   <Route path="/quiz" component={SneakerQuiz} />
                   <Route path="/style-quiz" component={SneakerQuiz} />
-                  <Route path="/visual-search" component={VisualSearch} />
                   <Route path="/collections" component={Collections} />
                   <Route path="/soleradar" component={Discover} />
                   <Route path="/review-summary" component={ReviewSummaryDemo} />
@@ -110,7 +108,9 @@ function App() {
                   <Route path="/trend-map" component={TrendMap} />
                   <Route path="/sneaker-map" component={TrendMap} />
                   <Route path="/testing" component={Testing} />
-                  <Route path="/women-in-sneakers" component={WomenInSneakers} />
+                  <Route path="/women-in-sneakers">
+                    {() => { window.location.href = '/women-in-sneakers.html'; return null; }}
+                  </Route>
                   <Route component={NotFound} />
                 </Switch>
                 </PageTransition>

@@ -149,7 +149,43 @@ export class DatabaseStorage implements IStorage {
   }
 
   async searchSneakers(query: string, filters?: any): Promise<SneakerWithBrand[]> {
-    let queryBuilder = db
+    const conditions = [];
+    if (query) {
+      conditions.push(ilike(sneakers.name, `%${query}%`));
+    }
+    if (filters?.brandId) {
+      conditions.push(eq(sneakers.brandId, filters.brandId));
+    }
+    if (filters?.category) {
+      conditions.push(sql`${sneakers.categories} @> ${JSON.stringify([filters.category])}`);
+    }
+
+    let whereArg = undefined;
+    if (conditions.length > 0) {
+      whereArg = and(...conditions);
+    }
+
+    let orderArg;
+    switch (filters?.sort) {
+      case 'oldest':
+        orderArg = sneakers.releaseDate;
+        break;
+      case 'price-low':
+        orderArg = sneakers.retailPrice;
+        break;
+      case 'price-high':
+        orderArg = desc(sneakers.retailPrice);
+        break;
+      case 'name':
+        orderArg = sneakers.name;
+        break;
+      case 'newest':
+      default:
+        orderArg = desc(sneakers.releaseDate);
+        break;
+    }
+
+    return await db
       .select({
         id: sneakers.id,
         name: sneakers.name,
@@ -169,47 +205,9 @@ export class DatabaseStorage implements IStorage {
         brandName: brands.name
       })
       .from(sneakers)
-      .leftJoin(brands, eq(sneakers.brandId, brands.id));
-
-    const conditions = [];
-
-    if (query) {
-      conditions.push(ilike(sneakers.name, `%${query}%`));
-    }
-
-    if (filters?.brandId) {
-      conditions.push(eq(sneakers.brandId, filters.brandId));
-    }
-
-    if (filters?.category) {
-      conditions.push(sql`${sneakers.categories} @> ${JSON.stringify([filters.category])}`);
-    }
-
-    if (conditions.length > 0) {
-      queryBuilder = queryBuilder.where(and(...conditions));
-    }
-
-    // Apply sorting
-    switch (filters?.sort) {
-      case 'oldest':
-        queryBuilder = queryBuilder.orderBy(sneakers.releaseDate);
-        break;
-      case 'price-low':
-        queryBuilder = queryBuilder.orderBy(sneakers.retailPrice);
-        break;
-      case 'price-high':
-        queryBuilder = queryBuilder.orderBy(desc(sneakers.retailPrice));
-        break;
-      case 'name':
-        queryBuilder = queryBuilder.orderBy(sneakers.name);
-        break;
-      case 'newest':
-      default:
-        queryBuilder = queryBuilder.orderBy(desc(sneakers.releaseDate));
-        break;
-    }
-
-    return await queryBuilder;
+      .leftJoin(brands, eq(sneakers.brandId, brands.id))
+      .where(whereArg)
+      .orderBy(orderArg);
   }
 
   async getFeaturedSneakers(): Promise<SneakerWithBrand[]> {
@@ -311,17 +309,18 @@ export class DatabaseStorage implements IStorage {
 
   // Price History
   async getSneakerPrices(sneakerId: number, size?: string): Promise<PriceHistory[]> {
-    let queryBuilder = db
+    let baseQuery = db
       .select()
       .from(priceHistory);
 
+    let filteredQuery;
     if (size) {
-      queryBuilder = queryBuilder.where(and(eq(priceHistory.sneakerId, sneakerId), eq(priceHistory.size, size)));
+      filteredQuery = baseQuery.where(and(eq(priceHistory.sneakerId, sneakerId), eq(priceHistory.size, size)));
     } else {
-      queryBuilder = queryBuilder.where(eq(priceHistory.sneakerId, sneakerId));
+      filteredQuery = baseQuery.where(eq(priceHistory.sneakerId, sneakerId));
     }
 
-    return await queryBuilder.orderBy(desc(priceHistory.timestamp));
+    return await filteredQuery.orderBy(desc(priceHistory.timestamp));
   }
 
   async addPriceRecord(insertPriceRecord: InsertPriceHistory): Promise<PriceHistory> {

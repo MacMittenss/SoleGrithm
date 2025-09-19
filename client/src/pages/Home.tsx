@@ -9,7 +9,6 @@ import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeat
 import AdvancedLatestStories from "@/components/advanced/AdvancedLatestStories";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
-import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import SoleRadarSection from "@/components/advanced/SoleRadarSection";
 import AdvancedFooter from "@/components/advanced/AdvancedFooter";
@@ -172,7 +171,6 @@ export default function Home() {
       <AdvancedSoleMap />
 
       {/* Advanced Visual Search */}
-      <AdvancedVisualSearch />
 
       {/* Advanced Collections */}
       <AdvancedCollections />

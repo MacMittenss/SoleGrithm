@@ -9,7 +9,6 @@ import AdvancedHero from "@/components/advanced/AdvancedHero";
 import AdvancedFlagshipFeatures from "@/components/advanced/AdvancedFlagshipFeatures";
 import AdvancedLiveMarket from "@/components/advanced/AdvancedLiveMarket";
 import AdvancedSoleMap from "@/components/advanced/AdvancedSoleMap";
-import AdvancedVisualSearch from "@/components/advanced/AdvancedVisualSearch";
 import AdvancedCollections from "@/components/advanced/AdvancedCollections";
 import AdvancedLatestStories from "@/components/advanced/AdvancedLatestStories";
 import SoleRadarSection from "@/components/advanced/SoleRadarSection";
@@ -24,7 +23,6 @@ import PinterestSneakerCard from "@/components/PinterestSneakerCard";
 import PinterestBlogCard from "@/components/PinterestBlogCard";
 import GoatStyleFeaturedGrid from "@/components/GoatStyleFeaturedGrid";
 import { MasonryGrid } from "@/components/ui/masonry-grid";
-import VisualSearchDemo from "@/components/VisualSearchDemo";
 import CollectionsDemo from "@/components/CollectionsDemo";
 import ARDemo from "@/components/ARDemo";
 
@@ -1084,7 +1082,8 @@ export default function Home() {
         className="relative"
         height="100vh"
       >
-        <AdvancedVisualSearch />
+        {/* Placeholder to satisfy required children prop */}
+        <></>
       </SectionWrapper>
 
       {/* AR Try-On Section */}

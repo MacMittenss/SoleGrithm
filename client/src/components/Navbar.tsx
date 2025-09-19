@@ -37,15 +37,14 @@ export default function Navbar() {
   ];
 
   const aiFeatures = [
-    { name: 'Visual Search', href: '/visual-search', icon: Eye },
     { name: 'SoleRadar', href: '/soleradar', icon: Search },
     { name: 'Style Quiz', href: '/style-quiz', icon: Target }
   ];
 
   const communityFeatures = [
-    { name: 'AR Try-On', href: '/ar-tryon', icon: Smartphone },
-    { name: 'Women in Sneakers', href: '/women-in-sneakers', icon: Users },
-    { name: 'Sneaker Map', href: '/sneaker-map', icon: Map }
+  { name: 'AR Try-On', href: '/ar-tryon', icon: Smartphone },
+  { name: 'Women in Sneakers', href: '/women-in-sneakers', icon: Users },
+  { name: 'Sneaker Map', href: '/sneaker-map', icon: Map }
   ];
 
   return (

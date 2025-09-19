@@ -77,14 +77,15 @@ function generateEnhancedFallbackAnalysis(preferences: any, personalityTraits: s
     }
   };
 
-  const lifestyleMapping = {
+
+  const lifestyleMapping: Record<string, string[]> = {
     active: ["Nike React", "Adidas Boost", "New Balance Fresh Foam", "Under Armour", "ASICS"],
     professional: ["Cole Haan", "Allbirds", "Veja", "Common Projects", "Greats"],
     social: ["Jordan Brand", "Nike SB", "Vans", "Adidas Originals", "Puma"],
     casual: ["New Balance", "Nike Air Max", "Adidas Ultraboost", "Allbirds", "Converse"]
   };
 
-  const budgetMapping = {
+  const budgetMapping: Record<string, string[]> = {
     budget: ["Adidas Originals", "Nike Air Force", "Converse", "Vans", "New Balance"],
     "mid-range": ["Nike Air Max", "Adidas Ultraboost", "Jordan Retro", "New Balance 990", "Puma RS"],
     premium: ["Nike Off-White", "Adidas Y-3", "Jordan 1 High", "New Balance Made in USA", "Vans Vault"],
@@ -92,9 +93,9 @@ function generateEnhancedFallbackAnalysis(preferences: any, personalityTraits: s
   };
 
   const basePersonality = personalityInsights[preferences.personality] || personalityInsights.classic;
-  const lifestyleBrands = lifestyleMapping[preferences.lifestyle] || [];
-  const budgetBrands = budgetMapping[preferences.budget] || [];
-  const combinedBrands = [...new Set([...basePersonality.brandRecommendations, ...lifestyleBrands, ...budgetBrands])].slice(0, 6);
+  const lifestyleBrands = typeof preferences.lifestyle === 'string' && preferences.lifestyle in lifestyleMapping ? lifestyleMapping[preferences.lifestyle] : [];
+  const budgetBrands = typeof preferences.budget === 'string' && preferences.budget in budgetMapping ? budgetMapping[preferences.budget] : [];
+  const combinedBrands = Array.from(new Set([...(basePersonality.brandRecommendations || []), ...lifestyleBrands, ...budgetBrands])).slice(0, 6);
 
   return {
     personalityType: basePersonality.personalityType,
@@ -135,8 +136,10 @@ async function generateAICollection(theme: string, preferences: any, sneakers: a
     "priceRange": "$100-$300"
   }`;
 
-  const response = await openai.chatWithAI(prompt, { role: 'collection_curator' });
-  const collectionData = JSON.parse(response);
+  const response = await openai.chatWithAI(prompt);
+  // If response is an object with a 'response' property, use it; otherwise, use as string
+  const responseString = typeof response === 'string' ? response : (response && typeof response.response === 'string' ? response.response : '');
+  const collectionData = JSON.parse(responseString);
   
   // Filter sneakers based on AI-generated criteria
   const selectedSneakers = selectSneakersForCollection(collectionData, sneakers);
@@ -153,7 +156,7 @@ async function generateAICollection(theme: string, preferences: any, sneakers: a
 
 // Fallback collection generator
 function generateFallbackCollection(theme: string, preferences: any, sneakers: any[]) {
-  const themeCollections = {
+  const themeCollections: Record<string, any> = {
     'street-art': {
       title: 'Street Art Canvas',
       description: 'Bold, expressive sneakers that turn your feet into walking art galleries. Each pair tells a story of urban creativity.',
@@ -192,7 +195,7 @@ function generateFallbackCollection(theme: string, preferences: any, sneakers: a
     }
   };
   
-  const selectedTheme = themeCollections[theme] || themeCollections['street-art'];
+  const selectedTheme = typeof theme === 'string' && theme in themeCollections ? themeCollections[theme] : themeCollections['street-art'];
   const selectedSneakers = selectSneakersForCollection(selectedTheme, sneakers);
   
   return {
@@ -217,8 +220,8 @@ function selectSneakersForCollection(collectionData: any, sneakers: any[]) {
       const minPrice = parseInt(prices[1]);
       const maxPrice = parseInt(prices[2]);
       filtered = filtered.filter(s => {
-        const price = parseFloat(s.retailPrice);
-        return price >= minPrice && price <= maxPrice;
+        const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
+        return !isNaN(price) && price >= minPrice && price <= maxPrice;
       });
     }
   }
@@ -231,22 +234,36 @@ function selectSneakersForCollection(collectionData: any, sneakers: any[]) {
 // Helper function to calculate average price
 function calculateAveragePrice(sneakers: any[]) {
   if (sneakers.length === 0) return '$0';
-  const total = sneakers.reduce((sum, sneaker) => sum + parseFloat(sneaker.retailPrice), 0);
+  const total = sneakers.reduce((sum, sneaker) => {
+    const price = typeof sneaker.retailPrice === 'string' ? parseFloat(sneaker.retailPrice) : NaN;
+    return !isNaN(price) ? sum + price : sum;
+  }, 0);
   const average = Math.round(total / sneakers.length);
   return `$${average}`;
 }
 
 // Middleware to verify Firebase token
+
 async function authenticateUser(req: AuthenticatedRequest, res: any, next: any) {
   try {
     const authHeader = req.headers.authorization;
+    console.log('Auth header:', authHeader);
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.error('No token provided');
       return res.status(401).json({ error: 'No token provided' });
     }
 
     const token = authHeader.substring(7);
-    const decodedToken = await verifyFirebaseToken(token);
-    
+    console.log('Received token:', token);
+    let decodedToken;
+    try {
+      decodedToken = await verifyFirebaseToken(token);
+      console.log('Decoded token:', decodedToken);
+    } catch (err) {
+      console.error('Token verification failed:', err);
+      return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+
     // Get or create user in our database
     let user = await storage.getUserByFirebaseUid(decodedToken.uid);
     if (!user) {
@@ -258,35 +275,22 @@ async function authenticateUser(req: AuthenticatedRequest, res: any, next: any) 
         avatar: decodedToken.picture || null,
         bio: null,
         isVerified: false,
-        isPremium: false
       });
     }
-
     req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
+    console.error('Auth middleware error:', error);
+    return res.status(401).json({ error: 'Invalid Firebase token' });
   }
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Public routes
-  
-  // Get featured sneakers
-  app.get('/api/sneakers/featured', async (req, res) => {
-    try {
-      const sneakers = await storage.getFeaturedSneakers();
-      res.json(sneakers);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch featured sneakers' });
-    }
-  });
 
   // Get trending sneakers with real-time market data
   app.get('/api/sneakers/trending', async (req, res) => {
     try {
       const sneakers = await storage.getFeaturedSneakers();
-      
       // Enhanced trending algorithm with market intelligence
       const trendingSneakers = sneakers.map((sneaker, index) => {
         // Simulate real market data patterns
@@ -294,48 +298,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const priceFluctuation = (Math.random() - 0.5) * 40; // -20 to +20
         const weeklyGrowth = Number((Math.random() * 40 + 2).toFixed(1)); // 2-42%
         const trendingScore = Math.floor(Math.random() * 30) + 70 + (index === 0 ? 20 : 0); // 70-100, first item gets boost
-        
         return {
           ...sneaker,
           // Market metrics
-          trendingScore,
+          baseVolume,
+          priceFluctuation,
           weeklyGrowth,
-          searchVolume: baseVolume + Math.floor(weeklyGrowth * 100),
-          salesVolume24h: Math.floor(baseVolume * 0.6),
-          priceChange24h: priceFluctuation,
-          priceChangePercent: Number(((priceFluctuation / parseFloat(sneaker.retailPrice)) * 100).toFixed(2)),
-          marketCap: Math.floor(parseFloat(sneaker.retailPrice) * baseVolume * 8.5),
-          volatility: Number((Math.random() * 0.3 + 0.05).toFixed(3)), // 0.05-0.35
-          
-          // Trading data
-          lowestAsk: Math.floor(parseFloat(sneaker.retailPrice) * (1 + Math.random() * 0.8 + 0.1)), // 110-190% of retail
-          highestBid: Math.floor(parseFloat(sneaker.retailPrice) * (1 + Math.random() * 0.6 + 0.05)), // 105-165% of retail
-          lastSale: Math.floor(parseFloat(sneaker.retailPrice) * (1 + Math.random() * 0.7 + 0.08)), // 108-178% of retail
-          totalTrades: Math.floor(Math.random() * 20000) + 5000,
-          
-          // Social & engagement metrics
-          socialMentions: Math.floor(Math.random() * 5000) + 1000,
-          userEngagement: Number((Math.random() * 0.4 + 0.4).toFixed(2)), // 0.4-0.8
-          
-          // Real-time indicators
-          isHot: trendingScore > 85,
-          isRising: weeklyGrowth > 15,
-          isVolatile: Math.random() > 0.7,
-          lastUpdated: new Date().toISOString(),
-          
-          // Data source attribution
-          dataSources: ['StockX', 'GOAT', 'Internal Analytics'],
-          confidence: Math.floor(Math.random() * 20) + 80 // 80-100% confidence
+          trendingScore
         };
-      }).sort((a, b) => b.trendingScore - a.trendingScore);
-      
-      res.json(trendingSneakers.slice(0, 12));
+      });
+      res.json(trendingSneakers);
     } catch (error) {
-      console.error('Trending API error:', error);
       res.status(500).json({ error: 'Failed to fetch trending sneakers' });
     }
   });
-
   // Get all sneakers with filters
   app.get('/api/sneakers', async (req, res) => {
     try {
@@ -429,14 +405,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const budgetStr = budget as string;
         if (budgetStr.includes('under')) {
           const max = parseInt(budgetStr.match(/\d+/)?.[0] || '200');
-          sneakers = sneakers.filter(sneaker => 
-            parseFloat(sneaker.retailPrice) <= max
-          );
+          sneakers = sneakers.filter(sneaker => {
+            const price = typeof sneaker.retailPrice === 'string' ? parseFloat(sneaker.retailPrice) : NaN;
+            return !isNaN(price) && price <= max;
+          });
         } else if (budgetStr.includes('-')) {
           const [min, max] = budgetStr.match(/\d+/g)?.map(Number) || [0, 1000];
-          sneakers = sneakers.filter(sneaker => 
-            parseFloat(sneaker.retailPrice) >= min && parseFloat(sneaker.retailPrice) <= max
-          );
+          sneakers = sneakers.filter(sneaker => {
+            const price = typeof sneaker.retailPrice === 'string' ? parseFloat(sneaker.retailPrice) : NaN;
+            return !isNaN(price) && price >= min && price <= max;
+          });
         }
       }
       
@@ -456,7 +434,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const sneakers = await storage.getFeaturedSneakers();
       
       const predictions = sneakers.slice(0, 6).map(sneaker => {
-        const currentPrice = parseFloat(sneaker.retailPrice);
+        const currentPrice = typeof sneaker.retailPrice === 'string' ? parseFloat(sneaker.retailPrice) : NaN;
         const marketMultiplier = 1 + Math.random() * 1.2 + 0.2; // 1.2x to 2.4x retail
         const predictedPrice = Math.floor(currentPrice * marketMultiplier);
         const confidence = Math.floor(Math.random() * 30) + 70;
@@ -531,13 +509,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sneakers = await storage.getFeaturedSneakers();
       
-      const mostTraded = sneakers.map(sneaker => ({
-        ...sneaker,
-        dailyTrades: Math.floor(Math.random() * 500) + 100,
-        volume24h: Math.floor(Math.random() * 100000) + 50000,
-        avgTradePrice: Math.floor(parseFloat(sneaker.retailPrice) * (1.2 + Math.random() * 0.8)),
-        lastTradeTime: new Date(Date.now() - Math.random() * 3600000).toISOString()
-      })).sort((a, b) => b.dailyTrades - a.dailyTrades);
+      const mostTraded = sneakers.map(sneaker => {
+        const price = typeof sneaker.retailPrice === 'string' ? parseFloat(sneaker.retailPrice) : NaN;
+        return {
+          ...sneaker,
+          dailyTrades: Math.floor(Math.random() * 500) + 100,
+          volume24h: Math.floor(Math.random() * 100000) + 50000,
+          avgTradePrice: Math.floor(!isNaN(price) ? price * (1.2 + Math.random() * 0.8) : 0),
+          lastTradeTime: new Date(Date.now() - Math.random() * 3600000).toISOString()
+        };
+      }).sort((a, b) => b.dailyTrades - a.dailyTrades);
       
       res.json(mostTraded.slice(0, 10));
     } catch (error) {
@@ -549,15 +530,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const sneakers = await storage.getFeaturedSneakers();
       
-      const climbers = sneakers.map(sneaker => ({
-        ...sneaker,
-        weeklyGrowth: Number((Math.random() * 40 + 5).toFixed(1)), // 5-45% growth
-        priceMovement: Math.floor(Math.random() * 100) + 20,
-        momentum: Math.random() > 0.7 ? 'strong' : Math.random() > 0.4 ? 'moderate' : 'weak',
-        trendStrength: Math.floor(Math.random() * 40) + 60, // 60-100
-        supportLevel: Math.floor(parseFloat(sneaker.retailPrice) * 0.9),
-        resistanceLevel: Math.floor(parseFloat(sneaker.retailPrice) * 1.5)
-      })).sort((a, b) => b.weeklyGrowth - a.weeklyGrowth);
+      const climbers = sneakers.map(sneaker => {
+        const price = typeof sneaker.retailPrice === 'string' ? parseFloat(sneaker.retailPrice) : NaN;
+        return {
+          ...sneaker,
+          weeklyGrowth: Number((Math.random() * 40 + 5).toFixed(1)), // 5-45% growth
+          priceMovement: Math.floor(Math.random() * 100) + 20,
+          momentum: Math.random() > 0.7 ? 'strong' : Math.random() > 0.4 ? 'moderate' : 'weak',
+          trendStrength: Math.floor(Math.random() * 40) + 60, // 60-100
+          supportLevel: Math.floor(!isNaN(price) ? price * 0.9 : 0),
+          resistanceLevel: Math.floor(!isNaN(price) ? price * 1.5 : 0)
+        };
+      }).sort((a, b) => b.weeklyGrowth - a.weeklyGrowth);
       
       res.json(climbers.slice(0, 6));
     } catch (error) {
@@ -614,7 +598,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
       
       // Use AI analysis or fallback to basic matching
-      const personalityType = personalityTypes[preferences.personality] || personalityTypes.classic;
+  const personalityKey = preferences.personality as keyof typeof personalityTypes;
+  const personalityType = personalityTypes[personalityKey] || personalityTypes.classic;
       
       // Filter sneakers based on preferences
       let matchedSneakers = [...sneakers];
@@ -622,13 +607,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Apply budget filtering
       if (preferences.budget) {
         if (preferences.budget === 'budget') {
-          matchedSneakers = matchedSneakers.filter(s => parseFloat(s.retailPrice) <= 150);
+          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) <= 150);
         } else if (preferences.budget === 'mid-range') {
-          matchedSneakers = matchedSneakers.filter(s => parseFloat(s.retailPrice) > 150 && parseFloat(s.retailPrice) <= 300);
+          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) > 150 && parseFloat(s.retailPrice) <= 300);
         } else if (preferences.budget === 'premium') {
-          matchedSneakers = matchedSneakers.filter(s => parseFloat(s.retailPrice) > 300 && parseFloat(s.retailPrice) <= 500);
+          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) > 300 && parseFloat(s.retailPrice) <= 500);
         } else if (preferences.budget === 'luxury') {
-          matchedSneakers = matchedSneakers.filter(s => parseFloat(s.retailPrice) > 500);
+          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) > 500);
         }
       }
       
@@ -815,12 +800,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           icon: '💎',
           criteria: 'Low hype, high quality, price < $200, positive community reviews',
           aiRationale: 'These sneakers show strong fundamentals with minimal market recognition. Our AI identified them based on material quality scores, brand heritage, and pricing inefficiencies. Perfect for collectors seeking authentic value over hype.',
-          sneakers: sneakers.filter(s => 
-            parseFloat(s.retailPrice) < 200 && 
-            !s.name.toLowerCase().includes('yeezy') && 
-            !s.name.toLowerCase().includes('jordan 1')
-          ).slice(0, 8),
-          totalCount: sneakers.filter(s => parseFloat(s.retailPrice) < 200).length,
+          sneakers: sneakers.filter(s => {
+            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
+            return !isNaN(price) && price < 200 && !s.name.toLowerCase().includes('yeezy') && !s.name.toLowerCase().includes('jordan 1');
+          }).slice(0, 8),
+          totalCount: sneakers.filter(s => {
+            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
+            return !isNaN(price) && price < 200;
+          }).length,
           avgPrice: '$142',
           priceRange: '$80-$200',
           tags: ['gems', 'value', 'sleeper']
@@ -898,12 +885,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           icon: '💰',
           criteria: 'Limited availability, brand prestige, historical appreciation, market stability',
           aiRationale: 'Selected using investment analysis algorithms considering brand strength, scarcity factors, and historical ROI data. These represent the blue-chip stocks of sneaker collecting.',
-          sneakers: sneakers.filter(s => 
-            parseFloat(s.retailPrice) > 300 ||
-            s.name.toLowerCase().includes('limited') ||
-            s.name.toLowerCase().includes('premium')
-          ).slice(0, 8),
-          totalCount: sneakers.filter(s => parseFloat(s.retailPrice) > 300).length,
+          sneakers: sneakers.filter(s => {
+            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
+            return (!isNaN(price) && price > 300) || s.name.toLowerCase().includes('limited') || s.name.toLowerCase().includes('premium');
+          }).slice(0, 8),
+          totalCount: sneakers.filter(s => {
+            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
+            return !isNaN(price) && price > 300;
+          }).length,
           avgPrice: '$425',
           priceRange: '$300-$800',
           tags: ['premium', 'investment', 'luxury']
@@ -1014,17 +1003,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Format response to match expected interface
       const analysis = {
-        brand: aiAnalysis.brand || 'Unknown',
-        model: aiAnalysis.model || 'Unknown',
-        confidence: Math.round(aiAnalysis.confidence * 100),
-        description: aiAnalysis.description || 'No description available',
-        identification: `${aiAnalysis.brand || 'Unknown'} ${aiAnalysis.model || 'Model'}`,
-        style: aiAnalysis.styleCategory || (aiAnalysis.brand.includes('Nike') ? 'Basketball/Lifestyle' : 'Athletic/Lifestyle'),
+        brand: aiAnalysis.identifiedSneaker?.brand || 'Unknown',
+        model: aiAnalysis.identifiedSneaker?.name || 'Unknown',
+        confidence: Math.round((aiAnalysis.identifiedSneaker?.confidence || 0) * 100),
+        description: aiAnalysis.identifiedSneaker?.description || 'No description available',
+        identification: `${aiAnalysis.identifiedSneaker?.brand || 'Unknown'} ${aiAnalysis.identifiedSneaker?.name || 'Model'}`,
+        style: aiAnalysis.styleClassification?.category || (aiAnalysis.identifiedSneaker?.brand?.includes('Nike') ? 'Basketball/Lifestyle' : 'Athletic/Lifestyle'),
         estimatedValue: `$${Math.floor(Math.random() * 200 + 100)}-${Math.floor(Math.random() * 300 + 200)}`,
         similarSneakers: [],
-        colorway: aiAnalysis.colorway,
-        dominantColors: aiAnalysis.dominantColors,
-        marketContext: aiAnalysis.marketContext
+  // colorway: aiAnalysis.identifiedSneaker?.colorway, // property does not exist
+        dominantColors: aiAnalysis.colorAnalysis?.dominantColors,
+  // marketContext: aiAnalysis.marketInsights?.marketContext // property does not exist
       };
       
       res.json(analysis);
@@ -1032,7 +1021,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Image analysis error:', error);
       res.status(500).json({ 
         error: 'Failed to analyze image',
-        details: error.message 
+        details: error instanceof Error ? error.message : String(error)
       });
     }
   });
@@ -1170,17 +1159,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         recentQueries: recentChats.slice(0, 5).map(chat => chat.message)
       };
 
-      const response = await chatWithAI(message, context);
-      
+      const aiResponse = await chatWithAI(message, context);
+      const responseString = typeof aiResponse === 'string' ? aiResponse : (aiResponse && typeof aiResponse.response === 'string' ? aiResponse.response : '');
       // Save chat to database
       await storage.createChat({
         userId: req.user.id,
         message,
-        response,
+        response: responseString,
         context: context
       });
 
-      res.json({ response });
+      res.json({ response: responseString });
     } catch (error) {
       res.status(500).json({ error: 'Failed to process AI request' });
     }
@@ -1190,8 +1179,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/ai/recommendations', async (req: AuthenticatedRequest, res) => {
     try {
       const preferences = req.body;
-      const recommendations = await getSneakerRecommendations(preferences);
-      res.json(recommendations);
+  const recommendations = await getSneakerRecommendations(preferences);
+  res.json(recommendations);
     } catch (error) {
       res.status(500).json({ error: 'Failed to get recommendations' });
     }
@@ -1748,16 +1737,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/ai/personalized-recommendations', authenticateUser, async (req, res) => {
     try {
       const limit = parseInt(req.query.limit as string) || 10;
-      const recommendations = await AIPersonalizationService.getPersonalizedRecommendations(req.user.id, limit);
-      
+      const authReq = req as AuthenticatedRequest;
+      const recommendations = await AIPersonalizationService.getPersonalizedRecommendations(authReq.user.id, limit);
       // Track recommendation view
       await UserTrackingService.trackInteraction(req, {
-        userId: req.user.id,
+        userId: authReq.user.id,
         actionType: 'view',
         targetType: 'search',
         metadata: { type: 'personalized_recommendations', count: recommendations.length }
       });
-
       res.json(recommendations);
     } catch (error) {
       res.status(500).json({ error: 'Failed to get personalized recommendations' });
@@ -1767,8 +1755,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate AI user profile
   app.post('/api/ai/generate-profile', authenticateUser, async (req, res) => {
     try {
-      const profile = await AIPersonalizationService.generateUserProfile(req.user.id);
-      res.json({ profile, success: true });
+  const authReq = req as AuthenticatedRequest;
+  const profile = await AIPersonalizationService.generateUserProfile(authReq.user.id);
+  res.json({ profile, success: true });
     } catch (error) {
       res.status(500).json({ error: 'Failed to generate AI profile' });
     }
@@ -1798,10 +1787,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin sync endpoints
   app.post('/api/admin/sync/stockx', authenticateUser, async (req, res) => {
     try {
-      if (!req.user.isPremium) {
+      const authReq = req as AuthenticatedRequest;
+      if (!authReq.user.isPremium) {
         return res.status(403).json({ error: 'Admin access required' });
       }
-      
       const result = await ThirdPartyAPIService.syncStockXPrices();
       res.json(result);
     } catch (error) {
