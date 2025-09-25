@@ -47,6 +47,7 @@ export default function Navbar() {
   { name: 'Sneaker Map', href: '/sneaker-map', icon: Map }
   ];
 
+
   return (
     <header
       ref={navRef}
@@ -111,7 +112,6 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            
             {/* AI Features Dropdown */}
             <div 
               style={{ position: 'relative' }}

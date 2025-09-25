@@ -1,0 +1,2 @@
+# Run sneaker data aggregation every 6 hours
+0 */6 * * * bash /workspaces/SoleGrithm/server/jobs/aggregate-sneaker-data-cron.sh

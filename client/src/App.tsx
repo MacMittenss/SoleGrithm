@@ -108,9 +108,7 @@ function App() {
                   <Route path="/trend-map" component={TrendMap} />
                   <Route path="/sneaker-map" component={TrendMap} />
                   <Route path="/testing" component={Testing} />
-                  <Route path="/women-in-sneakers">
-                    {() => { window.location.href = '/women-in-sneakers.html'; return null; }}
-                  </Route>
+                  <Route path="/women-in-sneakers" component={WomenInSneakers} />
                   <Route component={NotFound} />
                 </Switch>
                 </PageTransition>

@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import "./index.css";
+import "./output.css";
 
 // Enable Anton typography site-wide
 document.body.classList.add('anton-all');

@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Beatrice+Deck+Trial:wght@400;500;700&family=Beatrice+Trial:wght@400&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap');
+@import "../public/women-in-sneakers-assets/css/normalize.css";
+@import "../public/women-in-sneakers-assets/css/webflow.css";
+@import "../public/women-in-sneakers-assets/css/marcuss-wondrous-site-df7036.webflow.css";
 
 /* Work Sans SemiBold font definitions */
 @font-face {
@@ -1923,3 +1926,8 @@ button, input, textarea, select {
     animation-duration: 12s;
   }
 }
+
+/* Importing WomenInSneakers template CSS files */
+@import "/women-in-sneakers-assets/css/normalize.css";
+@import "/women-in-sneakers-assets/css/webflow.css";
+@import "/women-in-sneakers-assets/css/marcuss-wondrous-site-df7036.webflow.css";

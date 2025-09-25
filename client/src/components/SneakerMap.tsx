@@ -1,3 +1,48 @@
+// Mock data for development/demo
+const mockRegions: MapRegion[] = [
+  {
+    name: 'New York',
+    coordinates: [-74.006, 40.7128],
+    totalActivity: 90,
+    trends: [
+      {
+        id: 1,
+        city: 'New York',
+        state: 'NY',
+        coordinates: [-74.006, 40.7128],
+        sneakerId: 101,
+        sneakerName: 'Air Jordan 1',
+        brand: 'Nike',
+        trendScore: 95,
+        priceChange: 5,
+        searchVolume: 1000,
+        popularityRank: 1,
+        imageUrl: ''
+      }
+    ]
+  },
+  {
+    name: 'Los Angeles',
+    coordinates: [-118.2437, 34.0522],
+    totalActivity: 70,
+    trends: [
+      {
+        id: 2,
+        city: 'Los Angeles',
+        state: 'CA',
+        coordinates: [-118.2437, 34.0522],
+        sneakerId: 102,
+        sneakerName: 'Yeezy Boost 350',
+        brand: 'Adidas',
+        trendScore: 80,
+        priceChange: 3,
+        searchVolume: 800,
+        popularityRank: 2,
+        imageUrl: ''
+      }
+    ]
+  }
+];
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -33,128 +78,23 @@ const SneakerMap: React.FC = () => {
   const [mapData, setMapData] = useState<MapRegion[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Mock data for demonstration - in real app this would come from API
-  const mockRegions: MapRegion[] = [
-    {
-      name: "New York City",
-      coordinates: [-74.006, 40.7128],
-      totalActivity: 89,
-      trends: [
-        {
-          id: 1,
-          city: "New York",
-          state: "NY",
-          coordinates: [-74.006, 40.7128],
-          sneakerId: 1,
-          sneakerName: "Nike Dunk Low",
-          brand: "Nike",
-          trendScore: 95,
-          priceChange: 12.5,
-          searchVolume: 15420,
-          popularityRank: 1,
-          imageUrl: "/api/placeholder/400/300"
-        },
-        {
-          id: 2,
-          city: "New York",
-          state: "NY",
-          coordinates: [-74.006, 40.7128],
-          sneakerId: 2,
-          sneakerName: "Jordan 1 High",
-          brand: "Nike",
-          trendScore: 87,
-          priceChange: 8.2,
-          searchVolume: 12350,
-          popularityRank: 2,
-          imageUrl: "/api/placeholder/400/300"
-        }
-      ]
-    },
-    {
-      name: "Atlanta",
-      coordinates: [-84.388, 33.7490],
-      totalActivity: 76,
-      trends: [
-        {
-          id: 3,
-          city: "Atlanta",
-          state: "GA",
-          coordinates: [-84.388, 33.7490],
-          sneakerId: 3,
-          sneakerName: "Adidas Yeezy 350",
-          brand: "Adidas",
-          trendScore: 92,
-          priceChange: 15.8,
-          searchVolume: 18750,
-          popularityRank: 1,
-          imageUrl: "/api/placeholder/400/300"
-        }
-      ]
-    },
-    {
-      name: "Los Angeles",
-      coordinates: [-118.2437, 34.0522],
-      totalActivity: 82,
-      trends: [
-        {
-          id: 4,
-          city: "Los Angeles",
-          state: "CA",
-          coordinates: [-118.2437, 34.0522],
-          sneakerId: 4,
-          sneakerName: "Travis Scott Jordan 1",
-          brand: "Nike",
-          trendScore: 98,
-          priceChange: 22.1,
-          searchVolume: 21500,
-          popularityRank: 1,
-          imageUrl: "/api/placeholder/400/300"
-        }
-      ]
-    },
-    {
-      name: "Chicago",
-      coordinates: [-87.6298, 41.8781],
-      totalActivity: 71,
-      trends: [
-        {
-          id: 5,
-          city: "Chicago",
-          state: "IL",
-          coordinates: [-87.6298, 41.8781],
-          sneakerId: 5,
-          sneakerName: "Jordan 1 Chicago",
-          brand: "Nike",
-          trendScore: 89,
-          priceChange: 5.7,
-          searchVolume: 9800,
-          popularityRank: 1,
-          imageUrl: "/api/placeholder/400/300"
-        }
-      ]
-    },
-    {
-      name: "Miami",
-      coordinates: [-80.1918, 25.7617],
-      totalActivity: 65,
-      trends: [
-        {
-          id: 6,
-          city: "Miami",
-          state: "FL",
-          coordinates: [-80.1918, 25.7617],
-          sneakerId: 6,
-          sneakerName: "Off-White x Nike",
-          brand: "Nike",
-          trendScore: 85,
-          priceChange: 18.3,
-          searchVolume: 14200,
-          popularityRank: 1,
-          imageUrl: "/api/placeholder/400/300"
-        }
-      ]
+  // Fetch live sneaker data from backend API
+  async function fetchMapData() {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/sneaker-map');
+      const data = await response.json();
+      setMapData(data);
+    } catch (error) {
+      console.error('Error loading sneaker map data:', error);
+      setMapData([]);
     }
-  ];
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchMapData();
+  }, []);
 
   useEffect(() => {
     // For now, load mock data - in future could connect to real API
@@ -218,9 +158,9 @@ const SneakerMap: React.FC = () => {
               </Tabs>
             </div>
           </CardHeader>
-          <CardContent>
-            {/* SVG Map of US */}
-            <div className="relative w-full h-96 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
+            <CardContent>
+              {/* SVG Map of US */}
+              <div className="relative w-full h-96 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden" style={{ background: '#181818', color: '#fff' }}>
               <svg
                 viewBox="0 0 1000 600"
                 className="w-full h-full"
@@ -288,7 +228,7 @@ const SneakerMap: React.FC = () => {
               </svg>
               
               {/* Legend */}
-              <div className="absolute bottom-4 left-4 bg-white dark:bg-gray-800 rounded-lg p-3 shadow-lg">
+              <div className="absolute bottom-4 left-4" style={{ background: '#181818', color: '#fff', borderRadius: '12px', padding: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>
                 <div className="text-sm font-semibold mb-2">Activity Level</div>
                 <div className="flex items-center gap-2 text-xs">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -324,7 +264,7 @@ const SneakerMap: React.FC = () => {
                 {mapData
                   .find(r => r.name === selectedRegion)
                   ?.trends.map((trend) => (
-                    <div key={trend.id} className="border rounded-lg p-3 space-y-2">
+                    <div key={trend.id} style={{ border: '1px solid #222', borderRadius: '12px', padding: '12px', background: '#181818', color: '#fff', marginBottom: '1rem' }}>
                       <div className="flex items-center justify-between">
                         <div className="font-semibold text-sm">{trend.sneakerName}</div>
                         <Badge variant="secondary">#{trend.popularityRank}</Badge>
@@ -352,7 +292,7 @@ const SneakerMap: React.FC = () => {
                   ))}
               </div>
             ) : (
-              <div className="text-center text-gray-500 py-8">
+              <div className="text-center" style={{ color: '#ccc', padding: '2rem 0' }}>
                 <MapPin className="w-12 h-12 mx-auto mb-3 opacity-50" />
                 <p>Click on a city to see trending sneakers in that area</p>
               </div>
@@ -371,7 +311,7 @@ const SneakerMap: React.FC = () => {
             {mapData.slice(0, 4).map((region) => {
               const topTrend = region.trends[0];
               return (
-                <div key={region.name} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <div key={region.name} style={{ border: '1px solid #222', borderRadius: '12px', padding: '16px', background: '#181818', color: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.4)', marginBottom: '1rem' }}>
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-semibold">{region.name}</h3>
                     <div className={`w-3 h-3 rounded-full ${getHeatmapColor(region.totalActivity)}`}></div>

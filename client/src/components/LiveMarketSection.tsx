@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 import { TrendingUp, ArrowRight, Zap } from 'lucide-react';
+import MarqueeText from '@/components/advanced/MarqueeText';
 
 const LiveMarketSection = () => {
   const sectionRef = useRef(null);
@@ -177,51 +178,19 @@ const LiveMarketSection = () => {
             }}
             variants={itemVariants}
           >
-            {/* Header with gradient text styling from uploaded file */}
-            <motion.div 
-              className="mb-8 sm:mb-12"
-              variants={itemVariants}
-            >
-              <motion.div
-                className="inline-flex items-center gap-2 mb-4"
-                variants={itemVariants}
-              >
-                <motion.div 
-                  className="w-6 h-6 rounded-full"
-                  style={{
-                    background: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)"
-                  }}
-                  whileHover={{ 
-                    scale: 1.2, 
-                    rotate: [0, 180, 360]
-                  }}
-                  transition={{ duration: 0.8 }}
-                />
-                <span className="text-sm font-medium tracking-wide uppercase">Live Market</span>
-              </motion.div>
-              
-              <motion.div variants={itemVariants}>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-4">
-                  <span>Real-time Market&nbsp;</span>
-                  <span 
-                    className="font-bold"
-                    style={{
-                      fontWeight: 700,
-                      color: "transparent",
-                      backgroundImage: "linear-gradient(to right, #ff2900 0%, #fe7a60 61%, #581dff 100%)",
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text"
-                    }}
-                  >
-                    Intelligence
-                  </span>
-                </h2>
-                <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                  Advanced pricing analytics and market intelligence powered by real-time data 
-                  from all major sneaker platforms worldwide.
-                </p>
-              </motion.div>
-            </motion.div>
+            {/* Moving Market Insights Header */}
+            <div className="mb-8 sm:mb-12">
+              <MarqueeText
+                text="Market Insights"
+                className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-4 bg-gradient-to-r from-[#ff2900] via-[#fe7a60] to-[#581dff] bg-clip-text text-transparent uppercase"
+                speed={0.7}
+                direction="left"
+              />
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed mt-4">
+                Advanced pricing analytics and market intelligence powered by real-time data 
+                from all major sneaker platforms worldwide.
+              </p>
+            </div>
 
             {/* Description */}
             <motion.p 

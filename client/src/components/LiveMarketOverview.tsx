@@ -74,9 +74,12 @@ export function LiveMarketOverview() {
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
+  // Fetch all sneakers for full live market display
   const { data: sneakers, isLoading: sneakersLoading } = useQuery<Sneaker[]>({
-    queryKey: ['/api/sneakers/featured'],
+    queryKey: ['/api/sneakers'],
+    queryFn: () => fetch('/api/sneakers').then(res => res.json()),
     refetchOnWindowFocus: false,
+    refetchInterval: 60000,
   });
 
   const { data: brands } = useQuery<{ id: number; name: string; slug: string }[]>({
@@ -117,7 +120,7 @@ export function LiveMarketOverview() {
         </p>
       </motion.div>
 
-      {/* Stats Section */}
+      {/* Stats Section (using all sneakers) */}
       <motion.section
         {...fadeIn}
         className="space-y-8"
@@ -125,44 +128,49 @@ export function LiveMarketOverview() {
         <h2 className="text-2xl font-semibold uppercase tracking-wide text-white">
           MARKET OVERVIEW
         </h2>
-        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Average Price */}
           <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Avg Price</p>
               <p className="text-3xl font-bold text-white">
-                {overview ? formatPrice(overview.avgPrice) : '--'}
+                {sneakers && sneakers.length > 0
+                  ? (() => {
+                      const valid = sneakers.filter(s => typeof s.retailPrice === 'number' && !isNaN(s.retailPrice));
+                      if (!valid.length) return '--';
+                      const avg = valid.reduce((sum, s) => sum + s.retailPrice, 0) / valid.length;
+                      return formatPrice(avg);
+                    })()
+                  : '--'}
               </p>
             </div>
           </div>
-
           {/* Price Range */}
           <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Price Range</p>
               <p className="text-xl font-bold text-white">
-                {overview ? `${formatPrice(overview.priceRange.min)} - ${formatPrice(overview.priceRange.max)}` : '--'}
+                {sneakers && sneakers.length > 0
+                  ? `${formatPrice(Math.min(...sneakers.map(s => s.retailPrice || 0)))} - ${formatPrice(Math.max(...sneakers.map(s => s.retailPrice || 0)))}`
+                  : '--'}
               </p>
             </div>
           </div>
-
-          {/* Market Sentiment */}
+          {/* Market Sentiment (placeholder) */}
           <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Sentiment</p>
               <p className="text-xl font-bold text-white capitalize">
-                {overview?.marketSentiment || 'Neutral'}
+                {sneakers && sneakers.length > 0 ? 'Live' : 'Neutral'}
               </p>
             </div>
           </div>
-
           {/* Tracked Items */}
           <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Tracked Items</p>
               <p className="text-3xl font-bold text-white">
-                {overview?.totalItems || '--'}
+                {sneakers ? sneakers.length : '--'}
               </p>
             </div>
           </div>

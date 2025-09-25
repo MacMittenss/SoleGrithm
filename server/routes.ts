@@ -290,7 +290,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get trending sneakers with real-time market data
   app.get('/api/sneakers/trending', async (req, res) => {
     try {
-      const sneakers = await storage.getFeaturedSneakers();
+      // Fetch all sneakers for trending, not just featured
+      const sneakers = await storage.searchSneakers('', {});
       // Enhanced trending algorithm with market intelligence
       const trendingSneakers = sneakers.map((sneaker, index) => {
         // Simulate real market data patterns
