@@ -1,4 +1,4 @@
-import { users, brands, sneakers, collections, reviews, priceHistory, blogPosts, aiChats, geographicTrends } from "@shared/schema";
+import { users, brands, sneakers, collections, reviews, priceHistory, blogPosts, aiChats, geographicTrends, aggregationProgress } from "@shared/schema";
 import type { 
   User, InsertUser, Brand, InsertBrand, Sneaker, InsertSneaker, SneakerWithBrand,
   Collection, InsertCollection, Review, InsertReview, 
@@ -12,6 +12,9 @@ export interface IStorage {
   // Users
   getUser(id: number): Promise<User | undefined>;
   getUserByFirebaseUid(firebaseUid: string): Promise<User | undefined>;
+  // Aggregation Progress
+  getAggregationProgress(jobName: string): Promise<any>;
+  setAggregationProgress(jobName: string, brand?: string, batch?: number, sneakerId?: number): Promise<void>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<InsertUser>): Promise<User>;
@@ -69,6 +72,25 @@ export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user || undefined;
+  }
+
+  // Aggregation Progress
+  async getAggregationProgress(jobName: string): Promise<any> {
+    const result = await db.select().from(aggregationProgress).where(eq(aggregationProgress.jobName, jobName)).orderBy(desc(aggregationProgress.lastUpdated)).limit(1);
+    return result[0] || undefined;
+  }
+
+  async setAggregationProgress(jobName: string, brand?: string, batch?: number, sneakerId?: number): Promise<void> {
+    // Upsert progress for the job
+    const existing = await this.getAggregationProgress(jobName);
+    if (existing) {
+      await db.update(aggregationProgress)
+        .set({ brand, batch, sneakerId, lastUpdated: new Date() })
+        .where(eq(aggregationProgress.jobName, jobName));
+    } else {
+      await db.insert(aggregationProgress)
+        .values({ jobName, brand, batch, sneakerId, lastUpdated: new Date() });
+    }
   }
 
   async getUserByFirebaseUid(firebaseUid: string): Promise<User | undefined> {
@@ -237,7 +259,21 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createSneaker(insertSneaker: InsertSneaker): Promise<Sneaker> {
-    const [sneaker] = await db.insert(sneakers).values(insertSneaker).returning();
+    // Ensure array fields are always arrays
+    const safeSneaker = {
+      ...insertSneaker,
+      images: Array.isArray(insertSneaker.images) ? insertSneaker.images : (insertSneaker.images ? [insertSneaker.images] : []),
+      categories: Array.isArray(insertSneaker.categories) ? insertSneaker.categories : (insertSneaker.categories ? [insertSneaker.categories] : []),
+      sizes: Array.isArray(insertSneaker.sizes) ? insertSneaker.sizes : (insertSneaker.sizes ? [insertSneaker.sizes] : []),
+    };
+    const [sneaker] = await db
+      .insert(sneakers)
+      .values(safeSneaker)
+      .onConflictDoUpdate({
+        target: [sneakers.slug],
+        set: safeSneaker
+      })
+      .returning();
     return sneaker;
   }
 

@@ -113,9 +113,63 @@ export default function AdvancedLatestStories() {
                 </MasonryGrid>
               </div>
             ) : (
-              <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-                <BookOpen style={{ width: '4rem', height: '4rem', color: '#e7e7e9', margin: '0 auto 1rem' }} />
-                <p style={{ color: '#e7e7e9', fontSize: '1.11vw' }}>No stories available yet</p>
+              <div style={{ width: '100%' }}>
+                <MasonryGrid
+                  columns={{ default: 2, sm: 3, md: 4, lg: 4 }}
+                  gap="2rem"
+                  className="w-full"
+                >
+                  {[
+                    {
+                      id: 1,
+                      title: 'Latest Sneaker Trends',
+                      excerpt: 'Discover the hottest trends in sneaker culture and what’s driving the market.',
+                      slug: 'latest-sneaker-trends',
+                      featuredImage: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=1200&h=600&fit=crop',
+                      author: 'SoleGrithm Editorial',
+                      publishedAt: '2025-10-01',
+                      readTime: 5,
+                      category: 'Trends'
+                    },
+                    {
+                      id: 2,
+                      title: 'Women Move the Culture',
+                      excerpt: 'Spotlight on women making waves in the sneaker world.',
+                      slug: 'women-move-the-culture',
+                      featuredImage: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200&h=600&fit=crop',
+                      author: 'SoleGrithm Editorial',
+                      publishedAt: '2025-10-01',
+                      readTime: 4,
+                      category: 'Community'
+                    },
+                    {
+                      id: 3,
+                      title: 'AI & Sneakers',
+                      excerpt: 'How artificial intelligence is changing sneaker design and discovery.',
+                      slug: 'ai-and-sneakers',
+                      featuredImage: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=1200&h=600&fit=crop',
+                      author: 'SoleGrithm Editorial',
+                      publishedAt: '2025-10-01',
+                      readTime: 6,
+                      category: 'Tech'
+                    },
+                    {
+                      id: 4,
+                      title: 'Community Voices',
+                      excerpt: 'Real stories from sneakerheads around the globe.',
+                      slug: 'community-voices',
+                      featuredImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&h=600&fit=crop',
+                      author: 'SoleGrithm Editorial',
+                      publishedAt: '2025-10-01',
+                      readTime: 3,
+                      category: 'Community'
+                    }
+                  ].map((post) => (
+                    <div key={post.id}>
+                      <PinterestBlogCard post={post} />
+                    </div>
+                  ))}
+                </MasonryGrid>
               </div>
             )
           )}

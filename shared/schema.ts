@@ -1,4 +1,13 @@
 import { pgTable, text, serial, integer, boolean, timestamp, decimal, jsonb } from "drizzle-orm/pg-core";
+// Progress table for aggregation resume feature
+export const aggregationProgress = pgTable("aggregation_progress", {
+  id: serial("id").primaryKey(),
+  jobName: text("job_name").notNull().unique(),
+  brand: text("brand"),
+  batch: integer("batch"),
+  sneakerId: integer("sneaker_id"),
+  lastUpdated: timestamp("last_updated").defaultNow()
+});
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";

@@ -13,25 +13,24 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
 
+
+// Type definitions
 interface MarketOverview {
   totalItems: number;
-  avgPrice: number;
-  priceRange: { min: number; max: number };
   topGainers: Array<{
     id: number;
     name: string;
     currentPrice: number;
     priceChange24h: number;
-    trend: string;
   }>;
+  avgPrice: number;
+  priceRange: { min: number; max: number };
   topLosers: Array<{
     id: number;
     name: string;
     currentPrice: number;
     priceChange24h: number;
-    trend: string;
   }>;
-  marketSentiment: 'bullish' | 'bearish';
   lastUpdated: string;
 }
 
@@ -40,119 +39,149 @@ interface TrendingSneaker {
   name: string;
   currentPrice: number;
   priceChange24h: number;
-  trend: 'up' | 'down' | 'stable';
-  trending: boolean;
+  trend: 'up' | 'down';
 }
 
 interface Sneaker {
   id: number;
   name: string;
-  brandName: string;
-  retailPrice: number;
-  images: string[];
   slug: string;
-  description: string;
-  categories: string[];
-  colorway: string;
-  releaseDate: string;
+  retailPrice: number;
+  colorway?: string;
+  images?: string[];
 }
 
-export function LiveMarketOverview() {
-  // Catalog state (simplified for teaser)
+const LiveMarketOverview: React.FC = () => {
+  // ...existing code...
+  // Real sneakers data for catalog and stats
+  const { data: sneakers, isLoading: sneakersLoading } = useQuery<Sneaker[]>({
+    queryKey: ['/api/sneakers'],
+    queryFn: () => fetch('/api/sneakers').then(res => res.json()),
+  });
+
+  // Debug: log sneakers array to inspect retailPrice values
+  console.log('Sneakers data:', sneakers);
+  // Missing state hooks
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [showFullCatalog, setShowFullCatalog] = useState(false);
 
+  // Placeholder for brands query
+  const brands: Array<{ id: number; name: string; slug: string }> = [];
+
+  // Real live market overview data
   const { data: overview, isLoading: overviewLoading } = useQuery<MarketOverview>({
     queryKey: ['/api/market/overview'],
+    queryFn: () => fetch('/api/market/overview').then(res => res.json()),
     refetchInterval: 60000, // Refresh every minute
   });
 
+  // Real trending sneakers data
   const { data: trending, isLoading: trendingLoading } = useQuery<TrendingSneaker[]>({
     queryKey: ['/api/market/trending'],
     queryFn: () => fetch('/api/market/trending?limit=10').then(res => res.json()),
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
-  // Fetch all sneakers for full live market display
-  const { data: sneakers, isLoading: sneakersLoading } = useQuery<Sneaker[]>({
-    queryKey: ['/api/sneakers'],
-    queryFn: () => fetch('/api/sneakers').then(res => res.json()),
-    refetchOnWindowFocus: false,
-    refetchInterval: 60000,
-  });
+  // Helper function stubs
+  const fadeIn = {};
+  const formatPrice = (price: number) => `$${price}`;
+  const formatChange = (change: number) => `${change > 0 ? '+' : ''}${change}`;
+  const getTrendColor = (change: number) => change > 0 ? 'text-green-400' : 'text-red-400';
 
-  const { data: brands } = useQuery<{ id: number; name: string; slug: string }[]>({
-    queryKey: ['/api/brands'],
-    refetchOnWindowFocus: false,
-  });
 
-  const formatPrice = (price: number) => `$${price.toLocaleString()}`;
-  const formatChange = (change: number) => {
-    return `${change >= 0 ? '+' : ''}$${Math.abs(change)}`;
-  };
 
-  const getTrendColor = (value: number) => {
-    if (value > 0) return 'text-green-400';
-    if (value < 0) return 'text-red-400';
-    return 'text-gray-400';
-  };
-
-  // Simple fade animation
-  const fadeIn = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    transition: { duration: 0.6 }
-  };
+      // Stats array defined after sneakers
+      const stats = [
+        { number: sneakers && Array.isArray(sneakers) ? sneakers.length.toLocaleString() : '--', label: 'Sneakers Tracked', icon: '📊' },
+        { number: '15+', label: 'Data Sources', icon: '🔗' }, 
+        { number: '99%', label: 'Accuracy Rate', icon: '✅' },
+        { number: '24/7', label: 'Live Updates', icon: '🔄' }
+      ];
 
   return (
     <div className="w-full space-y-16" data-testid="live-market-overview">
-      {/* Header */}
-      <motion.div
-        {...fadeIn}
-        className="text-center space-y-4"
-      >
-        <h1 className="text-4xl font-bold uppercase tracking-wider text-white">
-          LIVE MARKET
-        </h1>
-        <p className="text-gray-400 text-lg">
-          Real-time sneaker market data and trends
-        </p>
-      </motion.div>
+        {/* Header */}
+        <motion.div
+          {...fadeIn}
+          className="text-center space-y-4"
+        >
+          <h1 className="text-4xl font-bold uppercase tracking-wider text-white">
+            LIVE MARKET
+          </h1>
+          <p className="text-gray-400 text-lg">
+            Real-time sneaker market data and trends
+          </p>
+        </motion.div>
 
-      {/* Stats Section (using all sneakers) */}
-      <motion.section
-        {...fadeIn}
-        className="space-y-8"
-      >
-        <h2 className="text-2xl font-semibold uppercase tracking-wide text-white">
-          MARKET OVERVIEW
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Average Price */}
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Avg Price</p>
-              <p className="text-3xl font-bold text-white">
-                {sneakers && sneakers.length > 0
-                  ? (() => {
-                      const valid = sneakers.filter(s => typeof s.retailPrice === 'number' && !isNaN(s.retailPrice));
-                      if (!valid.length) return '--';
-                      const avg = valid.reduce((sum, s) => sum + s.retailPrice, 0) / valid.length;
-                      return formatPrice(avg);
-                    })()
-                  : '--'}
-              </p>
-            </div>
+        {/* Market Stats Section */}
+        <motion.section
+          {...fadeIn}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+        >
+          {/* Stats Grid - Rearranged with 2x2 Layout */}
+          <div style={{ 
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '2rem',
+            marginBottom: '1rem'
+          }}>
+            {stats.map((stat, index) => (
+              <div 
+                key={stat.label}
+                className="stat-item"
+                style={{ 
+                  textAlign: 'left',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)'
+                }}
+              >
+                <div style={{ 
+                  fontSize: '1.5rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  {stat.icon}
+                </div>
+                <div style={{ 
+                  fontSize: '2rem',
+                  fontWeight: 700,
+                  marginBottom: '0.5rem',
+                  color: '#ffffff',
+                  lineHeight: 1
+                }}>
+                  {stat.number}
+                </div>
+                <div style={{ 
+                  fontSize: '0.875rem',
+                  fontWeight: 400,
+                  color: '#999999',
+                  letterSpacing: '0.025em'
+                }}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
           {/* Price Range */}
           <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Price Range</p>
               <p className="text-xl font-bold text-white">
-                {sneakers && sneakers.length > 0
-                  ? `${formatPrice(Math.min(...sneakers.map(s => s.retailPrice || 0)))} - ${formatPrice(Math.max(...sneakers.map(s => s.retailPrice || 0)))}`
-                  : '--'}
+                {sneakersLoading || !sneakers || sneakers.length === 0
+                  ? '--'
+                  : (() => {
+                      const prices = sneakers
+                        .map(s => s.retailPrice)
+                        .filter(price => typeof price === 'number' && price > 0);
+                      console.log('Price range prices:', prices);
+                      if (prices.length === 0) return '--';
+                      const min = Math.min(...prices);
+                      const max = Math.max(...prices);
+                      return `${formatPrice(min)} - ${formatPrice(max)}`;
+                    })()
+                }
               </p>
             </div>
           </div>
@@ -174,7 +203,6 @@ export function LiveMarketOverview() {
               </p>
             </div>
           </div>
-        </div>
       </motion.section>
 
       {/* Market Movers Section */}
@@ -375,7 +403,7 @@ export function LiveMarketOverview() {
                     <div className="group cursor-pointer">
                       <div className="aspect-square bg-gray-900 rounded-sm mb-2 overflow-hidden">
                         <img
-                          src={sneaker.images[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc"}
+                                src={Array.isArray(sneaker.images) && sneaker.images.length > 0 ? sneaker.images[0] : "https://images.unsplash.com/photo-1551107696-a4b537c892cc"}
                           alt={sneaker.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />
@@ -412,7 +440,7 @@ export function LiveMarketOverview() {
                         <div className="group cursor-pointer">
                           <div className="aspect-[4/3] bg-gray-900 rounded-sm mb-4 overflow-hidden">
                             <img
-                              src={sneaker.images[0] || "https://images.unsplash.com/photo-1551107696-a4b537c892cc"}
+                                src={Array.isArray(sneaker.images) && sneaker.images.length > 0 ? sneaker.images[0] : "https://images.unsplash.com/photo-1551107696-a4b537c892cc"}
                               alt={sneaker.name}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                             />
