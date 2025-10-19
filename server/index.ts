@@ -1,9 +1,23 @@
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
+import rawBody from 'raw-body';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
+// Capture raw body for webhook signature verification
+app.use((req, _res, next) => {
+  rawBody(req, {
+    length: req.headers['content-length'],
+    limit: '1mb'
+  }).then((buf) => {
+    (req as any).rawBody = buf;
+    next();
+  }).catch((err) => {
+    // If parsing raw body fails, fall back to normal json parsing
+    next();
+  });
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

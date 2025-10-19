@@ -101,6 +101,14 @@ const LiveMarketOverview: React.FC = () => {
 
   return (
     <div className="w-full space-y-16" data-testid="live-market-overview">
+      {/* Sneaker Count Display */}
+      <div className="text-center py-4">
+        <h2 className="text-2xl font-bold text-white">
+          {sneakers && Array.isArray(sneakers)
+            ? `${sneakers.length.toLocaleString()} Sneakers Tracked`
+            : 'Sneakers Tracked: --'}
+        </h2>
+      </div>
         {/* Header */}
         <motion.div
           {...fadeIn}
@@ -172,9 +180,9 @@ const LiveMarketOverview: React.FC = () => {
                 {sneakersLoading || !sneakers || sneakers.length === 0
                   ? '--'
                   : (() => {
-                      const prices = sneakers
-                        .map(s => s.retailPrice)
-                        .filter(price => typeof price === 'number' && price > 0);
+                      const prices = Array.isArray(sneakers)
+                        ? sneakers.map(s => s.retailPrice).filter(price => typeof price === 'number' && price > 0)
+                        : [];
                       console.log('Price range prices:', prices);
                       if (prices.length === 0) return '--';
                       const min = Math.min(...prices);
@@ -396,7 +404,7 @@ const LiveMarketOverview: React.FC = () => {
             </div>
 
             {/* Quick Preview (when not expanded) */}
-            {!showFullCatalog && sneakers && (
+            {!showFullCatalog && Array.isArray(sneakers) && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {sneakers.slice(0, 4).map((sneaker) => (
                   <Link key={sneaker.id} href={`/sneakers/${sneaker.slug}`}>

@@ -1,4 +1,6 @@
 import type { Express, Request } from "express";
+import crypto from 'crypto';
+import rawBody from 'raw-body';
 import { createServer, type Server } from "http";
 
 interface AuthenticatedRequest extends Request {
@@ -287,6 +289,65 @@ async function authenticateUser(req: AuthenticatedRequest, res: any, next: any) 
 
 export async function registerRoutes(app: Express): Promise<Server> {
 
+  // Webhook receiver for Kicks.dev monitors (provider specific)
+  app.post('/api/webhooks/kicks/:provider', async (req: Request, res) => {
+    try {
+      const provider = req.params.provider; // 'goat' or 'stockx'
+      const secret = process.env.KICKS_WEBHOOK_SECRET;
+      // Read raw body for signature verification
+      const raw = (req as any).rawBody || await rawBody(req);
+      const sig = req.headers['x-kicks-signature'] as string | undefined;
+      if (!secret || !sig) {
+        console.error('Missing webhook secret or signature');
+        return res.status(401).send('unauthorized');
+      }
+      const expected = crypto.createHmac('sha256', secret).update(raw).digest('hex');
+      const safeEqual = crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(sig));
+      if (!safeEqual) {
+        console.error('Invalid webhook signature');
+        return res.status(401).send('invalid signature');
+      }
+
+      const payload = JSON.parse(raw.toString('utf8'));
+      console.log(`[KicksWebhook] received event for provider=${provider}:`, payload.event || payload);
+
+      // Idempotency: use event id header if provided
+      const eventId = req.headers['x-kicks-event-id'] as string | undefined;
+      if (eventId) {
+        // Simple log for now; in production you'd check a processed_events table
+        console.log('Webhook event id:', eventId);
+      }
+
+      // Upsert sneaker (if payload includes product info) or queue a targeted fetch
+      const product = payload.product;
+      if (product && (product.slug || product.id)) {
+        const sneakerObj: any = {
+          name: product.name || product.title || product.slug || 'Unknown',
+          slug: product.slug || `${provider}-${product.id}`,
+          sku: product.sku || product.id,
+          brandId: null,
+          description: product.description || payload.description || '',
+          images: product.url ? [product.url] : (product.image ? [product.image] : []),
+          retailPrice: product.price ? String(product.price) : '',
+          releaseDate: product.releaseDate || null,
+          categories: ['lifestyle'],
+          sizes: product.sizes || []
+        };
+        try {
+          await storage.createSneaker(sneakerObj);
+          console.log('Upserted sneaker from webhook:', sneakerObj.slug);
+        } catch (err) {
+          console.error('Failed to upsert sneaker from webhook:', err);
+        }
+      }
+
+      return res.status(200).send('ok');
+    } catch (err) {
+      console.error('Webhook processing error:', err);
+      return res.status(500).send('error');
+    }
+  });
+
   // Get trending sneakers with real-time market data
   app.get('/api/sneakers/trending', async (req, res) => {
     try {
@@ -323,8 +384,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         category: category as string,
         sort: sort as string
       };
-      const sneakers = await storage.searchSneakers(search as string || '', filters);
-      res.json(sneakers);
+  const sneakers = await storage.searchSneakers(search as string || '', filters);
+  res.json(Array.isArray(sneakers) ? sneakers : []);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch sneakers' });
     }
