@@ -147,7 +147,6 @@ export default function InteractiveSearch({
           transition={{ duration: 0.2 }}
         >
           <EnhancedInput
-            ref={inputRef}
             type="search"
             placeholder={placeholder}
             value={query}

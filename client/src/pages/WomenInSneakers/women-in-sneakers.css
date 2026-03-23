@@ -1,0 +1,111 @@
+/* Women In Sneakers - Additional styles */
+
+/* Force override ALL backgrounds */
+body,
+html,
+#root,
+#root > div {
+  background-color: #ffe9cf !important;
+  color: #270f03 !important;
+}
+
+/* CSS Variables */
+:root {
+  --secondary: #ffe9cf;
+  --primary: #270f03;
+  --y-base: 6rem;
+  --max-w: 1620px;
+  --nav-height: 3rem;
+  --rounded-1: .375rem;
+  --white: #fef8f1;
+  --green: #69e05f;
+  --rounded-xs: .2rem;
+  --light: #d9d9d9;
+}
+
+/* Override app styles for this page */
+#smooth-wrapper {
+  background-color: var(--secondary) !important;
+  color: var(--primary) !important;
+  font-family: Worksans, Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.2em !important;
+  letter-spacing: -.02em !important;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+#smooth-wrapper * {
+  box-sizing: border-box;
+}
+
+.scroll-wrapper {
+  overflow: clip;
+  background-color: var(--secondary);
+}
+
+.main {
+  min-height: 100svh;
+  background-color: var(--secondary);
+}
+
+/* Initial hidden state */
+[data-start="hidden"] {
+  visibility: hidden;
+}
+
+/* Text Selection Styles */
+::selection {
+  background: var(--primary);
+  color: var(--secondary);
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background: var(--primary);
+  color: var(--secondary);
+  text-shadow: none;
+}
+
+[data-select="inverse"] ::selection {
+  background: var(--secondary);
+  color: var(--primary);
+  text-shadow: none;
+}
+
+[data-select="inverse"] ::-moz-selection {
+  background: var(--secondary);
+  color: var(--primary);
+  text-shadow: none;
+}
+
+/* Font Smoothing */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Toggle States */
+[data-css="toggle"] .toggle-ball {
+  transform: translateX(0%);
+  transition: transform 0.3s ease-out;
+}
+
+[data-css="toggle"]:has(input:checked) .toggle-ball {
+  transform: translateX(100%);
+  background-color: #10CD00;
+  border-color: #10CD00;
+}
+
+/* Prevent image dragging */
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+

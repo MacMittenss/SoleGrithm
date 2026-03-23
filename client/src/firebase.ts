@@ -12,8 +12,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-// Connect to auth emulator in development
-if (import.meta.env.DEV && !auth.config.emulator) {
+// Connect to auth emulator in development (guard unknown property with any)
+if (import.meta.env.DEV && !(auth as any).config?.emulator) {
   connectAuthEmulator(auth, "http://localhost:9099");
 }
 

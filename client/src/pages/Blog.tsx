@@ -7,7 +7,7 @@ import PinterestBlogCard from "@/components/PinterestBlogCard";
 import { BookOpen } from "lucide-react";
 
 export default function Blog() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const { data: blogPosts, isLoading } = useQuery({
     queryKey: ['/api/blog'],
@@ -19,9 +19,9 @@ export default function Blog() {
   });
 
   // Filter posts by category
-  const filteredPosts = selectedCategory
-    ? blogPosts?.filter((post: any) => post.category === selectedCategory)
-    : blogPosts;
+  const filteredPosts = selectedCategory === "all"
+    ? blogPosts
+    : blogPosts?.filter((post: any) => post.category === selectedCategory);
 
 
   // Get unique categories
@@ -45,79 +45,40 @@ export default function Blog() {
           <p className="text-white/70 text-lg max-w-2xl mx-auto mb-12">
             Where AI meets sole culture. Discover the latest trends and insights.
           </p>
+        </div>
 
-          {/* Category Filter */}
-          {categories.length > 0 && (
-            <div className="flex justify-center gap-3">
+        {/* Category Tabs */}
+        {categories.length > 0 && (
+          <div className="flex justify-center gap-3 mb-12">
+            <Button
+              variant={selectedCategory === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("all")}
+              className={selectedCategory === "all" 
+                ? 'bg-white text-black hover:bg-white/90' 
+                : 'bg-transparent border-white/30 text-white hover:bg-white/10'
+              }
+            >
+              All Stories
+            </Button>
+            {categories.map((category) => (
               <Button
-                variant={selectedCategory === null ? "default" : "outline"}
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(null)}
-                className={selectedCategory === null 
+                onClick={() => setSelectedCategory(category)}
+                className={selectedCategory === category 
                   ? 'bg-white text-black hover:bg-white/90' 
                   : 'bg-transparent border-white/30 text-white hover:bg-white/10'
                 }
               >
-                All Stories
+                {category}
               </Button>
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className={selectedCategory === category 
-                    ? 'bg-white text-black hover:bg-white/90' 
-                    : 'bg-transparent border-white/30 text-white hover:bg-white/10'
-                  }
-                >
-                  {category}
-                </Button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Spotlight Feature Story */}
-        {!isLoading && filteredPosts?.[0] && (
-          <div className="mb-20">
-            <Link href={`/blog/${filteredPosts[0].slug}`}>
-              <div className="bg-white/5 rounded-lg overflow-hidden group cursor-pointer transition-all duration-300 hover:bg-white/8">
-                <div className="lg:flex">
-                  <div className="lg:w-1/2">
-                    <div className="relative overflow-hidden h-64 lg:h-96">
-                      <img
-                        src={filteredPosts[0].featuredImage || "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=1200&h=600&fit=crop"}
-                        alt={filteredPosts[0].title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  </div>
-                  <div className="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
-                    <div className="mb-6">
-                      <span className="text-white/60 uppercase tracking-wider text-sm font-light">
-                        Spotlight
-                      </span>
-                    </div>
-                    <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-white group-hover:text-white/80 transition-colors">
-                      {filteredPosts[0].title}
-                    </h2>
-                    <p className="text-white/70 text-lg mb-8 leading-relaxed">
-                      {filteredPosts[0].excerpt || "Exploring the latest AI-driven trends and stories in sneaker culture that are shaping the future of footwear."}
-                    </p>
-                    <div>
-                      <div className="bg-white text-black px-8 py-3 rounded-md font-medium hover:bg-white/90 transition-colors inline-block">
-                        Read Story
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            ))}
           </div>
         )}
 
-        {/* Pinterest-style Blog Grid */}
+        {/* Pinterest-style Blog Stories Grid */}
         <div>
           {isLoading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -135,7 +96,7 @@ export default function Blog() {
                 gap="1.5rem"
                 className="w-full"
               >
-                {filteredPosts.slice(1).map((post: any) => (
+                {filteredPosts.map((post: any) => (
                   <PinterestBlogCard 
                     key={post.id}
                     post={{

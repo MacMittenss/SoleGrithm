@@ -5,21 +5,29 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
-// Capture raw body for webhook signature verification
+
+// Capture raw body for webhook signature verification only for webhook routes
 app.use((req, _res, next) => {
-  rawBody(req, {
-    length: req.headers['content-length'],
-    limit: '1mb'
-  }).then((buf) => {
-    (req as any).rawBody = buf;
+  // Only capture raw body for webhook endpoints that need signature verification
+  if (req.path.includes('/webhooks') || req.path.includes('/stripe')) {
+    rawBody(req, {
+      length: req.headers['content-length'],
+      limit: '1mb'
+    }).then((buf) => {
+      (req as any).rawBody = buf;
+      next();
+    }).catch((err) => {
+      // If parsing raw body fails, fall back to normal json parsing
+      next();
+    });
+  } else {
+    // Skip raw body parsing for regular API routes
     next();
-  }).catch((err) => {
-    // If parsing raw body fails, fall back to normal json parsing
-    next();
-  });
+  }
 });
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
 app.use((req, res, next) => {
   const start = Date.now();

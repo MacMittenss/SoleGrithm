@@ -27,7 +27,7 @@ describe('useNotifications', () => {
   it('generates unique IDs for notifications', () => {
     const { result } = renderHook(() => useNotifications());
     
-    let id1: string, id2: string;
+  let id1!: string, id2!: string;
     
     act(() => {
       id1 = result.current.addNotification({
@@ -50,7 +50,7 @@ describe('useNotifications', () => {
   it('removes notification by ID', () => {
     const { result } = renderHook(() => useNotifications());
     
-    let notificationId: string;
+  let notificationId!: string;
     
     act(() => {
       notificationId = result.current.addNotification({

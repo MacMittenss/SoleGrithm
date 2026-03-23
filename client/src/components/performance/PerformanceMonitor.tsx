@@ -39,8 +39,9 @@ export default function PerformanceMonitorComponent() {
           };
         }
 
+        const navAny: any = navigation as any;
         setMetrics({
-          pageLoadTime: Math.round(navigation.loadEventEnd - navigation.navigationStart),
+          pageLoadTime: Math.round((navAny.loadEventEnd || 0) - (navAny.navigationStart || 0)),
           firstContentfulPaint: Math.round(fcp),
           largestContentfulPaint: 0, // Would need intersection observer
           cumulativeLayoutShift: 0, // Would need layout shift observer

@@ -54,7 +54,7 @@ export class ThirdPartyAPIService {
             salesLast72Hours: mockPriceData.salesLast72Hours,
             priceChangePercentage: mockPriceData.priceChangePercentage,
             recordedAt: new Date()
-          });
+          } as any);
 
           updatedCount++;
         } catch (error) {
@@ -67,10 +67,11 @@ export class ThirdPartyAPIService {
       
       console.log(`StockX sync completed: ${updatedCount} records updated`);
       return { success: true, updated: updatedCount, errors };
-    } catch (error) {
-      await this.logSyncStatus('stockx', 'prices', 'error', 0, [error.message]);
+    } catch (error: any) {
+      const message = (error && (error as any).message) ? (error as any).message : String(error);
+      await this.logSyncStatus('stockx', 'prices', 'error', 0, [message]);
       console.error('StockX sync failed:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: message };
     }
   }
 
@@ -108,10 +109,11 @@ export class ThirdPartyAPIService {
       
       console.log(`GOAT sync completed: ${updatedCount} records updated`);
       return { success: true, updated: updatedCount };
-    } catch (error) {
-      await this.logSyncStatus('goat', 'market_data', 'error', 0, [error.message]);
+    } catch (error: any) {
+      const message = (error && (error as any).message) ? (error as any).message : String(error);
+      await this.logSyncStatus('goat', 'market_data', 'error', 0, [message]);
       console.error('GOAT sync failed:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: message };
     }
   }
 
@@ -121,7 +123,8 @@ export class ThirdPartyAPIService {
       const prices = await db.select()
         .from(priceHistory)
         .where(eq(priceHistory.sneakerId, sneakerId))
-        .orderBy(desc(priceHistory.recordedAt))
+        // `priceHistory` schema uses `timestamp` column for recorded time; fall back to `timestamp` if `recordedAt` not present
+        .orderBy(desc((priceHistory as any).recordedAt || (priceHistory as any).timestamp))
         .limit(5);
 
       return prices;
@@ -144,9 +147,10 @@ export class ThirdPartyAPIService {
         goat: goatResult,
         timestamp: new Date()
       };
-    } catch (error) {
+    } catch (error: any) {
+      const message = (error && (error as any).message) ? (error as any).message : String(error);
       console.error('Scheduled sync failed:', error);
-      return { error: error.message };
+      return { error: message };
     }
   }
 

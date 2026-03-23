@@ -87,7 +87,6 @@ export default function Navbar() {
                       textDecoration: 'none',
                       fontSize: '0.9rem',
                       fontWeight: '500',
-                      fontFamily: 'Inter, sans-serif',
                       letterSpacing: '0.07vw',
                       padding: '0.5rem',
                       borderRadius: '8px',
@@ -128,7 +127,6 @@ export default function Navbar() {
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
-                  fontFamily: 'Inter, sans-serif',
                   letterSpacing: '0.07vw',
                   padding: '0.5rem',
                   borderRadius: '8px',
@@ -186,7 +184,7 @@ export default function Navbar() {
                           }}
                         >
                           <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: 'Inter, sans-serif', letterSpacing: '0.07vw' }}>{feature.name}</span>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem', letterSpacing: '0.07vw' }}>{feature.name}</span>
                         </div>
                       </Link>
                     );
@@ -211,7 +209,6 @@ export default function Navbar() {
                   border: 'none',
                   fontSize: '0.9rem',
                   fontWeight: '500',
-                  fontFamily: 'Inter, sans-serif',
                   letterSpacing: '0.07vw',
                   padding: '0.5rem',
                   borderRadius: '8px',
@@ -269,7 +266,7 @@ export default function Navbar() {
                           }}
                         >
                           <IconComponent size={20} />
-                          <span style={{ fontWeight: '500', fontSize: '0.9rem', fontFamily: 'Inter, sans-serif', letterSpacing: '0.07vw' }}>{feature.name}</span>
+                          <span style={{ fontWeight: '500', fontSize: '0.9rem', letterSpacing: '0.07vw' }}>{feature.name}</span>
                         </div>
                       </Link>
                     );

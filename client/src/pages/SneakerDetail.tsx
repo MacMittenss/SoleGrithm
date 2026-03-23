@@ -1,8 +1,9 @@
-import { useState } from "react";
+ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,9 +18,9 @@ import { format } from "date-fns";
 import ReviewSummary from "@/components/ReviewSummary";
 import SneakerCareTips from "@/components/SneakerCareTips";
 import MarketDataCard from "@/components/MarketDataCard";
+import ProductPriceChart from "@/components/ProductPriceChart";
 
 interface Sneaker {
-  id: number;
   name: string;
   slug: string;
   brandId: number;
@@ -141,9 +142,182 @@ export default function SneakerDetail() {
     }).format(price);
   };
 
+  // Kicks-like layout toggle: enable for specific slugs or via URL param ?layout=kicks
+  // Add the four target slugs here to enable the Kicks-style page permanently for them.
+  const KICKS_SLUGS: string[] = [
+    'nike-air-force-3-low-sp-nigo-x-levis-olive-grey-hq0262-001',
+    'crocs-classic-clog-marvel-spider-man-neo-211489-90h',
+    'the-north-face-1996-retro-nuptse-700-fill-packable-jacket-recycled-tnf-black',
+    'jordan-4-retro-white-cement-2025-fv5029-100',
+  ];
+
+  const urlSearch = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams('');
+  const kicksQuery = urlSearch.get('layout') === 'kicks';
+  const isKicksVariant = Boolean(sneaker && (kicksQuery || (sneaker.slug && KICKS_SLUGS.includes(sneaker.slug))));
+
+  // Canonical marketplace overrides for specific slugs (useful when provider URLs are missing or incorrect)
+  const canonicalMarketplaceUrls: Record<string, { stockx?: string; goat?: string }> = {
+    'nike-air-force-3-low-sp-nigo-x-levis-olive-grey-hq0262-001': {
+      stockx: 'https://stockx.com/nike-air-force-3-low-sp-nigo-olive-grey',
+      goat: 'https://www.goat.com/sneakers/nigo-x-air-force-3-low-olive-grey-hq0262-001',
+    },
+    'crocs-classic-clog-marvel-spider-man-neo-211489-90h': {
+      stockx: 'https://stockx.com/crocs-classic-clog-marvel-spider-man-neo',
+      goat: 'https://www.goat.com/sneakers/marvel-x-crocs-classic-clog-spiderman-neo-211489-90h',
+    },
+    'the-north-face-1996-retro-nuptse-700-fill-packable-jacket-recycled-tnf-black-nf0a3c8dle41nf0a3c8djk3nfoa3c8dle4-mnf0a3c8d4g3nf0a3c8dgoe1nf0a3c8dgoe': {
+      stockx: 'https://stockx.com/the-north-face-1996-retro-nuptse-700-fill-packable-jacket-recycled-tnf-black',
+      goat: 'https://www.goat.com/apparel/the-north-face-1996-retro-nuptse-jacket-recycled-tnf-black-nf0a3c8d4g3',
+    },
+    'jordan-4-retro-white-cement-2025-fv5029-100': {
+      stockx: 'https://stockx.com/air-jordan-4-retro-white-cement-2025',
+      goat: 'https://www.goat.com/sneakers/air-jordan-4-retro-og-white-cement-2025-fv5029-100',
+    },
+  };
+
+  // A compact Kicks-like detail presentation reusing existing components and typography
+  const KicksDetail = () => (
+    <div className="min-h-screen pt-20 pb-8 bg-white dark:bg-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-center justify-between">
+          <Link href="/live-market">
+            <Button variant="ghost">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </Link>
+          <div className="text-right">
+            <div className="text-sm text-muted-foreground">{sneaker.brandName}</div>
+            <h1 className="text-4xl font-extrabold tracking-tight">{sneaker.name}</h1>
+            <div className="text-sm text-muted-foreground">{sneaker.colorway}</div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Large gallery */}
+          <div className="lg:col-span-2">
+            <div className="flex gap-6">
+              <div className="hidden md:flex flex-col gap-3 w-24">
+                {sneaker.images.map((img: string, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImageIndex(idx)}
+                    className={`rounded-lg overflow-hidden border-2 ${selectedImageIndex === idx ? 'border-primary' : 'border-transparent'}`}
+                  >
+                    <img src={img} alt={`${sneaker.name} ${idx + 1}`} className="w-24 h-24 object-cover" />
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex-1 rounded-2xl overflow-hidden bg-muted flex items-center justify-center">
+                <img src={sneaker.images[selectedImageIndex] || ''} alt={sneaker.name} className="w-full h-[560px] object-contain" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right column: price, buy actions, market card */}
+          <aside className="lg:col-span-5 space-y-6">
+            <div className="p-6 bg-muted rounded-lg">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-3xl font-extrabold">{formatPrice(sneaker.retailPrice)}</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-muted-foreground">Released</div>
+                  <div className="font-medium">{sneaker.releaseDate ? format(new Date(sneaker.releaseDate), 'MMM dd, yyyy') : '—'}</div>
+                </div>
+              </div>
+
+              <div className="mt-4 space-y-3">
+                <div className="flex gap-2">
+                  <Button className="flex-1 h-12" disabled={!selectedSize}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add to Collection
+                  </Button>
+                  <Button variant="outline" className="h-12">
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    Buy
+                  </Button>
+                </div>
+
+                <div className="flex gap-2 relative z-10">
+                    <button
+                      type="button"
+                      className="flex-1 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer"
+                      onClick={() => {
+                        const url = liveMarketData?.sources?.stockx?.url ||
+                          (sneaker?.slug && canonicalMarketplaceUrls[sneaker.slug]?.stockx) ||
+                          `https://stockx.com/search?s=${encodeURIComponent(((sneaker?.name || '') + ' ' + (sneaker?.colorway || '')).trim())}`;
+                        console.log('Opening StockX URL:', url);
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                      }}
+                    >
+                      <ExternalLink className="h-3 w-3 mr-1.5" />
+                      StockX
+                    </button>
+
+                    <button
+                      type="button"
+                      className="flex-1 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 cursor-pointer"
+                      onClick={() => {
+                        const url = liveMarketData?.sources?.goat?.url ||
+                          (sneaker?.slug && canonicalMarketplaceUrls[sneaker.slug]?.goat) ||
+                          `https://www.goat.com/search?query=${encodeURIComponent(((sneaker?.name || '') + ' ' + (sneaker?.colorway || '')).trim())}`;
+                        console.log('Opening GOAT URL:', url);
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                      }}
+                    >
+                      <ExternalLink className="h-3 w-3 mr-1.5" />
+                      GOAT
+                    </button>
+                </div>
+
+                {/* Merged About section */}
+                <div className="mt-4 border-t pt-4 text-sm text-muted-foreground space-y-3">
+                  <h4 className="font-semibold">About this product</h4>
+                  <p>{sneaker.description}</p>
+
+                  <ul className="list-disc ml-5 space-y-1">
+                    <li>Original silhouette updated with modern comfort and durable materials.</li>
+                    <li>Premium leather and textile upper for a classic look and feel.</li>
+                    <li>Comfortable foam midsole with reliable rubber outsole for everyday wear.</li>
+                  </ul>
+
+                  <div className="grid grid-cols-2 gap-4 pt-2">
+                    <div>
+                      <p className="text-xs text-muted-foreground">Colorway</p>
+                      <div className="font-medium">{sneaker.colorway || '—'}</div>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">SKU</p>
+                      <div className="font-medium">{sneaker.sku || '—'}</div>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Release Date</p>
+                      <div className="font-medium">{sneaker.releaseDate ? format(new Date(sneaker.releaseDate), 'MMM dd, yyyy') : '—'}</div>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground">Retail Price</p>
+                      <div className="font-medium">{sneaker.retailPrice ? formatPrice(sneaker.retailPrice) : '—'}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <MarketDataCard sneakerId={sneaker.id} sneakerName={sneaker.name} size={selectedSize} />
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+
   const averageRating = reviews?.length > 0 
     ? reviews.reduce((acc: number, review: Review) => acc + review.rating, 0) / reviews.length 
     : 0;
+
+  // Previously had an alternate Kicks-style layout for specific slugs.
+  // We now use the unified responsive 2x2 layout for all products.
 
   if (isLoading) {
     return (
@@ -184,375 +358,251 @@ export default function SneakerDetail() {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-8">
+    <div className="min-h-screen pt-20 pb-8 bg-white dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
-        <Link href="/live-market">
-          <Button variant="ghost" className="mb-8">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Live Market
-          </Button>
-        </Link>
+        <div className="mb-6 flex items-center justify-between">
+          <Link href="/live-market">
+            <Button variant="ghost">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          </Link>
+          <div className="text-right">
+            <div className="text-sm text-muted-foreground">{sneaker.brandName}</div>
+            <h1 className="text-3xl font-extrabold tracking-tight">{sneaker.name}</h1>
+            <div className="text-sm text-muted-foreground">{sneaker.colorway}</div>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Image Gallery */}
-          <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-2xl bg-muted">
+        {/* New 2x2 product layout: TL image, TR product details + external links, BL live market graphs, BR placeholder */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12" style={{ gridAutoRows: '1fr' }}>
+          {/* Top-left: main image + thumbnails */}
+          <div className="h-full">
+            <div className="rounded-2xl overflow-hidden bg-white h-full flex items-center justify-center p-8">
               <img
-                src={sneaker.images[selectedImageIndex] || "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&h=600&fit=crop"}
+                src={sneaker.images && sneaker.images.length > 0 ? sneaker.images[selectedImageIndex] : 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=1200&h=900&fit=crop'}
                 alt={sneaker.name}
-                className="w-full h-96 object-cover"
+                className="w-full h-full object-contain"
               />
-              {sneaker.images.length > 1 && (
-                <>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                    onClick={() => setSelectedImageIndex(
-                      selectedImageIndex === 0 ? sneaker.images.length - 1 : selectedImageIndex - 1
-                    )}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                    onClick={() => setSelectedImageIndex(
-                      selectedImageIndex === sneaker.images.length - 1 ? 0 : selectedImageIndex + 1
-                    )}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </>
-              )}
             </div>
-            
-            {sneaker.images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto">
-                {sneaker.images.map((image: string, index: number) => (
+
+            {sneaker.images && sneaker.images.length > 1 && (
+              <div className="mt-4 flex gap-3 overflow-x-auto">
+                {sneaker.images.map((img: string, idx: number) => (
                   <button
-                    key={index}
-                    onClick={() => setSelectedImageIndex(index)}
-                    className={`flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImageIndex === index ? 'border-primary' : 'border-transparent'
-                    }`}
+                    key={idx}
+                    onClick={() => setSelectedImageIndex(idx)}
+                    className={`h-20 w-20 rounded-lg overflow-hidden border-2 ${selectedImageIndex === idx ? 'border-primary' : 'border-transparent'}`}
                   >
-                    <img
-                      src={image}
-                      alt={`${sneaker.name} ${index + 1}`}
-                      className="w-20 h-20 object-cover"
-                    />
+                    <img src={img} alt={`${sneaker.name} ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-6">
-            <div>
-              <div className="flex flex-wrap gap-2 mb-3">
-                {sneaker.categories.map((category: string) => (
-                  <Badge key={category} variant="secondary">
-                    {category}
-                  </Badge>
-                ))}
-              </div>
-              
-              <h1 className="text-3xl font-bold mb-2">{sneaker.name}</h1>
-              <p className="text-lg text-muted-foreground mb-1">{sneaker.colorway}</p>
-              <p className="text-sm text-muted-foreground mb-4">SKU: {sneaker.sku}</p>
-              
-              {/* Pricing Section */}
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <span className="text-3xl font-bold">{formatPrice(sneaker.retailPrice)}</span>
-                    <p className="text-sm text-muted-foreground">Retail Price</p>
-                  </div>
-                  {reviews?.length > 0 && (
-                    <div className="flex items-center gap-1">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={`h-4 w-4 ${
-                              star <= averageRating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        ({reviews.length} review{reviews.length !== 1 ? 's' : ''})
-                      </span>
-                    </div>
-                  )}
+          {/* Top-right: product description and external links */}
+          <div className="h-full">
+            <div className="p-6 bg-muted rounded-lg space-y-4 h-full flex flex-col">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-2xl font-extrabold">{sneaker.name}</h2>
+                  <div className="text-sm text-muted-foreground">{sneaker.brandName}</div>
                 </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold">{formatPrice(sneaker.retailPrice)}</div>
+                  <div className="text-xs text-muted-foreground">Retail</div>
+                </div>
+              </div>
 
-                {/* Live Market Data */}
-                {marketLoading ? (
-                  <Card className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                      <span className="text-sm">Loading live market data...</span>
-                    </div>
-                  </Card>
-                ) : liveMarketData ? (
-                  <Card className="p-4 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-green-600" />
-                        <span className="font-semibold">Live Market Data</span>
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                      </div>
-                      <Badge variant="secondary" className="text-xs">
-                        {liveMarketData.marketData.trend === 'up' ? '📈' : 
-                         liveMarketData.marketData.trend === 'down' ? '📉' : '➡️'} 
-                        {liveMarketData.marketData.priceChange24h > 0 ? '+' : ''}{liveMarketData.marketData.priceChange24h.toFixed(1)}%
-                      </Badge>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                      <div>
-                        <p className="text-muted-foreground">Market Price</p>
-                        <p className="font-bold text-lg">{formatPrice(liveMarketData.marketData.averagePrice || liveMarketData.marketData.lowestPrice)}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Lowest Ask</p>
-                        <p className="font-semibold">{formatPrice(liveMarketData.marketData.lowestPrice)}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Last Sale</p>
-                        <p className="font-semibold">{formatPrice(liveMarketData.sources.stockx?.lastSale || liveMarketData.sources.goat?.lastSale || 0)}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">Total Sales</p>
-                        <p className="font-semibold">{liveMarketData.marketData.totalSales}</p>
-                      </div>
-                    </div>
-                    
-                    <Separator className="my-3" />
-                    
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>Data from StockX, GOAT • Updated every 5 minutes</span>
-                      <div className="flex gap-2">
-                        {liveMarketData.sources.stockx && (
-                          <Badge variant="outline" className="text-xs">StockX</Badge>
-                        )}
-                        {liveMarketData.sources.goat && (
-                          <Badge variant="outline" className="text-xs">GOAT</Badge>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                ) : (
-                  <Card className="p-4 border-dashed">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <AlertCircle className="h-4 w-4" />
-                      <span className="text-sm">Live market data temporarily unavailable</span>
-                    </div>
-                  </Card>
-                )}
-              </div>
-            </div>
+              <div className="flex gap-2">
+                <a
+                  className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+                  href={
+                    (sneaker?.slug && canonicalMarketplaceUrls[sneaker.slug]?.stockx) ||
+                    liveMarketData?.sources?.stockx?.url ||
+                    `https://stockx.com/search?s=${encodeURIComponent(((sneaker?.name || '') + ' ' + (sneaker?.colorway || '')).trim())}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => {
+                    const url = e.currentTarget.href;
+                    console.log('=== StockX Debug ===');
+                    console.log('Full liveMarketData:', liveMarketData);
+                    console.log('StockX URL from API:', liveMarketData?.sources?.stockx?.url);
+                    console.log('Canonical URL:', canonicalMarketplaceUrls[sneaker.slug]?.stockx);
+                    console.log('Sneaker slug:', sneaker.slug);
+                    console.log('Final URL:', url);
+                    // Force open in new window
+                    e.preventDefault();
+                    const win = window.open(url, '_blank');
+                    if (!win) {
+                      console.error('Popup blocked! Trying direct navigation...');
+                      window.location.href = url;
+                    }
+                  }}
+                >
+                  <ExternalLink className="h-3 w-3 mr-1.5" />
+                  StockX
+                </a>
 
-            {/* Real-Time Size Availability */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-semibold">Size Availability</h3>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span>Live data</span>
-                </div>
+                <a
+                  className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+                  href={
+                    (sneaker?.slug && canonicalMarketplaceUrls[sneaker.slug]?.goat) ||
+                    liveMarketData?.sources?.goat?.url ||
+                    `https://www.goat.com/search?query=${encodeURIComponent(((sneaker?.name || '') + ' ' + (sneaker?.colorway || '')).trim())}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => {
+                    const url = e.currentTarget.href;
+                    console.log('=== GOAT Debug ===');
+                    console.log('GOAT URL from API:', liveMarketData?.sources?.goat?.url);
+                    console.log('Canonical URL:', canonicalMarketplaceUrls[sneaker.slug]?.goat);
+                    console.log('Sneaker slug:', sneaker.slug);
+                    console.log('Final URL:', url);
+                    // Force open in new window
+                    e.preventDefault();
+                    const win = window.open(url, '_blank');
+                    if (!win) {
+                      console.error('Popup blocked! Trying direct navigation...');
+                      window.location.href = url;
+                    }
+                  }}
+                >
+                  <ExternalLink className="h-3 w-3 mr-1.5" />
+                  GOAT
+                </a>
+
+                <a
+                  className={cn(buttonVariants({ size: 'default' }))}
+                  style={{ pointerEvents: 'auto', zIndex: 40 }}
+                  href={liveMarketData?.sources?.stockx?.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Buy
+                </a>
               </div>
-              
-              {liveMarketData?.sizes && liveMarketData.sizes.length > 0 ? (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                    {liveMarketData.sizes.map((sizeData: any) => (
-                      <Button
-                        key={sizeData.size}
-                        variant={selectedSize === sizeData.size ? "default" : "outline"}
-                        className={`h-14 flex flex-col p-2 ${
-                          !sizeData.available ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                        onClick={() => sizeData.available && setSelectedSize(sizeData.size)}
-                        disabled={!sizeData.available}
-                      >
-                        <span className="font-semibold">{sizeData.size}</span>
-                        <div className="flex items-center gap-1 text-xs">
-                          {sizeData.available ? (
-                            <>
-                              <CheckCircle className="h-3 w-3 text-green-500" />
-                              <span className="text-green-600">{formatPrice(sizeData.price)}</span>
-                            </>
-                          ) : (
-                            <>
-                              <XCircle className="h-3 w-3 text-red-500" />
-                              <span className="text-red-600">N/A</span>
-                            </>
-                          )}
-                        </div>
-                        <Badge variant="outline" className="text-xs mt-1">
-                          {sizeData.source.toUpperCase()}
-                        </Badge>
-                      </Button>
-                    ))}
-                  </div>
-                  
-                  <div className="text-xs text-muted-foreground space-y-1">
-                    <div className="flex items-center gap-4">
-                      <span className="flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
-                        Available for purchase
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <XCircle className="h-3 w-3 text-red-500" />
-                        Out of stock
-                      </span>
-                    </div>
-                    <p>Prices and availability update every 5 minutes from StockX and GOAT</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                    {sneaker.sizes?.map((size: string) => (
-                      <Button
-                        key={size}
-                        variant={selectedSize === size ? "default" : "outline"}
-                        className="h-12"
-                        onClick={() => setSelectedSize(size)}
+
+              <div className="text-sm text-muted-foreground leading-relaxed">
+                <p>{sneaker.description}</p>
+              </div>
+
+              {/* Available Sizes Section */}
+              {sneaker.sizes && sneaker.sizes.length > 0 && (
+                <div className="pt-3">
+                  <p className="text-xs text-muted-foreground mb-2">Available Sizes</p>
+                  <div className="flex flex-wrap gap-2">
+                    {sneaker.sizes.map((size: string, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium"
                       >
                         {size}
-                      </Button>
-                    )) || (
-                      <div className="col-span-full text-center text-muted-foreground">
-                        <p>Size information not available</p>
-                      </div>
-                    )}
-                  </div>
-                  {!liveMarketData && (
-                    <div className="text-xs text-muted-foreground">
-                      <p>Real-time size availability will show when market data loads</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="space-y-3">
-              <Button 
-                className="w-full h-12" 
-                disabled={!selectedSize}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add to Collection
-              </Button>
-              
-              <div className="flex gap-3">
-                <Link href="/ar-tryon" className="flex-1">
-                  <Button variant="secondary" className="w-full h-10">
-                    <Eye className="h-4 w-4 mr-2" />
-                    AR Try-On
-                  </Button>
-                </Link>
-                <Button variant="outline" className="flex-1 h-10">
-                  <Heart className="h-4 w-4 mr-2" />
-                  Wishlist
-                </Button>
-                <Button variant="outline" className="flex-1 h-10">
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Share
-                </Button>
-              </div>
-              
-              {/* Live Market Purchase Links */}
-              {liveMarketData?.sources && (
-                <div className="pt-3 border-t">
-                  <p className="text-sm text-muted-foreground mb-2">Buy Now:</p>
-                  <div className="flex gap-2">
-                    {liveMarketData.sources.stockx && (
-                      <Button variant="outline" size="sm" asChild>
-                        <a href={liveMarketData.sources.stockx.url} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-3 w-3 mr-1" />
-                          StockX - {formatPrice(liveMarketData.sources.stockx.lowestAsk)}
-                        </a>
-                      </Button>
-                    )}
-                    {liveMarketData.sources.goat && (
-                      <Button variant="outline" size="sm" asChild>
-                        <a href={liveMarketData.sources.goat.url} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-3 w-3 mr-1" />
-                          GOAT - {formatPrice(liveMarketData.sources.goat.lowestPrice)}
-                        </a>
-                      </Button>
-                    )}
+                      </span>
+                    ))}
                   </div>
                 </div>
               )}
-            </div>
 
-            {/* Quick Info */}
-            <div className="grid grid-cols-2 gap-4 p-4 bg-muted rounded-lg">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
+              <div className="grid grid-cols-2 gap-4 pt-2 text-sm">
                 <div>
-                  <p className="text-sm font-medium">Release Date</p>
-                  <p className="text-xs text-muted-foreground">
-                    {format(new Date(sneaker.releaseDate), 'MMM dd, yyyy')}
-                  </p>
+                  <p className="text-xs text-muted-foreground">Colorway</p>
+                  <div className="font-medium">{sneaker.colorway || '—'}</div>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">SKU</p>
+                  <div className="font-medium">{sneaker.sku || '—'}</div>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Release Date</p>
+                  <div className="font-medium">{sneaker.releaseDate ? format(new Date(sneaker.releaseDate), 'MMM dd, yyyy') : '—'}</div>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Category</p>
+                  <div className="font-medium">{sneaker.categories && sneaker.categories.length ? sneaker.categories.join(', ') : '—'}</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Package className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">Materials</p>
-                  <p className="text-xs text-muted-foreground">{sneaker.materials}</p>
-                </div>
+              {/* push remaining content to bottom if needed */}
+              <div className="mt-auto" />
+            </div>
+          </div>
+
+          {/* Bottom-left: live market data (average price chart) */}
+          <div className="h-full">
+            <div className="h-full flex flex-col">
+              <div className="flex-1">
+                <ProductPriceChart sneakerId={sneaker.id} sneakerName={sneaker.name} />
               </div>
             </div>
           </div>
+
+          {/* Bottom-right: empty placeholder for future features */}
+          <div className="h-full">
+            <Card className="h-full">
+              <CardContent className="flex items-center justify-center h-full">
+                <div className="text-center text-sm text-muted-foreground">Placeholder — additional features coming soon</div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
-        {/* Tabs Section */}
+        {/* Tabs for additional info (kept compact under the fold) */}
         <Tabs defaultValue="description" className="mb-12">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="description">Description</TabsTrigger>
             <TabsTrigger value="market">Live Market</TabsTrigger>
-            <TabsTrigger value="care-tips">Care Tips</TabsTrigger>
-            <TabsTrigger value="ai-summary">AI Summary</TabsTrigger>
             <TabsTrigger value="reviews">Reviews ({reviews?.length || 0})</TabsTrigger>
-            <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
+            <TabsTrigger value="shipping">Shipping</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="description">
             <Card>
               <CardContent className="p-6">
-                <p className="text-muted-foreground leading-relaxed">
-                  {sneaker.description}
-                </p>
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2">Product Details</h4>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>SKU: {sneaker.sku}</li>
-                      <li>Materials: {sneaker.materials}</li>
-                      <li>Colorway: {sneaker.colorway}</li>
-                      <li>Available Sizes: {sneaker.sizes.join(', ')}</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Categories</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {sneaker.categories.map((category: string) => (
-                        <Badge key={category} variant="outline">
-                          {category}
-                        </Badge>
-                      ))}
+                <h3 className="text-lg font-semibold mb-3">Product description</h3>
+                <div className="text-sm text-muted-foreground space-y-4">
+                  <p>{sneaker.description}</p>
+
+                  {/* Available Sizes Section */}
+                  {sneaker.sizes && sneaker.sizes.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="font-medium mb-3">Available Sizes</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {sneaker.sizes.map((size: string, index: number) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-primary"
+                          >
+                            {size}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {sneaker.sizes.length} sizes available
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-medium mb-2">Details</h4>
+                      <ul className="list-disc ml-5 text-sm space-y-1">
+                        <li>Upper: {sneaker.materials || 'N/A'}</li>
+                        <li>Colorway: {sneaker.colorway || 'N/A'}</li>
+                        <li>Category: {sneaker.categories && sneaker.categories.length > 0 ? sneaker.categories.join(', ') : 'Footwear'}</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium mb-2">Specifications</h4>
+                      <div className="text-sm">
+                        <div className="flex justify-between py-1"><span className="text-muted-foreground">Brand</span><span className="font-medium">{sneaker.brandName || '—'}</span></div>
+                        <div className="flex justify-between py-1"><span className="text-muted-foreground">SKU</span><span className="font-medium">{sneaker.sku || '—'}</span></div>
+                        <div className="flex justify-between py-1"><span className="text-muted-foreground">Release</span><span className="font-medium">{sneaker.releaseDate ? format(new Date(sneaker.releaseDate), 'MMM dd, yyyy') : '—'}</span></div>
+                        <div className="flex justify-between py-1"><span className="text-muted-foreground">Retail</span><span className="font-medium">{sneaker.retailPrice ? formatPrice(sneaker.retailPrice) : '—'}</span></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -561,29 +611,9 @@ export default function SneakerDetail() {
           </TabsContent>
 
           <TabsContent value="market">
-            <MarketDataCard 
-              sneakerId={sneaker.id}
-              sneakerName={sneaker.name}
-              size={selectedSize}
-            />
+            <MarketDataCard sneakerId={sneaker.id} sneakerName={sneaker.name} size={selectedSize} />
           </TabsContent>
 
-          <TabsContent value="care-tips">
-            <SneakerCareTips 
-              sneaker={{
-                id: sneaker.id,
-                name: sneaker.name,
-                materials: sneaker.materials,
-                colorway: sneaker.colorway,
-                brandName: sneaker.brandName
-              }}
-            />
-          </TabsContent>
-          
-          <TabsContent value="ai-summary">
-            <ReviewSummary sneakerId={sneaker.id} sneakerName={sneaker.name} />
-          </TabsContent>
-          
           <TabsContent value="reviews">
             <div className="space-y-6">
               {reviews?.length > 0 ? (
@@ -593,30 +623,13 @@ export default function SneakerDetail() {
                       <div className="flex items-start gap-4">
                         <Avatar>
                           <AvatarImage src={review.user?.avatar} />
-                          <AvatarFallback>
-                            {review.user?.displayName?.charAt(0) || 'U'}
-                          </AvatarFallback>
+                          <AvatarFallback>{review.user?.displayName?.charAt(0) || 'U'}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
                             <h4 className="font-semibold">{review.user?.displayName || 'Anonymous'}</h4>
-                            <div className="flex">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star
-                                  key={star}
-                                  className={`h-4 w-4 ${
-                                    star <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-muted-foreground">
-                              {format(new Date(review.createdAt), 'MMM dd, yyyy')}
-                            </span>
+                            <span className="text-sm text-muted-foreground">{format(new Date(review.createdAt), 'MMM dd, yyyy')}</span>
                           </div>
-                          {review.title && (
-                            <h5 className="font-medium mb-2">{review.title}</h5>
-                          )}
                           <p className="text-muted-foreground">{review.content}</p>
                         </div>
                       </div>
@@ -626,47 +639,17 @@ export default function SneakerDetail() {
               ) : (
                 <Card>
                   <CardContent className="p-6 text-center">
-                    <p className="text-muted-foreground">No reviews yet. Be the first to review this sneaker!</p>
+                    <p className="text-muted-foreground">No reviews yet.</p>
                   </CardContent>
                 </Card>
               )}
             </div>
           </TabsContent>
-          
+
           <TabsContent value="shipping">
             <Card>
               <CardContent className="p-6">
-                <div className="space-y-6">
-                  <div className="flex items-start gap-3">
-                    <Truck className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold mb-1">Free Shipping</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Free standard shipping on all orders. Expedited shipping available at checkout.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <Shield className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold mb-1">Returns & Exchanges</h4>
-                      <p className="text-sm text-muted-foreground">
-                        30-day return policy. Items must be in original condition with all tags attached.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <Package className="h-5 w-5 text-primary mt-0.5" />
-                    <div>
-                      <h4 className="font-semibold mb-1">Authenticity Guaranteed</h4>
-                      <p className="text-sm text-muted-foreground">
-                        All sneakers are verified for authenticity before shipping.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <p className="text-sm text-muted-foreground">Free standard shipping. 30-day returns.</p>
               </CardContent>
             </Card>
           </TabsContent>

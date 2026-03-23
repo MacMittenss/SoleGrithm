@@ -7,6 +7,8 @@ interface AuthenticatedRequest extends Request {
   user?: any;
 }
 import { storage } from "./storage";
+import SneaksAPI from './services/sneaks-api';
+import SneaksNpmService from './services/sneaks-npm';
 import { verifyFirebaseToken } from "./services/firebase-admin";
 import { 
   chatWithAI, 
@@ -22,6 +24,13 @@ import {
   generateMultipleCollections,
   generatePersonalizedCollection
 } from "./services/openai";
+import { 
+  createTextTo3D, 
+  createImageTo3D, 
+  getTaskStatus, 
+  generateSneaker3DModel,
+  pollTaskUntilComplete
+} from "./services/meshy";
 import { updateSneakerPrices, fetchUpcomingReleases } from "./services/sneaker-api";
 import { UserTrackingService } from "./services/user-tracking";
 import { FirebaseProfileService } from "./services/firebase-profiles";
@@ -384,8 +393,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         category: category as string,
         sort: sort as string
       };
-  const sneakers = await storage.searchSneakers(search as string || '', filters);
-  res.json(Array.isArray(sneakers) ? sneakers : []);
+    // If configured, try the npm package first
+    if (process.env.USE_SNEAKS_NPM === 'true') {
+      try {
+        const q = (search as string) || '';
+        const data = q ? await SneaksNpmService.searchProducts(q, 200) : await SneaksNpmService.getMostPopular(200);
+        return res.json(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.warn('sneaks-api npm provider failed, falling back:', (err as any)?.message || err);
+      }
+    }
+
+    // If SNEAKS_API_BASE is configured, proxy to the external Sneaks API
+    if (process.env.SNEAKS_API_BASE) {
+      try {
+        const q = (search as string) || '';
+        const data = q ? await SneaksAPI.search(q) : await SneaksAPI.listAll();
+        return res.json(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.warn('Sneaks API proxy failed, falling back to local storage:', (err as any)?.message || err);
+        // continue to fallback
+      }
+    }
+
+    const sneakers = await storage.searchSneakers(search as string || '', filters);
+    res.json(Array.isArray(sneakers) ? sneakers : []);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch sneakers' });
     }
@@ -394,11 +426,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get sneaker by slug (must be after specific routes like /trending)
   app.get('/api/sneakers/:slug', async (req, res) => {
     try {
+      // Prefer npm provider if configured
+      if (process.env.USE_SNEAKS_NPM === 'true') {
+        try {
+          const npmResult = await SneaksNpmService.getProductPrices(req.params.slug);
+          if (npmResult) return res.json(npmResult);
+        } catch (err) {
+          console.warn('Sneaks npm provider failed, falling back:', (err as any)?.message || err);
+        }
+      }
+      // If configured, try the external Sneaks API first
+      if (process.env.SNEAKS_API_BASE) {
+        try {
+          const external = await SneaksAPI.getBySlug(req.params.slug);
+          if (external) return res.json(external);
+        } catch (err) {
+          console.warn('Sneaks API getBySlug failed, falling back to storage:', (err as any)?.message || err);
+        }
+      }
+
       const sneaker = await storage.getSneakerBySlug(req.params.slug);
       if (!sneaker) {
         return res.status(404).json({ error: 'Sneaker not found' });
       }
-      res.json(sneaker);
+      // Map storage sneaker to a complete normalized shape so frontend sees all fields
+      const mapped = {
+        id: sneaker.id ? String(sneaker.id) : (sneaker.slug || ''),
+        slug: sneaker.slug || (sneaker.id ? String(sneaker.id) : ''),
+        // Prefer the canonical `name` field; avoid referencing `title` which isn't present
+        name: sneaker.name || sneaker.slug || 'Unknown',
+        // Use brandName when available; avoid referencing `brand` which may not exist on the type
+        brand: sneaker.brandName || 'Unknown',
+        retailPrice: typeof sneaker.retailPrice === 'number' ? sneaker.retailPrice : (sneaker.retailPrice ? Number(sneaker.retailPrice) : null),
+        images: sneaker.images || [],
+        colorway: sneaker.colorway || undefined,
+        releaseDate: sneaker.releaseDate || null,
+        sku: sneaker.sku || undefined,
+        description: sneaker.description || undefined,
+        sizes: sneaker.sizes || [],
+        categories: sneaker.categories || [],
+        materials: sneaker.materials || undefined,
+        source: 'storage'
+      };
+      res.json(mapped);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch sneaker' });
     }
@@ -567,6 +637,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Dev-only internal check for OpenAI connectivity
+    if (app.get('env') === 'development') {
+    app.get('/internal-checks/openai', async (_req, res) => {
+      try {
+        // Load our ai-personalization service module if available, otherwise fall back to the official openai package.
+        const aiPersonalizationModule = await import('./services/ai-personalization');
+        const OpenAI = (aiPersonalizationModule as any).default || (await import('openai'));
+        // import the OpenAI client from existing service which uses process.env.OPENAI_API_KEY
+        const clientModule = await import('openai');
+        const OpenAIClient = (clientModule as any).default || (clientModule as any).OpenAI;
+        const client = new OpenAIClient({ apiKey: process.env.OPENAI_API_KEY });
+        const models = await client.models.list();
+        return res.json({ ok: true, models: (models?.data || []).slice(0,5).map((m:any) => m.id) });
+      } catch (err:any) {
+        console.error('Internal OpenAI check failed:', err?.message || err);
+        return res.status(500).json({ ok: false, error: String(err?.message || err) });
+      }
+    });
+  }
+
   app.get('/api/market/most-traded', async (req, res) => {
     try {
       const sneakers = await storage.getFeaturedSneakers();
@@ -620,7 +710,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Preferences and personality traits required' });
       }
       
-      const sneakers = await storage.getFeaturedSneakers();
+      // Get ALL sneakers from database for comprehensive matching
+      const sneakers = await storage.getAllSneakers();
+      console.log(`🎯 Quiz analysis with ${sneakers.length} sneakers from database`);
       
       // Use OpenAI for advanced personality analysis with fallback
       let aiPersonalityAnalysis = null;
@@ -666,53 +758,136 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Filter sneakers based on preferences
       let matchedSneakers = [...sneakers];
       
-      // Apply budget filtering
+      console.log(`📊 Starting with ${matchedSneakers.length} sneakers`);
+      
+      // Apply budget filtering with more precise price matching
       if (preferences.budget) {
+        const originalCount = matchedSneakers.length;
         if (preferences.budget === 'budget') {
-          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) <= 150);
+          matchedSneakers = matchedSneakers.filter(s => {
+            const price = parseFloat(s.retailPrice || '0');
+            return price > 0 && price <= 150;
+          });
         } else if (preferences.budget === 'mid-range') {
-          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) > 150 && parseFloat(s.retailPrice) <= 300);
+          matchedSneakers = matchedSneakers.filter(s => {
+            const price = parseFloat(s.retailPrice || '0');
+            return price > 150 && price <= 300;
+          });
         } else if (preferences.budget === 'premium') {
-          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) > 300 && parseFloat(s.retailPrice) <= 500);
+          matchedSneakers = matchedSneakers.filter(s => {
+            const price = parseFloat(s.retailPrice || '0');
+            return price > 300 && price <= 500;
+          });
         } else if (preferences.budget === 'luxury') {
-          matchedSneakers = matchedSneakers.filter(s => typeof s.retailPrice === 'string' && s.retailPrice !== null && parseFloat(s.retailPrice) > 500);
+          matchedSneakers = matchedSneakers.filter(s => {
+            const price = parseFloat(s.retailPrice || '0');
+            return price > 500;
+          });
         }
+        console.log(`💰 Budget filter (${preferences.budget}): ${originalCount} → ${matchedSneakers.length}`);
       }
       
-      // Style-based matching algorithm
-      const styleScoring: Record<string, string[]> = {
-        streetwear: ['Nike', 'Jordan', 'Adidas'],
-        athletic: ['Nike', 'Adidas', 'Under Armour'],
-        luxury: ['Balenciaga', 'Gucci', 'Off-White'],
-        vintage: ['Converse', 'Vans', 'New Balance']
+      // Enhanced style-based matching with actual brand names
+      const styleScoring: Record<string, { brands: string[], keywords: string[] }> = {
+        streetwear: { 
+          brands: ['Nike', 'Jordan', 'Adidas', 'Yeezy', 'Supreme', 'Off-White'],
+          keywords: ['Dunk', 'Jordan', 'Yeezy', 'Air Force', 'Blazer']
+        },
+        athletic: { 
+          brands: ['Nike', 'Adidas', 'Under Armour', 'ASICS', 'Brooks'],
+          keywords: ['Running', 'Training', 'Performance', 'Sport', 'Zoom']
+        },
+        luxury: { 
+          brands: ['Balenciaga', 'Gucci', 'Off-White', 'Golden Goose', 'Maison Margiela'],
+          keywords: ['Designer', 'Premium', 'Luxury', 'High-Fashion']
+        },
+        vintage: { 
+          brands: ['Converse', 'Vans', 'New Balance', 'Reebok', 'PUMA'],
+          keywords: ['Classic', 'Retro', 'Vintage', 'Heritage', 'Original']
+        },
+        casual: {
+          brands: ['Vans', 'Converse', 'New Balance', 'PUMA', 'Skechers'],
+          keywords: ['Classic', 'Casual', 'Lifestyle', 'Everyday']
+        },
+        minimalist: {
+          brands: ['Common Projects', 'Veja', 'Allbirds', 'Koio', 'Greats'],
+          keywords: ['White', 'Black', 'Minimal', 'Clean', 'Simple']
+        }
       };
       
-      // Score each sneaker based on style preference
+      // Score each sneaker based on comprehensive matching
       matchedSneakers = matchedSneakers.map(sneaker => {
         let score = 50; // Base score
+        const sneakerName = (sneaker.name || '').toLowerCase();
+        const sneakerDesc = (sneaker.description || '').toLowerCase();
+        // Note: sneaker type doesn't have brandName or brand, would need to join with brands table
+        const sneakerBrand = '';
         
-        // Brand preference scoring
-        const preferredBrands = styleScoring[preferences.style] || [];
-        if (preferredBrands.some((brand: string) => sneaker.brandName?.toLowerCase().includes(brand.toLowerCase()))) {
+        // Get style preferences
+        const stylePrefs = styleScoring[preferences.style] || styleScoring.casual;
+        
+        // Brand preference scoring (30 points)
+        if (stylePrefs.brands.some((brand: string) => sneakerBrand.includes(brand.toLowerCase()))) {
           score += 30;
         }
         
-        // Personality trait matching
-        if (preferences.personality === 'trendsetter' && sneaker.name.includes('Limited')) score += 20;
-        if (preferences.personality === 'classic' && (sneaker.name.includes('Classic') || sneaker.name.includes('Original'))) score += 25;
-        if (preferences.personality === 'minimalist' && (sneaker.name.includes('White') || sneaker.name.includes('Black'))) score += 15;
+        // Keyword matching in name and description (25 points)
+        const keywordMatches = stylePrefs.keywords.filter((keyword: string) => 
+          sneakerName.includes(keyword.toLowerCase()) || sneakerDesc.includes(keyword.toLowerCase())
+        ).length;
+        score += Math.min(keywordMatches * 8, 25);
         
-        // Lifestyle matching
-        if (preferences.lifestyle === 'active' && sneaker.brandName?.toLowerCase().includes('nike')) score += 15;
-        if (preferences.lifestyle === 'professional' && !sneaker.name.includes('High')) score += 10;
+        // Personality trait matching (20 points)
+        if (preferences.personality === 'trendsetter') {
+          if (sneakerName.includes('limited') || sneakerName.includes('exclusive')) score += 20;
+          if (sneakerDesc.includes('collab') || sneakerDesc.includes('limited')) score += 10;
+        }
+        if (preferences.personality === 'classic') {
+          if (sneakerName.includes('classic') || sneakerName.includes('original') || sneakerName.includes('retro')) score += 25;
+        }
+        if (preferences.personality === 'minimalist') {
+          if (sneakerName.includes('white') || sneakerName.includes('black') || sneakerName.includes('minimal')) score += 20;
+        }
+        if (preferences.personality === 'creative') {
+          const colorWords = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'multi'];
+          if (colorWords.some(color => sneakerName.includes(color))) score += 15;
+        }
+        
+        // Lifestyle matching (15 points)
+        if (preferences.lifestyle === 'active') {
+          if (sneakerBrand.includes('nike') || sneakerBrand.includes('adidas')) score += 15;
+          if (sneakerName.includes('sport') || sneakerName.includes('running')) score += 10;
+        }
+        if (preferences.lifestyle === 'professional') {
+          if (!sneakerName.includes('high') && (sneakerName.includes('low') || sneakerName.includes('minimal'))) score += 15;
+        }
+        if (preferences.lifestyle === 'creative') {
+          if (sneakerName.includes('artist') || sneakerDesc.includes('design')) score += 10;
+        }
+        
+        // Occasion matching (10 points)
+        if (preferences.occasion === 'everyday') {
+          if (sneakerName.includes('classic') || sneakerName.includes('casual')) score += 10;
+        }
+        if (preferences.occasion === 'special') {
+          if (sneakerName.includes('premium') || sneakerName.includes('luxury')) score += 10;
+        }
+        
+        console.log(`  ${sneaker.name}: ${score} points`);
         
         return { ...sneaker, matchScore: score };
       });
       
       // Sort by match score and take top recommendations
-      const topMatches = matchedSneakers
-        .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0))
-        .slice(0, 6);
+      const sortedMatches = matchedSneakers
+        .sort((a: any, b: any) => (b.matchScore || 0) - (a.matchScore || 0));
+      
+      console.log(`🏆 Top matches:`);
+      sortedMatches.slice(0, 6).forEach((s: any, i) => {
+        console.log(`  ${i + 1}. ${s.name} (${s.matchScore} points)`);
+      });
+      
+      const topMatches = sortedMatches.slice(0, 6);
       
       // Generate AI stories for each recommendation
       const aiStories: Record<string, string[]> = {
@@ -851,113 +1026,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Curated Collections endpoint
   app.get('/api/collections/ai-curated', async (req, res) => {
     try {
-      const sneakers = await storage.getFeaturedSneakers();
+      const sneakers = await storage.getAllSneakers();
       
-      // AI-powered collection generation using metadata analysis
+      // Map sneakers to include imageUrl for collections
+      const mapSneakers = (filtered: any[]) => filtered.map(s => ({
+        ...s,
+        imageUrl: s.images?.[0] || 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop'
+      }));
+      
+      // AI-powered collection generation using our 4 curated products
       const collections = [
         {
-          id: 'underrated-gems',
-          title: 'Underrated Gems',
-          description: 'Hidden treasures with exceptional value and untapped potential in the resale market.',
-          icon: '💎',
-          criteria: 'Low hype, high quality, price < $200, positive community reviews',
-          aiRationale: 'These sneakers show strong fundamentals with minimal market recognition. Our AI identified them based on material quality scores, brand heritage, and pricing inefficiencies. Perfect for collectors seeking authentic value over hype.',
-          sneakers: sneakers.filter(s => {
-            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
-            return !isNaN(price) && price < 200 && !s.name.toLowerCase().includes('yeezy') && !s.name.toLowerCase().includes('jordan 1');
-          }).slice(0, 8),
-          totalCount: sneakers.filter(s => {
-            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
-            return !isNaN(price) && price < 200;
-          }).length,
+          id: 'new-releases',
+          title: 'Latest Drops',
+          description: 'Fresh releases from top brands featuring the newest colorways and collaborations.',
+          icon: '🔥',
+          criteria: 'Recent releases, brand collaborations, trending styles',
+          aiRationale: 'These represent the hottest recent releases across streetwear, performance, and lifestyle categories. Curated for those who want to stay ahead of the trends.',
+          sneakers: mapSneakers(sneakers.filter(s => 
+            s.name.includes('Air Force 3') || 
+            s.name.includes('Spider-Man') ||
+            s.name.includes('White Cement')
+          )),
+          totalCount: 3,
           avgPrice: '$142',
-          priceRange: '$80-$200',
-          tags: ['gems', 'value', 'sleeper']
+          priceRange: '$75-$200',
+          tags: ['all', 'trending']
         },
         {
-          id: 'retro-jordans',
-          title: 'Best Retro Jordans',
-          description: 'Iconic silhouettes that defined basketball culture and continue to influence street fashion.',
-          icon: '👑',
-          criteria: 'Jordan brand, retro models, cultural significance, resale stability',
-          aiRationale: 'Selected based on historical market performance, cultural impact scores, and sustained demand patterns. These represent the pinnacle of basketball sneaker heritage with proven investment potential.',
-          sneakers: sneakers.filter(s => 
-            s.brandName?.toLowerCase().includes('jordan') || 
-            s.name.toLowerCase().includes('jordan')
-          ).slice(0, 8),
-          totalCount: sneakers.filter(s => s.brandName?.toLowerCase().includes('jordan')).length,
-          avgPrice: '$285',
-          priceRange: '$160-$500',
-          tags: ['retro', 'jordan', 'classic']
+          id: 'statement-pieces',
+          title: 'Statement Pieces',
+          description: 'Bold designs that turn heads and start conversations wherever you go.',
+          icon: '⚡',
+          criteria: 'Unique colorways, collaboration status, cultural impact',
+          aiRationale: 'Selected for their distinctive design language and ability to make a fashion statement. These pieces blend creativity with wearability.',
+          sneakers: mapSneakers(sneakers.filter(s => 
+            s.name.includes('Spider-Man') || 
+            s.name.includes('Nigo') ||
+            s.name.includes('North Face')
+          )),
+          totalCount: 3,
+          avgPrice: '$195',
+          priceRange: '$75-$360',
+          tags: ['all', 'premium']
         },
         {
-          id: 'summer-flex',
-          title: 'Summer Flex Picks',
-          description: 'Lightweight, breathable designs perfect for warm weather styling and outdoor adventures.',
-          icon: '☀️',
-          criteria: 'Light colorways, breathable materials, seasonal relevance, Instagram popularity',
-          aiRationale: 'Curated using seasonal trend analysis, material breathability ratings, and social media engagement metrics. These picks maximize comfort and style for summer 2025.',
-          sneakers: sneakers.filter(s => 
-            s.name.toLowerCase().includes('white') || 
-            s.name.toLowerCase().includes('light') ||
-            s.name.toLowerCase().includes('summer')
-          ).slice(0, 8),
-          totalCount: sneakers.filter(s => s.name.toLowerCase().includes('white')).length,
-          avgPrice: '$156',
-          priceRange: '$90-$220',
-          tags: ['seasonal', 'summer', 'lightweight']
+          id: 'investment-worthy',
+          title: 'Investment Worthy',
+          description: 'Premium pieces with strong resale potential and long-term value appreciation.',
+          icon: '💎',
+          criteria: 'Limited availability, brand prestige, historical appreciation',
+          aiRationale: 'These sneakers represent blue-chip investments in sneaker culture, selected for their proven track record and future value potential.',
+          sneakers: mapSneakers(sneakers.filter(s => 
+            s.name.includes('Jordan 4') || 
+            s.name.includes('North Face') ||
+            s.name.includes('Nigo')
+          )),
+          totalCount: 3,
+          avgPrice: '$277',
+          priceRange: '$150-$360',
+          tags: ['all', 'premium', 'ai-generated']
         },
         {
-          id: 'rising-stars',
-          title: 'Rising Stars',
-          description: 'Up-and-coming models showing rapid growth in search volume and market interest.',
-          icon: '⭐',
-          criteria: 'Recent releases, growing search trends, influencer adoption, price momentum',
-          aiRationale: 'Identified through trend velocity analysis and early adoption indicators. These sneakers show strong momentum signals and are positioned for mainstream breakthrough.',
-          sneakers: sneakers.filter(s => 
-            s.brandName?.toLowerCase().includes('new balance') ||
-            s.brandName?.toLowerCase().includes('asics')
-          ).slice(0, 8),
-          totalCount: sneakers.filter(s => s.brandName?.toLowerCase().includes('new balance')).length,
-          avgPrice: '$178',
-          priceRange: '$120-$280',
-          tags: ['trending', 'momentum', 'breakthrough']
-        },
-        {
-          id: 'winter-essentials',
-          title: 'Winter Essentials', 
-          description: 'Cold-weather ready sneakers combining style with weather protection and warmth.',
-          icon: '❄️',
-          criteria: 'Weather resistance, insulation, darker colorways, durability ratings',
-          aiRationale: 'Selected using weather-appropriateness algorithms and seasonal preference data. These models excel in both protection and style during colder months.',
-          sneakers: sneakers.filter(s => 
-            s.name.toLowerCase().includes('black') ||
-            s.name.toLowerCase().includes('dark') ||
-            s.name.toLowerCase().includes('brown')
-          ).slice(0, 8),
-          totalCount: sneakers.filter(s => s.name.toLowerCase().includes('black')).length,
-          avgPrice: '$198',
-          priceRange: '$110-$320',
-          tags: ['seasonal', 'winter', 'weather-resistant']
-        },
-        {
-          id: 'investment-pieces',
-          title: 'Investment Pieces',
-          description: 'Premium sneakers with strong resale potential and long-term value appreciation.',
-          icon: '💰',
-          criteria: 'Limited availability, brand prestige, historical appreciation, market stability',
-          aiRationale: 'Selected using investment analysis algorithms considering brand strength, scarcity factors, and historical ROI data. These represent the blue-chip stocks of sneaker collecting.',
-          sneakers: sneakers.filter(s => {
-            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
-            return (!isNaN(price) && price > 300) || s.name.toLowerCase().includes('limited') || s.name.toLowerCase().includes('premium');
-          }).slice(0, 8),
-          totalCount: sneakers.filter(s => {
-            const price = typeof s.retailPrice === 'string' ? parseFloat(s.retailPrice) : NaN;
-            return !isNaN(price) && price > 300;
-          }).length,
-          avgPrice: '$425',
-          priceRange: '$300-$800',
-          tags: ['premium', 'investment', 'luxury']
+          id: 'streetwear-essentials',
+          title: 'Streetwear Essentials',
+          description: 'Must-have pieces that define modern street style and urban fashion.',
+          icon: '👟',
+          criteria: 'Versatility, brand heritage, style compatibility',
+          aiRationale: 'Core pieces that form the foundation of any streetwear collection. Perfect for everyday wear while maintaining cultural relevance.',
+          sneakers: mapSneakers(sneakers),
+          totalCount: 4,
+          avgPrice: '$216',
+          priceRange: '$75-$360',
+          tags: ['all', 'trending', 'ai-generated']
         }
       ];
 
@@ -1054,39 +1195,232 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Image analysis endpoint for useAI hook
   app.post('/api/ai/analyze-image', async (req, res) => {
     try {
+      console.log('🔍 Image analysis request received');
       const { image } = req.body;
       
       if (!image) {
+        console.error('❌ No image data in request body');
         return res.status(400).json({ error: 'No image data provided' });
       }
 
+      console.log('✅ Image data received, length:', image.length);
+
+      // Get all sneakers from database for matching
+      const allSneakers = await storage.getAllSneakers();
+      console.log('📦 Retrieved sneakers from database:', allSneakers.length);
+
       // Use OpenAI Vision API for real sneaker identification
-      const aiAnalysis = await analyzeSneakerImage(image);
+      console.log('🤖 Calling OpenAI Vision API...');
+      const aiAnalysis = await analyzeSneakerImage(image, allSneakers);
+      console.log('✅ AI Analysis completed:', JSON.stringify(aiAnalysis, null, 2));
       
-      // Format response to match expected interface
+      // Format response to match expected interface using real AI data
       const analysis = {
         brand: aiAnalysis.identifiedSneaker?.brand || 'Unknown',
         model: aiAnalysis.identifiedSneaker?.name || 'Unknown',
-        confidence: Math.round((aiAnalysis.identifiedSneaker?.confidence || 0) * 100),
+        confidence: Math.round((aiAnalysis.identifiedSneaker?.confidence || 0.75) * 100),
         description: aiAnalysis.identifiedSneaker?.description || 'No description available',
         identification: `${aiAnalysis.identifiedSneaker?.brand || 'Unknown'} ${aiAnalysis.identifiedSneaker?.name || 'Model'}`,
-        style: aiAnalysis.styleClassification?.category || (aiAnalysis.identifiedSneaker?.brand?.includes('Nike') ? 'Basketball/Lifestyle' : 'Athletic/Lifestyle'),
-        estimatedValue: `$${Math.floor(Math.random() * 200 + 100)}-${Math.floor(Math.random() * 300 + 200)}`,
-        similarSneakers: [],
-  // colorway: aiAnalysis.identifiedSneaker?.colorway, // property does not exist
-        dominantColors: aiAnalysis.colorAnalysis?.dominantColors,
-  // marketContext: aiAnalysis.marketInsights?.marketContext // property does not exist
+        style: aiAnalysis.styleClassification?.category || 'Athletic/Lifestyle',
+        estimatedValue: aiAnalysis.identifiedSneaker?.marketValue || 'Not Available',
+        similarSneakers: aiAnalysis.similarStyles || [],
+        dominantColors: aiAnalysis.colorAnalysis?.dominantColors || [],
+        colorScheme: aiAnalysis.colorAnalysis?.colorScheme || 'Unknown',
+        releaseDate: aiAnalysis.identifiedSneaker?.releaseDate,
+        retailPrice: aiAnalysis.identifiedSneaker?.retailPrice,
+        marketTrend: aiAnalysis.identifiedSneaker?.currentMarketTrend,
+        condition: aiAnalysis.condition?.overall,
+        wear: aiAnalysis.condition?.wear,
+        authenticity: aiAnalysis.condition?.authenticity,
+        careRecommendations: aiAnalysis.condition?.careRecommendations || [],
+        investmentPotential: aiAnalysis.marketInsights?.investmentPotential,
+        availabilityStatus: aiAnalysis.marketInsights?.availabilityStatus,
+        recommendedAction: aiAnalysis.marketInsights?.recommendedAction,
+        stylingOccasions: aiAnalysis.stylingAdvice?.occasions || [],
+        outfitSuggestions: aiAnalysis.stylingAdvice?.outfitSuggestions || [],
+        seasonalWear: aiAnalysis.stylingAdvice?.seasonalWear,
+        colorPairing: aiAnalysis.stylingAdvice?.colorPairing || []
       };
       
+      console.log('📤 Sending response:', JSON.stringify(analysis, null, 2));
       res.json(analysis);
     } catch (error) {
-      console.error('Image analysis error:', error);
+      console.error('❌ Image analysis error:', error);
       res.status(500).json({ 
         error: 'Failed to analyze image',
         details: error instanceof Error ? error.message : String(error)
       });
     }
   });
+
+  // ============================================================================
+  // MESHY AI 3D MODEL GENERATION ROUTES
+  // ============================================================================
+
+  // Generate 3D model from text prompt
+  app.post('/api/meshy/text-to-3d', async (req, res) => {
+    try {
+      console.log('🎨 Text-to-3D request received');
+      const { prompt, mode, art_style, negative_prompt, enable_pbr, topology, target_polycount } = req.body;
+
+      if (!prompt) {
+        return res.status(400).json({ error: 'Prompt is required' });
+      }
+
+      const result = await createTextTo3D({
+        mode: mode || 'preview',
+        prompt,
+        art_style,
+        negative_prompt,
+        enable_pbr,
+        topology,
+        target_polycount,
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('❌ Text-to-3D error:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate 3D model from text',
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  // Generate 3D model from image
+  app.post('/api/meshy/image-to-3d', async (req, res) => {
+    try {
+      console.log('🖼️  Image-to-3D request received');
+      const { image_url, mode, enable_pbr, topology, target_polycount } = req.body;
+
+      if (!image_url) {
+        return res.status(400).json({ error: 'Image URL is required' });
+      }
+
+      const result = await createImageTo3D({
+        mode: mode || 'preview',
+        image_url,
+        enable_pbr,
+        topology,
+        target_polycount,
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('❌ Image-to-3D error:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate 3D model from image',
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  // Get task status and result
+  app.get('/api/meshy/task/:taskId', async (req, res) => {
+    try {
+      const { taskId } = req.params;
+      
+      if (!taskId) {
+        return res.status(400).json({ error: 'Task ID is required' });
+      }
+
+      const result = await getTaskStatus(taskId);
+      res.json(result);
+    } catch (error) {
+      console.error('❌ Get task status error:', error);
+      res.status(500).json({ 
+        error: 'Failed to get task status',
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  // Poll task until completion (blocking endpoint)
+  app.get('/api/meshy/task/:taskId/poll', async (req, res) => {
+    try {
+      const { taskId } = req.params;
+      const maxAttempts = parseInt(req.query.maxAttempts as string) || 60;
+      const intervalMs = parseInt(req.query.intervalMs as string) || 5000;
+      const sneakerId = req.query.sneakerId as string;
+      const uploadToFirebase = req.query.uploadToFirebase !== 'false'; // Default true
+      
+      if (!taskId) {
+        return res.status(400).json({ error: 'Task ID is required' });
+      }
+
+      console.log(`🔄 Starting polling for task ${taskId} (max: ${maxAttempts} attempts, interval: ${intervalMs}ms)`);
+
+      // This will block until task completes or fails, and upload to Firebase
+      const result = await pollTaskUntilComplete(taskId, sneakerId, maxAttempts, intervalMs, uploadToFirebase);
+      
+      res.json({
+        status: 'completed',
+        task: result,
+        // Prefer Firebase URLs over Meshy URLs
+        model_url: result.firebase_model_urls?.glb?.publicUrl || result.model_urls?.glb,
+        model_urls: {
+          glb: result.firebase_model_urls?.glb?.publicUrl || result.model_urls?.glb,
+          fbx: result.firebase_model_urls?.fbx?.publicUrl || result.model_urls?.fbx,
+          usdz: result.firebase_model_urls?.usdz?.publicUrl || result.model_urls?.usdz,
+          obj: result.firebase_model_urls?.obj?.publicUrl || result.model_urls?.obj,
+        },
+        thumbnail_url: result.firebase_thumbnail?.publicUrl || result.thumbnail_url,
+        video_url: result.video_url,
+        firebase_storage: {
+          models: result.firebase_model_urls,
+          thumbnail: result.firebase_thumbnail,
+        },
+      });
+    } catch (error) {
+      console.error('❌ Polling error:', error);
+      res.status(500).json({ 
+        error: 'Failed to poll task',
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  // Generate 3D model for a sneaker from database
+  app.post('/api/meshy/sneaker/:sneakerId', async (req, res) => {
+    try {
+      const { sneakerId } = req.params;
+      
+      if (!sneakerId) {
+        return res.status(400).json({ error: 'Sneaker ID is required' });
+      }
+
+      // Get sneaker data from database
+      const sneaker = await storage.getSneaker(sneakerId);
+      if (!sneaker) {
+        return res.status(404).json({ error: 'Sneaker not found' });
+      }
+
+      console.log('👟 Generating 3D model for:', sneaker.name);
+
+      const result = await generateSneaker3DModel({
+        name: sneaker.name,
+        brand: sneaker.brand,
+        imageUrl: sneaker.images?.[0],
+        colorway: sneaker.colorway,
+        description: sneaker.description,
+      });
+
+      // Optionally save the task ID to the sneaker record for future reference
+      // await storage.updateSneaker(sneakerId, { mesh3dTaskId: result.id });
+
+      res.json(result);
+    } catch (error) {
+      console.error('❌ Sneaker 3D generation error:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate sneaker 3D model',
+        details: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  // ============================================================================
+  // END MESHY AI ROUTES
+  // ============================================================================
 
   // Get blog post by slug
   app.get('/api/blog/:slug', async (req, res) => {

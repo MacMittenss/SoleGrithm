@@ -96,7 +96,6 @@ export default function EnhancedSneakerCard({
                   src={currentImage}
                   alt={sneaker.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  placeholder="blur"
                 />
               </Link>
 

@@ -88,8 +88,8 @@ export default function AdvancedFlagshipFeatures() {
           >
             {/* Women in Sneakers Card */}
             <div 
-              className="services-card"
-              style={{
+                className="services-card"
+                style={{
                 borderRadius: '24px',
                 backgroundColor: '#1c1c1c',
                 padding: '2.2vw',
@@ -98,7 +98,8 @@ export default function AdvancedFlagshipFeatures() {
                 flexDirection: 'column',
                 gap: '1.1vw',
                 transition: 'filter 0.2s ease-in-out, color 0.3s',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                fontFamily: 'Inter, sans-serif'
               }}
             >
               <div 
@@ -135,11 +136,12 @@ export default function AdvancedFlagshipFeatures() {
                     }}
                   />
                 </div>
-                <h4 
+                <h4 className="flagship-heading"
                   style={{
                     letterSpacing: '-0.07vw',
                     textTransform: 'uppercase',
                     fontSize: '2.78vw',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 500,
                     lineHeight: '3.33vw',
                     margin: 0,
@@ -206,7 +208,8 @@ export default function AdvancedFlagshipFeatures() {
                 flexDirection: 'column',
                 gap: '1.1vw',
                 transition: 'filter 0.2s ease-in-out, color 0.3s',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                fontFamily: 'Inter, sans-serif'
               }}
             >
               <div 
@@ -243,11 +246,12 @@ export default function AdvancedFlagshipFeatures() {
                     }}
                   />
                 </div>
-                <h4 
+                <h4 className="flagship-heading"
                   style={{
                     letterSpacing: '-0.07vw',
                     textTransform: 'uppercase',
                     fontSize: '2.78vw',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 500,
                     lineHeight: '3.33vw',
                     margin: 0,

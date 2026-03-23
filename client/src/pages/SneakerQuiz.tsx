@@ -499,7 +499,7 @@ export default function SneakerQuiz() {
                   <Shuffle className="w-4 h-4" />
                   Take Quiz Again
                 </Button>
-                <Button className="flex items-center gap-2">
+                <Button className="flex items-center gap-2 text-black">
                   <Heart className="w-4 h-4" />
                   Save My Matches
                 </Button>

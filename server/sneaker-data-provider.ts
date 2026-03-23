@@ -27,30 +27,42 @@ export class KicksAPIProvider implements SneakerDataProvider {
   }
 
   async getSneakersByBrand(brand: string, limit = 100): Promise<SneakerData[]> {
-    // Replace with real KicksAPI endpoint and logic
-    // Example endpoint: https://api.kicksapi.com/v1/sneakers?brand=BRAND&limit=LIMIT
-    const response = await fetch(`https://api.kicks.dev/v1/sneakers?brand=${encodeURIComponent(brand)}&limit=${limit}`, {
-      headers: { 'Authorization': `Bearer ${this.apiKey}` }
-    });
-    const data = await response.json();
-    console.log('[KicksAPIProvider] Raw API response:', data);
-    if (!data || !Array.isArray(data.sneakers)) {
-      throw new Error('KicksAPI response does not contain a sneakers array. Response: ' + JSON.stringify(data));
+    const url = `https://api.kicks.dev/v1/sneakers?brand=${encodeURIComponent(brand)}&limit=${limit}`;
+    // Simple retry loop for transient errors
+    let attempts = 0;
+    const maxAttempts = 3;
+    while (attempts < maxAttempts) {
+      attempts++;
+      try {
+  const response = await fetch(url, { headers: { 'Authorization': `Bearer ${this.apiKey}` } });
+        const data = await response.json();
+        console.log('[KicksAPIProvider] Raw API response:', data);
+        if (!data || !Array.isArray(data.sneakers)) {
+          throw new Error('KicksAPI response does not contain a sneakers array. Response: ' + JSON.stringify(data));
+        }
+        // Map KicksAPI response to SneakerData[]
+        return data.sneakers.map((item: any) => ({
+          id: item.id,
+          name: item.name,
+          brand: item.brand,
+          description: item.description,
+          imageUrl: item.image_url,
+          retailPrice: item.retail_price,
+          releaseDate: item.release_date,
+          sku: item.sku,
+          colorway: item.colorway,
+          sizes: item.sizes,
+          materials: item.materials
+        }));
+      } catch (err) {
+        const e: any = err;
+        console.warn(`[KicksAPIProvider] Attempt ${attempts} failed for ${brand}:`, e && (e.message || e));
+        if (attempts >= maxAttempts) throw err;
+        // backoff
+        await new Promise((res) => setTimeout(res, attempts * 500));
+      }
     }
-    // Map KicksAPI response to SneakerData[]
-    return data.sneakers.map((item: any) => ({
-      id: item.id,
-      name: item.name,
-      brand: item.brand,
-      description: item.description,
-      imageUrl: item.image_url,
-      retailPrice: item.retail_price,
-      releaseDate: item.release_date,
-      sku: item.sku,
-      colorway: item.colorway,
-      sizes: item.sizes,
-      materials: item.materials
-    }));
+    return [];
   }
 }
 

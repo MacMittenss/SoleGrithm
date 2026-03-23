@@ -144,7 +144,7 @@ export default function SneakerCareTips({ sneaker }: SneakerCareTipsProps) {
               <div className="space-y-3">
                 <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300">General Maintenance</h4>
                 <ul className="space-y-2">
-                  {careTips.generalTips.map((tip, index) => (
+                  {careTips.generalTips.map((tip: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
                       <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
                       <span className="text-gray-600 dark:text-gray-400">{tip}</span>
@@ -163,7 +163,7 @@ export default function SneakerCareTips({ sneaker }: SneakerCareTipsProps) {
                   </p>
                 </div>
                 <ul className="space-y-2">
-                  {careTips.materialSpecific.map((tip, index) => (
+                  {careTips.materialSpecific.map((tip: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
                       <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
                       <span className="text-gray-600 dark:text-gray-400">{tip}</span>
@@ -177,7 +177,7 @@ export default function SneakerCareTips({ sneaker }: SneakerCareTipsProps) {
               <div className="space-y-3">
                 <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300">Step-by-Step Cleaning</h4>
                 <ol className="space-y-3">
-                  {careTips.cleaningSteps.map((step, index) => (
+                  {careTips.cleaningSteps.map((step: string, index: number) => (
                     <li key={index} className="flex items-start gap-3 text-sm">
                       <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-medium">
                         {index + 1}
@@ -193,7 +193,7 @@ export default function SneakerCareTips({ sneaker }: SneakerCareTipsProps) {
               <div className="space-y-3">
                 <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300">Storage Recommendations</h4>
                 <ul className="space-y-2">
-                  {careTips.storageAdvice.map((advice, index) => (
+                  {careTips.storageAdvice.map((advice: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
                       <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
                       <span className="text-gray-600 dark:text-gray-400">{advice}</span>
@@ -207,7 +207,7 @@ export default function SneakerCareTips({ sneaker }: SneakerCareTipsProps) {
               <div className="space-y-3">
                 <h4 className="font-medium text-sm text-gray-700 dark:text-gray-300">Important Warnings</h4>
                 <ul className="space-y-2">
-                  {careTips.warnings.map((warning, index) => (
+                  {careTips.warnings.map((warning: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
                       <AlertTriangle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
                       <span className="text-gray-600 dark:text-gray-400">{warning}</span>

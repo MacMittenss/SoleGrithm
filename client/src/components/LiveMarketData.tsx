@@ -60,14 +60,14 @@ const LiveMarketData: React.FC = () => {
   const [activeTab, setActiveTab] = useState('trending');
 
   // Fetch market trends
-  const { data: marketTrends, isLoading: trendsLoading, error: trendsError } = useQuery({
+  const { data: marketTrends, isLoading: trendsLoading, error: trendsError } = useQuery<MarketTrends | null>({
     queryKey: ['/api/market/trends'],
     refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
     staleTime: 2 * 60 * 1000 // Consider data stale after 2 minutes
   });
 
   // Search functionality
-  const { data: searchResults, isLoading: searchLoading, refetch: searchSneakers } = useQuery({
+  const { data: searchResults, isLoading: searchLoading, refetch: searchSneakers } = useQuery<any>({
     queryKey: ['/api/market/search', searchQuery],
     enabled: false, // Only run when explicitly called
     staleTime: 30 * 1000 // 30 seconds
@@ -205,11 +205,11 @@ const LiveMarketData: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sans">
       {/* Search */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 font-sans">
             <Search className="w-5 h-5" />
             Live Market Search
           </CardTitle>

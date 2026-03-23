@@ -1,0 +1,22 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "ignoreFiles": [
+    "client/src/styles/**",
+    "client/src/template-styles.css",
+    "client/src/styles/women-in-sneakers/**"
+  ],
+  "rules": {
+    "at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen", "layer", "import"]
+    }],
+    "property-no-unknown": [true, {
+      "ignoreProperties": ["text-stroke", "-webkit-line-clamp", "line-clamp"]
+    }],
+    "selector-class-pattern": null,
+    "no-duplicate-selectors": null,
+    "no-descending-specificity": null,
+    "custom-property-pattern": null,
+    "property-no-deprecated": null,
+    "no-empty-source": null
+  }
+}

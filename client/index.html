@@ -32,6 +32,38 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     
+    <!-- Women In Sneakers Template CSS -->
+    <link rel="stylesheet" href="/women-in-sneakers-assets/css/normalize.css">
+    <link rel="stylesheet" href="/women-in-sneakers-assets/css/webflow.css">
+    <link rel="stylesheet" href="/women-in-sneakers-assets/css/marcuss-wondrous-site-df7036.webflow.css">
+    
+    <!-- Preload fonts for Women In Sneakers -->
+    <link rel="preload" href="/women-in-sneakers-assets/fonts/WorkSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/women-in-sneakers-assets/fonts/WorkSans-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/women-in-sneakers-assets/fonts/WorkSans-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/women-in-sneakers-assets/fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Fix MediaPipe Module.arguments issue -->
+    <script>
+        // Set up Module object before MediaPipe loads
+        var Module = {
+            arguments: [],
+            locateFile: function(path, prefix) {
+                // Return CDN URLs for WASM files
+                if (path.endsWith('.wasm') || path.endsWith('.data')) {
+                    return 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/' + path;
+                }
+                return prefix + path;
+            }
+        };
+        // Prevent it from being overwritten
+        Object.defineProperty(window, 'Module', {
+            value: Module,
+            writable: true,
+            configurable: false
+        });
+    </script>
+    
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

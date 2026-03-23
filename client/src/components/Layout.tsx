@@ -11,11 +11,11 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onAIChatToggle={() => { /* noop for Layout */ }} />
       <main className="relative">
         {children}
       </main>
-      <AIChat />
+      <AIChat isOpen={false} onClose={() => {}} />
       <AuthModal />
       <BackgroundCareFacts />
     </div>

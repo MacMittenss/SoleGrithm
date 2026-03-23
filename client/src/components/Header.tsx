@@ -25,10 +25,10 @@ import { useAuth } from '@/hooks/useAuth';
 // import soleGridLogo from '@assets/S (2)_1752797110222.png';
 
 interface HeaderProps {
-  onAIChatToggle: () => void;
+  onAIChatToggle?: () => void;
 }
 
-export default function Header({ onAIChatToggle }: HeaderProps) {
+export default function Header({ onAIChatToggle = () => {} }: HeaderProps) {
   const [location] = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -96,8 +96,8 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             <div className="flex items-center h-16 px-4 py-2">
               <span className={`font-thin text-lg transition-colors ${
                 isHomePage && !isScrolled ? "text-white" : "text-gray-700"
-              }`} style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5em'}}>SOLE</span>
-              <span className="text-orange-500 font-thin text-lg" style={{fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '0.5em', marginLeft: '0.5em'}}>GRITHM</span>
+              }`} style={{ letterSpacing: '0.5em' }}>SOLE</span>
+              <span className="text-orange-500 font-thin text-lg" style={{ letterSpacing: '0.5em', marginLeft: '0.5em' }}>GRITHM</span>
             </div>
           </Link>
 
@@ -175,7 +175,7 @@ export default function Header({ onAIChatToggle }: HeaderProps) {
             <Button
               variant="ghost"
               size="sm"
-              onClick={onAIChatToggle}
+              onClick={() => onAIChatToggle && onAIChatToggle()}
               className={`relative transition-colors ${
                 isHomePage && !isScrolled
                   ? "text-white hover:bg-white/10"

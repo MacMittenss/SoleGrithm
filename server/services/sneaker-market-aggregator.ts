@@ -221,6 +221,9 @@ class SneakerMarketAggregator {
 
   // Convert StockX product to aggregated format
   private convertStockXToAggregated(product: StockXProduct): AggregatedSneaker {
+    // Generate StockX URL slug from product name and ID
+    const urlSlug = this.generateStockXSlug(product.name, product.id);
+    
     return {
       id: `stockx-${product.id}`,
       name: product.name,
@@ -237,7 +240,7 @@ class SneakerMarketAggregator {
           highestBid: product.market.highestBid,
           salesCount: product.market.salesThisPeriod,
           priceChange: product.market.priceChange,
-          url: `https://stockx.com/${product.id}`
+          url: `https://stockx.com/${urlSlug}`
         }
       },
       marketData: {
@@ -260,6 +263,9 @@ class SneakerMarketAggregator {
     const lastSale = product.market_data?.last_sale_price_cents ? product.market_data.last_sale_price_cents / 100 : 0;
     const salesCount = product.market_data?.number_of_sales || 0;
 
+    // Generate GOAT URL slug from product name and SKU
+    const urlSlug = this.generateGOATSlug(product.name, product.sku || String(product.id));
+
     return {
       id: `goat-${product.id}`,
       name: product.name,
@@ -275,7 +281,7 @@ class SneakerMarketAggregator {
           highestOffer: product.market_data?.highest_offer_cents ? product.market_data.highest_offer_cents / 100 : 0,
           lastSale: lastSale,
           salesCount: salesCount,
-          url: `https://goat.com/sneakers/${product.id}`
+          url: `https://www.goat.com/sneakers/${urlSlug}`
         }
       },
       marketData: {
@@ -351,6 +357,41 @@ class SneakerMarketAggregator {
     const baseScore = 20; // Base score for having data
     
     return Math.round(salesScore + volatilityScore + baseScore);
+  }
+
+  // Generate StockX URL slug from product name
+  private generateStockXSlug(name: string, productId: string): string {
+    // StockX URLs are typically: brand-model-colorway (all lowercase, hyphenated)
+    // Example: "Nike Air Force 1 Low White" -> "nike-air-force-1-low-white"
+    return name
+      .toLowerCase()
+      .replace(/['']/g, '') // Remove apostrophes
+      .replace(/\s+x\s+/g, '-x-') // Handle collaboration "x"
+      .replace(/[^a-z0-9\s-]/g, '') // Remove special characters except spaces and hyphens
+      .trim()
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-'); // Remove duplicate hyphens
+  }
+
+  // Generate GOAT URL slug from product name and SKU
+  private generateGOATSlug(name: string, sku: string): string {
+    // GOAT URLs are typically: product-name-sku (all lowercase, hyphenated)
+    // Example: "Nike Air Force 1 Low White" + "CW2288-111" -> "air-force-1-low-white-cw2288-111"
+    const namePart = name
+      .toLowerCase()
+      .replace(/['']/g, '') // Remove apostrophes
+      .replace(/\s+x\s+/g, '-x-') // Handle collaboration "x"
+      .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+    
+    const skuPart = sku
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '-')
+      .replace(/-+/g, '-');
+    
+    return `${namePart}-${skuPart}`;
   }
 }
 

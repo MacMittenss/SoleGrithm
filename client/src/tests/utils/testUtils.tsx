@@ -10,7 +10,7 @@ const createTestQueryClient = () => new QueryClient({
     queries: {
       retry: false,
       staleTime: 0,
-      cacheTime: 0,
+      // cacheTime is not present on this version's types for QueryObserverOptions; omit to satisfy TS
     },
     mutations: {
       retry: false,
@@ -92,12 +92,15 @@ export const mockIntersectionObserver = () => {
     observe: jest.fn(),
     unobserve: jest.fn(),
     disconnect: jest.fn(),
-  };
+    root: null,
+    rootMargin: '',
+    thresholds: [],
+    takeRecords: jest.fn(),
+  } as unknown as IntersectionObserver;
 
-  window.IntersectionObserver = jest.fn(() => mockObserver);
-  (window.IntersectionObserver as any).mockImplementation = mockObserver;
+  window.IntersectionObserver = jest.fn(() => mockObserver) as unknown as any;
 
-  return mockObserver;
+  return mockObserver as unknown as { observe: jest.Mock; unobserve: jest.Mock; disconnect: jest.Mock };
 };
 
 // Mock ResizeObserver

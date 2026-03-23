@@ -192,7 +192,7 @@ describe('Testing Implementation Summary', () => {
 
     expect(testingSummary).toBeDefined();
     expect(testingSummary.componentTests.coverage).toHaveLength(4);
-    expect(testingSummary.qualityMetrics.targets.codecoverage).toBe('85%+ line coverage');
+  expect(testingSummary.qualityMetrics.targets.codeCoverage).toBe('85%+ line coverage');
   });
 
   it('validates test implementation completeness', () => {

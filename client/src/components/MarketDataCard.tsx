@@ -54,7 +54,7 @@ export function MarketDataCard({ sneakerId, sneakerName, size, compact = false }
     staleTime: 15000, // Consider data stale after 15 seconds
   });
 
-  const { data: comparison } = useQuery({
+  const { data: comparison } = useQuery<any>({
     queryKey: ['/api/market/compare', sneakerId, refreshKey],
     refetchInterval: 60000, // Refresh every minute
   });

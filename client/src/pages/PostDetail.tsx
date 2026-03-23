@@ -72,7 +72,7 @@ export default function PostDetail() {
         <div className="mb-8">
           <div className="flex flex-wrap gap-2 mb-4">
             {post.category && (
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="text-white border-gray-600" style={{ backgroundColor: '#374151' }}>
                 {post.category}
               </Badge>
             )}
@@ -125,22 +125,34 @@ export default function PostDetail() {
         </div>
 
         {/* Article Content */}
-        <Card>
+        <Card className="bg-white">
           <CardContent className="p-8 sm:p-12">
-            <div className="prose prose-lg max-w-none dark:prose-invert">
+            <style>{`
+              .blog-story-content,
+              .blog-story-content * {
+                font-family: "Work Sans", "Work Sans Fallback", Inter, Manrope, sans-serif !important;
+              }
+            `}</style>
+            <div className="max-w-none blog-story-content">
               {post.content.split('\n\n').map((paragraph: string, index: number) => {
                 if (paragraph.trim() === '') return null;
                 
                 // Format bold text and other markdown-like formatting
                 const formattedParagraph = paragraph
-                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                  .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                  .replace(/`(.*?)`/g, '<code class="bg-muted px-1 py-0.5 rounded text-sm">$1</code>');
+                  .replace(/\*\*(.*?)\*\*/g, '<strong style="font-weight: 600; color: #374151;">$1</strong>')
+                  .replace(/\*(.*?)\*/g, '<em style="font-style: italic; color: #374151;">$1</em>')
+                  .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm" style="color: #374151;">$1</code>');
                 
                 return (
                   <p 
                     key={index} 
-                    className="mb-6 leading-relaxed"
+                    className="mb-6 leading-relaxed text-lg"
+                    style={{ 
+                      color: '#374151',
+                      fontSize: '1.125rem',
+                      fontWeight: '400',
+                      letterSpacing: '0.01em'
+                    }}
                     dangerouslySetInnerHTML={{ __html: formattedParagraph }}
                   />
                 );

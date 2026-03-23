@@ -25,6 +25,7 @@ import NotFound from "@/pages/not-found";
 import Discover from "@/pages/Discover";
 import SneakerQuiz from "@/pages/SneakerQuiz";
 import Collections from "@/pages/Collections";
+import CollectionDetail from "@/pages/CollectionDetail";
 import ARTryOn from "@/pages/ARTryOn";
 import ReviewSummaryDemo from "@/pages/ReviewSummaryDemo";
 import TrendMap from "@/pages/TrendMap";
@@ -50,6 +51,10 @@ function ScrollToTop() {
 function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const { notifications, removeNotification } = useNotifications();
+  const [location] = useLocation();
+  
+  // Check if we're on Women In Sneakers page
+  const isWomenInSneakersPage = location === '/women-in-sneakers';
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -59,8 +64,8 @@ function App() {
             <div className="min-h-screen bg-background text-foreground">
               <SkipLinks />
               <ScrollToTop />
-              <Navbar />
-              <MobileNavigation />
+              {!isWomenInSneakersPage && <Navbar />}
+              {!isWomenInSneakersPage && <MobileNavigation />}
               
               <main id="main-content">
                 <PageTransition>
@@ -102,6 +107,7 @@ function App() {
                   <Route path="/quiz" component={SneakerQuiz} />
                   <Route path="/style-quiz" component={SneakerQuiz} />
                   <Route path="/collections" component={Collections} />
+                  <Route path="/collections/:id" component={CollectionDetail} />
                   <Route path="/soleradar" component={Discover} />
                   <Route path="/review-summary" component={ReviewSummaryDemo} />
                   <Route path="/ar-tryon" component={ARTryOn} />

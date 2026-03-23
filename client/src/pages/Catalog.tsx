@@ -61,8 +61,8 @@ export default function Catalog() {
   });
 
   // Get unique categories from sneakers
-  const categories = sneakers ? 
-    [...new Set(sneakers.flatMap((sneaker: Sneaker) => sneaker.categories))] : [];
+  const categories: string[] = sneakers ? 
+    [...new Set((sneakers as any[]).flatMap((sneaker: Sneaker) => (sneaker.categories || []) as string[]))] as string[] : [];
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {

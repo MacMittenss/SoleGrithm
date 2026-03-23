@@ -40,6 +40,7 @@ interface TrendingSneaker {
   currentPrice: number;
   priceChange24h: number;
   trend: 'up' | 'down';
+  slug?: string;
 }
 
 interface Sneaker {
@@ -100,23 +101,22 @@ const LiveMarketOverview: React.FC = () => {
       ];
 
   return (
-    <div className="w-full space-y-16" data-testid="live-market-overview">
+    <div className="space-y-12 font-sans">
       {/* Sneaker Count Display */}
       <div className="text-center py-4">
-        <h2 className="text-2xl font-bold text-white">
-          {sneakers && Array.isArray(sneakers)
-            ? `${sneakers.length.toLocaleString()} Sneakers Tracked`
-            : 'Sneakers Tracked: --'}
+        <h2 className="text-2xl font-bold text-white font-sans">
+          Live Market Overview
         </h2>
       </div>
-        {/* Header */}
-        <motion.div
-          {...fadeIn}
-          className="text-center space-y-4"
-        >
-          <h1 className="text-4xl font-bold uppercase tracking-wider text-white">
-            LIVE MARKET
-          </h1>
+      
+      {/* Header */}
+      <motion.div
+        {...fadeIn}
+        className="text-center space-y-4"
+      >
+        <h1 className="text-4xl font-bold uppercase tracking-wider text-white font-sans">
+          Market Stats
+        </h1>
           <p className="text-gray-400 text-lg">
             Real-time sneaker market data and trends
           </p>
@@ -219,13 +219,10 @@ const LiveMarketOverview: React.FC = () => {
           {...fadeIn}
           className="space-y-8"
         >
-          <h2 className="text-2xl font-semibold uppercase tracking-wide text-white">
-            MARKET MOVERS
+          <h2 className="text-2xl font-semibold uppercase tracking-wide text-white font-sans">
+            Top Movers (24H)
           </h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Top Gainers */}
-            <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
+          <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
               <h3 className="text-lg font-medium text-white mb-6 uppercase tracking-wider">
                 Top Gainers
               </h3>
@@ -289,7 +286,6 @@ const LiveMarketOverview: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
         </motion.section>
       )}
 
@@ -336,11 +332,20 @@ const LiveMarketOverview: React.FC = () => {
                         {formatChange(sneaker.priceChange24h)}
                       </p>
                     </div>
-                    <Link href={`/sneakers/${sneaker.id}`}>
-                      <span className="text-gray-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-sm">
-                        View <ArrowRight className="w-3 h-3" />
-                      </span>
-                    </Link>
+                    {/* Resolve slug from the full sneakers list when possible so links go to slug-based detail pages */}
+                    {(() => {
+                      const resolved = sneakers && Array.isArray(sneakers)
+                        ? sneakers.find(s => s.id === sneaker.id || s.name === sneaker.name)
+                        : null;
+                      const href = resolved?.slug ?? sneaker.slug ?? String(sneaker.id);
+                      return (
+                        <Link href={`/sneakers/${href}`}>
+                          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-sm">
+                            View <ArrowRight className="w-3 h-3" />
+                          </span>
+                        </Link>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>

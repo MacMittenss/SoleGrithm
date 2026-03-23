@@ -84,6 +84,7 @@ export const sneakers = pgTable("sneakers", {
   sizes: text("sizes").array(),
   materials: text("materials"),
   colorway: text("colorway"),
+  modelUrl: text("model_url"), // URL to 3D model (GLB format) for AR Try-On
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow()
 });

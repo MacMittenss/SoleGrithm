@@ -124,7 +124,7 @@ export default function OptimizedSneakerGrid({
       initial="hidden"
       animate="visible"
     >
-      {optimizedSneakers.map((sneaker, index) => (
+      {optimizedSneakers.map((sneaker: any, index: number) => (
         <motion.div key={sneaker.id} variants={itemVariants}>
           <LazyLoadSection 
             fallback={<SneakerCardSkeleton />}

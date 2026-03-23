@@ -28,6 +28,7 @@ export interface IStorage {
   // Sneakers
   getSneaker(id: number): Promise<Sneaker | undefined>;
   getSneakerBySlug(slug: string): Promise<SneakerWithBrand | undefined>;
+  getAllSneakers(): Promise<Sneaker[]>;
   searchSneakers(query: string, filters?: any): Promise<SneakerWithBrand[]>;
   getFeaturedSneakers(): Promise<SneakerWithBrand[]>;
   createSneaker(sneaker: InsertSneaker): Promise<Sneaker>;
@@ -168,6 +169,11 @@ export class DatabaseStorage implements IStorage {
       .leftJoin(brands, eq(sneakers.brandId, brands.id))
       .where(eq(sneakers.slug, slug));
     return sneaker || undefined;
+  }
+
+  async getAllSneakers(): Promise<Sneaker[]> {
+    const result = await db.select().from(sneakers).orderBy(sneakers.id);
+    return result;
   }
 
   async searchSneakers(query: string, filters?: any): Promise<SneakerWithBrand[]> {

@@ -227,14 +227,83 @@ export default function Discover() {
   // Image analysis mutation
   const imageAnalysisMutation = useMutation({
     mutationFn: async (file: File) => {
-      const formData = new FormData();
-      formData.append('image', file);
+      console.log('📸 Starting image upload and analysis...');
+      console.log('File info:', { name: file.name, size: file.size, type: file.type });
+      
+      // Compress and resize image before sending
+      const compressedBase64 = await new Promise<string>((resolve, reject) => {
+        const img = new Image();
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+          img.src = e.target?.result as string;
+        };
+        
+        img.onload = () => {
+          // Create canvas to resize image
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          // Set max dimensions (reduce size for faster upload)
+          const MAX_WIDTH = 1024;
+          const MAX_HEIGHT = 1024;
+          
+          let width = img.width;
+          let height = img.height;
+          
+          // Calculate new dimensions maintaining aspect ratio
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = (height * MAX_WIDTH) / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = (width * MAX_HEIGHT) / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          // Draw resized image
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Convert to base64 with compression (0.8 quality)
+          const base64String = canvas.toDataURL('image/jpeg', 0.8);
+          const base64Data = base64String.split(',')[1];
+          
+          console.log('✅ Image compressed and converted to base64');
+          console.log('Original size:', file.size, 'New base64 length:', base64Data.length);
+          resolve(base64Data);
+        };
+        
+        img.onerror = reject;
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      
+      console.log('🚀 Sending request to /api/ai/analyze-image...');
       const response = await fetch('/api/ai/analyze-image', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image: compressedBase64 })
       });
-      if (!response.ok) throw new Error('Failed to analyze image');
-      return response.json();
+      
+      console.log('📥 Response status:', response.status);
+      
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('❌ Error response:', error);
+        throw new Error(error.details || 'Failed to analyze image');
+      }
+      
+      const result = await response.json();
+      console.log('✅ Analysis result:', result);
+      return result;
     }
   });
 

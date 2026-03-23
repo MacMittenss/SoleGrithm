@@ -1,10 +1,10 @@
 import "dotenv/config";
 // Ensure environment variables are set for local testing
 if (!process.env.OPENAI_API_KEY) {
-  process.env.OPENAI_API_KEY = "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";
+  console.warn('OPENAI_API_KEY is not set. Set it in .env or environment variables to enable OpenAI features.');
 }
 if (!process.env.DATABASE_URL) {
-  process.env.DATABASE_URL = "postgresql://neondb_owner:npg_Vc0aCtumzW2T@ep-autumn-sky-ado0ci70-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+  throw new Error('DATABASE_URL environment variable is required. Please set it in your .env file.');
 }
 // This script aggregates sneaker data from StockX, GOAT, and Flight Club APIs and upserts it into the geographicTrends table.
 // To be run as a scheduled job (e.g., with cron or a task runner)
@@ -13,6 +13,7 @@ import { stockxAPI, stockxBrands } from './stockx-api.js';
 import { KicksAPIProvider } from '../sneaker-data-provider';
 import { storage } from '../storage';
 import type { InsertGeographicTrend } from '@shared/schema';
+import { collectImageCandidates, isImageUrlAlive } from '../utils/image';
 
 
 async function aggregateSneakerData() {
@@ -48,13 +49,31 @@ async function aggregateSneakerData() {
     for (let i = batchStartIdx; i < sneakers.length; i += batchSize) {
       const batch = sneakers.slice(i, i + batchSize);
       await Promise.all(batch.map(async (product) => {
+        // pick best image candidate
+        const candidates = collectImageCandidates(product);
+        let chosenImage: string | undefined;
+        for (const c of candidates) {
+          try {
+            // quick HEAD check to avoid storing broken URLs
+            // keep it short to avoid long waits
+            // Fire-and-forget - if HEAD times out or fails, skip
+            // eslint-disable-next-line no-await-in-loop
+            if (await isImageUrlAlive(c)) {
+              chosenImage = c;
+              break;
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
+
         const sneakerObj = {
           name: product.name,
           slug: `${product.brand.toLowerCase()}-${product.id}`,
           sku: product.sku || product.id,
           brandId: null,
           description: product.description || `Imported from KicksAPI for ${brand}`,
-          images: product.imageUrl ? [product.imageUrl] : [],
+          images: chosenImage ? [chosenImage] : [],
           retailPrice: product.retailPrice?.toString() || '',
           releaseDate: product.releaseDate ? new Date(product.releaseDate) : new Date(),
           categories: ['lifestyle'],
@@ -62,6 +81,7 @@ async function aggregateSneakerData() {
           materials: product.materials || '',
           colorway: product.colorway || ''
         };
+        if (!chosenImage) console.warn(`[KicksAPI] No valid image found for ${product.id} (${product.name || 'unknown'}) - candidates: ${JSON.stringify(candidates.slice(0,5))}`);
         try {
           await storage.createSneaker(sneakerObj);
           console.log(`[KicksAPI] Inserted sneaker: ${sneakerObj.slug}`);
