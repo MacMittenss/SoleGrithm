@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 
@@ -9,8 +10,12 @@ const arTryonImage = 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4
 export default function AdvancedFlagshipFeatures() {
 
   return (
-    <section
+    <motion.section
       className="flagship-features section"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: 'easeOut' }}
       style={{
         backgroundColor: 'var(--black)',
         color: 'whitesmoke',
@@ -295,6 +300,6 @@ export default function AdvancedFlagshipFeatures() {
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

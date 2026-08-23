@@ -1,0 +1,217 @@
+/* Pixel-accurate port of the iDesigner Lite Webflow hero section.
+   Uses a unique class namespace so it can't collide with (or be overridden
+   by) any other global styling on the site, including the sitewide
+   .anton-all font toggle. */
+
+.idh-section {
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--black, #050505);
+}
+
+.idh-fingerprint {
+  z-index: -1;
+  opacity: 0.05;
+  background-image: url('/images/fingerprint.svg');
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 100%;
+  width: 70vw;
+  height: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 10vw;
+  transform: rotate(180deg);
+}
+
+.idh-circle {
+  z-index: -1;
+  border: 1px solid whitesmoke;
+  opacity: 0.2;
+  border-radius: 100%;
+  width: 70vw;
+  height: 70vw;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  top: 10vw;
+  transform: rotate(180deg);
+}
+
+.idh-container {
+  width: 100%;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+
+.idh-wrapper {
+  z-index: 10;
+  gap: 3vw;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 96vw;
+  height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  position: relative;
+}
+
+.idh-heading {
+  align-self: flex-start;
+  letter-spacing: 0.14vw !important;
+  text-transform: uppercase !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  font-size: 0.89vw !important;
+  font-weight: 400 !important;
+  line-height: 1.44vw !important;
+  color: whitesmoke !important;
+  font-family: Inter, sans-serif !important;
+}
+
+.idh-title {
+  letter-spacing: -0.07vw !important;
+  text-transform: none !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  font-size: 20vw !important;
+  font-weight: 600 !important;
+  line-height: 14.7vw !important;
+  color: whitesmoke !important;
+  font-family: Inter, sans-serif !important;
+}
+
+.idh-arrow-wrapper {
+  z-index: 10;
+  border: 1px solid #050505;
+  cursor: pointer;
+  border-radius: 100%;
+  justify-content: center;
+  align-self: flex-end;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.idh-icon-wrapper {
+  background-color: whitesmoke;
+  cursor: pointer;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  min-width: 2.8vw;
+  max-width: 2.8vw;
+  min-height: 2.8vw;
+  max-height: 2.8vw;
+  display: flex;
+  overflow: hidden;
+}
+
+.idh-arrow {
+  min-width: 0.9vw;
+  max-width: 0.9vw;
+  min-height: 0.9vw;
+  max-height: 0.9vw;
+}
+
+.idh-overlay {
+  z-index: 10;
+  background-image: linear-gradient(180deg, transparent, var(--black, #050505));
+  position: absolute;
+  inset: 95% 0% 0%;
+}
+
+.idh-spline {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  z-index: 15;
+}
+
+@media screen and (max-width: 991px) {
+  .idh-wrapper {
+    gap: 1rem;
+    justify-content: flex-end;
+    width: 41rem;
+    height: 40vh;
+  }
+
+  .idh-title {
+    text-align: center !important;
+    font-size: 8rem !important;
+    line-height: 6rem !important;
+  }
+
+  .idh-spline {
+    height: 60vh;
+    position: relative;
+  }
+
+  .idh-circle,
+  .idh-fingerprint {
+    top: auto;
+    bottom: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .idh-wrapper {
+    width: 28.5rem;
+    height: 35vh;
+  }
+
+  .idh-arrow-wrapper {
+    border-width: 0;
+  }
+
+  .idh-title {
+    font-size: 5.5rem !important;
+    line-height: 4rem !important;
+  }
+
+  .idh-spline {
+    height: 65vh;
+  }
+
+  .idh-circle,
+  .idh-fingerprint {
+    bottom: 20vw;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .idh-wrapper {
+    width: 80vw;
+    height: 30vh;
+  }
+
+  .idh-title {
+    font-size: 16vw !important;
+    line-height: 13vw !important;
+  }
+
+  .idh-spline {
+    height: 70vh;
+  }
+
+  .idh-circle,
+  .idh-fingerprint {
+    bottom: auto;
+  }
+}

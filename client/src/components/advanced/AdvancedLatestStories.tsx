@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
+import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
 import { MasonryGrid } from "@/components/ui/masonry-grid";
 import PinterestBlogCard from "@/components/PinterestBlogCard";
@@ -12,8 +13,12 @@ export default function AdvancedLatestStories() {
   });
 
   return (
-    <section 
+    <motion.section
       className="section"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: 'easeOut' }}
       style={{ backgroundColor: '#050505', color: 'whitesmoke', minHeight: '100vh' }}
       data-testid="section-latest-stories"
     >
@@ -177,6 +182,6 @@ export default function AdvancedLatestStories() {
 
         <div style={{ minHeight: '7.8vw' }}></div>
       </div>
-    </section>
+    </motion.section>
   );
 }

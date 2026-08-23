@@ -1,10 +1,18 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Compass, Target, Zap, Heart, ArrowRight, Sparkles, Brain } from 'lucide-react';
 import { Link } from 'wouter';
 
 export default function SoleRadarSection() {
   return (
-    <section className="bg-black py-16 px-4 md:px-12 lg:px-24 xl:px-40" data-testid="section-sole-radar">
+    <motion.section
+      className="bg-black py-16 px-4 md:px-12 lg:px-24 xl:px-40"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: 'easeOut' }}
+      data-testid="section-sole-radar"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-10">
@@ -73,6 +81,6 @@ export default function SoleRadarSection() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

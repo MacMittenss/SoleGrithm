@@ -71,22 +71,31 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const containerRef = useRef(null);
-  
+  const heroWrapperRef = useRef(null);
+
   // Refs for Style Quiz GSAP animations
   const styleQuizRef = useRef(null);
   const styleQuizContentRef = useRef(null);
-  
+
   // Initialize smooth scrolling
   useSmoothScroll();
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
   });
-  
-  // Transform values for parallax effects - opacity always visible
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 1]);
+
+  // Hero-scoped progress: 0 when the hero is at the top of the viewport,
+  // 1 once the user has scrolled a full hero-height past it — drives the
+  // "hero recedes as the next section rises over it" transition.
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroWrapperRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(heroProgress, [0, 1], ["0%", "20%"]);
+  const opacity = useTransform(heroProgress, [0, 1], [1, 0]);
+  const scale = useTransform(heroProgress, [0, 1], [1, 0.92]);
 
   // Data fetching
   const { data: sneakers, isLoading: sneakersLoading } = useQuery({
@@ -116,7 +125,12 @@ export default function Home() {
         }}
       >
       {/* Hero Section from GitHub */}
-      <HeroSection />
+      <motion.div
+        ref={heroWrapperRef}
+        style={{ y, opacity, scale, position: 'relative', zIndex: 1 }}
+      >
+        <HeroSection />
+      </motion.div>
 
       {/* Advanced Flagship Features with GSAP Scroll Animation */}
       <AdvancedFlagshipFeatures />
