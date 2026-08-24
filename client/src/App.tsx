@@ -51,10 +51,6 @@ function ScrollToTop() {
 function App() {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const { notifications, removeNotification } = useNotifications();
-  const [location] = useLocation();
-  
-  // Check if we're on Women In Sneakers page
-  const isWomenInSneakersPage = location === '/women-in-sneakers';
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -64,8 +60,8 @@ function App() {
             <div className="min-h-screen bg-background text-foreground">
               <SkipLinks />
               <ScrollToTop />
-              {!isWomenInSneakersPage && <Navbar />}
-              {!isWomenInSneakersPage && <MobileNavigation />}
+              <Navbar />
+              <MobileNavigation />
               
               <main id="main-content">
                 <PageTransition>

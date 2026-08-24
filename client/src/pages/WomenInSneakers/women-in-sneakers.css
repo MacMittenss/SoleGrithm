@@ -5,12 +5,13 @@ body,
 html,
 #root,
 #root > div {
-  background-color: #ffe9cf !important;
-  color: #270f03 !important;
+  background-color: #000 !important;
+  color: #fff !important;
 }
 
-/* CSS Variables */
-:root {
+/* CSS Variables - scoped to this page's wrapper, not :root, so they don't
+   override the main site's own --white/--secondary vars (e.g. the Navbar) */
+#smooth-wrapper {
   --secondary: #ffe9cf;
   --primary: #270f03;
   --y-base: 6rem;
@@ -25,8 +26,8 @@ html,
 
 /* Override app styles for this page */
 #smooth-wrapper {
-  background-color: var(--secondary) !important;
-  color: var(--primary) !important;
+  background-color: #000 !important;
+  color: #fff !important;
   font-family: Worksans, Arial, sans-serif !important;
   font-size: 14px !important;
   line-height: 1.2em !important;
@@ -42,12 +43,12 @@ html,
 
 .scroll-wrapper {
   overflow: clip;
-  background-color: var(--secondary);
+  background-color: #000;
 }
 
 .main {
   min-height: 100svh;
-  background-color: var(--secondary);
+  background-color: #000;
 }
 
 /* Initial hidden state */
@@ -84,6 +85,12 @@ html,
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hero section uses the site's dark theme (black bg, white text) instead of the reference's cream page background */
+#hero {
+  background-color: #000;
+  color: #fff;
 }
 
 /* Toggle States */

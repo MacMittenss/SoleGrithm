@@ -49,7 +49,9 @@ export const HeroSection = () => {
 
   const animateStripesIn = (heroStripes: HTMLElement[], stripes: Element[]) => {
     if (videoRef.current) {
-      videoRef.current.play();
+      // play() returns a promise that rejects if the element is removed
+      // (e.g. navigating away) before it resolves - swallow that, it's expected.
+      videoRef.current.play().catch(() => {});
     }
     
     gsap.set(heroStripes, {

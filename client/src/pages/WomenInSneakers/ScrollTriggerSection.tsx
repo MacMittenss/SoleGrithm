@@ -5,90 +5,108 @@ import { SplitText } from 'gsap/SplitText';
 
 export const ScrollTriggerSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const videoLayerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !titleRef.current) return;
+    if (!sectionRef.current || !titleRef.current || !videoLayerRef.current || !imgRef.current) return;
 
     const section = sectionRef.current;
-    const title = titleRef.current;
-    const video = section.querySelector('[data-st="video"]');
+    const video = videoLayerRef.current;
+    const img = imgRef.current;
 
-    // Animate title with SplitText
-    const split = new SplitText(title, { type: 'chars,words' });
-    
-    gsap.from(split.chars, {
-      opacity: 0,
-      y: 20,
-      stagger: 0.02,
-      ease: 'power2.out',
+    const split = new SplitText(titleRef.current, { type: 'chars' });
+    split.chars.forEach((char) => (char as HTMLElement).setAttribute('aria-hidden', 'true'));
+
+    const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: 'top 80%',
-        end: 'top 20%',
-        toggleActions: 'play none none reverse',
+        start: 'top center',
+        end: 'bottom bottom+=100%',
+        invalidateOnRefresh: true,
+        scrub: 1,
       },
     });
 
-    // Video grow animation
-    if (video) {
-      gsap.fromTo(
-        video,
-        {
-          scale: 0.8,
-          borderRadius: '2rem',
-        },
-        {
-          scale: 1,
-          borderRadius: '0rem',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        }
-      );
-    }
+    gsap.set(split.chars, {
+      scale: 0,
+      rotation: () => Math.random() * 360 - 180,
+    });
+
+    tl.to(split.chars, {
+      scale: 1,
+      duration: 0.2,
+      rotation: 0,
+      ease: 'expo.out',
+      stagger: { each: 0.05, from: 'random' },
+    });
+
+    tl.fromTo(
+      video,
+      { clipPath: 'inset(10% 50% 10% 50%)', yPercent: 100 },
+      { ease: 'power3', clipPath: 'inset(0% 0% 0% 0%)', duration: 1, yPercent: 0 },
+      '.3'
+    );
+
+    tl.fromTo(
+      video,
+      { scale: 0.5 },
+      { ease: 'back.inOut(.2)', scale: 1, duration: 0.8 },
+      '<'
+    );
+
+    tl.fromTo(
+      img,
+      { scale: 2.8, yPercent: 40 },
+      { scale: 1.2, duration: 0.8, delay: 0.2, yPercent: 0 },
+      '<'
+    );
+
+    tl.to(video, { scale: 0.9, ease: 'linear' });
+    tl.to(img, { scale: 1, ease: 'linear' }, '<');
 
     return () => {
       split.revert();
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === section) {
-          trigger.kill();
-        }
+        if (trigger.vars.trigger === section) trigger.kill();
       });
     };
   }, []);
 
   return (
-    <section id="scrolltrigger" data-animate="scrolltrigger" className="sec st" ref={sectionRef}>
-      <div className="container-xl">
-        <h2 ref={titleRef} className="he-1">
-          Sync any animation to scroll
-        </h2>
-      </div>
-      <div className="st-content-w">
-        <div data-st="video" className="st-vid-w">
-          <video
-            className="vid-1 st-vid"
-            autoPlay
-            loop
-            muted
-            playsInline
-            data-wf-ignore="true"
-            data-object-fit="cover"
-          >
-            <source src="/women-in-sneakers-assets/videos/Scrolling_1scrolling.mp4" type="video/mp4" />
-          </video>
+    <section
+      id="scrolltrigger"
+      data-animate="videogrow"
+      className="sec scrolltrigger-sec"
+      ref={sectionRef}
+    >
+      <div className="sticky-w">
+        <div className="comp video">
+          <div ref={titleRef} data-videogrow="title" className="font-c size-screen overflow-cut">
+            Scrolltrigger
+          </div>
         </div>
+        <div className="layer" ref={videoLayerRef}>
+          <div data-videogrow="video" className="sky-scroller">
+            <img
+              ref={imgRef}
+              src="/women-in-sneakers-assets/images/sky_1sky.avif"
+              loading="lazy"
+              sizes="100vw"
+              alt=""
+              className="img-sky"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="layer flex-b z-3">
         <div className="explainer-w">
           <div data-module="explainer" data-css="explainer" className="explainer-comp">
             <label className="div">
               <input type="checkbox" className="input" />
               <span className="span">
-                <div className="explainer-he">Scroll-linked Animation</div>
+                <div className="explainer-he">Scroll with purpose</div>
                 <div className="plus-icon-w">
                   <div className="plus-line rotate"></div>
                   <div className="plus-line"></div>
@@ -99,29 +117,12 @@ export const ScrollTriggerSection = () => {
               <div className="explainer-overflow">
                 <div className="explainer-content-w">
                   <p className="explainer-par">
-                    ScrollTrigger lets your animations respond naturally to the scroll position, creating a seamless
-                    link between user input and visual feedback. Perfect for creating immersive scroll-driven
-                    experiences.
+                    Start animations when elements enter the viewport, scrub through timelines, pin elements in
+                    place, or snap to key points as users scroll.
                   </p>
                 </div>
               </div>
             </div>
-            <div className="explainer-copy-btn-w">
-              <button
-                data-module="copybtn"
-                data-copy="https://cdn.prod.website-files.com/67fea42b19018db93e3fe132/6811e2c7ffc63ec3f7f60942_scrolltrigger-final.json.txt"
-                className="btn copy"
-              >
-                <div className="btn-cent-w">
-                  <div className="text-block">Copy this</div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 9 11" fill="none" className="svg copy-icon">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M5 1.5H1V6.5H5V1.5ZM0 0.5V7.5H6V0.5H0Z" fill="currentColor"></path>
-                    <path fillRule="evenodd" clipRule="evenodd" d="M3 8.757V10.5H9V3.5H7.42V4.5H8V9.5H4V8.757H3Z" fill="currentColor"></path>
-                  </svg>
-                </div>
-              </button>
-            </div>
-            <div className="mobile-explainer-prompt">Copy this on Desktop</div>
           </div>
         </div>
       </div>
