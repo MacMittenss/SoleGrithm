@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
+import React, { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  TrendingUp, 
-  TrendingDown, 
+import SneakerCard from '@/components/SneakerCard';
+import {
+  TrendingUp,
+  TrendingDown,
   Search,
-  ArrowRight
+  ArrowRight,
+  Database,
+  Activity,
+  CheckCircle2,
+  RefreshCw,
+  BarChart3,
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
 
+gsap.registerPlugin(ScrollTrigger);
 
 // Type definitions
 interface MarketOverview {
@@ -50,443 +57,385 @@ interface Sneaker {
   retailPrice: number;
   colorway?: string;
   images?: string[];
+  brandName?: string;
+}
+
+const formatPrice = (price: number) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(price);
+
+const formatChange = (change: number) => `${change > 0 ? '+' : ''}${formatPrice(change)}`;
+
+function DeltaPill({ change }: { change: number }) {
+  const up = change >= 0;
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
+        up ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'
+      }`}
+    >
+      {up ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+      {formatChange(change)}
+    </span>
+  );
 }
 
 const LiveMarketOverview: React.FC = () => {
-  // ...existing code...
-  // Real sneakers data for catalog and stats
+  const rootRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
   const { data: sneakers, isLoading: sneakersLoading } = useQuery<Sneaker[]>({
     queryKey: ['/api/sneakers'],
-    queryFn: () => fetch('/api/sneakers').then(res => res.json()),
+    queryFn: () => fetch('/api/sneakers').then((res) => res.json()),
   });
 
-  // Debug: log sneakers array to inspect retailPrice values
-  console.log('Sneakers data:', sneakers);
-  // Missing state hooks
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [showFullCatalog, setShowFullCatalog] = useState(false);
 
-  // Placeholder for brands query
   const brands: Array<{ id: number; name: string; slug: string }> = [];
 
-  // Real live market overview data
-  const { data: overview, isLoading: overviewLoading } = useQuery<MarketOverview>({
+  const { data: overview } = useQuery<MarketOverview>({
     queryKey: ['/api/market/overview'],
-    queryFn: () => fetch('/api/market/overview').then(res => res.json()),
-    refetchInterval: 60000, // Refresh every minute
+    queryFn: () => fetch('/api/market/overview').then((res) => res.json()),
+    refetchInterval: 60000,
   });
 
-  // Real trending sneakers data
-  const { data: trending, isLoading: trendingLoading } = useQuery<TrendingSneaker[]>({
+  const { data: trending } = useQuery<TrendingSneaker[]>({
     queryKey: ['/api/market/trending'],
-    queryFn: () => fetch('/api/market/trending?limit=10').then(res => res.json()),
-    refetchInterval: 30000, // Refresh every 30 seconds
+    queryFn: () => fetch('/api/market/trending?limit=10').then((res) => res.json()),
+    refetchInterval: 30000,
   });
 
-  // Helper function stubs
-  const fadeIn = {};
-  const formatPrice = (price: number) => `$${price}`;
-  const formatChange = (change: number) => `${change > 0 ? '+' : ''}${change}`;
-  const getTrendColor = (change: number) => change > 0 ? 'text-green-400' : 'text-red-400';
+  const getTrendColor = (change: number) => (change > 0 ? 'text-green-400' : 'text-red-400');
 
+  // Resolve a real thumbnail/slug for trending entries by cross-referencing the full catalog
+  const resolveSneaker = (trendingSneaker: TrendingSneaker) =>
+    Array.isArray(sneakers)
+      ? sneakers.find((s) => s.id === trendingSneaker.id || s.name === trendingSneaker.name)
+      : undefined;
 
+  const stats = [
+    {
+      label: 'Sneakers Tracked',
+      value: sneakers && Array.isArray(sneakers) ? sneakers.length.toLocaleString() : '--',
+      icon: Database,
+    },
+    { label: 'Data Sources', value: '15+', icon: Activity },
+    { label: 'Accuracy Rate', value: '99%', icon: CheckCircle2 },
+    { label: 'Live Updates', value: '24/7', icon: RefreshCw },
+    {
+      label: 'Price Range',
+      value:
+        sneakersLoading || !Array.isArray(sneakers) || sneakers.length === 0
+          ? '--'
+          : (() => {
+              const prices = sneakers.map((s) => s.retailPrice).filter((p) => typeof p === 'number' && p > 0);
+              if (prices.length === 0) return '--';
+              return `${formatPrice(Math.min(...prices))} - ${formatPrice(Math.max(...prices))}`;
+            })(),
+      icon: BarChart3,
+    },
+    {
+      label: 'Sentiment',
+      value: sneakers && sneakers.length > 0 ? 'Live' : 'Neutral',
+      icon: TrendingUp,
+    },
+  ];
 
-      // Stats array defined after sneakers
-      const stats = [
-        { number: sneakers && Array.isArray(sneakers) ? sneakers.length.toLocaleString() : '--', label: 'Sneakers Tracked', icon: '📊' },
-        { number: '15+', label: 'Data Sources', icon: '🔗' }, 
-        { number: '99%', label: 'Accuracy Rate', icon: '✅' },
-        { number: '24/7', label: 'Live Updates', icon: '🔄' }
-      ];
+  // Ready flag flips false -> true exactly once real data has loaded, so the
+  // scroll-reveal entrance only plays once instead of replaying on every
+  // background refetch (trending refetches every 30s, overview every 60s).
+  const ready = !!sneakers && !!overview && !!trending;
+
+  useEffect(() => {
+    if (!headerRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current, {
+        y: 24,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'expo.out',
+      });
+    }, headerRef);
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    if (!ready || !rootRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const reveal = (selector: string, vars: gsap.TweenVars = {}) => {
+        const el = rootRef.current?.querySelector(selector);
+        if (!el) return;
+        gsap.from(el, {
+          y: 24,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' },
+          ...vars,
+        });
+      };
+
+      const staggerReveal = (containerSelector: string, itemSelector: string) => {
+        const container = rootRef.current?.querySelector(containerSelector);
+        const items = container?.querySelectorAll(itemSelector);
+        if (!container || !items || items.length === 0) return;
+        gsap.from(items, {
+          y: 24,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'expo.out',
+          stagger: 0.08,
+          scrollTrigger: { trigger: container, start: 'top 85%', toggleActions: 'play none none reverse' },
+        });
+      };
+
+      staggerReveal('.stats-strip', '.stat-tile');
+      reveal('.movers-panel-gainers');
+      reveal('.movers-panel-losers', { delay: 0.1 });
+      staggerReveal('.trending-grid', '.trending-card');
+      reveal('.catalog-panel');
+    }, rootRef);
+
+    return () => ctx.revert();
+  }, [ready]);
 
   return (
-    <div className="space-y-12 font-sans">
-      {/* Sneaker Count Display */}
-      <div className="text-center py-4">
-        <h2 className="text-2xl font-bold text-white font-sans">
-          Live Market Overview
-        </h2>
-      </div>
-      
+    <div ref={rootRef} className="space-y-16 sm:space-y-20">
       {/* Header */}
-      <motion.div
-        {...fadeIn}
-        className="text-center space-y-4"
-      >
-        <h1 className="text-4xl font-bold uppercase tracking-wider text-white font-sans">
-          Market Stats
+      <div ref={headerRef} className="space-y-4 max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+          Live Market Intelligence
+        </p>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]">
+          Real-time sneaker <span className="gradient-text-primary">market data</span>
         </h1>
-          <p className="text-gray-400 text-lg">
-            Real-time sneaker market data and trends
-          </p>
-        </motion.div>
+        <p className="text-base sm:text-lg text-gray-400">
+          Live pricing, trends, and catalog data pulled from every major sneaker marketplace.
+        </p>
+      </div>
 
-        {/* Market Stats Section */}
-        <motion.section
-          {...fadeIn}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
-          {/* Stats Grid - Rearranged with 2x2 Layout */}
-          <div style={{ 
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '2rem',
-            marginBottom: '1rem'
-          }}>
-            {stats.map((stat, index) => (
-              <div 
-                key={stat.label}
-                className="stat-item"
-                style={{ 
-                  textAlign: 'left',
-                  padding: '1.5rem',
-                  borderRadius: '12px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)'
-                }}
-              >
-                <div style={{ 
-                  fontSize: '1.5rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  {stat.icon}
-                </div>
-                <div style={{ 
-                  fontSize: '2rem',
-                  fontWeight: 700,
-                  marginBottom: '0.5rem',
-                  color: '#ffffff',
-                  lineHeight: 1
-                }}>
-                  {stat.number}
-                </div>
-                <div style={{ 
-                  fontSize: '0.875rem',
-                  fontWeight: 400,
-                  color: '#999999',
-                  letterSpacing: '0.025em'
-                }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Price Range */}
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Price Range</p>
-              <p className="text-xl font-bold text-white">
-                {sneakersLoading || !sneakers || sneakers.length === 0
-                  ? '--'
-                  : (() => {
-                      const prices = Array.isArray(sneakers)
-                        ? sneakers.map(s => s.retailPrice).filter(price => typeof price === 'number' && price > 0)
-                        : [];
-                      console.log('Price range prices:', prices);
-                      if (prices.length === 0) return '--';
-                      const min = Math.min(...prices);
-                      const max = Math.max(...prices);
-                      return `${formatPrice(min)} - ${formatPrice(max)}`;
-                    })()
-                }
-              </p>
+      {/* Stats strip */}
+      <div className="stats-strip grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div key={stat.label} className="stat-tile glass-dark rounded-xl p-4 sm:p-5">
+              <Icon className="w-4 h-4 text-gray-400 mb-3" />
+              <div className="text-xl sm:text-2xl font-bold leading-tight">{stat.value}</div>
+              <div className="text-xs text-gray-400 uppercase tracking-wide mt-1">{stat.label}</div>
             </div>
-          </div>
-          {/* Market Sentiment (placeholder) */}
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Sentiment</p>
-              <p className="text-xl font-bold text-white capitalize">
-                {sneakers && sneakers.length > 0 ? 'Live' : 'Neutral'}
-              </p>
-            </div>
-          </div>
-          {/* Tracked Items */}
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400 uppercase tracking-wider">Tracked Items</p>
-              <p className="text-3xl font-bold text-white">
-                {sneakers ? sneakers.length : '--'}
-              </p>
-            </div>
-          </div>
-      </motion.section>
+          );
+        })}
+      </div>
 
-      {/* Market Movers Section */}
+      {/* Market Movers */}
       {overview && (
-        <motion.section
-          {...fadeIn}
-          className="space-y-8"
-        >
-          <h2 className="text-2xl font-semibold uppercase tracking-wide text-white font-sans">
-            Top Movers (24H)
-          </h2>
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
-              <h3 className="text-lg font-medium text-white mb-6 uppercase tracking-wider">
-                Top Gainers
-              </h3>
-              <div className="space-y-4">
+        <div className="space-y-6">
+          <h2 className="text-xl font-semibold tracking-tight">Top Movers (24H)</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="movers-panel-gainers glass-dark rounded-xl p-6">
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide mb-4">Top Gainers</h3>
+              <div className="space-y-1">
                 {overview.topGainers.slice(0, 5).map((gainer, index) => (
                   <div
                     key={gainer.id}
-                    className="flex items-center justify-between py-3 border-b border-gray-800 last:border-b-0"
+                    className="flex items-center justify-between py-3 border-b border-white/5 last:border-b-0"
                     data-testid={`gainer-${index}`}
                   >
-                    <div>
-                      <p className="font-medium text-white text-sm">
-                        {gainer.name}
-                      </p>
-                      <p className="text-xs text-gray-400">
-                        {formatPrice(gainer.currentPrice)}
-                      </p>
+                    <div className="min-w-0 pr-3">
+                      <p className="font-medium text-sm truncate">{gainer.name}</p>
+                      <p className="text-xs text-gray-400">{formatPrice(gainer.currentPrice)}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-green-400" />
-                      <div className="text-right">
-                        <p className="text-sm font-semibold text-green-400">
-                          +${Math.abs(gainer.priceChange24h)}
-                        </p>
-                      </div>
-                    </div>
+                    <DeltaPill change={Math.abs(gainer.priceChange24h)} />
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Top Losers */}
-            <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6">
-              <h3 className="text-lg font-medium text-white mb-6 uppercase tracking-wider">
-                Top Losers
-              </h3>
-              <div className="space-y-4">
+            <div className="movers-panel-losers glass-dark rounded-xl p-6">
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wide mb-4">Top Losers</h3>
+              <div className="space-y-1">
                 {overview.topLosers.slice(0, 5).map((loser, index) => (
                   <div
                     key={loser.id}
-                    className="flex items-center justify-between py-3 border-b border-gray-800 last:border-b-0"
+                    className="flex items-center justify-between py-3 border-b border-white/5 last:border-b-0"
                     data-testid={`loser-${index}`}
                   >
-                    <div>
-                      <p className="font-medium text-white text-sm">
-                        {loser.name}
-                      </p>
-                      <p className="text-xs text-gray-400">
-                        {formatPrice(loser.currentPrice)}
-                      </p>
+                    <div className="min-w-0 pr-3">
+                      <p className="font-medium text-sm truncate">{loser.name}</p>
+                      <p className="text-xs text-gray-400">{formatPrice(loser.currentPrice)}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <TrendingDown className="w-4 h-4 text-red-400" />
-                      <div className="text-right">
-                        <p className="text-sm font-semibold text-red-400">
-                          -${Math.abs(loser.priceChange24h)}
-                        </p>
-                      </div>
-                    </div>
+                    <DeltaPill change={-Math.abs(loser.priceChange24h)} />
                   </div>
                 ))}
               </div>
             </div>
-        </motion.section>
+          </div>
+        </div>
       )}
 
-      {/* Trending Section */}
-      <motion.section
-        {...fadeIn}
-        className="space-y-8"
-      >
-        <h2 className="text-2xl font-semibold uppercase tracking-wide text-white">
-          TRENDING NOW
-        </h2>
-        
+      {/* Trending */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">Trending Now</h2>
+
         {trending && trending.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trending.slice(0, 6).map((sneaker, index) => (
-              <div
-                key={sneaker.id}
-                className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-6 group hover:border-gray-700 transition-colors"
-                data-testid={`trending-sneaker-${index}`}
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-400 uppercase tracking-wider">
-                      #{index + 1} Trending
-                    </span>
-                    <div className={`${getTrendColor(sneaker.priceChange24h)}`}>
-                      {sneaker.trend === 'up' ? 
-                        <TrendingUp className="w-4 h-4" /> : 
-                        <TrendingDown className="w-4 h-4" />
-                      }
-                    </div>
-                  </div>
-                  
-                  <h4 className="font-medium text-white line-clamp-2">
-                    {sneaker.name}
-                  </h4>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-lg font-bold text-white">
-                        {formatPrice(sneaker.currentPrice)}
-                      </p>
-                      <p className={`text-sm ${getTrendColor(sneaker.priceChange24h)}`}>
-                        {formatChange(sneaker.priceChange24h)}
-                      </p>
-                    </div>
-                    {/* Resolve slug from the full sneakers list when possible so links go to slug-based detail pages */}
-                    {(() => {
-                      const resolved = sneakers && Array.isArray(sneakers)
-                        ? sneakers.find(s => s.id === sneaker.id || s.name === sneaker.name)
-                        : null;
-                      const href = resolved?.slug ?? sneaker.slug ?? String(sneaker.id);
-                      return (
-                        <Link href={`/sneakers/${href}`}>
-                          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1 text-sm">
-                            View <ArrowRight className="w-3 h-3" />
-                          </span>
-                        </Link>
-                      );
-                    })()}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No trending data available</p>
-          </div>
-        )}
-      </motion.section>
-
-      {/* Catalog Teaser Section */}
-      <motion.section
-        {...fadeIn}
-        className="space-y-8"
-      >
-        <h2 className="text-2xl font-semibold uppercase tracking-wide text-white">
-          EXPLORE CATALOG
-        </h2>
-        
-        <div className="bg-[#1a1a1a] border border-gray-800 rounded-sm p-8">
-          <div className="space-y-6">
-            {/* Search and Filter Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  placeholder="Search sneakers..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-black border-gray-700 text-white placeholder:text-gray-500"
-                  data-testid="catalog-search"
-                />
-              </div>
-
-              <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-                <SelectTrigger 
-                  className="bg-black border-gray-700 text-white"
-                  data-testid="brand-filter"
-                >
-                  <SelectValue placeholder="All Brands" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Brands</SelectItem>
-                  {brands?.map((brand) => (
-                    <SelectItem key={brand.id} value={brand.slug}>
-                      {brand.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Button
-                onClick={() => setShowFullCatalog(!showFullCatalog)}
-                className="bg-white text-black hover:bg-gray-200 font-medium uppercase tracking-wider"
-                data-testid="browse-catalog"
-              >
-                {showFullCatalog ? 'Hide Catalog' : 'Browse Catalog'}
-              </Button>
-            </div>
-
-            {/* Quick Preview (when not expanded) */}
-            {!showFullCatalog && Array.isArray(sneakers) && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {sneakers.slice(0, 4).map((sneaker) => (
-                  <Link key={sneaker.id} href={`/sneakers/${sneaker.slug}`}>
-                    <div className="group cursor-pointer">
-                      <div className="aspect-square bg-gray-900 rounded-sm mb-2 overflow-hidden">
+          <div className="trending-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {trending.slice(0, 6).map((sneaker, index) => {
+              const resolved = resolveSneaker(sneaker);
+              const thumb = resolved?.images?.[0];
+              const href = resolved?.slug ?? sneaker.slug ?? String(sneaker.id);
+              return (
+                <Link key={sneaker.id} href={`/sneakers/${href}`}>
+                  <div
+                    className="trending-card glass-dark rounded-xl p-4 flex items-center gap-4 group cursor-pointer hover:border-white/20 transition-colors"
+                    data-testid={`trending-sneaker-${index}`}
+                  >
+                    <div className="w-14 h-14 rounded-lg overflow-hidden bg-white/5 flex-shrink-0">
+                      {thumb ? (
                         <img
-                                src={Array.isArray(sneaker.images) && sneaker.images.length > 0 ? sneaker.images[0] : "https://images.unsplash.com/photo-1551107696-a4b537c892cc"}
+                          src={thumb}
                           alt={sneaker.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                         />
-                      </div>
-                      <p className="text-sm text-white font-medium line-clamp-1">
-                        {sneaker.name}
-                      </p>
-                      <p className="text-xs text-gray-400">
-                        ${sneaker.retailPrice}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            {/* Expanded Catalog */}
-            {showFullCatalog && (
-              <div className="space-y-6">
-                {sneakersLoading ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <div key={i} className="animate-pulse">
-                        <div className="h-48 bg-gray-800 rounded-sm mb-4" />
-                        <div className="h-4 bg-gray-800 rounded mb-2" />
-                        <div className="h-3 bg-gray-800 rounded w-1/2" />
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sneakers?.map((sneaker) => (
-                      <Link key={sneaker.id} href={`/sneakers/${sneaker.slug}`}>
-                        <div className="group cursor-pointer">
-                          <div className="aspect-[4/3] bg-gray-900 rounded-sm mb-4 overflow-hidden">
-                            <img
-                                src={Array.isArray(sneaker.images) && sneaker.images.length > 0 ? sneaker.images[0] : "https://images.unsplash.com/photo-1551107696-a4b537c892cc"}
-                              alt={sneaker.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                            />
-                          </div>
-                          <h3 className="font-medium text-white mb-1 line-clamp-2">
-                            {sneaker.name}
-                          </h3>
-                          <p className="text-sm text-gray-400 mb-2">
-                            {sneaker.colorway}
-                          </p>
-                          <p className="text-lg font-bold text-white">
-                            ${sneaker.retailPrice}
-                          </p>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                          #{index + 1}
                         </div>
-                      </Link>
-                    ))}
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">
+                        #{index + 1} Trending
+                      </p>
+                      <h4 className="font-medium truncate">{sneaker.name}</h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-sm font-bold">{formatPrice(sneaker.currentPrice)}</span>
+                        <span className={`text-xs font-medium ${getTrendColor(sneaker.priceChange24h)}`}>
+                          {formatChange(sneaker.priceChange24h)}
+                        </span>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                   </div>
-                )}
-              </div>
-            )}
+                </Link>
+              );
+            })}
           </div>
-        </div>
-      </motion.section>
+        ) : (
+          <div className="text-center py-12 text-gray-400">No trending data available</div>
+        )}
+      </div>
 
-      {/* Footer Note */}
+      {/* Catalog */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">Explore Catalog</h2>
+
+        <div className="catalog-panel glass-dark rounded-xl p-6 sm:p-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="Search sneakers..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-black border-white/10 placeholder:text-gray-500"
+                data-testid="catalog-search"
+              />
+            </div>
+
+            <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+              <SelectTrigger className="bg-black border-white/10" data-testid="brand-filter">
+                <SelectValue placeholder="All Brands" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Brands</SelectItem>
+                {brands?.map((brand) => (
+                  <SelectItem key={brand.id} value={brand.slug}>
+                    {brand.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Button
+              onClick={() => setShowFullCatalog(!showFullCatalog)}
+              className="bg-white text-black hover:bg-gray-200 font-medium uppercase tracking-wider"
+              data-testid="browse-catalog"
+            >
+              {showFullCatalog ? 'Hide Catalog' : 'Browse Catalog'}
+            </Button>
+          </div>
+
+          {!showFullCatalog && Array.isArray(sneakers) && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {sneakers.slice(0, 4).map((sneaker) => (
+                <SneakerCard
+                  key={sneaker.id}
+                  sneaker={{
+                    id: sneaker.id,
+                    name: sneaker.name,
+                    brand: sneaker.brandName || 'Unknown',
+                    price: formatPrice(sneaker.retailPrice),
+                    imageUrl: sneaker.images?.[0] || 'https://images.unsplash.com/photo-1551107696-a4b537c892cc',
+                    slug: sneaker.slug,
+                    brandName: sneaker.brandName,
+                    images: sneaker.images,
+                    retailPrice: sneaker.retailPrice,
+                    colorway: sneaker.colorway,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {showFullCatalog && (
+            <div className="space-y-6">
+              {sneakersLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="h-48 bg-white/5 rounded-xl mb-4" />
+                      <div className="h-4 bg-white/5 rounded mb-2" />
+                      <div className="h-3 bg-white/5 rounded w-1/2" />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {sneakers?.map((sneaker) => (
+                    <SneakerCard
+                      key={sneaker.id}
+                      sneaker={{
+                        id: sneaker.id,
+                        name: sneaker.name,
+                        brand: sneaker.brandName || 'Unknown',
+                        price: formatPrice(sneaker.retailPrice),
+                        imageUrl: sneaker.images?.[0] || 'https://images.unsplash.com/photo-1551107696-a4b537c892cc',
+                        slug: sneaker.slug,
+                        brandName: sneaker.brandName,
+                        images: sneaker.images,
+                        retailPrice: sneaker.retailPrice,
+                        colorway: sneaker.colorway,
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Footer note */}
       {overview && (
-        <div className="text-center text-sm text-gray-500">
-          Last updated: {new Date(overview.lastUpdated).toLocaleTimeString()} • 
-          Data refreshes automatically
+        <div className="text-center text-sm text-gray-400">
+          Last updated: {new Date(overview.lastUpdated).toLocaleTimeString()} • Data refreshes automatically
         </div>
       )}
     </div>
   );
-}
+};
 
 export default LiveMarketOverview;

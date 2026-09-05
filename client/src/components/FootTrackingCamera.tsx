@@ -7,6 +7,38 @@ type Results = any;
 type Pose = any;
 type MediaPipeCamera = any;
 
+const POSE_CDN_BASE = 'https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/';
+
+// @mediapipe/pose's npm build isn't ESM/bundler-safe: its wasm-loading glue
+// code assumes it's executing as a plain global <script>, so importing it
+// through Vite breaks its internal Module/asset lookups (throws "Cannot read
+// properties of undefined" while resolving the .data/.wasm asset URLs).
+// Loading the same UMD build from the CDN as a real script tag and reading
+// the Pose constructor off `window` sidesteps that entirely.
+let poseScriptPromise: Promise<void> | null = null;
+function loadPoseScript(): Promise<void> {
+  if ((window as any).Pose) return Promise.resolve();
+  if (poseScriptPromise) return poseScriptPromise;
+
+  poseScriptPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${POSE_CDN_BASE}pose.js"]`);
+    if (existing) {
+      existing.addEventListener('load', () => resolve());
+      existing.addEventListener('error', () => reject(new Error('Failed to load MediaPipe Pose script')));
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = `${POSE_CDN_BASE}pose.js`;
+    script.crossOrigin = 'anonymous';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Failed to load MediaPipe Pose script'));
+    document.head.appendChild(script);
+  });
+
+  return poseScriptPromise;
+}
+
 export interface FootTrackingData {
   leftFoot: {
     ankle: any;
@@ -48,6 +80,21 @@ export default function FootTrackingCamera({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [footDetected, setFootDetected] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
+
+  // Keep the latest onFootDetected in a ref instead of a dependency, since it
+  // fires on every detected frame - if the parent doesn't memoize it (it
+  // doesn't), including it as a dependency below would tear down and
+  // recreate the Pose instance on every single frame, aborting its in-flight
+  // asset fetches ("NetworkError for: .../pose_solution_packed_assets.data").
+  const onFootDetectedRef = useRef(onFootDetected);
+  useEffect(() => {
+    onFootDetectedRef.current = onFootDetected;
+  }, [onFootDetected]);
+
+  // Guards against re-running MediaPipe init while cameraReady/isActive are
+  // still settling (e.g. React StrictMode's double-invoke in development).
+  const mediapipeStartedRef = useRef(false);
 
   useEffect(() => {
     if (!isActive) return;
@@ -56,6 +103,7 @@ export default function FootTrackingCamera({
       try {
         setLoading(true);
         setError(null);
+        setCameraReady(false);
 
         // Check if getUserMedia is supported
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -75,6 +123,7 @@ export default function FootTrackingCamera({
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
           setLoading(false);
+          setCameraReady(true);
         }
 
       } catch (err: any) {
@@ -105,38 +154,28 @@ export default function FootTrackingCamera({
       if (cameraRef.current) {
         cameraRef.current.stop();
       }
-      if (poseRef.current) {
-        poseRef.current.close();
-      }
+      setCameraReady(false);
     };
   }, [isActive]);
 
   useEffect(() => {
-    if (!isActive || loading || error) return;
+    if (!isActive || !cameraReady) return;
     if (!videoRef.current || !canvasRef.current) return;
+    if (mediapipeStartedRef.current) return;
+    mediapipeStartedRef.current = true;
 
     const initMediaPipe = async () => {
       try {
         setLoading(true);
-        
-        console.log('Setting up Module object...');
-        // Ensure Module object is properly set up
-        const windowModule = (window as any).Module || {};
-        windowModule.arguments = windowModule.arguments || [];
-        windowModule.locateFile = windowModule.locateFile || ((path: string) => {
-          return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/${path}`;
-        });
-        (window as any).Module = windowModule;
-        
-        // Use a simpler approach without MediaPipe Camera utility
-        // Just use MediaPipe Pose with manual frame processing
-        const { Pose } = await import('@mediapipe/pose');
-        
-        console.log('Initializing Pose...');
-        const pose = new Pose({
-          locateFile: (file: string) => {
-            return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/${file}`;
-          }
+
+        await loadPoseScript();
+        const PoseCtor = (window as any).Pose;
+        if (!PoseCtor) {
+          throw new Error('MediaPipe Pose failed to load');
+        }
+
+        const pose = new PoseCtor({
+          locateFile: (file: string) => `${POSE_CDN_BASE}${file}`,
         });
 
         await pose.setOptions({
@@ -198,8 +237,8 @@ export default function FootTrackingCamera({
                 canvas.height
               );
 
-              if (onFootDetected) {
-                onFootDetected({
+              if (onFootDetectedRef.current) {
+                onFootDetectedRef.current({
                   leftFoot,
                   rightFoot,
                   allLandmarks: results.poseLandmarks,
@@ -239,14 +278,16 @@ export default function FootTrackingCamera({
 
     // Cleanup
     return () => {
+      mediapipeStartedRef.current = false;
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
       if (poseRef.current) {
         poseRef.current.close();
+        poseRef.current = null;
       }
     };
-  }, [isActive, loading, error, onFootDetected]);
+  }, [isActive, cameraReady]);
 
   // Update canvas size when video loads
   useEffect(() => {
